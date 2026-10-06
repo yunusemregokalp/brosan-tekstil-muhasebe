@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TEX-EXPORT İBKB 360° | Brosan Tekstil ERP</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-container": "#526478",
+            "on-surface-variant": "#3d4a41",
+            "surface-container-highest": "#e2e2e2",
+            "surface-container": "#eeeeee",
+            "outline": "#6d7a70",
+            "surface-variant": "#e2e2e2",
+            "primary-fixed": "#77fbb5",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed-dim": "#ffb961",
+            "error": "#ba1a1a",
+            "on-tertiary-container": "#432700",
+            "surface-dim": "#dadada",
+            "on-primary": "#ffffff",
+            "on-background": "#1a1c1c",
+            "on-tertiary-fixed": "#2b1700",
+            "inverse-surface": "#2f3131",
+            "on-primary-fixed-variant": "#005232",
+            "on-error": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#00351e",
+            "tertiary-container": "#d08400",
+            "inverse-primary": "#58de9b",
+            "on-secondary-fixed-variant": "#36485b",
+            "on-secondary-fixed": "#091d2e",
+            "tertiary-fixed": "#ffddb9",
+            "surface": "#f9f9f9",
+            "surface-container-lowest": "#ffffff",
+            "secondary": "#4e6073",
+            "outline-variant": "#bccabe",
+            "on-tertiary-fixed-variant": "#663e00",
+            "surface-bright": "#f9f9f9",
+            "primary-container": "#00aa6c",
+            "tertiary": "#865300",
+            "primary": "#006d43",
+            "on-primary-fixed": "#002111",
+            "error-container": "#ffdad6",
+            "primary-fixed-dim": "#58de9b",
+            "surface-container-low": "#f3f3f4",
+            "secondary-container": "#cfe2f9",
+            "on-error-container": "#93000a",
+            "surface-tint": "#006d43",
+            "inverse-on-surface": "#f0f1f1",
+            "on-surface": "#1a1c1c",
+            "secondary-fixed-dim": "#b5c8df",
+            "secondary-fixed": "#d1e4fb",
+            "background": "#f9f9f9",
+            "surface-container-high": "#e8e8e8"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin": "1.5rem",
+            "gutter": "1rem",
+            "gutter-compact": "0.5rem",
+            "space-lg": "1.25rem",
+            "space-xl": "1.75rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "0.75rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "metric-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Inter"],
+            "label-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "metric-md": ["Inter"]
+          },
+          "fontSize": {
+            "headline-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "display-lg-mobile": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "metric-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "metric-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #bccabe;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased min-h-screen flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- ================= TOP APP BAR (Shared Component: TopNavBar) ================= -->
+<header class="flex justify-between items-center h-12 w-full px-space-xl border-b border-outline-variant dark:border-outline bg-surface-container-lowest sticky top-0 z-50">
+<!-- Brand & Search -->
+<div class="flex items-center gap-space-lg">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface tracking-tight">TEX-EXPORT İBKB 360°</span>
+</div>
+<!-- Company Entity Badge -->
+<div class="hidden xl:flex items-center gap-space-xs px-space-sm py-0.5 rounded bg-surface-container-low border border-outline-variant text-label-sm font-label-sm text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span>BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.</span>
+<span class="text-outline">•</span>
+<span class="font-medium text-on-surface">VKN: 1870492109</span>
+</div>
+<!-- Search Bar -->
+<div class="relative w-80 hidden lg:block">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-base">search</span>
+<input class="w-full h-8 pl-8 pr-12 text-body-sm font-body-sm bg-surface-container-low border border-outline-variant rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container text-on-surface placeholder:text-outline outline-none transition-all" placeholder="Fatura, Hesap Kodu (102, 120), ETGB, Cari veya Çek..." type="text"/>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 text-label-sm font-label-sm text-outline border border-outline-variant px-1 rounded bg-surface-container-lowest">Ctrl+K</span>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center gap-space-md">
+<a class="text-on-surface-variant font-medium text-label-md font-label-md hover:text-on-surface transition-colors" href="#">Firmalar</a>
+<a class="text-secondary border-b-2 border-secondary pb-space-xs font-semibold text-label-md font-label-md" href="#">Gümrük Beyan (GB)</a>
+<a class="text-on-surface-variant font-medium text-label-md font-label-md hover:text-on-surface transition-colors" href="#">Döviz Hareketleri</a>
+<a class="text-on-surface-variant font-medium text-label-md font-label-md hover:text-on-surface transition-colors" href="#">TCMB %40 Masası</a>
+<a class="text-on-surface-variant font-medium text-label-md font-label-md hover:text-on-surface transition-colors" href="#">DMS Arşiv</a>
+</nav>
+<!-- Actions & Profile -->
+<div class="flex items-center gap-space-sm">
+<button class="hidden sm:inline-flex items-center gap-1 h-8 px-space-md text-label-md font-label-md font-semibold text-on-primary bg-primary-container hover:bg-primary active:scale-[0.99] transition-all rounded shadow-sm">
+<span class="material-symbols-outlined text-base">add</span>
+        Yeni İBKB Oluştur
+      </button>
+<button class="hidden sm:inline-flex items-center gap-1 h-8 px-space-sm text-label-md font-label-md font-medium text-secondary bg-surface-container-lowest border border-outline-variant hover:bg-surface-container-low active:scale-[0.99] transition-all rounded">
+        Döviz Bozum Emri
+      </button>
+<div class="h-4 w-[1px] bg-outline-variant mx-1 hidden sm:block"></div>
+<!-- Icon Actions -->
+<div class="flex items-center gap-0.5">
+<button class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant relative transition-colors" title="Bildirimler">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant transition-colors" title="Yardım Merkezi">
+<span class="material-symbols-outlined">help_center</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container-low text-on-surface-variant transition-colors" title="Terminal Konsolu">
+<span class="material-symbols-outlined">terminal</span>
+</button>
+</div>
+<!-- Profile Avatar -->
+<div class="flex items-center gap-2 pl-2 border-l border-outline-variant">
+<img class="w-7 h-7 rounded-full object-cover border border-outline-variant" data-alt="Professional corporate headshot of a senior financial operations director dressed in an executive charcoal suit, standing in an elegant bright fintech trading boardroom with high-key lighting, slate tones, and a focused authoritative demeanor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_NoDHcdQuoR3Iy3NQ4n9_jzzC7g6AkyRm97CJUfl12-cab6tUKamlzTEp-zeB-vOC-7r--NBuBqFk30f-F2jRkOabmkAWOW73UhnwlZQ9FWJ-9mTUs79-yDwOHvCuuXHt5BP8eCpJE4cdl0UmKSRXH_74m5PWZKUSeSVLHlRHuDfuZiwII3mSiPMFu17rEpL3TOeOLk_7XafiDMV6QUICb8XtzHJEfcPaSst5-vXperFK-eV58Vf_4FIWdfuePXiU83duwuWr8nHd"/>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-label-sm font-label-sm font-semibold text-on-surface leading-tight">Yunus Emre Gökalp</span>
+<span class="text-[9px] text-outline leading-tight">Mali Müşavir &amp; Finans Dir.</span>
+</div>
+</div>
+</div>
+</header>
+<!-- ================= MAIN WORKSTATION SHELL (SideNav + Content) ================= -->
+<div class="flex-1 flex overflow-hidden">
+<!-- SIDEBAR (Shared Component: SideNavBar) -->
+<aside class="flex flex-col justify-between h-[calc(100vh-3rem)] w-64 border-r border-outline-variant dark:border-outline p-space-md select-none bg-surface-container-lowest shrink-0 custom-scroll overflow-y-auto">
+<div class="flex flex-col gap-space-sm">
+<!-- Sidebar Brand Header / Corporate Context -->
+<div class="flex items-center justify-between pb-space-sm border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded bg-on-secondary-fixed text-primary-fixed flex items-center justify-center font-bold text-title-md">
+              B
+            </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface leading-none text-sm">SANKO DOKUMA A.Ş.</span>
+<span class="text-[9px] font-bold px-1 py-0.2 rounded bg-primary-fixed text-on-primary-fixed">PRO</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline mt-0.5">VKN: 7420019284 | İBKB Aktif</p>
+</div>
+</div>
+</div>
+<!-- Quick Import Action CTA -->
+<button class="w-full mt-1 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded bg-surface-container-low border border-outline-variant hover:border-primary-container text-label-md font-label-md font-semibold text-on-surface transition-all">
+<span class="material-symbols-outlined text-primary text-base">upload_file</span>
+<span>Hızlı Beyan İçe Aktar</span>
+</button>
+<!-- Departmental Menu Links -->
+<nav class="flex flex-col gap-0.5 mt-2">
+<!-- Item 1: Active Nav -->
+<a class="flex items-center gap-space-md px-space-md py-space-sm bg-surface-container dark:bg-inverse-surface text-secondary dark:text-secondary-fixed font-semibold border-l-2 border-secondary dark:border-secondary-fixed text-label-md font-label-md rounded-r transition-all" href="#">
+<span class="material-symbols-outlined text-primary">domain</span>
+<span>360° Ünvan Kokpiti</span>
+</a>
+<!-- Item 2 -->
+<a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant dark:text-outline-variant font-medium text-label-md font-label-md hover:bg-surface-container transition-colors rounded" href="#">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined">local_shipping</span>
+<span>ETGB / GB Beyannameler</span>
+</div>
+<span class="text-[10px] font-semibold px-1.5 py-0.2 rounded-full bg-primary-fixed text-on-primary-fixed-variant">4 Aktif</span>
+</a>
+<!-- Item 3 -->
+<a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant dark:text-outline-variant font-medium text-label-md font-label-md hover:bg-surface-container transition-colors rounded" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span>Gelen Peşin Havaleler</span>
+</a>
+<!-- Item 4 -->
+<a class="flex items-center justify-between px-space-md py-space-sm text-on-surface-variant dark:text-outline-variant font-medium text-label-md font-label-md hover:bg-surface-container transition-colors rounded" href="#">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-tertiary">currency_exchange</span>
+<span>TCMB Döviz Bozum (DAB)</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-ping"></span>
+</a>
+<!-- Item 5 -->
+<a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant dark:text-outline-variant font-medium text-label-md font-label-md hover:bg-surface-container transition-colors rounded" href="#">
+<span class="material-symbols-outlined">folder_shared</span>
+<span>DMS Evrak Kasası</span>
+</a>
+<!-- Item 6 -->
+<a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant dark:text-outline-variant font-medium text-label-md font-label-md hover:bg-surface-container transition-colors rounded" href="#">
+<span class="material-symbols-outlined">policy</span>
+<span>Denetim &amp; Raporlama</span>
+</a>
+<!-- Additional ERP Modular Menus -->
+<div class="my-1 border-t border-outline-variant pt-1">
+<span class="px-space-md text-[9px] font-bold text-outline uppercase tracking-wider">Ön &amp; Genel Muhasebe</span>
+</div>
+<a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant font-medium text-label-md font-label-md hover:bg-surface-container transition-colors rounded" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span>Satışlar &amp; e-Fatura</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant font-medium text-label-md font-label-md hover:bg-surface-container transition-colors rounded" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Çek &amp; Senet Masası</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant font-medium text-label-md font-label-md hover:bg-surface-container transition-colors rounded" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span>Personel &amp; Bordro</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant font-medium text-label-md font-label-md hover:bg-surface-container transition-colors rounded" href="#">
+<span class="material-symbols-outlined">calculate</span>
+<span>Genel Muhasebe (Mizan)</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant font-medium text-label-md font-label-md hover:bg-surface-container transition-colors rounded" href="#">
+<span class="material-symbols-outlined">verified</span>
+<span>Ba/Bs &amp; e-Mutabakat</span>
+</a>
+</nav>
+</div>
+<!-- Footer Subnav -->
+<div class="pt-space-sm border-t border-outline-variant flex flex-col gap-0.5">
+<a class="flex items-center gap-space-md px-space-md py-1.5 text-on-surface-variant text-label-sm font-label-sm hover:text-on-surface transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-base">settings</span>
+<span>Sistem Ayarları</span>
+</a>
+<a class="flex items-center gap-space-md px-space-md py-1.5 text-on-surface-variant text-label-sm font-label-sm hover:text-on-surface transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-base">menu_book</span>
+<span>Mevzuat &amp; İBKB Kılavuzu</span>
+</a>
+<div class="px-space-md pt-2 text-[10px] text-outline">
+          Brosan Cloud ERP v4.8 • GİB Canlı
+        </div>
+</div>
+</aside>
+<!-- WORKSPACE CANVAS -->
+<main class="flex-1 overflow-y-auto custom-scroll pb-12 p-space-lg lg:p-space-xl bg-surface">
+<!-- Breadcrumbs & Global Quick Action Ribbon -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md mb-space-lg">
+<div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-outline mb-1">
+<span>Kurumsal Finans</span>
+<span>/</span>
+<span>TDHP Genel Muhasebe</span>
+<span>/</span>
+<span class="text-primary font-medium">Brosan Tekstil San. ve Dış Tic. Ltd. Şti.</span>
+</div>
+<h1 class="text-headline-md font-headline-md text-on-surface font-bold tracking-tight">Finansal Yönetim Kokpiti &amp; İhracat İBKB Denetimi</h1>
+</div>
+<!-- Quick Action Trigger Ribbon -->
+<div class="flex flex-wrap items-center gap-2">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-primary-container text-on-primary font-semibold text-label-md font-label-md hover:bg-primary shadow-sm active:scale-[0.99] transition-all">
+<span class="material-symbols-outlined text-base">add_circle</span>
+<span>+ Yeni Fatura</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface-container-lowest border border-outline-variant hover:bg-surface-container-low text-secondary font-medium text-label-md font-label-md active:scale-[0.99] transition-all">
+<span class="material-symbols-outlined text-base">receipt</span>
+<span>+ Gider / Fiş Ekle</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface-container-lowest border border-outline-variant hover:bg-surface-container-low text-secondary font-medium text-label-md font-label-md active:scale-[0.99] transition-all">
+<span class="material-symbols-outlined text-base">credit_card</span>
+<span>+ Tahsilat / Tediye</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface-container-lowest border border-outline-variant hover:bg-surface-container-low text-secondary font-medium text-label-md font-label-md active:scale-[0.99] transition-all">
+<span class="material-symbols-outlined text-base">history_edu</span>
+<span>+ Çek Girişi</span>
+</button>
+</div>
+</div>
+<!-- 4-HERO FINANCIAL SUMMARY CARDS GRID -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md mb-space-lg">
+<!-- CARD 1: Kasa & Banka Likiditesi -->
+<div class="bg-surface-container-lowest rounded border border-outline-variant p-space-md shadow-sm relative flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm font-semibold uppercase tracking-wider text-outline">Kasa &amp; Banka Likiditesi</span>
+<span class="material-symbols-outlined text-primary text-lg">account_balance_wallet</span>
+</div>
+<div>
+<div class="text-metric-lg font-metric-lg text-on-surface font-semibold tracking-tight">£48.250 + ₺845.200</div>
+<div class="flex flex-wrap gap-1 mt-2">
+<span class="px-1.5 py-0.5 rounded bg-surface-container-low text-[10px] font-medium text-secondary">GBP £48.250</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-low text-[10px] font-medium text-secondary">USD $32.400</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-low text-[10px] font-medium text-secondary">EUR €14.800</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-[10px] font-medium text-on-primary-fixed-variant">TRY ₺845.200</span>
+</div>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+              Garanti BBVA API: Canlı
+            </span>
+<span class="text-secondary font-medium">Akbank Entegre</span>
+</div>
+</div>
+<!-- CARD 2: Cari Alacaklar & Çek Portföyü -->
+<div class="bg-surface-container-lowest rounded border border-outline-variant p-space-md shadow-sm relative flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm font-semibold uppercase tracking-wider text-outline">Cari Alacak &amp; Çek Portföyü</span>
+<span class="material-symbols-outlined text-secondary text-lg">fact_check</span>
+</div>
+<div>
+<div class="text-metric-lg font-metric-lg text-on-surface font-semibold tracking-tight">£12.139,22 + ₺420.000</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">1 ETGB Dosyası (Ben Ellis Ltd) + 4 Adet Çek</p>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-primary-fixed/30 border border-primary-container/20 text-primary font-medium">
+              Ort. Vade: 28 Gün
+            </span>
+<span class="text-label-sm font-label-sm font-bold text-primary">%98 Düzenli</span>
+</div>
+</div>
+<!-- CARD 3: Tedarikçi Borçları & SGK/Vergi -->
+<div class="bg-surface-container-lowest rounded border border-outline-variant p-space-md shadow-sm relative flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm font-semibold uppercase tracking-wider text-outline">Tedarikçi Borç &amp; SGK / KDV</span>
+<span class="material-symbols-outlined text-secondary text-lg">receipt</span>
+</div>
+<div>
+<div class="text-metric-lg font-metric-lg text-on-surface font-semibold tracking-tight">₺342.180,00</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Birlik Kumaş, Çetin Boya • ₺141.250 SGK/KDV</p>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed border border-tertiary/20 text-tertiary font-medium">
+              3 Fatura Bu Hafta
+            </span>
+<span class="text-label-sm font-label-sm text-outline">Kritik Vade: 26 Eki</span>
+</div>
+</div>
+<!-- CARD 4: TCMB 180-GÜN COUNTDOWN SENTINEL -->
+<div class="bg-surface-container-lowest rounded border border-tertiary/40 p-space-md shadow-sm relative flex flex-col justify-between bg-gradient-to-br from-surface-container-lowest to-tertiary-fixed/10">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-1.5 text-tertiary">
+<span class="material-symbols-outlined text-base">timer</span>
+<span class="text-label-sm font-label-sm font-bold uppercase tracking-wider">TCMB İBKB &amp; KDV 301</span>
+</div>
+<span class="px-1.5 py-0.2 rounded bg-tertiary-container text-on-tertiary text-[10px] font-bold animate-pulse">
+              12 GÜN KALDI
+            </span>
+</div>
+<div>
+<div class="text-metric-md font-metric-md text-tertiary font-bold tracking-tight">1 Açık ETGB Bekliyor</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-0.5">Ben Ellis Ltd • ₺142.800 İhracat KDV İadesi</p>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline font-medium">180 Gün Yasal Süre</span>
+<a class="text-label-sm font-label-sm text-primary font-bold hover:underline flex items-center gap-0.5" href="#">
+              Bozum Masası &amp; DAB →
+            </a>
+</div>
+</div>
+</section>
+<!-- TABBED WORKSTATION NAVIGATION -->
+<div class="flex items-center gap-2 border-b border-outline-variant mb-space-lg overflow-x-auto">
+<button class="px-4 py-2 border-b-2 border-primary text-primary font-semibold text-title-md flex items-center gap-2 whitespace-nowrap">
+<span class="material-symbols-outlined text-base">account_tree</span>
+<span>Genel Muhasebe (TDHP Mizan)</span>
+</button>
+<button class="px-4 py-2 border-b-2 border-transparent hover:border-outline text-on-surface-variant font-medium text-title-md flex items-center gap-2 whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-base">flight_takeoff</span>
+<span>Satış &amp; e-İhracat (İBKB Masası)</span>
+</button>
+<button class="px-4 py-2 border-b-2 border-transparent hover:border-outline text-on-surface-variant font-medium text-title-md flex items-center gap-2 whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-base">request_quote</span>
+<span>Çek &amp; Senet Portföyü</span>
+</button>
+<button class="px-4 py-2 border-b-2 border-transparent hover:border-outline text-on-surface-variant font-medium text-title-md flex items-center gap-2 whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-base">groups</span>
+<span>Personel Bordro İcmali</span>
+</button>
+<button class="px-4 py-2 border-b-2 border-transparent hover:border-outline text-on-surface-variant font-medium text-title-md flex items-center gap-2 whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-base">task_alt</span>
+<span>e-Dönüşüm &amp; Berat Yükleme</span>
+</button>
+</div>
+<!-- MAIN SPLIT WORKSPACE: DATA MATRIX (LEFT) + REGULATORY WIDGETS (RIGHT) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- LEFT COLUMN: TDHP MİZAN VERİ MATRİSİ (8 COLS) -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<!-- Filter & Action Bar for Mizan -->
+<div class="bg-surface-container-lowest p-space-md rounded border border-outline-variant shadow-sm flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<span class="text-label-md font-label-md font-bold text-on-surface">Tekdüzen Hesap Planı Mizanı</span>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded bg-surface-container text-secondary font-medium">Dönem: 01.01.2025 - 31.10.2025</span>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+<button class="px-2.5 py-1 text-label-sm font-label-sm rounded border border-outline-variant bg-surface-container-low hover:bg-surface text-secondary flex items-center gap-1 transition-all">
+<span class="material-symbols-outlined text-sm">filter_alt</span>
+                Filtrele
+              </button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm rounded border border-outline-variant bg-surface-container-low hover:bg-surface text-secondary flex items-center gap-1 transition-all">
+<span class="material-symbols-outlined text-sm">download</span>
+                Excel İndir
+              </button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm rounded bg-primary-container text-on-primary font-semibold flex items-center gap-1 transition-all">
+<span class="material-symbols-outlined text-sm">print</span>
+                Yazdır
+              </button>
+</div>
+</div>
+<!-- MIZAN DATA TABLE -->
+<div class="bg-surface-container-lowest rounded border border-outline-variant shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant text-[11px] font-semibold text-secondary uppercase tracking-wider">
+<th class="py-2.5 px-3">Hesap Kodu &amp; Adı</th>
+<th class="py-2.5 px-3 text-right">Borç Tutarı (₺)</th>
+<th class="py-2.5 px-3 text-right">Alacak Tutarı (₺)</th>
+<th class="py-2.5 px-3 text-right">Borç Bakiye (₺)</th>
+<th class="py-2.5 px-3 text-right">Alacak Bakiye (₺)</th>
+<th class="py-2.5 px-2 text-center w-12">Durum</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/40 text-body-sm font-body-sm">
+<!-- Row 1: 100 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-bold text-on-surface">100 KASA</div>
+<div class="text-[11px] text-outline">Merkez TL Kasası &amp; Rezerv</div>
+</td>
+<td class="py-2.5 px-3 text-right font-medium text-on-surface">125.400,00</td>
+<td class="py-2.5 px-3 text-right text-on-surface-variant">72.100,00</td>
+<td class="py-2.5 px-3 text-right font-semibold text-primary">53.300,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-2 text-center">
+<span class="material-symbols-outlined text-primary text-sm" title="Mutabık">check_circle</span>
+</td>
+</tr>
+<!-- Row 2: 102 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-bold text-on-surface">102 BANKALAR</div>
+<div class="text-[11px] text-outline">Garanti BBVA Döviz / Akbank TL</div>
+</td>
+<td class="py-2.5 px-3 text-right font-medium text-on-surface">2.980.500,00</td>
+<td class="py-2.5 px-3 text-right text-on-surface-variant">1.854.200,00</td>
+<td class="py-2.5 px-3 text-right font-semibold text-primary">1.126.300,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-2 text-center">
+<span class="material-symbols-outlined text-primary text-sm" title="API Canlı">sync</span>
+</td>
+</tr>
+<!-- Row 3: 120 -->
+<tr class="hover:bg-surface transition-colors bg-primary-fixed/5">
+<td class="py-2.5 px-3">
+<div class="font-bold text-on-surface">120 ALICILAR</div>
+<div class="text-[11px] text-primary font-medium">Ben Ellis Ltd (£12.139,22 Dahil)</div>
+</td>
+<td class="py-2.5 px-3 text-right font-medium text-on-surface">1.450.800,00</td>
+<td class="py-2.5 px-3 text-right text-on-surface-variant">890.000,00</td>
+<td class="py-2.5 px-3 text-right font-semibold text-primary">560.800,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-2 text-center">
+<span class="material-symbols-outlined text-tertiary text-sm" title="İBKB Açık Takipte">pending</span>
+</td>
+</tr>
+<!-- Row 4: 150 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-bold text-on-surface">150 İLK MADDE VE MALZEME</div>
+<div class="text-[11px] text-outline">Kumaş, Dokuma İplik &amp; Yardımcı Malz.</div>
+</td>
+<td class="py-2.5 px-3 text-right font-medium text-on-surface">890.000,00</td>
+<td class="py-2.5 px-3 text-right text-on-surface-variant">340.000,00</td>
+<td class="py-2.5 px-3 text-right font-semibold text-on-surface">550.000,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-2 text-center">
+<span class="material-symbols-outlined text-primary text-sm">inventory_2</span>
+</td>
+</tr>
+<!-- Row 5: 191 -->
+<tr class="hover:bg-surface transition-colors bg-secondary-fixed/10">
+<td class="py-2.5 px-3">
+<div class="font-bold text-on-surface">191 İNDİRİLECEK KDV</div>
+<div class="text-[11px] text-secondary font-medium">İhracat KDV İadesi 301 Kapsamında</div>
+</td>
+<td class="py-2.5 px-3 text-right font-medium text-on-surface">142.800,00</td>
+<td class="py-2.5 px-3 text-right text-outline">0,00</td>
+<td class="py-2.5 px-3 text-right font-semibold text-secondary">142.800,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-2 text-center">
+<span class="material-symbols-outlined text-secondary text-sm">assignment_turned_in</span>
+</td>
+</tr>
+<!-- Row 6: 320 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-bold text-on-surface">320 SATICILAR</div>
+<div class="text-[11px] text-outline">Birlik Kumaşçılık &amp; Çetin Boyahane</div>
+</td>
+<td class="py-2.5 px-3 text-right text-on-surface-variant">210.000,00</td>
+<td class="py-2.5 px-3 text-right font-medium text-on-surface">552.180,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-3 text-right font-semibold text-error">342.180,00</td>
+<td class="py-2.5 px-2 text-center">
+<span class="material-symbols-outlined text-error text-sm">warning</span>
+</td>
+</tr>
+<!-- Row 7: 360 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-bold text-on-surface">360 ÖDENECEK VERGİ VE FONLAR</div>
+<div class="text-[11px] text-outline">Stopaj &amp; KDV-1 Tahakkukları</div>
+</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-3 text-right font-medium text-on-surface">42.850,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-3 text-right font-semibold text-error">42.850,00</td>
+<td class="py-2.5 px-2 text-center">
+<span class="material-symbols-outlined text-secondary text-sm">date_range</span>
+</td>
+</tr>
+<!-- Row 8: 361 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-bold text-on-surface">361 ÖDENECEK SOSYAL GÜVENLİK KES.</div>
+<div class="text-[11px] text-outline">18 Personel SGK Prim Bildirgesi</div>
+</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-3 text-right font-medium text-on-surface">98.400,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-3 text-right font-semibold text-error">98.400,00</td>
+<td class="py-2.5 px-2 text-center">
+<span class="material-symbols-outlined text-secondary text-sm">date_range</span>
+</td>
+</tr>
+<!-- Row 9: 601 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-bold text-on-surface">601 YURT DIŞI SATIŞLAR</div>
+<div class="text-[11px] text-outline">Tekstil Dokuma &amp; Konfeksiyon İhracatı</div>
+</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-3 text-right font-medium text-on-surface">2.845.000,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-3 text-right font-semibold text-primary">2.845.000,00</td>
+<td class="py-2.5 px-2 text-center">
+<span class="material-symbols-outlined text-primary text-sm">trending_up</span>
+</td>
+</tr>
+<!-- Row 10: 770 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-2.5 px-3">
+<div class="font-bold text-on-surface">770 GENEL YÖNETİM GİDERLERİ</div>
+<div class="text-[11px] text-outline">Ofis, Danışmanlık &amp; Operasyonel Masraf</div>
+</td>
+<td class="py-2.5 px-3 text-right font-medium text-on-surface">312.400,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-3 text-right font-semibold text-on-surface">312.400,00</td>
+<td class="py-2.5 px-3 text-right text-outline">-</td>
+<td class="py-2.5 px-2 text-center">
+<span class="material-symbols-outlined text-outline text-sm">pie_chart</span>
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr class="bg-surface-container-high border-t-2 border-outline-variant font-bold text-on-surface text-[12px]">
+<td class="py-3 px-3 uppercase">GENEL MİZAN TOPLAMI</td>
+<td class="py-3 px-3 text-right">₺5.901.100,00</td>
+<td class="py-3 px-3 text-right">₺5.751.880,00</td>
+<td class="py-3 px-3 text-right text-primary">₺2.745.600,00</td>
+<td class="py-3 px-3 text-right text-error">₺3.328.430,00</td>
+<td class="py-3 px-2 text-center">
+<span class="material-symbols-outlined text-primary text-base">verified</span>
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<!-- Bottom Analytical Note / Audit Log -->
+<div class="p-space-md rounded bg-surface-container-low border border-outline-variant flex items-center justify-between text-body-sm font-body-sm text-secondary">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">gavel</span>
+<span>Yeminli Mali Müşavir (YMM) KDV İadesi Tasdik Raporu Ön Kontrolü: <strong>BAŞARILI</strong></span>
+</div>
+<a class="text-primary font-semibold hover:underline flex items-center gap-1" href="#">
+              Rapor Detayı
+              <span class="material-symbols-outlined text-sm">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- RIGHT COLUMN: REGULATORY WIDGETS & TIMELINES (4 COLS) -->
+<div class="lg:col-span-4 flex flex-col gap-space-lg">
+<!-- WIDGET 1: 30 Günlük Nakit Projeksiyonu -->
+<div class="bg-surface-container-lowest p-space-md rounded border border-outline-variant shadow-sm">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant mb-3">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary">insights</span>
+<span class="text-label-md font-label-md font-bold text-on-surface">30 Günlük Nakit Projeksiyonu</span>
+</div>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant">+₺1.240.000 Net</span>
+</div>
+<div class="space-y-3">
+<div>
+<div class="flex justify-between text-label-sm font-label-sm mb-1">
+<span class="text-outline">Beklenen Tahsilatlar</span>
+<span class="font-bold text-primary">₺1.980.000</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 72%"></div>
+</div>
+<div class="flex justify-between text-[10px] text-outline mt-0.5">
+<span>£12.139 İhracat + Çekler</span>
+<span>7 Kalem</span>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-label-sm font-label-sm mb-1">
+<span class="text-outline">Planlanan Ödemeler</span>
+<span class="font-bold text-error">₺740.000</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-error h-full rounded-full" style="width: 38%"></div>
+</div>
+<div class="flex justify-between text-[10px] text-outline mt-0.5">
+<span>Tedarikçi Borçları + SGK/Vergi</span>
+<span>4 Kalem</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant flex items-center justify-between text-label-sm font-label-sm">
+<span class="text-outline">Likidite Emniyet Katsayısı:</span>
+<span class="font-bold text-primary">2.67 (Yüksek Güvenlik)</span>
+</div>
+</div>
+<!-- WIDGET 2: Vergi, SGK & e-Defter Takvimi -->
+<div class="bg-surface-container-lowest p-space-md rounded border border-outline-variant shadow-sm">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant mb-3">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary">event_upcoming</span>
+<span class="text-label-md font-label-md font-bold text-on-surface">Vergi, SGK &amp; e-Defter Takvimi</span>
+</div>
+<span class="text-label-sm font-label-sm text-outline">Ekim 2025</span>
+</div>
+<div class="space-y-2.5">
+<!-- Event 1 -->
+<div class="flex items-start gap-2.5 p-2 rounded bg-surface-container-low border border-outline-variant/50">
+<div class="w-9 h-9 rounded bg-tertiary-fixed text-on-tertiary-fixed flex flex-col items-center justify-center font-bold shrink-0">
+<span class="text-[9px] uppercase leading-none">Ekim</span>
+<span class="text-sm leading-none">26</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-semibold text-on-surface text-label-md font-label-md truncate">KDV-1 Beyannamesi</span>
+<span class="text-label-sm font-label-sm font-bold text-error">₺42.850</span>
+</div>
+<p class="text-[11px] text-outline truncate">GİB Portalı Hazır • İhracat İstisna 301</p>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="flex items-start gap-2.5 p-2 rounded bg-surface-container-low border border-outline-variant/50">
+<div class="w-9 h-9 rounded bg-tertiary-fixed text-on-tertiary-fixed flex flex-col items-center justify-center font-bold shrink-0">
+<span class="text-[9px] uppercase leading-none">Ekim</span>
+<span class="text-sm leading-none">26</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-semibold text-on-surface text-label-md font-label-md truncate">Muhtasar &amp; SGK Prim</span>
+<span class="text-label-sm font-label-sm font-bold text-error">₺98.400</span>
+</div>
+<p class="text-[11px] text-outline truncate">18 Personel Bordro İcmali Tamamlandı</p>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="flex items-start gap-2.5 p-2 rounded bg-surface-container-low border border-outline-variant/50">
+<div class="w-9 h-9 rounded bg-secondary-fixed text-on-secondary-fixed flex flex-col items-center justify-center font-bold shrink-0">
+<span class="text-[9px] uppercase leading-none">Ekim</span>
+<span class="text-sm leading-none">31</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-semibold text-on-surface text-label-md font-label-md truncate">e-Defter Berat Yükleme</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-primary-fixed text-on-primary-fixed-variant">HAZIR</span>
+</div>
+<p class="text-[11px] text-outline truncate">Yevmiye &amp; Kebir XML Doğrulandı</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-3 py-1.5 rounded bg-surface-container border border-outline-variant hover:bg-surface text-label-sm font-label-sm font-semibold text-secondary transition-all">
+              Tüm Yasal Takvimi Görüntüle
+            </button>
+</div>
+<!-- WIDGET 3: Çek & Senet Mini Portföy Özeti -->
+<div class="bg-surface-container-lowest p-space-md rounded border border-outline-variant shadow-sm">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant mb-3">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary">receipt_long</span>
+<span class="text-label-md font-label-md font-bold text-on-surface">Çek &amp; Senet Mini Portföy</span>
+</div>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant">%0 Risk</span>
+</div>
+<div class="grid grid-cols-2 gap-2 mb-3">
+<div class="p-2 rounded bg-surface-container-low border border-outline-variant">
+<div class="text-[10px] text-outline uppercase font-semibold">Portföyde (Alınan)</div>
+<div class="text-title-md font-title-md font-bold text-primary mt-0.5">₺420.000</div>
+<div class="text-[10px] text-on-surface-variant">4 Adet Müşteri Çeki</div>
+</div>
+<div class="p-2 rounded bg-surface-container-low border border-outline-variant">
+<div class="text-[10px] text-outline uppercase font-semibold">Verilen (Borç)</div>
+<div class="text-title-md font-title-md font-bold text-secondary mt-0.5">₺185.000</div>
+<div class="text-[10px] text-on-surface-variant">2 Adet Kumaş Tedarik</div>
+</div>
+</div>
+<div class="space-y-1.5 text-body-sm font-body-sm">
+<div class="flex justify-between items-center text-[11px] p-1.5 rounded hover:bg-surface transition-colors">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span class="font-medium text-on-surface">Zorlu Tekstil A.Ş.</span>
+</div>
+<div class="text-right">
+<span class="font-bold text-on-surface">₺150.000</span>
+<span class="text-[10px] text-outline block">Vade: 15 Kas</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-[11px] p-1.5 rounded hover:bg-surface transition-colors">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span class="font-medium text-on-surface">Korteks İplik San.</span>
+</div>
+<div class="text-right">
+<span class="font-bold text-on-surface">₺120.000</span>
+<span class="text-[10px] text-outline block">Vade: 28 Kas</span>
+</div>
+</div>
+</div>
+<div class="mt-3 pt-2 border-t border-outline-variant flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>Findeks Karekodlu Doğrulama</span>
+<span class="text-primary font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs">verified</span>
+                Onaylı
+              </span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- ================= FOOTER (Shared Component: Footer) ================= -->
+<footer class="fixed bottom-0 left-0 w-full h-7 px-space-lg flex justify-between items-center border-t border-outline-variant dark:border-outline z-40 bg-surface-container-low dark:bg-inverse-surface cursor-pointer select-none">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-label-mono-sm font-label-mono-sm font-bold text-on-surface dark:text-inverse-on-surface text-[11px]">TCMB İBKB Takip Sistemi © 2025 | 180 Günlük Yasal Süre Denetim Masası</span>
+</div>
+<!-- Live Ticker Links & Currency Feed -->
+<div class="hidden md:flex items-center gap-space-lg text-body-sm font-body-sm text-[11px]">
+<span class="text-secondary dark:text-secondary-fixed font-medium hover:text-primary transition-colors">TCMB Kur Servisi: Canlı</span>
+<span class="text-on-surface-variant dark:text-outline-variant font-normal hover:text-secondary transition-colors">GÇB Doğrulama: Bağlı</span>
+<span class="text-on-surface-variant dark:text-outline-variant font-normal hover:text-secondary transition-colors">DAB Entegrasyonu: Aktif</span>
+<span class="text-on-surface-variant dark:text-outline-variant font-normal hover:text-secondary transition-colors">Mevzuat 2018-32/48</span>
+<div class="flex items-center gap-2 pl-3 border-l border-outline-variant">
+<span class="font-semibold text-on-surface">GBP/TRY: 45.1200</span>
+<span class="text-outline">•</span>
+<span class="font-semibold text-on-surface">USD/TRY: 34.2050</span>
+<span class="text-outline">•</span>
+<span class="font-semibold text-on-surface">EUR/TRY: 37.4520</span>
+</div>
+</div>
+</footer>
+</body></html>

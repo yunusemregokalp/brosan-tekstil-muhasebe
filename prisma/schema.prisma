@@ -1,0 +1,291 @@
+// Prisma Schema for Brosan Tekstil Ön & Genel Muhasebe ERP Sistemi
+// PostgreSQL (Docker & Coolify Production Ready)
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 1. TEKDÜZEN HESAP PLANI (TDHP)
+model Account {
+  id            String         @id @default(uuid())
+  code          String         @unique // Örn: 100, 102.01, 120.001, 320.001, 391, 600
+  name          String         // Örn: Kasa (TRY), Akbank Vadesiz, Alıcılar, Hesaplanan KDV
+  type          String         // ASSET (Aktif), LIABILITY (Pasif), EQUITY (Özkaynak), REVENUE (Gelir), EXPENSE (Gider)
+  category      String?        // KASA, BANKA, CARI, KDV, SATIS, GIDER
+  currency      String         @default("TRY")
+  balance       Decimal        @default(0.0) @db.Decimal(18, 2)
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  journalItems  JournalItem[]
+  transactions  Transaction[]
+
+  @@index([code])
+  @@index([category])
+}
+
+// 2. YEVMİYE DEFTERİ (JOURNAL ENTRIES)
+model JournalEntry {
+  id            String         @id @default(uuid())
+  entryNo       Int            @unique // Müteselsil Yevmiye Fiş No
+  date          DateTime       @default(now())
+  description   String
+  documentType  String         @default("MAHSUP") // MAHSUP, TAHSIL, TEDIYE, ACILIS, KAPANIS
+  documentNo    String?        // İlgili Fatura / Fiş No
+  totalDebit    Decimal        @default(0.0) @db.Decimal(18, 2)
+  totalCredit   Decimal        @default(0.0) @db.Decimal(18, 2)
+  isApproved    Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  items         JournalItem[]
+
+  @@index([entryNo])
+  @@index([date])
+}
+
+// 2.1 YEVMİYE MADDELERİ (BORÇ / ALACAK SATIRLARI)
+model JournalItem {
+  id            String         @id @default(uuid())
+  journalId     String
+  accountId     String
+  description   String?
+  debit         Decimal        @default(0.0) @db.Decimal(18, 2) // Borç
+  credit        Decimal        @default(0.0) @db.Decimal(18, 2) // Alacak
+  createdAt     DateTime       @default(now())
+
+  journal       JournalEntry   @relation(fields: [journalId], references: [id], onDelete: Cascade)
+  account       Account        @relation(fields: [accountId], references: [id])
+
+  @@index([journalId])
+  @@index([accountId])
+}
+
+// 3. CARİ HESAPLAR (MÜŞTERİ VE TEDARİKÇİLER)
+model Contact {
+  id            String         @id @default(uuid())
+  code          String         @unique // Örn: M-101, T-201
+  title         String         // Ticaret Unvanı / Ad Soyad
+  type          String         // CUSTOMER (Müşteri), SUPPLIER (Tedarikçi), BOTH
+  taxOffice     String?        // Vergi Dairesi
+  taxNumber     String?        // VKN / TCKN
+  phone         String?
+  email         String?
+  address       String?
+  city          String?
+  country       String         @default("Türkiye")
+  balance       Decimal        @default(0.0) @db.Decimal(18, 2)
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  invoices      Invoice[]
+  transactions  Transaction[]
+  checks        CheckPromissory[]
+
+  @@index([code])
+  @@index([type])
+  @@index([taxNumber])
+}
+
+// 4. FATURALAR (E-FATURA / E-ARŞİV / İHRACAT)
+model Invoice {
+  id            String         @id @default(uuid())
+  invoiceNo     String         @unique // Örn: BRS202600000001
+  type          String         // SALES (Satış), PURCHASE (Alış), EXPORT (İhracat), WITHHOLDING (Tevkifatlı)
+  scenario      String         @default("TICARIFATURA") // TICARIFATURA, TEMELFATURA, IHRACAT, EARŞIV
+  date          DateTime       @default(now())
+  dueDate       DateTime?
+  contactId     String
+  currency      String         @default("TRY")
+  exchangeRate  Decimal        @default(1.0) @db.Decimal(10, 4)
+  subtotal      Decimal        @default(0.0) @db.Decimal(18, 2) // Matrah
+  taxTotal      Decimal        @default(0.0) @db.Decimal(18, 2) // Toplam KDV
+  grandTotal    Decimal        @default(0.0) @db.Decimal(18, 2) // Genel Toplam
+  status        String         @default("ISSUED") // DRAFT, ISSUED, PAID, CANCELLED
+  notes         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  contact       Contact        @relation(fields: [contactId], references: [id])
+  items         InvoiceItem[]
+
+  @@index([invoiceNo])
+  @@index([contactId])
+  @@index([date])
+}
+
+// 4.1 FATURA KALEMLERİ
+model InvoiceItem {
+  id            String         @id @default(uuid())
+  invoiceId     String
+  description   String         // Kumaş türü, servis açıklaması
+  quantity      Decimal        @default(1.0) @db.Decimal(12, 3)
+  unit          String         @default("MT") // MT, KG, ADET, TOP
+  unitPrice     Decimal        @default(0.0) @db.Decimal(18, 2)
+  taxRate       Decimal        @default(20.0) @db.Decimal(5, 2) // KDV % (%1, %10, %20)
+  taxAmount     Decimal        @default(0.0) @db.Decimal(18, 2)
+  total         Decimal        @default(0.0) @db.Decimal(18, 2)
+  createdAt     DateTime       @default(now())
+
+  invoice       Invoice        @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([invoiceId])
+}
+
+// 5. KASA & BANKA FİNANSAL HAREKETLER
+model Transaction {
+  id            String         @id @default(uuid())
+  type          String         // CASH_IN, CASH_OUT, BANK_TRANSFER_IN, BANK_TRANSFER_OUT
+  date          DateTime       @default(now())
+  accountId     String         // İlgili Kasa/Banka hesabı (100.01, 102.01)
+  contactId     String?        // İlgili Cari
+  amount        Decimal        @db.Decimal(18, 2)
+  currency      String         @default("TRY")
+  description   String
+  referenceNo   String?        // Dekont No / Fiş No
+  createdAt     DateTime       @default(now())
+
+  account       Account        @relation(fields: [accountId], references: [id])
+  contact       Contact?       @relation(fields: [contactId], references: [id])
+
+  @@index([accountId])
+  @@index([contactId])
+  @@index([date])
+}
+
+// 6. ÇEK VE SENET PORTFÖYÜ
+model CheckPromissory {
+  id            String         @id @default(uuid())
+  docType       String         // CHECK (Çek), PROMISSORY (Senet)
+  direction     String         // RECEIVED (Alınan), ISSUED (Verilen)
+  serialNo      String
+  bankName      String?
+  branchName    String?
+  drawer        String         // Keşideci
+  dueDate       DateTime       // Vade Tarihi
+  amount        Decimal        @db.Decimal(18, 2)
+  currency      String         @default("TRY")
+  status        String         @default("PORTFOLIO") // PORTFOLIO (Cüzdanda), COLLECTED (Tahsil Edildi), ENDORSED (Ciro Edildi), BOUNCED (Karşılıksız)
+  contactId     String?        // Alınan / Verilen Cari
+  notes         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  contact       Contact?       @relation(fields: [contactId], references: [id])
+
+  @@index([docType])
+  @@index([dueDate])
+  @@index([status])
+}
+
+// 7. PERSONEL & BORDRO YÖNETİMİ
+model Employee {
+  id            String         @id @default(uuid())
+  tcNo          String         @unique
+  fullName      String
+  department    String         // Dokuma, Boyahane, Dikim, Muhasebe, Yönetim
+  position      String
+  startDate     DateTime
+  netSalary     Decimal        @db.Decimal(18, 2)
+  grossSalary   Decimal        @db.Decimal(18, 2)
+  iban          String?
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  payrolls      Payroll[]
+
+  @@index([tcNo])
+}
+
+// 7.1 BORDRO TAHAKKUKLARI
+model Payroll {
+  id            String         @id @default(uuid())
+  employeeId    String
+  period        String         // Örn: 2026-10 (Yıl-Ay)
+  workDays      Int            @default(30)
+  grossSalary   Decimal        @db.Decimal(18, 2)
+  sgkWorker     Decimal        @db.Decimal(18, 2) // %14
+  unempWorker   Decimal        @db.Decimal(18, 2) // %1
+  incomeTax     Decimal        @db.Decimal(18, 2) // Gelir Vergisi Matrahı Kesintisi
+  stampTax      Decimal        @db.Decimal(18, 2) // Damga Vergisi Kesintisi
+  asgariMuafiyet Decimal       @default(0.0) @db.Decimal(18, 2) // Asgari Ücret Vergi İstisnası
+  netSalary     Decimal        @db.Decimal(18, 2) // Ele Geçen Net
+  sgkEmployer   Decimal        @db.Decimal(18, 2) // %20.5 İşveren Payı
+  totalCost     Decimal        @db.Decimal(18, 2) // Toplam İşveren Maliyeti
+  status        String         @default("ACCRUED") // ACCRUED (Tahakkuk Etti), PAID (Ödendi)
+  createdAt     DateTime       @default(now())
+
+  employee      Employee       @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@unique([employeeId, period])
+  @@index([period])
+}
+
+// 8. STOK & DEPO YÖNETİMİ
+model Product {
+  id            String         @id @default(uuid())
+  code          String         @unique // Örn: STK-KUM-01
+  name          String         // Örn: %100 Pamuk Süprem Kumaş 180gr
+  category      String         // KUMAŞ, İPLİK, HAMMADDE, AKSESUAR
+  gtipCode      String?        // Gümrük Tarife İstatistik Pozisyonu (Örn: 5208.11.00.00.00)
+  unit          String         @default("MT") // MT, KG, TOP, ADET
+  currentStock  Decimal        @default(0.0) @db.Decimal(12, 3)
+  minStock      Decimal        @default(0.0) @db.Decimal(12, 3)
+  unitCost      Decimal        @default(0.0) @db.Decimal(18, 2)
+  salePrice     Decimal        @default(0.0) @db.Decimal(18, 2)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  movements     StockMovement[]
+
+  @@index([code])
+  @@index([category])
+}
+
+// 8.1 STOK HAREKETLERİ
+model StockMovement {
+  id            String         @id @default(uuid())
+  productId     String
+  movementType  String         // IN (Giriş / Alış), OUT (Çıkış / Satış / Üretim Sarfı)
+  quantity      Decimal        @db.Decimal(12, 3)
+  unitPrice     Decimal        @default(0.0) @db.Decimal(18, 2)
+  lotNo         String?        // Parti / Lot No
+  documentNo    String?        // İlgili İrsaliye / Fatura No
+  date          DateTime       @default(now())
+  notes         String?
+  createdAt     DateTime       @default(now())
+
+  product       Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([date])
+}
+
+// 9. VERGİ BEYANNAMELERİ TAKİBİ
+model TaxDeclaration {
+  id            String         @id @default(uuid())
+  type          String         // KDV1, KDV2, MUHTASAR_SGK, GECICI_VERGI, KURUMLAR
+  period        String         // Örn: 2026/09 (Dönem)
+  dueDate       DateTime       // Son Beyan Tarihi
+  paymentDueDate DateTime      // Son Ödeme Tarihi
+  taxBase       Decimal        @default(0.0) @db.Decimal(18, 2) // Matrah
+  taxAmount     Decimal        @default(0.0) @db.Decimal(18, 2) // Hesaplanan Vergi
+  payableAmount Decimal        @default(0.0) @db.Decimal(18, 2) // Ödenecek Tutar / Devreden
+  status        String         @default("PENDING") // PENDING, SUBMITTED, PAID
+  notes         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@unique([type, period])
+  @@index([type])
+  @@index([period])
+}
