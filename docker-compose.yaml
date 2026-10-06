@@ -3,8 +3,6 @@ version: '3.8'
 # ==============================================================================
 # BROSAN TEKSTİL ERP — COOLIFY BULUT DAĞITIM YAPILANDIRMASI
 # ==============================================================================
-# Bu dosya Coolify paneline doğrudan "Docker Compose" servisi olarak bağlanabilir.
-# Traefik üzerinden otomatik Let's Encrypt SSL, izole ağ ve kalıcı veritabanı sağlar.
 
 services:
   # 1. PostgreSQL 16 Veritabanı (İzole, Dışarıya Kapalı)
@@ -14,7 +12,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-BrosanTekstil2026SecurePass!}
       POSTGRES_DB: ${POSTGRES_DB:-brosan_accounting_db}
     volumes:
       - brosan_cloud_pgdata:/var/lib/postgresql/data
@@ -34,12 +32,12 @@ services:
       dockerfile: Dockerfile
     container_name: brosan-erp-web
     restart: unless-stopped
-    expose:
-      - "3000"
+    ports:
+      - "3000:3000"
     environment:
       NODE_ENV: production
       PORT: 3000
-      DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-brosan_accounting_db}?schema=public"
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-BrosanTekstil2026SecurePass!}@postgres:5432/${POSTGRES_DB:-brosan_accounting_db}?schema=public"
       CORS_ORIGIN: "*"
       RUN_SEED: ${RUN_SEED:-true}
     depends_on:
@@ -48,10 +46,8 @@ services:
     labels:
       - "coolify.managed=true"
       - "traefik.enable=true"
-      - "traefik.http.routers.brosan-erp.rule=Host(`${COOLIFY_FQDN}`)"
-      - "traefik.http.routers.brosan-erp.entrypoints=websecure"
-      - "traefik.http.routers.brosan-erp.tls=true"
-      - "traefik.http.routers.brosan-erp.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.brosan-erp.rule=Host(`${COOLIFY_FQDN:-173.249.23.10}`)"
+      - "traefik.http.routers.brosan-erp.entrypoints=web"
       - "traefik.http.services.brosan-erp.loadbalancer.server.port=3000"
 
 volumes:
