@@ -32,8 +32,6 @@ services:
       dockerfile: Dockerfile
     container_name: brosan-erp-web
     restart: unless-stopped
-    ports:
-      - "${HOST_PORT:-3005}:3000"
     expose:
       - "3000"
     environment:
