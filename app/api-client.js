@@ -34,35 +34,29 @@
         badge = document.createElement('div');
         badge.id = 'db-status-indicator';
         badge.style.position = 'fixed';
-        badge.style.bottom = '16px';
+        badge.style.bottom = '40px';
         badge.style.right = '16px';
         badge.style.zIndex = '9999';
-        badge.style.fontSize = '12px';
-        badge.style.fontWeight = '600';
-        badge.style.padding = '8px 14px';
-        badge.style.borderRadius = '20px';
-        badge.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-        badge.style.transition = 'all 0.3s ease';
+        badge.style.fontSize = '11px';
+        badge.style.padding = '4px 10px';
+        badge.style.borderRadius = '9999px';
         badge.style.cursor = 'pointer';
         badge.onclick = () => window.BrosanAPI.checkHealth();
         document.body.appendChild(badge);
       }
 
       if (serverReachable && dbStatus === 'connected') {
-        badge.style.backgroundColor = '#ecfdf5';
-        badge.style.color = '#065f46';
-        badge.style.border = '1px solid #a7f3d0';
-        badge.innerHTML = '🟢 PostgreSQL SQL Veritabanı: <strong>Bağlı</strong>';
+        badge.className = 'flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-700 font-mono text-[10px] cursor-pointer hover:bg-emerald-900 transition-colors';
+        badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span>PostgreSQL: Bağlı</span>';
+        badge.title = 'PostgreSQL Veritabanı ve REST API Aktif (Yenilemek için tıklayın)';
       } else if (serverReachable) {
-        badge.style.backgroundColor = '#fffbeb';
-        badge.style.color = '#92400e';
-        badge.style.border = '1px solid #fde68a';
-        badge.innerHTML = '🟡 Sunucu Aktif (Veritabanı Hazırlanıyor...)';
+        badge.className = 'flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-700 font-mono text-[10px] cursor-pointer hover:bg-amber-900 transition-colors';
+        badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>API Hazırlanıyor...</span>';
+        badge.title = 'API Sunucusu Erişilebilir, DB Bağlantısı Bekleniyor';
       } else {
-        badge.style.backgroundColor = '#f1f5f9';
-        badge.style.color = '#475569';
-        badge.style.border = '1px solid #cbd5e1';
-        badge.innerHTML = '⚪ Yerel Hızlı Mod (Local Cache)';
+        badge.className = 'flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-mono text-[10px] cursor-pointer hover:bg-slate-700 transition-colors';
+        badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span><span>Yerel Mod</span>';
+        badge.title = 'Yerel Ön Bellek Modu (Bağlantı denemek için tıklayın)';
       }
     },
 
@@ -170,8 +164,12 @@
 
   // Otomatik Sağlık Kontrolü Başlat
   document.addEventListener('DOMContentLoaded', () => {
-    window.BrosanAPI.checkHealth();
-    // Her 30 saniyede bir durumu kontrol et
-    setInterval(() => window.BrosanAPI.checkHealth(), 30000);
+    // file:// protokolünde gereksiz konsol hatalarını engelle
+    if (window.location.protocol === 'file:') {
+      window.BrosanAPI.updateStatusBadge(false, 'local');
+    } else {
+      window.BrosanAPI.checkHealth();
+      setInterval(() => window.BrosanAPI.checkHealth(), 30000);
+    }
   });
 })();
