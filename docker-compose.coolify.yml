@@ -17,11 +17,11 @@ services:
     volumes:
       - brosan_cloud_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-brosan_accounting_db}"]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready -h localhost -U ${POSTGRES_USER:-postgres} || exit 1"]
+      interval: 5s
       timeout: 5s
-      retries: 5
-      start_period: 10s
+      retries: 10
+      start_period: 30s
     labels:
       - "coolify.managed=true"
 
@@ -41,8 +41,7 @@ services:
       CORS_ORIGIN: "*"
       RUN_SEED: ${RUN_SEED:-true}
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
     labels:
       - "coolify.managed=true"
       - "traefik.enable=true"
