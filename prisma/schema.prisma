@@ -139,11 +139,14 @@ model Invoice {
 model InvoiceItem {
   id            String         @id @default(uuid())
   invoiceId     String
-  description   String         // Kumaş türü, servis açıklaması
+  name          String?        // Kalem / Ürün Adı (Örn: B.Kumaş 30/2 Penye Süprem)
+  description   String         // Detaylı Açıklama / Parti No / Renk
+  gtip          String?        // GTİP Kodu (Örn: 6109.10.00.00.00)
   quantity      Decimal        @default(1.0) @db.Decimal(12, 3)
-  unit          String         @default("MT") // MT, KG, ADET, TOP
+  unit          String         @default("MT") // MT, KG, ADET, TOP, PKT, RULO
   unitPrice     Decimal        @default(0.0) @db.Decimal(18, 2)
-  taxRate       Decimal        @default(20.0) @db.Decimal(5, 2) // KDV % (%1, %10, %20)
+  discountRate  Decimal?       @default(0.0) @db.Decimal(5, 2) // İskonto %
+  taxRate       Decimal        @default(20.0) @db.Decimal(5, 2) // KDV % (%0, %1, %10, %20)
   taxAmount     Decimal        @default(0.0) @db.Decimal(18, 2)
   total         Decimal        @default(0.0) @db.Decimal(18, 2)
   createdAt     DateTime       @default(now())

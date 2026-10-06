@@ -222,6 +222,70 @@ function createTier2Suite(context) {
     }
   });
 
+  // 2.5: Multi-Line Invoice Item Math & Tax Breakdown
+  suite.test('T2.5: Multi-Line Invoice Item Math (Qty, UnitPrice, Discount%, VAT%, and 5/10 Withholding)', () => {
+    // 1. Export Invoice with 2 zero-vat lines (Ben Ellis BS02026000000013)
+    const exportItems = [
+      { qty: 450, price: 8.20, discount: 0, taxRate: 0 },
+      { qty: 319, price: 11.59279, discount: 0, taxRate: 0 }
+    ];
+    let exportSubtotal = 0;
+    let exportTax = 0;
+    exportItems.forEach(it => {
+      const matrah = roundCent((it.qty * it.price) * (1 - it.discount / 100));
+      const vat = roundCent(matrah * (it.taxRate / 100));
+      exportSubtotal = roundCent(exportSubtotal + matrah);
+      exportTax = roundCent(exportTax + vat);
+    });
+    const exportGrand = roundCent(exportSubtotal + exportTax);
+    assertExact(exportSubtotal, 7388.10, 'Ben Ellis export line items subtotal must equal £7,388.10 GBP');
+    assertExact(exportTax, 0.00, 'Ben Ellis export tax must be 0 (0% VAT)');
+    assertExact(exportGrand, 7388.10, 'Ben Ellis export grand total must equal £7,388.10 GBP');
+
+    // 2. Complex Multi-Line Commercial Invoice with Discounts and Split VAT (10% and 20%)
+    const complexItems = [
+      { name: 'Süprem Kumaş', qty: 100, price: 340.00, discount: 10, taxRate: 10 },
+      { name: 'İplik Bobin', qty: 50, price: 500.00, discount: 0, taxRate: 20 },
+      { name: 'Etiket / Ambalaj', qty: 1000, price: 2.50, discount: 20, taxRate: 20 }
+    ];
+
+    let compBrut = 0;
+    let compDisc = 0;
+    let compMatrah = 0;
+    let compTax10 = 0;
+    let compTax20 = 0;
+
+    complexItems.forEach(it => {
+      const raw = roundCent(it.qty * it.price);
+      const disc = roundCent(raw * (it.discount / 100));
+      const mat = roundCent(raw - disc);
+      const tax = roundCent(mat * (it.taxRate / 100));
+      compBrut = roundCent(compBrut + raw);
+      compDisc = roundCent(compDisc + disc);
+      compMatrah = roundCent(compMatrah + mat);
+      if (it.taxRate === 10) compTax10 = roundCent(compTax10 + tax);
+      if (it.taxRate === 20) compTax20 = roundCent(compTax20 + tax);
+    });
+
+    const compTaxTotal = roundCent(compTax10 + compTax20);
+    const compGrand = roundCent(compMatrah + compTaxTotal);
+
+    assertExact(compBrut, 61500.00, 'Gross raw total must be 61,500.00 TL');
+    assertExact(compDisc, 3900.00, 'Total discount must be 3,900.00 TL');
+    assertExact(compMatrah, 57600.00, 'Net matrah must be 57,600.00 TL');
+    assertExact(compTax10, 3060.00, '10% VAT must be 3,060.00 TL');
+    assertExact(compTax20, 5400.00, '20% VAT must be 5,400.00 TL');
+    assertExact(compTaxTotal, 8460.00, 'Total VAT must be 8,460.00 TL');
+    assertExact(compGrand, 66060.00, 'Grand total must be 66,060.00 TL');
+
+    // 3. 5/10 Fason Tekstil Withholding Verification
+    const withholdingRate = 0.5;
+    const fasonWithholding = roundCent(compTax10 * withholdingRate);
+    const payableTotal = roundCent(compGrand - fasonWithholding);
+    assertExact(fasonWithholding, 1530.00, '5/10 Fason withholding must be 1,530.00 TL');
+    assertExact(payableTotal, 64530.00, 'Net payable grand total after withholding must be 64,530.00 TL');
+  });
+
   return suite;
 }
 

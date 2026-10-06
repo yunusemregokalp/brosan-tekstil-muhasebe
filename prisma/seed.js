@@ -965,7 +965,9 @@ async function main() {
         items: isKumasInvoice ? {
           create: [
             {
-              description: 'B.KUMAŞ 30/2 PENYE SÜPREM',
+              name: 'B.KUMAŞ 30/2 PENYE SÜPREM',
+              description: 'Parti No: 11280 - Siyah - 144 CM - 172 GSM',
+              gtip: '5208.52.00.00.00',
               quantity: 227.0,
               unit: 'KG',
               unitPrice: 340.00,
@@ -974,7 +976,9 @@ async function main() {
               total: 84898.00
             },
             {
-              description: 'B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA',
+              name: 'B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA',
+              description: 'Parti No: 11605 - Ekru - 149 CM - 160 GSM',
+              gtip: '5208.52.00.00.00',
               quantity: 14.5,
               unit: 'KG',
               unitPrice: 340.00,
@@ -983,7 +987,9 @@ async function main() {
               total: 5423.00
             },
             {
-              description: 'B.KUMAŞ 30/20/10 PENYE 3 İPLİK',
+              name: 'B.KUMAŞ 30/20/10 PENYE 3 İPLİK',
+              description: 'Parti No: 11842 - Melanj - 150 CM - 320 GSM',
+              gtip: '6006.22.00.00.00',
               quantity: 650.0,
               unit: 'KG',
               unitPrice: 330.00,
@@ -992,7 +998,9 @@ async function main() {
               total: 235950.00
             },
             {
-              description: 'B.KUMAŞ 30/2 PENYE 70 DNY LYC K.KORSE',
+              name: 'B.KUMAŞ 30/2 PENYE 70 DNY LYC K.KORSE',
+              description: 'Parti No: 11901 - Antrasit - 140 CM - 240 GSM',
+              gtip: '5208.52.00.00.00',
               quantity: 101.0,
               unit: 'KG',
               unitPrice: 340.00,
@@ -1001,7 +1009,34 @@ async function main() {
               total: 37774.00
             }
           ]
-        } : undefined
+        } : (inv.invoiceNo === 'BS02026000000013' ? {
+          create: [
+            {
+              name: '100% Cotton Crew Neck T-Shirt',
+              description: 'Ben Ellis SS26 Collection - Acid Wash Heavy Cotton',
+              gtip: '6109.10.00.00.00',
+              quantity: 450.0,
+              unit: 'ADET',
+              unitPrice: 8.20,
+              discountRate: 0.0,
+              taxRate: 0.0,
+              taxAmount: 0.0,
+              total: 3690.00
+            },
+            {
+              name: 'Oversized Brushed Fleece Hoodie',
+              description: 'Ben Ellis SS26 Collection - Loopback French Terry',
+              gtip: '6110.20.91.00.00',
+              quantity: 319.0,
+              unit: 'ADET',
+              unitPrice: 11.59279,
+              discountRate: 0.0,
+              taxRate: 0.0,
+              taxAmount: 0.0,
+              total: 3698.10
+            }
+          ]
+        } : undefined)
       }
     });
   }

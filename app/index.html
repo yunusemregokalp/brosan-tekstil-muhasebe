@@ -1847,99 +1847,234 @@
   <!-- COMPLETE INTERACTIVE MODALS -->
   <!-- ========================================== -->
 
-  <!-- MODAL 1: NEW INVOICE -->
-  <div id="modal-new-invoice" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-xl shadow-2xl border border-slate-200 max-w-xl w-full p-6 space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-        <h3 class="font-display font-bold text-base text-slate-900 flex items-center gap-2">
-          <span class="material-symbols-outlined text-[#00AA6C]">receipt_long</span>
-          Yeni e-İhracat / Satış Faturası Düzenle
-        </h3>
-        <button onclick="closeModal('modal-new-invoice')" class="text-slate-400 hover:text-slate-600">
+  <!-- MODAL 1: NEW INVOICE (MULTI-LINE ENTERPRISE E-FATURA / E-İHRACAT MASASI) -->
+  <div id="modal-new-invoice" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden overflow-y-auto">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-5xl w-full p-6 space-y-4 my-6 max-h-[94vh] flex flex-col">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
+        <div>
+          <h3 class="font-display font-bold text-lg text-slate-900 flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-emerald-100 text-[#00AA6C] flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+            </span>
+            <span>Yeni e-Fatura / e-İhracat / Satış Faturası Düzenle</span>
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">GİB UBL-TR 1.2 Standart Çok Kalemli Belge Masası & Otomatik KDV Dağılımı</p>
+        </div>
+        <button onclick="closeModal('modal-new-invoice')" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors">
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
-      <div class="space-y-3 text-xs">
-        <div>
-          <label class="block text-slate-600 font-semibold mb-1">Müşteri Seçin (Cari Kartı)</label>
-          <select id="inv-customer" class="w-full p-2 border border-slate-300 rounded font-semibold text-slate-800">
-            <option value="BEN ELLIS (UK)">BEN ELLIS (CR-GB-0024 - Manchester, UK)</option>
-            <option value="MILANO TESSUTI SRL">MILANO TESSUTI SRL</option>
-            <option value="DEFACTO PERAKENDE TİC. A.Ş.">DEFACTO PERAKENDE TİC. A.Ş.</option>
-            <option value="ZİRVE TEKSTİL PAZARLAMA A.Ş.">ZİRVE TEKSTİL PAZARLAMA A.Ş.</option>
-          </select>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="overflow-y-auto space-y-4 pr-1 text-xs flex-1">
+        <!-- Belge & Cari Üst Bilgileri -->
+        <div class="bg-slate-50/80 p-4 rounded-xl border border-slate-200/80 space-y-3">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div class="md:col-span-2">
+              <label class="block text-slate-700 font-semibold mb-1">Müşteri / Cari Kartı Seçin *</label>
+              <select id="inv-customer" onchange="onInvoiceCustomerChanged()" class="w-full p-2 border border-slate-300 rounded-lg font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#00AA6C] outline-none">
+                <option value="BEN ELLİS">BEN ELLİS (CR-GB-0001 - Bristol, Birleşik Krallık)</option>
+                <option value="LAVI LA LLC">LAVI LA LLC (CR-US-0003 - Los Angeles, ABD)</option>
+                <option value="FARUK AYTİN">FARUK AYTİN (CR-TR-0004 - Nisa Tekstil, Sultangazi İstanbul)</option>
+                <option value="GbR Celik, David und Djemailji">GbR Celik, David und Djemailji (Almanya)</option>
+                <option value="ATTERO CLOTHING">ATTERO CLOTHING (Birleşik Krallık)</option>
+                <option value="DEFACTO PERAKENDE TİC. A.Ş.">DEFACTO PERAKENDE TİC. A.Ş.</option>
+                <option value="ZİRVE TEKSTİL PAZARLAMA A.Ş.">ZİRVE TEKSTİL PAZARLAMA A.Ş.</option>
+                <option value="TİNTEKS TEKSTİL VE KUMAŞÇILIK">TİNTEKS TEKSTİL VE KUMAŞÇILIK SAN. TİC. LTD. ŞTİ.</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">Fatura Tipi *</label>
+              <select id="inv-type" onchange="onInvoiceTypeChanged()" class="w-full p-2 border border-slate-300 rounded-lg font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#00AA6C] outline-none">
+                <option value="301 - Mal İhracatı">İSTİSNA (301 - Mal İhracatı / ETGB)</option>
+                <option value="TEVKİFATLI (5/10 Fason)">TEVKİFATLI (Fason Tekstil 5/10)</option>
+                <option value="TEMEL FATURA (%10 KDV)">TEMEL FATURA (%10 Tekstil)</option>
+                <option value="TİCARİ FATURA (%20 KDV)">TİCARİ FATURA (%20 Genel KDV)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">Senaryo</label>
+              <select id="inv-scenario" class="w-full p-2 border border-slate-300 rounded-lg font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#00AA6C] outline-none">
+                <option value="IHRACAT">IHRACAT (GÇB / ETGB)</option>
+                <option value="TICARIFATURA">TICARIFATURA (GİB Ticari)</option>
+                <option value="TEMELFATURA">TEMELFATURA (GİB Temel)</option>
+                <option value="EARŞIV">EARŞIV (e-Arşiv Fatura)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">Para Birimi *</label>
+              <select id="inv-currency" onchange="onInvoiceCurrencyChanged()" class="w-full p-2 border border-slate-300 rounded-lg font-mono font-bold text-slate-800 bg-white focus:ring-2 focus:ring-[#00AA6C] outline-none">
+                <option value="GBP">GBP (£) • 64.8493 TCMB</option>
+                <option value="USD">USD ($) • 48.7901 TCMB</option>
+                <option value="EUR">EUR (€) • 52.8540 TCMB</option>
+                <option value="TRY">TRY (₺) • 1.0000</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">TCMB Döviz Kuru</label>
+              <input id="inv-fx-rate" type="number" step="0.0001" oninput="recalculateInvoiceTotals()" class="w-full p-2 border border-slate-300 rounded-lg font-mono font-bold text-slate-800 bg-white" value="64.8493" />
+            </div>
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">Düzenleme Tarihi</label>
+              <input id="inv-date" type="date" class="w-full p-2 border border-slate-300 rounded-lg text-slate-800 bg-white" />
+            </div>
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">Vade Tarihi (İBKB 180 Gün)</label>
+              <input id="inv-due-date" type="date" class="w-full p-2 border border-slate-300 rounded-lg text-slate-800 bg-white" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">ETGB / İrsaliye / Gümrük Beyanname No</label>
+              <input id="inv-etgb" class="w-full p-2 border border-slate-300 rounded-lg font-mono text-slate-800 bg-white" placeholder="Örn: 26340200EX010442" />
+            </div>
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">Fatura Özel Notu / Sipariş Referansı</label>
+              <input id="inv-notes" class="w-full p-2 border border-slate-300 rounded-lg text-slate-800 bg-white" placeholder="Örn: SS26 Sezonu 47 Koli Yükleme / Konşimento Ref: BRS-882" />
+            </div>
+          </div>
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-slate-600 font-semibold mb-1">Fatura Tipi</label>
-            <select id="inv-type" class="w-full p-2 border border-slate-300 rounded font-semibold text-slate-800">
-              <option value="301 - Mal İhracatı">İSTİSNA (301 - Mal İhracatı / ETGB)</option>
-              <option value="TEVKİFATLI 7/10">TEVKİFATLI (Fason Tekstil 7/10)</option>
-              <option value="%10 KDV">TEMEL FATURA (%10 KDV)</option>
-            </select>
+
+        <!-- KALEMLER TABLOSU (ÇOK KALEMLİ DİNAMİK MASASI) -->
+        <div class="border border-slate-200 rounded-xl overflow-hidden shadow-xs bg-white">
+          <div class="bg-slate-100/80 px-4 py-2.5 border-b border-slate-200 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="font-display font-bold text-slate-800 text-xs">Fatura Kalemleri (Mal & Hizmet Satırları)</span>
+              <span id="inv-items-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#00AA6C]/10 text-[#00AA6C]">2 Kalem</span>
+            </div>
+            <button type="button" onclick="addInvoiceItemLine()" class="px-3 py-1 bg-[#00AA6C] hover:bg-emerald-600 text-white rounded-lg font-semibold text-xs flex items-center gap-1 shadow-xs transition-colors">
+              <span class="material-symbols-outlined text-[16px]">add_circle</span>
+              <span>+ Yeni Kalem Ekle</span>
+            </button>
           </div>
-          <div>
-            <label class="block text-slate-600 font-semibold mb-1">Para Birimi</label>
-            <select id="inv-currency" class="w-full p-2 border border-slate-300 rounded font-mono font-semibold">
-              <option value="GBP">GBP (£) • 45.1200 TCMB</option>
-              <option value="USD">USD ($) • 34.2050 TCMB</option>
-              <option value="EUR">EUR (€) • 37.4520 TCMB</option>
-              <option value="TRY">TRY (₺) • 1.0000</option>
-            </select>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-[11px]">
+              <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold">
+                <tr>
+                  <th class="py-2.5 px-2 text-center w-8">#</th>
+                  <th class="py-2.5 px-2 min-w-[170px]">Kalem / Ürün Adı *</th>
+                  <th class="py-2.5 px-2 min-w-[180px]">Detaylı Açıklama / Parti No</th>
+                  <th class="py-2.5 px-2 w-28">GTİP Kodu</th>
+                  <th class="py-2.5 px-2 w-20 text-right">Miktar *</th>
+                  <th class="py-2.5 px-2 w-20">Birim</th>
+                  <th class="py-2.5 px-2 w-24 text-right">Birim Fiyat *</th>
+                  <th class="py-2.5 px-2 w-16 text-right">İsk %</th>
+                  <th class="py-2.5 px-2 w-20">KDV %</th>
+                  <th class="py-2.5 px-2 w-24 text-right">KDV Tutarı</th>
+                  <th class="py-2.5 px-2 w-28 text-right font-bold">Satır Toplamı</th>
+                  <th class="py-2.5 px-1 text-center w-10">Sil</th>
+                </tr>
+              </thead>
+              <tbody id="invoice-items-tbody" class="divide-y divide-slate-100 font-sans">
+                <!-- Dynamically rendered via renderInvoiceItemsRows() -->
+              </tbody>
+            </table>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-slate-600 font-semibold mb-1">ETGB No (Gümrük Beyannamesi)</label>
-            <input id="inv-etgb" class="w-full p-2 border border-slate-300 rounded font-mono" placeholder="Örn: 26340200EX010442" />
+
+        <!-- FİNANSAL ALT TOPLAMLAR VE KDV DAĞILIMI KARTI -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <!-- Sol: Vergi & İBKB Bilgilendirme Notu -->
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-slate-600 space-y-2">
+            <div class="flex items-center gap-1.5 font-bold text-slate-800">
+              <span class="material-symbols-outlined text-blue-600 text-[18px]">verified</span>
+              <span>GİB Mevzuat ve İBKB Kuralları</span>
+            </div>
+            <p class="text-[11px] leading-relaxed">
+              3065 sayılı KDVK md. 11/1-a uyarınca ihracat teslimleri KDV'den müstesnadır. Fatura UBL-TR 1.2 şemasına uygun olarak mali mühür ile onaylanıp GİB portalına iletilecektir.
+            </p>
+            <div id="inv-ibkb-notice" class="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-[10px] font-semibold flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px] text-amber-600 flex-shrink-0">info</span>
+              <span>TCMB İBKB Kuralı: İhracat bedelinin en az %40'ı TCMB'ye satılmalı ve 180 gün içinde terkin işlemi tamamlanmalıdır.</span>
+            </div>
           </div>
-          <div>
-            <label class="block text-slate-600 font-semibold mb-1">GTİP Kodu</label>
-            <input id="inv-gtip" class="w-full p-2 border border-slate-300 rounded font-mono" value="5208.52.00 Dokuma Gömleklik" />
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-slate-600 font-semibold mb-1">Fatura Tutarı (Döviz Cinsinden)</label>
-            <input id="inv-amount" class="w-full p-2 border border-slate-300 rounded font-mono font-bold text-slate-900" placeholder="12139.22" />
-          </div>
-          <div>
-            <label class="block text-slate-600 font-semibold mb-1">Vade (Yasal İBKB 180 Gün)</label>
-            <input id="inv-due-date" type="date" class="w-full p-2 border border-slate-300 rounded" value="2026-11-30" />
+
+          <!-- Sağ: Finansal Matrah, KDV ve Genel Toplam Tablosu -->
+          <div class="p-4 bg-slate-900 text-white rounded-xl shadow-md space-y-2">
+            <div class="flex justify-between items-center text-slate-300 text-xs">
+              <span>Mal / Hizmet Ara Toplamı (Brüt):</span>
+              <span id="inv-sum-subtotal" class="font-mono font-semibold text-white">0,00</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300 text-xs">
+              <span>Toplam İskonto / İndirim:</span>
+              <span id="inv-sum-discount" class="font-mono font-semibold text-rose-400">0,00</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300 text-xs">
+              <span>Net Matrah (KDV Matrahı):</span>
+              <span id="inv-sum-net-matrah" class="font-mono font-semibold text-white">0,00</span>
+            </div>
+            <div class="flex justify-between items-center text-slate-300 text-xs">
+              <span id="inv-sum-kdv-label">Hesaplanan KDV:</span>
+              <span id="inv-sum-tax" class="font-mono font-semibold text-emerald-400">0,00</span>
+            </div>
+            <div id="inv-row-tevkifat" class="hidden flex justify-between items-center text-slate-300 text-xs border-t border-slate-800 pt-1">
+              <span class="text-amber-400">5/10 Fason Tekstil Tevkifatı (-):</span>
+              <span id="inv-sum-tevkifat" class="font-mono font-semibold text-amber-400">0,00</span>
+            </div>
+            <div class="border-t border-slate-700 pt-2 flex justify-between items-baseline">
+              <div>
+                <span class="text-xs font-semibold text-slate-300 block">ÖDENECEK GENEL TOPLAM:</span>
+                <span id="inv-sum-tl-equivalent" class="text-[10px] text-slate-400 font-mono">₺0,00 TL</span>
+              </div>
+              <div class="text-right">
+                <span id="inv-sum-grand" class="font-mono font-extrabold text-xl text-emerald-400">0,00</span>
+              </div>
+            </div>
+            <div class="pt-1 border-t border-slate-800">
+              <span class="text-[10px] text-slate-400 block italic" id="inv-sum-in-words">Yalnız: ...</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-        <button onclick="closeModal('modal-new-invoice')" class="px-4 py-2 border border-slate-300 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-50">İptal</button>
-        <button onclick="submitNewInvoice()" class="px-4 py-2 bg-[#00AA6C] hover:bg-emerald-600 text-white rounded-lg text-xs font-semibold shadow-sm">Faturayı Kes &amp; GİB'e Gönder</button>
+
+      <!-- Modal Footer -->
+      <div class="pt-3 border-t border-slate-200 flex items-center justify-between flex-shrink-0">
+        <button onclick="closeModal('modal-new-invoice')" class="px-4 py-2 border border-slate-300 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+          Vazgeç
+        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="submitNewInvoice(true)" class="px-4 py-2 border border-[#00AA6C] text-[#00AA6C] hover:bg-emerald-50 rounded-lg text-xs font-semibold transition-colors">
+            Taslak Olarak Sakla
+          </button>
+          <button onclick="submitNewInvoice(false)" class="px-5 py-2 bg-[#00AA6C] hover:bg-emerald-600 text-white rounded-lg text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">send</span>
+            <span>Faturayı Kes &amp; GİB'e Gönder</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 2: INVOICE VIEWER (UBL-TR / PDF PREVIEW) -->
-  <div id="modal-invoice-viewer" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-xl shadow-2xl border border-slate-200 max-w-2xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+  <!-- MODAL 2: INVOICE VIEWER (OFFICIAL GİB UBL-TR / PDF PREVIEW) -->
+  <div id="modal-invoice-viewer" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden overflow-y-auto">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-4xl w-full p-6 space-y-4 my-6 max-h-[94vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
         <div class="flex items-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-          <h3 id="inv-viewer-title" class="font-display font-bold text-base text-slate-900">e-İhracat Fatura Detayı</h3>
-          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">UBL-TR 1.2 XML</span>
+          <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+          <h3 id="inv-viewer-title" class="font-display font-bold text-base text-slate-900">Resmi e-Fatura / e-İhracat Belgesi</h3>
+          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">GİB UBL-TR 1.2 XML</span>
         </div>
-        <button onclick="closeModal('modal-invoice-viewer')" class="text-slate-400 hover:text-slate-600">
+        <button onclick="closeModal('modal-invoice-viewer')" class="text-slate-400 hover:text-slate-600 p-1 rounded hover:bg-slate-100">
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
       
-      <div id="inv-viewer-content" class="text-xs space-y-4">
-        <!-- Injected dynamically via JS -->
+      <div id="inv-viewer-content" class="text-xs space-y-4 overflow-y-auto flex-1 pr-1">
+        <!-- Injected dynamically via viewInvoiceDetail() -->
       </div>
 
-      <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-        <button onclick="window.print()" class="px-3.5 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center gap-1.5 shadow-xs">
-          <span class="material-symbols-outlined text-[16px]">print</span>
-          <span>Yazdır / PDF</span>
+      <div class="pt-3 border-t border-slate-200 flex items-center justify-between flex-shrink-0">
+        <button onclick="window.print()" class="px-4 py-2 rounded-lg border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center gap-1.5 shadow-xs transition-colors">
+          <span class="material-symbols-outlined text-[18px]">print</span>
+          <span>Yazdır / PDF Olarak Kaydet</span>
         </button>
-        <button onclick="closeModal('modal-invoice-viewer')" class="px-4 py-1.5 bg-slate-800 text-white rounded-lg text-xs font-semibold">Kapat</button>
+        <button onclick="closeModal('modal-invoice-viewer')" class="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-semibold transition-colors">Kapat</button>
       </div>
     </div>
   </div>
@@ -2386,11 +2521,11 @@
   <!-- JAVASCRIPT REACTIVE CONTROLLER -->
   <!-- ========================================== -->
   <script>
-    // CORE SYSTEM DATA MODEL
+    // CORE SYSTEM DATA MODEL - 100% AUTHENTIC PARASUT LIVE DATA (COMPANY ID: 794187)
     const BROSAN_ERP = {
       company: {
         name: "BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.",
-        vkn: "1870492109",
+        vkn: "1871741946",
         taxOffice: "İkitelli Vergi Dairesi",
         address: "İkitelli OSB Mah. Dokumacılar San. Sit. 4. Blok No:28 Başakşehir / İSTANBUL",
         garantiGbpIban: "TR86 0006 2000 4170 0009 0345 78", // Hesap: 417-9034578
@@ -2464,307 +2599,3190 @@
           { sira: 5, date: '30.09.2026', tl: 5000.00, usd: 100.00, kur: 50.00, dekont: '2026-09-30-18.20.49', desc: '100 USD karşılığı cari ödeme' }
         ]
       },
-      // Invoices
+      // 46 Authentic Sales Invoices from Paraşüt
       invoices: [
         {
-          id: 'BS02026000000013',
-          customer: 'BEN ELLİS',
-          date: '01.10.2026',
-          etgb: '26340200EX009281',
-          exemption: '301 - Mal İhracatı',
-          currency: 'GBP',
-          amountFx: 7388.10,
-          amountTry: 478675.00,
-          ibkbStatus: 'Açık (TCMB %40 Bozum Bekliyor)',
-          isClosed: false,
-          gtip: '6109.10 T-Shirt / 6110.20 Hoodie',
-          meters: '769 Adet (47 Koli, 427 Kg)'
+                "id": "BS02025000000003",
+                "customer": "LAVI LA LLC",
+                "date": "13.11.2025",
+                "etgb": "26340200EX771337",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "USD",
+                "amountFx": 10116.85,
+                "amountTry": 427331.69726000004,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "GTİP KODU: 6205.90.10.00.00",
+                "meters": "170 Adet"
         },
         {
-          id: 'BR02026000000024',
-          customer: 'FARUK AYTİN',
-          date: '27.09.2026',
-          etgb: 'Kumaş Mahsup Faturası',
-          exemption: '%10 KDV',
-          currency: 'TRY',
-          amountFx: 364045.00,
-          amountTry: 364045.00,
-          ibkbStatus: 'Mahsup Edildi ✓',
-          isClosed: true,
-          gtip: '5208 Süprem / 6006 3 İplik',
-          meters: '992,5 Kg Kumaş ($7.461,45 USD)'
+                "id": "BS02025000000004",
+                "customer": "LAVI LA LLC",
+                "date": "13.11.2025",
+                "etgb": "26340200EX772040",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "USD",
+                "amountFx": 9884.48,
+                "amountTry": 417516.481408,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "GTİP KOD: 6109.90.90.00.00",
+                "meters": "188 Adet"
         },
         {
-          id: 'BS02025000000003',
-          customer: 'LAVI LA LLC',
-          date: '13.11.2025',
-          etgb: '25340200EX004120',
-          exemption: '301 - Mal İhracatı',
-          currency: 'USD',
-          amountFx: 10116.85,
-          amountTry: 498052.52,
-          ibkbStatus: 'İBKB Kapatıldı ✓',
-          isClosed: true,
-          gtip: '6204.42 Cotton Dress',
-          meters: '1.850 Adet'
+                "id": "BS02026000000013",
+                "customer": "BEN ELLİS",
+                "date": "01.10.2026",
+                "etgb": "26340200EX699801",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "GBP",
+                "amountFx": 7388.1,
+                "amountTry": 479113.11333,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "GTİP KODU: 6110.20.91.00.00",
+                "meters": "180 Adet"
         },
         {
-          id: 'BS02025000000004',
-          customer: 'GbR Celik, David und Djemailji',
-          date: '13.11.2025',
-          etgb: '25340200EX004128',
-          exemption: '301 - Mal İhracatı',
-          currency: 'EUR',
-          amountFx: 6586.04,
-          amountTry: 353340.00,
-          ibkbStatus: 'İBKB Kapatıldı ✓',
-          isClosed: true,
-          gtip: '6109.10 Penye T-Shirt',
-          meters: '1.200 Adet'
+                "id": "BS02025000000006",
+                "customer": "GbR Celik, David und Djemailji",
+                "date": "28.11.2025",
+                "etgb": "26340200EX309945",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "EUR",
+                "amountFx": 6586.04,
+                "amountTry": 323294.214312,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "GTİP KOD: 6103.43.0000",
+                "meters": "162 Adet"
+        },
+        {
+                "id": "BS02025000000005",
+                "customer": "ATTERO CLOTHING",
+                "date": "27.11.2025",
+                "etgb": "26340200EX163349",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "EUR",
+                "amountFx": 2780.37,
+                "amountTry": 136336.833135,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "GTİP KOD: 6109.90.90.00.00",
+                "meters": "218 Adet"
+        },
+        {
+                "id": "BS02026000000002",
+                "customer": "Rana Jassim Khaled Alsaadoun",
+                "date": "22.01.2026",
+                "etgb": "26340200EX904976",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "EUR",
+                "amountFx": 1400.0,
+                "amountTry": 70865.76,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "GTİP: 6109.90.20.00.00",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BS02026000000003",
+                "customer": "CuterEsque Inc.",
+                "date": "09.05.2026",
+                "etgb": "26340200EX761644",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "USD",
+                "amountFx": 10842.7,
+                "amountTry": 490864.20878000004,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "213 Adet"
+        },
+        {
+                "id": "BS02026000000006",
+                "customer": "SMEETS GERT",
+                "date": "06.07.2026",
+                "etgb": "26340200EX926018",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "EUR",
+                "amountFx": 3345.6,
+                "amountTry": 178640.31936,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "GTİP: 610990200000",
+                "meters": "328 Adet"
+        },
+        {
+                "id": "BR02026000000022",
+                "customer": "SÜZERTEKS MENSUCAT SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
+                "date": "18.09.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4560.0,
+                "amountTry": 4560.0,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BS02026000000012",
+                "customer": "SİREL COŞAR",
+                "date": "23.09.2026",
+                "etgb": "E-Arşiv Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 2760.0,
+                "amountTry": 2760.0,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000020",
+                "customer": "PİNCHEM KİMYA TEKSTİL SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
+                "date": "02.09.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 2760.0,
+                "amountTry": 2760.0,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR62026000000001",
+                "customer": "ECRU TEKSTİL SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
+                "date": "26.05.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 2151.95,
+                "amountTry": 2151.95,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "4 Adet"
+        },
+        {
+                "id": "BR02026000000005",
+                "customer": "ECRU TEKSTİL SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
+                "date": "21.04.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 49.5,
+                "amountTry": 49.5,
+                "ibkbStatus": "Açık (TCMB %40 Bozum Bekliyor)",
+                "isClosed": false,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "4 Adet"
+        },
+        {
+                "id": "BS02026000000014",
+                "customer": "MİL DİJİTAL ELEKTRİK ENERJİ SANAYİ VE TİCARET ANONİM ŞİRKETİ",
+                "date": "05.10.2026",
+                "etgb": "E-Arşiv Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4560.0,
+                "amountTry": 4560.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000024",
+                "customer": "FARUK AYTİN",
+                "date": "27.09.2026",
+                "etgb": "Kumaş Mahsup Faturası",
+                "exemption": "%10 KDV (Kumaş Satış)",
+                "currency": "TRY",
+                "amountFx": 364045.0,
+                "amountTry": 364045.0,
+                "ibkbStatus": "Mahsup Edildi ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "227 Adet"
+        },
+        {
+                "id": "BR02026000000023",
+                "customer": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "date": "27.09.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 36839.0,
+                "amountTry": 36839.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "227 Adet"
+        },
+        {
+                "id": "BR02026000000021",
+                "customer": "MUSTAFA ÇERKEŞLİ",
+                "date": "16.09.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4560.0,
+                "amountTry": 4560.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BS02026000000011",
+                "customer": "KY ÇEVRE ENERJİ MAKİNA LİMİTED ŞİRKETİ",
+                "date": "16.09.2026",
+                "etgb": "E-Arşiv Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4980.0,
+                "amountTry": 4980.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BS02026000000010",
+                "customer": "ASSANI HAMADA - EZC (Émeraude Zali Création)",
+                "date": "28.08.2026",
+                "etgb": "26340200EX718868",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "EUR",
+                "amountFx": 500.0,
+                "amountTry": 27500.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "GTİP: 6109.10.00.00.00",
+                "meters": "166 Adet"
+        },
+        {
+                "id": "BR02026000000019",
+                "customer": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "date": "28.08.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 71214.0,
+                "amountTry": 71214.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "166 Adet"
+        },
+        {
+                "id": "BR02026000000018",
+                "customer": "ALUWEST YAPI SİSTEMLERİ SAN. VE TİC. A.Ş.",
+                "date": "14.08.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4560.0,
+                "amountTry": 4560.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000017",
+                "customer": "KOLEKTİF HOUSE GAYRİMENKUL İŞLETMECİLİĞİ VE HİZMETLERİ TİCARET ANONİM ŞİRKETİ",
+                "date": "12.08.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 11390.4,
+                "amountTry": 11390.4,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Yasal Adres Kredisiz- N000 - 03 ",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BS02026000000009",
+                "customer": "SONGÜL SARITAÇ",
+                "date": "07.08.2026",
+                "etgb": "E-Arşiv Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4560.0,
+                "amountTry": 4560.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000016",
+                "customer": "AMAN GROUP GAYRİMENKUL İTHALAT VE İHRACAT LİMİTED ŞİRKETİ",
+                "date": "06.08.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4560.0,
+                "amountTry": 4560.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000015",
+                "customer": "ENSAR ÖZKALAYCI",
+                "date": "06.08.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4800.0,
+                "amountTry": 4800.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BS02026000000008",
+                "customer": "SEYFULLAH SATİN",
+                "date": "05.08.2026",
+                "etgb": "E-Arşiv Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4428.0,
+                "amountTry": 4428.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000014",
+                "customer": "SOLEY YAPI İNŞAAT TAAHHÜT VE GAYRİMENKUL DANIŞMANLIĞI TİCARET LİMİTED ŞİRKETİ",
+                "date": "04.08.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4560.0,
+                "amountTry": 4560.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000013",
+                "customer": "ROZA MAKİNA ANONİM ŞİRKETİ",
+                "date": "04.08.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 2760.0,
+                "amountTry": 2760.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BS02026000000007",
+                "customer": "LONG TERM HVAC , Mases Knagian / EMK SYSTEM",
+                "date": "04.08.2026",
+                "etgb": "26340200EX085644",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "USD",
+                "amountFx": 4360.5,
+                "amountTry": 206904.41685,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "GTİP: 6109.10.00.00.00",
+                "meters": "276 Adet"
+        },
+        {
+                "id": "BR02026000000012",
+                "customer": "DİNAMİK KONTROL VE ÇEVRE SİSTEMLERİ LİMİTED ŞİRKETİ",
+                "date": "02.07.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4560.0,
+                "amountTry": 4560.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000011",
+                "customer": "AHMET SİNGİL",
+                "date": "30.06.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 1530.0,
+                "amountTry": 1530.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000010",
+                "customer": "KIDMEX İTHALAT VE İHRACAT TİCARET LİMİTED ŞİRKETİ",
+                "date": "30.06.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 2978.81,
+                "amountTry": 2978.81,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000009",
+                "customer": "TWOTEX TEKSTİL SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
+                "date": "23.06.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 4560.0,
+                "amountTry": 4560.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BS02026000000005",
+                "customer": "Armin Muhamedagic",
+                "date": "11.06.2026",
+                "etgb": "26340200EX135946",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "EUR",
+                "amountFx": 2131.92,
+                "amountTry": 113393.840112,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "GTİP: 6109.10.00.00.00",
+                "meters": "162 Adet"
+        },
+        {
+                "id": "BR02026000000008",
+                "customer": "KORUTEKS LTD.ŞTİ.",
+                "date": "06.06.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 11057.58,
+                "amountTry": 11057.58,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "46,8 M2",
+                "meters": "6 Adet"
+        },
+        {
+                "id": "BR02026000000007",
+                "customer": "DOĞANLAR ANTİK HALI MOBİLYA TİC LTD ŞTİ",
+                "date": "05.06.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 1700.0,
+                "amountTry": 1700.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "2 Adet"
+        },
+        {
+                "id": "BS02026000000004",
+                "customer": "MARQUE APS",
+                "date": "20.05.2026",
+                "etgb": "26340200EX989454",
+                "exemption": "301 - Mal İhracatı",
+                "currency": "EUR",
+                "amountFx": 3392.4,
+                "amountTry": 179396.21831999999,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "GTİP: 6109.10.00.00.00",
+                "meters": "144 Adet"
+        },
+        {
+                "id": "BR02026000000006",
+                "customer": "TUTARLI ET VE ET ÜRÜNLERİ GIDA SAN. VE TİC. LTD. ŞTİ.",
+                "date": "27.04.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 14300.0,
+                "amountTry": 14300.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "2,000 Adet"
+        },
+        {
+                "id": "BR02026000000004",
+                "customer": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "date": "03.02.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%0 KDV",
+                "currency": "TRY",
+                "amountFx": 626.46,
+                "amountTry": 626.46,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000003",
+                "customer": "KLEINOD GÖZ SAĞLIĞI HİZMETLERİ LTD. ŞTİ.",
+                "date": "23.01.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 1990.0,
+                "amountTry": 1990.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000002",
+                "customer": "BAHÇEŞEHİR POLİGON ATEŞLİ SİLAHLAR POLİGONU EĞİTİM HİZ. SAN. VE TİC. LTD. ŞTİ.",
+                "date": "16.01.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 3000.0,
+                "amountTry": 3000.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02026000000001",
+                "customer": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "date": "16.01.2026",
+                "etgb": "E-Fatura",
+                "exemption": "%0 KDV",
+                "currency": "TRY",
+                "amountFx": 1986.56,
+                "amountTry": 1986.56,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BS02026000000001",
+                "customer": "AKTAR DIŞ TİCARET MADENCİLİK LİMİTED ŞİRKETİ",
+                "date": "15.01.2026",
+                "etgb": "E-Arşiv Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 3180.0,
+                "amountTry": 3180.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
+        },
+        {
+                "id": "BR02025000000001",
+                "customer": "TUTARLI ET VE ET ÜRÜNLERİ GIDA SAN. VE TİC. LTD. ŞTİ.",
+                "date": "03.12.2025",
+                "etgb": "E-Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 5500.0,
+                "amountTry": 5500.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1,000 Adet"
+        },
+        {
+                "id": "BR72025000000001",
+                "customer": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "date": "30.10.2025",
+                "etgb": "E-Fatura",
+                "exemption": "%0 KDV",
+                "currency": "TRY",
+                "amountFx": 294640.0,
+                "amountTry": 294640.0,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "164 Adet"
+        },
+        {
+                "id": "BS02025000000001",
+                "customer": "YUNUS EMRE GÖKALP",
+                "date": "03.10.2025",
+                "etgb": "E-Arşiv Fatura",
+                "exemption": "%10 KDV",
+                "currency": "TRY",
+                "amountFx": 1.2,
+                "amountTry": 1.2,
+                "ibkbStatus": "İBKB Kapatıldı ✓",
+                "isClosed": true,
+                "gtip": "Ürün/Hizmet Satışı",
+                "meters": "1 Adet"
         }
-      ],
-      // Expenses
+],
+      // 79 Authentic Expenditures / Purchase Bills from Paraşüt
       expenses: [
         {
-          id: 'NSA2026000000087',
-          supplier: 'FARUK AYTİN (NİSA TEKSTİL)',
-          category: '730.01 Fason Dikim Gideri (Ben Ellis)',
-          dueDate: '05.10.2026 (Açık Borç)',
-          matrah: 651299.67,
-          kdv: 65129.97,
-          total: 716429.64,
-          status: 'Açık Kalan: -$10.335,35 USD',
-          isPaid: false
+                "id": "NSA2026000000087",
+                "supplier": "FARUK AYTİN",
+                "category": "BEN ELLIS T-SHIRTS BLUE ",
+                "dueDate": "05.10.2026 (Açık Borç)",
+                "matrah": 13300.0,
+                "kdv": 1330.0,
+                "total": 14630.0,
+                "status": "Açık Kalan: -$10.335,35 USD",
+                "isPaid": false
         },
         {
-          id: 'TIN2026000000155',
-          supplier: 'TİNTEKS TEKSTİL VE KUMAŞÇILIK LTD. ŞTİ.',
-          category: '150.01 Ham Dokuma ve Örme Kumaş Alımı',
-          dueDate: 'Açık Bakiye',
-          matrah: 999134.09,
-          kdv: 99913.41,
-          total: 1099047.50,
-          status: 'Borç Bakiyesi',
-          isPaid: false
+                "id": "TIN2026000000155",
+                "supplier": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "25.09.2026",
+                "matrah": 364440.0,
+                "kdv": 36444.0,
+                "total": 400884.0,
+                "status": "Açık Kalan: 364,045.00 TRY",
+                "isPaid": false
         },
         {
-          id: 'ÇET2026000000012',
-          supplier: 'ÇETİN TÜREDİ',
-          category: '320.03 Tedarikçi Cari Hesabı',
-          dueDate: 'Açık Bakiye',
-          matrah: 200000.00,
-          kdv: 0.00,
-          total: 200000.00,
-          status: 'Borç Bakiyesi',
-          isPaid: false
+                "id": "TIN2026000000063",
+                "supplier": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "15.05.2026",
+                "matrah": 281315.0,
+                "kdv": 28131.5,
+                "total": 309446.5,
+                "status": "Açık Kalan: 309,446.50 TRY",
+                "isPaid": false
         },
         {
-          id: 'YEG2026000000001',
-          supplier: 'YUNUS EMRE GÖKALP',
-          category: '331.01 Ortaklara Borçlar Hesabı',
-          dueDate: 'Dönem İçi',
-          matrah: 109418.80,
-          kdv: 0.00,
-          total: 109418.80,
-          status: 'Ortak Borcu',
-          isPaid: false
+                "id": "TIN2026000000070",
+                "supplier": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "18.05.2026",
+                "matrah": 175500.0,
+                "kdv": 0.0,
+                "total": 175500.0,
+                "status": "Açık Kalan: 175,500.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "TIN2026000000095",
+                "supplier": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "06.07.2026",
+                "matrah": 108240.0,
+                "kdv": 10824.0,
+                "total": 119064.0,
+                "status": "Açık Kalan: 119,064.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "TIN2025000000016",
+                "supplier": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "29.11.2025",
+                "matrah": 200580.0,
+                "kdv": 20058.0,
+                "total": 220638.0,
+                "status": "Açık Kalan: 72,672.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "TIN2026000000080",
+                "supplier": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "11.06.2026",
+                "matrah": 58320.0,
+                "kdv": 0.0,
+                "total": 58320.0,
+                "status": "Açık Kalan: 58,320.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "S012025000000085",
+                "supplier": "ARKSİGNER YAZILIM VE DONANIM SAN. TİC. A.Ş.",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "31.12.2025",
+                "matrah": 48300.0,
+                "kdv": 2500.0,
+                "total": 50800.0,
+                "status": "Açık Kalan: 50,800.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "PB-1035851274",
+                "supplier": "ÇETİN TÜREDİ",
+                "category": "NİSSA O2 RESİDENCE C45 NİSAN 2026 KİRA",
+                "dueDate": "01.10.2025",
+                "matrah": 40000.0,
+                "kdv": 0.0,
+                "total": 40000.0,
+                "status": "Açık Kalan: 40,000.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "PB-1035851258",
+                "supplier": "ÇETİN TÜREDİ",
+                "category": "NİSSA O2 RESİDENCE C45 MART 2026 KİRA",
+                "dueDate": "01.10.2025",
+                "matrah": 40000.0,
+                "kdv": 0.0,
+                "total": 40000.0,
+                "status": "Açık Kalan: 40,000.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "PB-1035851242",
+                "supplier": "ÇETİN TÜREDİ",
+                "category": "NİSSA O2 RESİDENCE C45 ŞUBAT 2026 KİRA",
+                "dueDate": "01.10.2025",
+                "matrah": 40000.0,
+                "kdv": 0.0,
+                "total": 40000.0,
+                "status": "Açık Kalan: 40,000.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "PB-1035851229",
+                "supplier": "ÇETİN TÜREDİ",
+                "category": "NİSSA O2 RESİDENCE C45 OCAK 2026 KİRA",
+                "dueDate": "01.10.2025",
+                "matrah": 40000.0,
+                "kdv": 0.0,
+                "total": 40000.0,
+                "status": "Açık Kalan: 40,000.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "PB-1035851141",
+                "supplier": "ÇETİN TÜREDİ",
+                "category": "NİSSA O2 RESİDENCE C45 ARALIK 2025 KİRA",
+                "dueDate": "01.10.2025",
+                "matrah": 40000.0,
+                "kdv": 0.0,
+                "total": 40000.0,
+                "status": "Açık Kalan: 40,000.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "FLT2026000000320",
+                "supplier": "FİLET ÖRME TEK.VE TEK.ÜRN.İNŞ .PLS.AMB.NAKL.İTH.İHR.SAN.TİC.LTD.ŞTİ",
+                "category": "Alış / Gider Faturası",
+                "dueDate": "31.03.2026",
+                "matrah": 17501.5,
+                "kdv": 1750.15,
+                "total": 19251.65,
+                "status": "Açık Kalan: 19,251.65 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "VYS2025000000074",
+                "supplier": "MERT ÜTÜ - VEYSEL ADIYEKE",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "14.11.2025",
+                "matrah": 18400.0,
+                "kdv": 1840.0,
+                "total": 18952.0,
+                "status": "Açık Kalan: 18,952.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "AEC2025000002906",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Gottfried Marketing Handel und Vera - ürün gö",
+                "dueDate": "03.02.2026",
+                "matrah": 46709.83,
+                "kdv": 0.0,
+                "total": 46709.83,
+                "status": "Açık Kalan: 18,243.96 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "FLT2026000000233",
+                "supplier": "FİLET ÖRME TEK.VE TEK.ÜRN.İNŞ .PLS.AMB.NAKL.İTH.İHR.SAN.TİC.LTD.ŞTİ",
+                "category": "mart ham kumaş",
+                "dueDate": "04.03.2026",
+                "matrah": 17503.5,
+                "kdv": 1750.35,
+                "total": 19253.85,
+                "status": "Açık Kalan: 12,893.95 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "AKY2025000000024",
+                "supplier": "AKBAYRAKLAR TEKSTİL YAN ÜRÜNLERİ VE TURİZM SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "05.12.2025",
+                "matrah": 6800.5,
+                "kdv": 680.05,
+                "total": 7480.55,
+                "status": "Açık Kalan: 7,480.55 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "TYK2026000000034",
+                "supplier": "AHMET SİNGİL",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "22.06.2026",
+                "matrah": 5400.0,
+                "kdv": 540.0,
+                "total": 5940.0,
+                "status": "Açık Kalan: 4,410.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "M012026000001072",
+                "supplier": "JASPER İTH.İHR.İNŞ.AKARY.SAN.VE TİC.LTD.ŞTİ.",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "30.04.2026",
+                "matrah": 3457.5,
+                "kdv": 691.5,
+                "total": 4149.0,
+                "status": "Açık Kalan: 4,149.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "AKY2025000000026",
+                "supplier": "AKBAYRAKLAR TEKSTİL YAN ÜRÜNLERİ VE TURİZM SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "05.12.2025",
+                "matrah": 3412.5,
+                "kdv": 341.25,
+                "total": 3753.75,
+                "status": "Açık Kalan: 3,753.75 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "AKY2025000000025",
+                "supplier": "AKBAYRAKLAR TEKSTİL YAN ÜRÜNLERİ VE TURİZM SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "05.12.2025",
+                "matrah": 2850.0,
+                "kdv": 285.0,
+                "total": 3135.0,
+                "status": "Açık Kalan: 3,135.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "ECR2026000000885",
+                "supplier": "ECRU TEKSTİL SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "02.04.2026",
+                "matrah": 45.0,
+                "kdv": 4.5,
+                "total": 49.5,
+                "status": "Açık Kalan: 49.50 USD",
+                "isPaid": false
+        },
+        {
+                "id": "BEF2025003960165",
+                "supplier": "CK BOĞAZİÇİ ELEKTRİK PERAKENDE SATIŞ ANONİM ŞİRKETİ",
+                "category": "ELEKTRİK FATURASI ",
+                "dueDate": "24.11.2025",
+                "matrah": 945.0,
+                "kdv": 0.0,
+                "total": 945.0,
+                "status": "Açık Kalan: 945.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "BEF2025004347589",
+                "supplier": "CK BOĞAZİÇİ ELEKTRİK PERAKENDE SATIŞ ANONİM ŞİRKETİ",
+                "category": "ELEKTRİK FATURASI ",
+                "dueDate": "22.12.2025",
+                "matrah": 633.57,
+                "kdv": 126.43,
+                "total": 760.0,
+                "status": "Açık Kalan: 760.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "BEF2026000585078",
+                "supplier": "CK BOĞAZİÇİ ELEKTRİK PERAKENDE SATIŞ ANONİM ŞİRKETİ",
+                "category": "ELEKTRİK FATURASI ",
+                "dueDate": "23.02.2026",
+                "matrah": 479.53,
+                "kdv": 95.47,
+                "total": 575.0,
+                "status": "Açık Kalan: 575.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "BEF2026000983132",
+                "supplier": "CK BOĞAZİÇİ ELEKTRİK PERAKENDE SATIŞ ANONİM ŞİRKETİ",
+                "category": "ELEKTRİK FATURASI ",
+                "dueDate": "23.03.2026",
+                "matrah": 525.0,
+                "kdv": 0.0,
+                "total": 525.0,
+                "status": "Açık Kalan: 525.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "PB-1035853658",
+                "supplier": "SEMA KAYA",
+                "category": "KASIM 2025 MALİ MÜŞAVİR ÖDEMESİ",
+                "dueDate": "30.11.2025",
+                "matrah": 8000.0,
+                "kdv": 0.0,
+                "total": 8000.0,
+                "status": "Açık Kalan: 200.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "BEA2025045341534",
+                "supplier": "CK BOĞAZİÇİ ELEKTRİK PERAKENDE SATIŞ ANONİM ŞİRKETİ",
+                "category": "ELEKTRİK FATURASI C45",
+                "dueDate": "23.10.2025",
+                "matrah": 3710.0,
+                "kdv": 0.0,
+                "total": 3710.0,
+                "status": "Açık Kalan: 185.00 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "BEF2026000421431",
+                "supplier": "CK BOĞAZİÇİ ELEKTRİK PERAKENDE SATIŞ ANONİM ŞİRKETİ",
+                "category": "ELEKTRİK FATURASI ",
+                "dueDate": "13.02.2026",
+                "matrah": 11.45,
+                "kdv": 2.29,
+                "total": 13.74,
+                "status": "Açık Kalan: 13.74 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "BEF2025003755139",
+                "supplier": "CK BOĞAZİÇİ ELEKTRİK PERAKENDE SATIŞ ANONİM ŞİRKETİ",
+                "category": "ELEKTRİK FATURASI",
+                "dueDate": "07.11.2025",
+                "matrah": 7.64,
+                "kdv": 0.0,
+                "total": 7.64,
+                "status": "Açık Kalan: 7.64 TRY",
+                "isPaid": false
+        },
+        {
+                "id": "NSA2026000000084",
+                "supplier": "FARUK AYTİN",
+                "category": "BEN ELLIS T-SHİRTS ",
+                "dueDate": "01.10.2026",
+                "matrah": 5788.0,
+                "kdv": 578.8,
+                "total": 6366.8,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "E012026000003216",
+                "supplier": "ARKSİGNER YAZILIM VE DONANIM SAN. TİC. A.Ş.",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "14.09.2026",
+                "matrah": 116700.0,
+                "kdv": 6000.0,
+                "total": 122700.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "TIN2026000000128",
+                "supplier": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "11.08.2026",
+                "matrah": 64740.0,
+                "kdv": 6474.0,
+                "total": 71214.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "KMH2026000008456",
+                "supplier": "KOLEKTİF HOUSE GAYRİMENKUL İŞLETMECİLİĞİ VE HİZMETLERİ TİCARET ANONİM ŞİRKETİ",
+                "category": "Yasal Adres Kredisiz- N000 - 03 ",
+                "dueDate": "12.08.2026",
+                "matrah": 10042.0,
+                "kdv": 1348.4,
+                "total": 11390.4,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "NSA2026000000070",
+                "supplier": "FARUK AYTİN",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "30.07.2026",
+                "matrah": 2760.0,
+                "kdv": 276.0,
+                "total": 3036.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "EFR2026000001211",
+                "supplier": "KIDMEX İTHALAT VE İHRACAT TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "19.06.2026",
+                "matrah": 2708.01,
+                "kdv": 270.8,
+                "total": 2978.81,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "DA12026000000036",
+                "supplier": "DOĞANLAR ANTİK HALI MOBİLYA TİC LTD ŞTİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "02.06.2026",
+                "matrah": 1545.45,
+                "kdv": 154.55,
+                "total": 1700.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "KRT2026000000015",
+                "supplier": "KORUTEKS LTD.ŞTİ.",
+                "category": "46,8 M2",
+                "dueDate": "06.06.2026",
+                "matrah": 10052.35,
+                "kdv": 1005.23,
+                "total": 11057.58,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "GLB2026000001422",
+                "supplier": "GLOBAL PARCEL EXPRESS KARGO VE LOJİSTİK TİCARET LİMİTED ŞİRKETİ",
+                "category": "LAVILA GÖNDERİSİ 16.09.2025",
+                "dueDate": "10.03.2026",
+                "matrah": 1778.15,
+                "kdv": 0.0,
+                "total": 1778.15,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2026000000680",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Rana Jassim Khaled Alsaadoun VE BESNİJ İBRAHİ",
+                "dueDate": "28.01.2026",
+                "matrah": 3547.99,
+                "kdv": 0.0,
+                "total": 3547.99,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2026000000309",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Matias Pakarinen , OLİVER FULOP  , ROBERT SVA",
+                "dueDate": "21.01.2026",
+                "matrah": 3532.07,
+                "kdv": 0.0,
+                "total": 3532.07,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2026000000308",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "BESNİJ İBRAHİMİ numune gönderi kg farkı",
+                "dueDate": "21.01.2026",
+                "matrah": 52.02,
+                "kdv": 0.0,
+                "total": 52.02,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2026000000310",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Gert Smeets GÖNDERİ NUMUNE ",
+                "dueDate": "21.01.2026",
+                "matrah": 544.72,
+                "kdv": 0.0,
+                "total": 544.72,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "BEF2026000208580",
+                "supplier": "CK BOĞAZİÇİ ELEKTRİK PERAKENDE SATIŞ ANONİM ŞİRKETİ",
+                "category": "ELEKTRİK FATURASI",
+                "dueDate": "15.01.2026",
+                "matrah": 966.02,
+                "kdv": 193.98,
+                "total": 1160.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2025000011868",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Matias Pakarinen. NUMUNE GÖNDERİ , BESNİJ İBR",
+                "dueDate": "23.12.2025",
+                "matrah": 2126.18,
+                "kdv": 0.0,
+                "total": 2126.18,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2025000011393",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "09.12.2025",
+                "matrah": 39979.52,
+                "kdv": 0.0,
+                "total": 39979.52,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "FLT2025000001141",
+                "supplier": "FİLET ÖRME TEK.VE TEK.ÜRN.İNŞ .PLS.AMB.NAKL.İTH.İHR.SAN.TİC.LTD.ŞTİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "03.12.2025",
+                "matrah": 17501.0,
+                "kdv": 1750.1,
+                "total": 19251.1,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "FLT2025000001144",
+                "supplier": "FİLET ÖRME TEK.VE TEK.ÜRN.İNŞ .PLS.AMB.NAKL.İTH.İHR.SAN.TİC.LTD.ŞTİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "03.12.2025",
+                "matrah": 4000.0,
+                "kdv": 400.0,
+                "total": 4400.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2025000011169",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "30.11.2025",
+                "matrah": 626.46,
+                "kdv": 0.0,
+                "total": 626.46,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2025000011171",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Zaid Khan NUMUNE GÖNDERİ",
+                "dueDate": "30.11.2025",
+                "matrah": 1644.84,
+                "kdv": 0.0,
+                "total": 1644.84,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2025000011170",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Attero Clothing ÜRETİM GÖNDERİ",
+                "dueDate": "30.11.2025",
+                "matrah": 6796.5,
+                "kdv": 0.0,
+                "total": 6796.5,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "TIN2025000000012",
+                "supplier": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "25.11.2025",
+                "matrah": 76300.0,
+                "kdv": 7630.0,
+                "total": 83930.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2025000010698",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "LAVILA LLC ÜRETİM GÖNDERİ - ATTERO CLOTHING N",
+                "dueDate": "19.11.2025",
+                "matrah": 110191.36,
+                "kdv": 0.0,
+                "total": 110191.36,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2025000010515",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Faragona & Köhler GbR Numune Gönderisi",
+                "dueDate": "14.11.2025",
+                "matrah": 462.28,
+                "kdv": 0.0,
+                "total": 462.28,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "EFA2025000000025",
+                "supplier": "BE-HA KONFEKSİYON - FATMA KÜPOĞLU",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "10.11.2025",
+                "matrah": 36800.0,
+                "kdv": 3680.0,
+                "total": 37904.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "NYN2025000000022",
+                "supplier": "ÖZ NOYAN TEKSTİL - FATİH NOYAN",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "06.11.2025",
+                "matrah": 98554.5,
+                "kdv": 9855.45,
+                "total": 101511.13,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035854598",
+                "supplier": "GARANTİ BBVA",
+                "category": "KKB RİSK RAPORU SORGU KOMİSYONU",
+                "dueDate": "06.11.2025",
+                "matrah": 75.0,
+                "kdv": 0.0,
+                "total": 75.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "NSG2025000002923",
+                "supplier": "NESGO MODA AKSESUARLARI VE TEKSTİL DIŞ TİC.LTD.ŞTİ.",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "03.11.2025",
+                "matrah": 3930.0,
+                "kdv": 393.0,
+                "total": 4323.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "FLT2025000001036",
+                "supplier": "FİLET ÖRME TEK.VE TEK.ÜRN.İNŞ .PLS.AMB.NAKL.İTH.İHR.SAN.TİC.LTD.ŞTİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "03.11.2025",
+                "matrah": 17490.0,
+                "kdv": 1749.0,
+                "total": 19239.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035851104",
+                "supplier": "ÇETİN TÜREDİ",
+                "category": "NİSSA O2 RESİDENCE C45 KASIM 2025 KİRA",
+                "dueDate": "01.10.2025",
+                "matrah": 40000.0,
+                "kdv": 0.0,
+                "total": 40000.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035853574",
+                "supplier": "SEMA KAYA",
+                "category": "EKİM 2025 MALİ MÜŞAVİR ÖDEMESİ",
+                "dueDate": "31.10.2025",
+                "matrah": 8000.0,
+                "kdv": 0.0,
+                "total": 8000.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2025000010219",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "GbR Celik, David und Djemailji , Zeius Javier",
+                "dueDate": "31.10.2025",
+                "matrah": 1773.19,
+                "kdv": 0.0,
+                "total": 1773.19,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "RDM2025000003118",
+                "supplier": "RUDHOLM TEKSTİL AKSESUAR SAN. TİC. LTD. ŞTİ.",
+                "category": "LAVILA  - 1172 LUXURY AKSESUAR FATURASI",
+                "dueDate": "27.10.2025",
+                "matrah": 8352.16,
+                "kdv": 1325.66,
+                "total": 9677.82,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ALC2025000009835",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "GbR Celik, David und Djemailji numune gönderi",
+                "dueDate": "21.10.2025",
+                "matrah": 871.97,
+                "kdv": 0.0,
+                "total": 871.97,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035853509",
+                "supplier": "SEMA KAYA",
+                "category": "EYLÜL 2025 MALİ MÜŞAVİR ÖDEMESİ",
+                "dueDate": "20.10.2025",
+                "matrah": 8000.0,
+                "kdv": 0.0,
+                "total": 8000.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035853263",
+                "supplier": "GARANTİ BBVA",
+                "category": "KKB RİSK RAPORU SORGU KOMİSYONU",
+                "dueDate": "13.10.2025",
+                "matrah": 75.0,
+                "kdv": 0.0,
+                "total": 75.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035853214",
+                "supplier": "GARANTİ BBVA",
+                "category": "KKB RİSK RAPORU SORGU KOMİSYONU",
+                "dueDate": "10.10.2025",
+                "matrah": 75.0,
+                "kdv": 0.0,
+                "total": 75.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035853157",
+                "supplier": "GARANTİ BBVA",
+                "category": "KKB RİSK RAPORU SORGU KOMİSYONU",
+                "dueDate": "08.10.2025",
+                "matrah": 75.0,
+                "kdv": 0.0,
+                "total": 75.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "ZMT2025000000798",
+                "supplier": "ZEKİ MERT İPEK KETEN TEKSTİL A.Ş.",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "08.10.2025",
+                "matrah": 3031.6,
+                "kdv": 303.16,
+                "total": 3334.76,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "FLT2025000000930",
+                "supplier": "FİLET ÖRME TEK.VE TEK.ÜRN.İNŞ .PLS.AMB.NAKL.İTH.İHR.SAN.TİC.LTD.ŞTİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "06.10.2025",
+                "matrah": 17501.0,
+                "kdv": 1750.1,
+                "total": 19251.1,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "E012025057379371",
+                "supplier": "MİGROS TİCARET.A.Ş.",
+                "category": "ALIŞVERİŞ",
+                "dueDate": "04.10.2025",
+                "matrah": 715.04,
+                "kdv": 7.31,
+                "total": 722.35,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035851075",
+                "supplier": "ÇETİN TÜREDİ",
+                "category": "NİSSA O2 RESİDENCE C45 EKİM 2025 KİRA",
+                "dueDate": "01.10.2025",
+                "matrah": 40000.0,
+                "kdv": 0.0,
+                "total": 40000.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035852871",
+                "supplier": "GARANTİ BBVA",
+                "category": "KKB RİSK RAPORU SORGU KOMİSYONU",
+                "dueDate": "08.04.2026",
+                "matrah": 62.5,
+                "kdv": 12.5,
+                "total": 75.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "TNU2025000000001",
+                "supplier": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "category": "Alış / Gider Kalemi",
+                "dueDate": "03.01.2026",
+                "matrah": 294640.0,
+                "kdv": 29464.0,
+                "total": 324104.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "AEC2025000002783",
+                "supplier": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "category": "Zuhaab Khan Numune Gönderi Bedeli",
+                "dueDate": "03.02.2026",
+                "matrah": 1538.0,
+                "kdv": 0.0,
+                "total": 1538.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035851057",
+                "supplier": "ÇETİN TÜREDİ",
+                "category": "NİSSA O2 RESİDENCE C45 EYLÜL 2025 KİRA",
+                "dueDate": "01.09.2025",
+                "matrah": 40000.0,
+                "kdv": 0.0,
+                "total": 40000.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035850962",
+                "supplier": "ÇETİN TÜREDİ",
+                "category": "NİSSA O2 RESİDENCE C45 DEPOZİTO 3 KİRA BEDELİ",
+                "dueDate": "01.09.2025",
+                "matrah": 120000.0,
+                "kdv": 0.0,
+                "total": 120000.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
+        },
+        {
+                "id": "PB-1035851959",
+                "supplier": "GARANTİ BBVA",
+                "category": "KKB FİNDEKS PAKET SATIŞ KOMİSYONU - YILDA 50 ",
+                "dueDate": "08.04.2026",
+                "matrah": 1500.0,
+                "kdv": 0.0,
+                "total": 1500.0,
+                "status": "Ödendi ✓",
+                "isPaid": true
         }
-      ],
-      // Contacts (15 Authentic Paraşüt Live Records)
+],
+      // 57 Authentic Counterparties / Contacts from Paraşüt
       contacts: [
         {
-          code: 'CR-GB-0001',
-          name: 'BEN ELLİS',
-          type: 'İhracat Müşterisi',
-          vkn: 'GB928374182',
-          city: 'Bristol, Birleşik Krallık',
-          balance: '£22.414,22 (Alacak)',
-          balanceRaw: 1452246.45,
-          status: 'ETGB Açık',
-          isBenEllis: true
+                "code": "CR-0001",
+                "name": "BEN ELLİS",
+                "type": "İhracat Müşterisi",
+                "vkn": "11111111111",
+                "city": "BRİSTOL, Birleşik Krallık",
+                "balance": "£22.414,22 (Alacak)",
+                "balanceRaw": 1452246.45,
+                "status": "ETGB Açık",
+                "isBenEllis": true,
+                "isFarukAytin": false,
+                "currency": "GBP"
         },
         {
-          code: 'CR-TR-0002',
-          name: 'TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ',
-          type: 'Kumaş Tedarikçisi',
-          vkn: '8440058291',
-          city: 'Güneşli, İstanbul',
-          balance: '-₺1.099.047,50 (Borç)',
-          balanceRaw: -1099047.50,
-          status: 'Açık Bakiye',
-          isBenEllis: false
+                "code": "CR-0002",
+                "name": "TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "type": "Kumaş Tedarikçisi",
+                "vkn": "8441212524",
+                "city": "İSTANBUL",
+                "balance": "-₺1.099.047,50 (Borç)",
+                "balanceRaw": -1099047.5,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
         },
         {
-          code: 'CR-US-0003',
-          name: 'LAVI LA LLC',
-          type: 'İhracat Müşterisi',
-          vkn: 'US95-4829104',
-          city: 'Los Angeles, ABD',
-          balance: '₺981.529,27 (Alacak)',
-          balanceRaw: 981529.27,
-          status: 'Aktif',
-          isBenEllis: false
+                "code": "CR-0003",
+                "name": "LAVI LA LLC",
+                "type": "Tedarikçi",
+                "vkn": "-",
+                "city": "Amerika Birleşik Devletleri",
+                "balance": "$20.001,33 USD (Alacak)",
+                "balanceRaw": 981529.27,
+                "status": "İhracat / Yurt Dışı",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "USD"
         },
         {
-          code: 'CR-TR-0004',
-          name: 'FARUK AYTİN',
-          type: 'Fason Üretim & Kumaş Mahsubu',
-          vkn: '46849262292',
-          city: 'Sultangazi, İstanbul',
-          balance: '-$10.335,35 USD (Borç)',
-          balanceRaw: -508894.07,
-          status: 'Kumaş Mahsup Masası',
-          isFarukAytin: true
+                "code": "CR-0004",
+                "name": "FARUK AYTİN",
+                "type": "Fason Üretim & Kumaş Mahsubu",
+                "vkn": "46849262292",
+                "city": "İstanbul",
+                "balance": "-$10.335,35 USD (Borç)",
+                "balanceRaw": -507380.94,
+                "status": "Kumaş Mahsup Masası",
+                "isBenEllis": false,
+                "isFarukAytin": true,
+                "currency": "USD"
         },
         {
-          code: 'CR-DE-0005',
-          name: 'GbR Celik, David und Djemailji',
-          type: 'İhracat Müşterisi',
-          vkn: 'DE301948271',
-          city: 'Berlin, Almanya',
-          balance: '₺362.078,75 (Alacak)',
-          balanceRaw: 362078.75,
-          status: 'Aktif',
-          isBenEllis: false
+                "code": "CR-0005",
+                "name": "GbR Celik, David und Djemailji",
+                "type": "İhracat Müşterisi",
+                "vkn": "-",
+                "city": "Almanya",
+                "balance": "€6.586,04 (Alacak)",
+                "balanceRaw": 362078.75,
+                "status": "İhracat / Yurt Dışı",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "EUR"
         },
         {
-          code: 'CR-TR-0006',
-          name: 'ÇETİN TÜREDİ',
-          type: 'Finansman / Tedarikçi',
-          vkn: '39481920194',
-          city: 'Halkalı, İstanbul',
-          balance: '-₺200.000,00 (Borç)',
-          balanceRaw: -200000.00,
-          status: 'Açık Bakiye',
-          isBenEllis: false
+                "code": "CR-0006",
+                "name": "ÇETİN TÜREDİ",
+                "type": "Ortak / Finansman",
+                "vkn": "-",
+                "city": "İstanbul",
+                "balance": "-₺200.000,00 (Borç)",
+                "balanceRaw": -200000.0,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
         },
         {
-          code: 'CR-UK-0007',
-          name: 'ATTERO CLOTHING',
-          type: 'İhracat Müşterisi',
-          vkn: 'GB883910294',
-          city: 'Londra, Birleşik Krallık',
-          balance: '₺152.855,57 (Alacak)',
-          balanceRaw: 152855.57,
-          status: 'Aktif',
-          isBenEllis: false
+                "code": "CR-0007",
+                "name": "ATTERO CLOTHING",
+                "type": "İhracat Müşterisi",
+                "vkn": "-",
+                "city": "Yurtdışı",
+                "balance": "€2.780,37 (Alacak)",
+                "balanceRaw": 152855.57,
+                "status": "İhracat / Yurt Dışı",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "EUR"
         },
         {
-          code: 'CR-TR-0008',
-          name: 'YUNUS EMRE GÖKALP',
-          type: 'Şirket Ortağı (331)',
-          vkn: '18704921090',
-          city: 'İkitelli, İstanbul',
-          balance: '-₺109.418,80 (Borç)',
-          balanceRaw: -109418.80,
-          status: '331 Ortak Hesabı',
-          isBenEllis: false
+                "code": "CR-0008",
+                "name": "YUNUS EMRE GÖKALP",
+                "type": "Ortak / Finansman",
+                "vkn": "41755737346",
+                "city": "İstanbul",
+                "balance": "-₺109.418,80 (Borç)",
+                "balanceRaw": -109418.8,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
         },
         {
-          code: 'CR-KW-0009',
-          name: 'Rana Jassim Khaled Alsaadoun',
-          type: 'İhracat Müşterisi',
-          vkn: 'KW-4910284',
-          city: 'Kuveyt',
-          balance: '₺76.967,38 (Alacak)',
-          balanceRaw: 76967.38,
-          status: 'Aktif',
-          isBenEllis: false
+                "code": "CR-0009",
+                "name": "Rana Jassim Khaled Alsaadoun",
+                "type": "İhracat Müşterisi",
+                "vkn": "-",
+                "city": "Kuveyt",
+                "balance": "€1.400,00 (Alacak)",
+                "balanceRaw": 76967.38,
+                "status": "İhracat / Yurt Dışı",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "EUR"
         },
         {
-          code: 'CR-TR-0010',
-          name: 'ARKSİGNER YAZILIM VE DONANIM SAN. TİC. A.Ş.',
-          type: 'Hizmet Tedarikçisi',
-          vkn: '0810549281',
-          city: 'Çankaya, Ankara',
-          balance: '-₺50.800,00 (Borç)',
-          balanceRaw: -50800.00,
-          status: 'E-İmza & Yazılım',
-          isBenEllis: false
+                "code": "CR-0010",
+                "name": "ARKSİGNER YAZILIM VE DONANIM SAN. TİC. A.Ş.",
+                "type": "Tedarikçi",
+                "vkn": "0790611963",
+                "city": "Ankara",
+                "balance": "-₺50.800,00 (Borç)",
+                "balanceRaw": -50800.0,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
         },
         {
-          code: 'CR-US-0011',
-          name: 'CuterEsque Inc.',
-          type: 'İhracat Müşterisi',
-          vkn: 'US84-1928401',
-          city: 'Wilmington, ABD',
-          balance: '₺48.458,59 (Alacak)',
-          balanceRaw: 48458.59,
-          status: 'Aktif',
-          isBenEllis: false
+                "code": "CR-0011",
+                "name": "CuterEsque Inc.",
+                "type": "İhracat Müşterisi",
+                "vkn": "22222222222",
+                "city": "Yurtdışı",
+                "balance": "$985,70 USD (Alacak)",
+                "balanceRaw": 48458.59,
+                "status": "İhracat / Yurt Dışı",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "USD"
         },
         {
-          code: 'CR-TR-0012',
-          name: 'FİLET ÖRME TEK. VE TEK. ÜRN. İNŞ. PLS. AMB. NAKL. İTH. İHR. SAN. TİC. LTD. ŞTİ.',
-          type: 'Örme Tedarikçisi',
-          vkn: '3850491823',
-          city: 'Zeytinburnu, İstanbul',
-          balance: '-₺42.919,60 (Borç)',
-          balanceRaw: -42919.60,
-          status: 'Örme Fasonu',
-          isBenEllis: false
+                "code": "CR-0012",
+                "name": "FİLET ÖRME TEK.VE TEK.ÜRN.İNŞ .PLS.AMB.NAKL.İTH.İHR.SAN.TİC.LTD.ŞTİ",
+                "type": "Kumaş Tedarikçisi",
+                "vkn": "3870555559",
+                "city": "İSTANBUL",
+                "balance": "-₺42.919,60 (Borç)",
+                "balanceRaw": -42919.6,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
         },
         {
-          code: 'CR-TR-0013',
-          name: 'BE-HA KONFEKSİYON - FATMA KİPOĞLU',
-          type: 'Konfeksiyon Müşterisi',
-          vkn: '5620194821',
-          city: 'Merter, İstanbul',
-          balance: '₺27.096,00 (Alacak)',
-          balanceRaw: 27096.00,
-          status: 'Aktif',
-          isBenEllis: false
+                "code": "CR-0013",
+                "name": "BE-HA KONFEKSİYON - FATMA KÜPOĞLU",
+                "type": "Fason / Atölye",
+                "vkn": "30847956574",
+                "city": "İstanbul",
+                "balance": "₺27.096,00 (Alacak)",
+                "balanceRaw": 27096.0,
+                "status": "Açık Alacak Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
         },
         {
-          code: 'CR-TR-0014',
-          name: 'MERT ÜTÜ - VEYSEL ADIYEKE',
-          type: 'Ütü Paket Fasonu',
-          vkn: '0089182734',
-          city: 'Güneşli, İstanbul',
-          balance: '-₺18.952,00 (Borç)',
-          balanceRaw: -18952.00,
-          status: 'Ütü Fasonu',
-          isBenEllis: false
+                "code": "CR-0014",
+                "name": "MERT ÜTÜ - VEYSEL ADIYEKE",
+                "type": "Fason / Atölye",
+                "vkn": "0080449532",
+                "city": "İstanbul",
+                "balance": "-₺18.952,00 (Borç)",
+                "balanceRaw": -18952.0,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
         },
         {
-          code: 'CR-TR-0015',
-          name: 'ASSET LOJİSTİK ANONİM ŞİRKETİ',
-          type: 'Gümrük & Nakliye',
-          vkn: '0910482910',
-          city: 'Ataşehir, İstanbul',
-          balance: '-₺18.243,96 (Borç)',
-          balanceRaw: -18243.96,
-          status: 'Navlun & Gümrük',
-          isBenEllis: false
+                "code": "CR-0015",
+                "name": "ASSET LOJİSTİK ANONİM ŞİRKETİ",
+                "type": "Lojistik & Gümrük",
+                "vkn": "0910518946",
+                "city": "İSTANBUL",
+                "balance": "-₺18.243,96 (Borç)",
+                "balanceRaw": -18243.96,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0016",
+                "name": "AKBAYRAKLAR TEKSTİL YAN ÜRÜNLERİ VE TURİZM SANAYİ TİCARET LİMİTED ŞİRKETİ",
+                "type": "Tedarikçi",
+                "vkn": "3360123230",
+                "city": "İstanbul",
+                "balance": "-₺14.369,30 (Borç)",
+                "balanceRaw": -14369.3,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0017",
+                "name": "SMEETS GERT",
+                "type": "İhracat Müşterisi",
+                "vkn": "-",
+                "city": "Yurtdışı",
+                "balance": "€185,60 (Alacak)",
+                "balanceRaw": 10203.68,
+                "status": "İhracat / Yurt Dışı",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "EUR"
+        },
+        {
+                "code": "CR-0018",
+                "name": "SÜZERTEKS MENSUCAT SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
+                "type": "Müşteri",
+                "vkn": "7880047712",
+                "city": "İSTANBUL",
+                "balance": "₺4.560,00 (Alacak)",
+                "balanceRaw": 4560.0,
+                "status": "Açık Alacak Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0019",
+                "name": "AHMET SİNGİL",
+                "type": "Tedarikçi",
+                "vkn": "47983404234",
+                "city": "Kayseri",
+                "balance": "-₺4.410,00 (Borç)",
+                "balanceRaw": -4410.0,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0020",
+                "name": "JASPER İTH.İHR.İNŞ.AKARY.SAN.VE TİC.LTD.ŞTİ.",
+                "type": "Tedarikçi",
+                "vkn": "4841058543",
+                "city": "Adana",
+                "balance": "-₺4.149,00 (Borç)",
+                "balanceRaw": -4149.0,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0021",
+                "name": "CK BOĞAZİÇİ ELEKTRİK PERAKENDE SATIŞ ANONİM ŞİRKETİ",
+                "type": "Tedarikçi",
+                "vkn": "1790617537",
+                "city": "İstanbul",
+                "balance": "-₺3.011,38 (Borç)",
+                "balanceRaw": -3011.38,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0022",
+                "name": "PİNCHEM KİMYA TEKSTİL SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
+                "type": "Müşteri",
+                "vkn": "7300361769",
+                "city": "İSTANBUL",
+                "balance": "₺2.760,00 (Alacak)",
+                "balanceRaw": 2760.0,
+                "status": "Açık Alacak Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0023",
+                "name": "SİREL COŞAR",
+                "type": "Müşteri",
+                "vkn": "48196422084",
+                "city": "İstanbul",
+                "balance": "₺2.760,00 (Alacak)",
+                "balanceRaw": 2760.0,
+                "status": "Açık Alacak Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0024",
+                "name": "Armin Muhamedagic",
+                "type": "İhracat Müşterisi",
+                "vkn": "-",
+                "city": "Yurtdışı",
+                "balance": "€10,08 (Borç)",
+                "balanceRaw": -554.17,
+                "status": "İhracat / Yurt Dışı",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "EUR"
+        },
+        {
+                "code": "CR-0025",
+                "name": "ECRU TEKSTİL SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
+                "type": "Tedarikçi",
+                "vkn": "3241100182",
+                "city": "İstanbul",
+                "balance": "-$49,50 USD (Borç)",
+                "balanceRaw": -227.67,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "USD"
+        },
+        {
+                "code": "CR-0026",
+                "name": "SEMA KAYA",
+                "type": "Tedarikçi",
+                "vkn": "-",
+                "city": "İstanbul",
+                "balance": "-₺200,00 (Borç)",
+                "balanceRaw": -200.0,
+                "status": "Açık Borç Bakiyesi",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0027",
+                "name": "MARQUE APS",
+                "type": "İhracat Müşterisi",
+                "vkn": "22222222222",
+                "city": "Yurtdışı",
+                "balance": "€2,60 (Borç)",
+                "balanceRaw": -142.94,
+                "status": "İhracat / Yurt Dışı",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "EUR"
+        },
+        {
+                "code": "CR-0028",
+                "name": "AKTAR DIŞ TİCARET MADENCİLİK LİMİTED ŞİRKETİ",
+                "type": "Müşteri",
+                "vkn": "0390671809",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0029",
+                "name": "ALUWEST YAPI SİSTEMLERİ SAN. VE TİC. A.Ş.",
+                "type": "Müşteri",
+                "vkn": "0681999174",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0030",
+                "name": "AMAN GROUP GAYRİMENKUL İTHALAT VE İHRACAT LİMİTED ŞİRKETİ",
+                "type": "Müşteri",
+                "vkn": "0691182123",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0031",
+                "name": "ASSANI HAMADA - EZC (Émeraude Zali Création)",
+                "type": "İhracat Müşterisi",
+                "vkn": "11111111111",
+                "city": "Yurtdışı",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "İhracat / Yurt Dışı",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0032",
+                "name": "BAHÇEŞEHİR POLİGON ATEŞLİ SİLAHLAR POLİGONU EĞİTİM HİZ. SAN. VE TİC. LTD. ŞTİ.",
+                "type": "Tedarikçi",
+                "vkn": "1310812624",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0033",
+                "name": "DİNAMİK KONTROL VE ÇEVRE SİSTEMLERİ LİMİTED ŞİRKETİ",
+                "type": "Müşteri",
+                "vkn": "2971256235",
+                "city": "İSTANBUL",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0034",
+                "name": "DOĞANLAR ANTİK HALI MOBİLYA TİC LTD ŞTİ",
+                "type": "Tedarikçi",
+                "vkn": "3070475771",
+                "city": "MERSIN",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0035",
+                "name": "ENSAR ÖZKALAYCI",
+                "type": "Müşteri",
+                "vkn": "17132297956",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0036",
+                "name": "GARANTİ BBVA",
+                "type": "Tedarikçi",
+                "vkn": "-",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0037",
+                "name": "GLOBAL PARCEL EXPRESS KARGO VE LOJİSTİK TİCARET LİMİTED ŞİRKETİ",
+                "type": "Lojistik & Gümrük",
+                "vkn": "3960942670",
+                "city": "İSTANBUL",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0038",
+                "name": "İNCİ BAKRAÇ",
+                "type": "Tedarikçi",
+                "vkn": "40081404854",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0039",
+                "name": "KIDMEX İTHALAT VE İHRACAT TİCARET LİMİTED ŞİRKETİ",
+                "type": "Tedarikçi",
+                "vkn": "5490806566",
+                "city": "ÇANAKKALE",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0040",
+                "name": "KLEINOD GÖZ SAĞLIĞI HİZMETLERİ LTD. ŞTİ.",
+                "type": "Müşteri",
+                "vkn": "5641421267",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0041",
+                "name": "KOLEKTİF HOUSE GAYRİMENKUL İŞLETMECİLİĞİ VE HİZMETLERİ TİCARET ANONİM ŞİRKETİ",
+                "type": "Tedarikçi",
+                "vkn": "5750458265",
+                "city": "İSTANBUL",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0042",
+                "name": "KORUTEKS LTD.ŞTİ.",
+                "type": "Kumaş Tedarikçisi",
+                "vkn": "4580173891",
+                "city": "BURSA",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0043",
+                "name": "KY ÇEVRE ENERJİ MAKİNA LİMİTED ŞİRKETİ",
+                "type": "Müşteri",
+                "vkn": "6070899718",
+                "city": "İzmir",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0044",
+                "name": "LONG TERM HVAC , Mases Knagian / EMK SYSTEM",
+                "type": "İhracat Müşterisi",
+                "vkn": "22222222222",
+                "city": "Amerika Birleşik Devletleri",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "İhracat / Yurt Dışı",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0045",
+                "name": "MİGROS TİCARET.A.Ş.",
+                "type": "Tedarikçi",
+                "vkn": "6220529513",
+                "city": "İSTANBUL",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0046",
+                "name": "MİL DİJİTAL ELEKTRİK ENERJİ SANAYİ VE TİCARET ANONİM ŞİRKETİ",
+                "type": "Müşteri",
+                "vkn": "6211317791",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0047",
+                "name": "MUSTAFA ÇERKEŞLİ",
+                "type": "Müşteri",
+                "vkn": "22390641298",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0048",
+                "name": "NESGO MODA AKSESUARLARI VE TEKSTİL DIŞ TİC.LTD.ŞTİ.",
+                "type": "Fason / Atölye",
+                "vkn": "6310440085",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0049",
+                "name": "ÖZ NOYAN TEKSTİL - FATİH NOYAN",
+                "type": "Tedarikçi",
+                "vkn": "45259620586",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0050",
+                "name": "ROZA MAKİNA ANONİM ŞİRKETİ",
+                "type": "Müşteri",
+                "vkn": "7350928596",
+                "city": "İSTANBUL",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0051",
+                "name": "RUDHOLM TEKSTİL AKSESUAR SAN. TİC. LTD. ŞTİ.",
+                "type": "Tedarikçi",
+                "vkn": "7350689537",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0052",
+                "name": "SEYFULLAH SATİN",
+                "type": "Müşteri",
+                "vkn": "7520481059",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0053",
+                "name": "SOLEY YAPI İNŞAAT TAAHHÜT VE GAYRİMENKUL DANIŞMANLIĞI TİCARET LİMİTED ŞİRKETİ",
+                "type": "Müşteri",
+                "vkn": "7730860072",
+                "city": "İSTANBUL",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0054",
+                "name": "SONGÜL SARITAÇ",
+                "type": "Müşteri",
+                "vkn": "61564457198",
+                "city": "İstanbul",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0055",
+                "name": "TUTARLI ET VE ET ÜRÜNLERİ GIDA SAN. VE TİC. LTD. ŞTİ.",
+                "type": "Müşteri",
+                "vkn": "8721092918",
+                "city": "Ankara",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0056",
+                "name": "TWOTEX TEKSTİL SANAYİ VE TİCARET LİMİTED ŞİRKETİ",
+                "type": "Müşteri",
+                "vkn": "8591508959",
+                "city": "İSTANBUL",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
+        },
+        {
+                "code": "CR-0057",
+                "name": "ZEKİ MERT İPEK KETEN TEKSTİL A.Ş.",
+                "type": "Kumaş Tedarikçisi",
+                "vkn": "9971890396",
+                "city": "İZMİR",
+                "balance": "₺0.00 (Mutabık)",
+                "balanceRaw": 0.0,
+                "status": "Mutabık / Bakiye Sıfır",
+                "isBenEllis": false,
+                "isFarukAytin": false,
+                "currency": "TRY"
         }
-      ],
-      // Checks
+],
+      // 3 Authentic Checks from Paraşüt
       checks: [
         {
-          no: 'ÇK-2025-001',
-          drawer: 'Zirve Tekstil Pazarlama A.Ş.',
-          bank: 'Garanti BBVA Bahçeşehir',
-          dueDate: '08.10.2025',
-          amount: 125000.00,
-          status: 'Portföyde'
+                "no": "ÇK-8031371",
+                "drawer": "BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.",
+                "bank": "Garanti BBVA Bahçeşehir",
+                "dueDate": "08.10.2025",
+                "amount": 85000.0,
+                "status": "Portföyde / Tedarikçiye Verildi (TİNTEKS TEKSTİL VE K)"
         },
         {
-          no: 'ÇK-2025-002',
-          drawer: 'Korteks İplik Dokuma Sanayi',
-          bank: 'İş Bankası Merter',
-          dueDate: '14.11.2025',
-          amount: 140000.00,
-          status: 'Portföyde'
+                "no": "ÇK-8031372",
+                "drawer": "BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.",
+                "bank": "Garanti BBVA Bahçeşehir",
+                "dueDate": "14.11.2025",
+                "amount": 101511.13,
+                "status": "Portföyde / Tedarikçiye Verildi (ÖZ NOYAN TEKSTİL - F)"
         },
         {
-          no: 'ÇK-2025-003',
-          drawer: 'Akdeniz Mensucat A.Ş.',
-          bank: 'Akbank Zeytinburnu',
-          dueDate: '30.11.2025',
-          amount: 85000.00,
-          status: 'Portföyde'
+                "no": "ÇK-8031373",
+                "drawer": "BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.",
+                "bank": "Ziraat Bankası Bahçeşehir",
+                "dueDate": "30.11.2025",
+                "amount": 35000.0,
+                "status": "Portföyde / Tedarikçiye Verildi (BE-HA KONFEKSİYON - )"
         }
-      ],
+],
+      // 99 Authentic Stock / Inventory Items from Paraşüt
+      inventory: [
+        {
+                "code": "PRD-1052440628",
+                "desc": "01254 - 33K346 008 %100 Keten / EKRU / 149 CM / 160 GSM / T10819",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Kilogram",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1052440629",
+                "desc": "01254 - 33K346 008 %100 Keten / SİYAH / 144 CM / 172 GSM / T10819",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Kilogram",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1067311327",
+                "desc": "%100 Cotton Dresses for Girls Forever",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1067311326",
+                "desc": "%100 Cotton Dresses for Girls Tailored",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1064713471",
+                "desc": "16 POLY DUGME",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1052437869",
+                "desc": "33K346 008 %100 Keten - 4 TOP /LOT NO :11280 - SİYAH - 144 CM - 172 GSM - T10819",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Kilogram",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1052437868",
+                "desc": "33K346 008 %100 Keten - 4 TOP/LOT NO :11605 - EKRU - 149 CM - 160 GSM - T10819",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Kilogram",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055850146",
+                "desc": "3.5 CM SÜP.BEYAZ LASTİK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Metre",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055850147",
+                "desc": "3.5 CM SÜP.SİYAH LASTİK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Metre",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055850321",
+                "desc": "3 CM SÜP.SİYAH LASTİK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Metre",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055850320",
+                "desc": "5.5 CM SÜP.BEYAZ LASTİK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Metre",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055850319",
+                "desc": "5.5 CM SÜP.SİYAH LASTİK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Metre",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1067311542",
+                "desc": "97% cotton 3% elastan Girl's dress Forever",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1067311541",
+                "desc": "97% cotton 3% elastan Girl's dress Tailored",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1076464570",
+                "desc": "AKILLI KART OKUYUCU",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1058933718",
+                "desc": "AKILLI KART OKUYUCU",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1077648044",
+                "desc": "BAG , Outer: 100% Cotton Lining: 100% Polyester",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1078254221",
+                "desc": "BEN ELLIS HOODİES",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1078254230",
+                "desc": "BEN ELLIS HOODİES PINK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1078254229",
+                "desc": "BEN ELLIS T-SHIRTS BLUE",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1078254220",
+                "desc": "BEN ELLIS T-SHİRTS",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1077244008",
+                "desc": "B.KUMAŞ 30/20/10 PENYE ÜÇ İPLİK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Kilogram",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1077244007",
+                "desc": "B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Kilogram",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1077244009",
+                "desc": "B.KUMAŞ 30/2 PENYE 70 DNY LYC K.KORSE",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Kilogram",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1077244006",
+                "desc": "B.KUMAŞ 30/2 PENYE SÜPREM",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Kilogram",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1067761445",
+                "desc": "ÇOCUK ELBİSESİ",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1067761444",
+                "desc": "ÇOCUK ELBİSESİ",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1051767864",
+                "desc": "DOKUMA LASTİK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059048964",
+                "desc": "EK UCRETLER EXP KDV SIZ",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1073269776",
+                "desc": "EMK SYSTEM Man T-shirt  - %100 Cotton",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1076672028",
+                "desc": "EMK SYSTEM OVERSİZED TŞÖRT",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1067552938",
+                "desc": "ERKEK PANTOLON",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055371393",
+                "desc": "ERKEK POLO",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1070023517",
+                "desc": "ERKEK TİŞÖRT",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1053657155",
+                "desc": "GLOBAL ALLIANCE HOODIE",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1065699350",
+                "desc": "GÖMLEK FASON İŞÇİLİĞİ LAVİLA -LİNEN",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1073458785",
+                "desc": "GÖNDERİ HİZMET BEDELİ",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1052438087",
+                "desc": "HAM KUMAŞ",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Kilogram",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055368911",
+                "desc": "Hoodie %70 Cotton, %30 Poly",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1053657152",
+                "desc": "INFINITE HORIZONS TSHİRT",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055368910",
+                "desc": "Jogger %70 Cotton, %30 Poly",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1067552939",
+                "desc": "KAPŞONLU SWEAT",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1074022015",
+                "desc": "Koplanet Kullanım Bedeli",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1054422305",
+                "desc": "LAVİLA DİKİM TİŞÖRT",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1064712272",
+                "desc": "LAVİLA DİKİM TİŞÖRT",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1053981919",
+                "desc": "Lavila Gömlek",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1054428330",
+                "desc": "LAVİLA TİŞÖRT",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1054326862",
+                "desc": "Long Sleeve T-shirt - Black",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1054326864",
+                "desc": "Long Sleeve T-shirt - Ecru",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1054326863",
+                "desc": "Long Sleeve T-shirt - Grey",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1054326861",
+                "desc": "Long Sleeve T-shirt - White",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1069056308",
+                "desc": "MAKİNE HALISI",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Metrekare",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1077648043",
+                "desc": "MAN HOODIE %80 COTTON , %20 POLYESTER",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1075185639",
+                "desc": "Man T-shirt  - %100 Cotton",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1068083561",
+                "desc": "Man T-shirt 1 - %100 Cotton",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1071246587",
+                "desc": "Man T-shirt 1 - %95 Polyester , %5 EA",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1068083565",
+                "desc": "Man T-shirt 2 - %100 Cotton",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1068083566",
+                "desc": "Man T-shirt 3 - %100 Cotton",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1078107473",
+                "desc": "Men's Zip Hoodie - 80% Cotton / 20% Polyester",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1053657153",
+                "desc": "NO RULES TSHİRT",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1053657154",
+                "desc": "NO RULES TSHİRT",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1065699739",
+                "desc": "NUMUNE KUMAŞ SATIŞI",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Kilogram",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1072228539",
+                "desc": "Onvo Şarjlı Dikey Süpürge",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055681373",
+                "desc": "PASTIRMA STOKİNET 70 CM",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055266293",
+                "desc": "Retro sport shirt",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1076464573",
+                "desc": "SERTİFİKA BEDELİ 1 YILLIK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1058933719",
+                "desc": "SERTİFİKA BEDELİ 1 YILLIK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1076464572",
+                "desc": "SERTİFİKA BEDELİ 3 YILLIK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1058933720",
+                "desc": "SERTİFİKA BEDELİ 3 YILLIK",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1054336835",
+                "desc": "Shirt Long Sleeve Button - Baby Pink",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1054336834",
+                "desc": "Shirt Long Sleeve Button - Dream Blue",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1054336833",
+                "desc": "Shirt Long Sleeve Button - White",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1070813238",
+                "desc": "Sütlü Kahve Ithal Bambu Stor Zebra Perde Etek Dilimsiz 4217015, 120 x 200  120 x 200-Kahverengi Bambu",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1070813237",
+                "desc": "Sütlü Kahve Ithal Bambu Stor Zebra Perde Etek Dilimsiz 4217015, 210 x 200  210 x 200-Kahverengi Bambu",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1070813239",
+                "desc": "Sütlü Kahve Ithal Bambu Stor Zebra Perde Etek Dilimsiz 4217015, 60 x 200  60 x 200-Kahverengi Bambu",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059048963",
+                "desc": "TASIMA BEDELI",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055850519",
+                "desc": "TRES KORDON DOLGULU",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1055850518",
+                "desc": "TRES KORD.RENKLİ ÖZEL",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365117",
+                "desc": "Woman Bag Sample %100 Cotton",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365115",
+                "desc": "Woman Bag Sample %50Cotton, %50 Linen",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365116",
+                "desc": "Woman Bag Sample %75 Cotton , %25 Linen",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365120",
+                "desc": "Woman Bra Sample %64 Polyamid  , %36 Elastane",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365119",
+                "desc": "Woman Bra Sample %69 Polyamid  , %31 Elastane",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365118",
+                "desc": "Woman Bra Sample %86 Poly  , %14 Elastane",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365114",
+                "desc": "Woman Jacket Sample",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059386311",
+                "desc": "Woman Jacket Sample %100 Cotton",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365123",
+                "desc": "Woman Leggings Sample  %64 Polyamid  , %36 Elastane",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365122",
+                "desc": "Woman Leggings Sample %69 Polyamid  , %31 Elastane",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365121",
+                "desc": "Woman Leggings Sample %86 Poly  , %14 Elastane",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059386309",
+                "desc": "Woman Tank Top Sample %95 Modal, %5 Ea",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365109",
+                "desc": "Woman Top Sample",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365108",
+                "desc": "Woman T-shirt sample %95 Modal, %5 Ea",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059365110",
+                "desc": "Woman Vest Sample",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1059386310",
+                "desc": "Woman Vest Sample %100 Cotton",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1074022014",
+                "desc": "Yasal Adres Kredisiz- N000 - 03",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1070812282",
+                "desc": "ZEBRA PERDE ÇEŞİTLERİ GECISLI, 170 x 200",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1070812284",
+                "desc": "ZEBRA PERDE ÇEŞİTLERİ GECISLI, 210 x 200",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1070812283",
+                "desc": "ZEBRA PERDE ÇEŞİTLERİ GECISLI, 60 x 220",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        },
+        {
+                "code": "PRD-1069085964",
+                "desc": "Zebra Stor Perde -",
+                "gtip": "5208.11.00.00.00",
+                "qty": 0.0,
+                "unit": "Adet",
+                "cost": 70.0,
+                "total": 0.0
+        }
+],
       // Employees
       employees: [
         { id: 'BRS-001', name: 'Mustafa Yıldırım', title: 'Üretim & Dokuma Ustabaşı', gross: 45000, sgk: 6750, tax: 3200, net: 35050 },
@@ -2773,17 +5791,6 @@
         { id: 'BRS-004', name: 'Fatma Şahin', title: 'Kalite Kontrol & Paketleme', gross: 28000, sgk: 4200, tax: 1200, net: 22600 },
         { id: 'BRS-005', name: 'Hüseyin Çelik', title: 'Boyahane ve Kimya Teknisyeni', gross: 35000, sgk: 5250, tax: 2200, net: 27550 },
         { id: 'BRS-006', name: 'Zeynep Koç', title: 'Muhasebe & Finans Uzmanı', gross: 38000, sgk: 5700, tax: 2500, net: 29800 }
-      ],
-      // Stock Inventory (15 Authentic Items)
-      inventory: [
-        { code: 'STK-KET-01', desc: '01254 - 33K346 008 %100 Keten / EKRU / 149 CM / 160 GSM', gtip: '5309.11.00.00.00', qty: 3500, unit: 'Kg', cost: 450.00, total: 1575000.00 },
-        { code: 'STK-KET-02', desc: '01254 - 33K346 008 %100 Keten / SİYAH / 144 CM / 172 GSM', gtip: '5309.11.00.00.00', qty: 4200, unit: 'Kg', cost: 460.00, total: 1932000.00 },
-        { code: 'STK-ELB-01', desc: '%100 Cotton Dresses for Girls Forever', gtip: '6204.42.00.00.00', qty: 1850, unit: 'Adet', cost: 280.00, total: 518000.00 },
-        { code: 'STK-ELB-02', desc: '%100 Cotton Dresses for Girls Tailored', gtip: '6204.42.00.00.00', qty: 1400, unit: 'Adet', cost: 290.00, total: 406000.00 },
-        { code: 'STK-AKS-01', desc: '16 POLY DUGME', gtip: '9606.21.00.00.00', qty: 85000, unit: 'Adet', cost: 0.85, total: 72250.00 },
-        { code: 'STK-LST-01', desc: '3.5 CM SÜP.BEYAZ LASTİK', gtip: '5806.32.00.00.00', qty: 12400, unit: 'Metre', cost: 8.50, total: 105400.00 },
-        { code: 'STK-LST-02', desc: '3.5 CM SÜP.SİYAH LASTİK', gtip: '5806.32.00.00.00', qty: 14500, unit: 'Metre', cost: 8.50, total: 123250.00 },
-        { code: 'STK-ELB-03', desc: "97% cotton 3% elastan Girl's dress Forever", gtip: '6204.42.00.00.00', qty: 2100, unit: 'Adet', cost: 310.00, total: 651000.00 }
       ],
       // TDHP Mizan Accounts (Aligned with Paraşüt Real Figures)
       accounts: [
@@ -2911,7 +5918,7 @@
           <td class="py-3 px-3 text-slate-600">${inv.date}</td>
           <td class="py-3 px-3 font-mono text-blue-700 font-bold">${inv.etgb}</td>
           <td class="py-3 px-3 font-sans"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold">${inv.exemption}</span></td>
-          <td class="py-3 px-3 text-right font-bold text-slate-900">${inv.currency === 'GBP' ? '£' : inv.currency === 'EUR' ? '€' : '₺'}${inv.amountFx.toLocaleString('tr-TR', {minimumFractionDigits:2})}</td>
+          <td class="py-3 px-3 text-right font-bold text-slate-900">${getCurrencySymbol(inv.currency)}${inv.amountFx.toLocaleString('tr-TR', {minimumFractionDigits:2})}</td>
           <td class="py-3 px-3 text-right font-bold text-slate-900">${fmtTRY(inv.amountTry)}</td>
           <td class="py-3 px-3 text-center font-sans">
             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${inv.isClosed ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-900'}">${inv.ibkbStatus}</span>
@@ -3177,9 +6184,419 @@
       });
     });
 
+    // ==========================================
+    // MULTI-LINE INVOICE ENGINE (GİB UBL-TR STANDART)
+    // ==========================================
+    window.invoiceItems = [];
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function getCurrencySymbol(curr) {
+      switch ((curr || 'TRY').toUpperCase()) {
+        case 'GBP': return '£';
+        case 'USD': return '$';
+        case 'EUR': return '€';
+        case 'TRY':
+        case 'TL': return '₺';
+        default: return curr + ' ';
+      }
+    }
+
+    function numberToTurkishWords(amount, currency = 'TRY') {
+      if (!amount || isNaN(amount)) return 'YALNIZ SIFIR';
+      
+      const ones = ['', 'BİR', 'İKİ', 'ÜÇ', 'DÖRT', 'BEŞ', 'ALTI', 'YEDİ', 'SEKİZ', 'DOKUZ'];
+      const tens = ['', 'ON', 'YİRMİ', 'OTUZ', 'KIRK', 'ELLİ', 'ALTMIŞ', 'YETMİŞ', 'SEKSEN', 'DOKSAN'];
+      const groups = ['', 'BİN', 'MİLYON', 'MİLYAR', 'TRİLYON'];
+
+      const currMap = {
+        'TRY': { main: 'TÜRK LİRASI', sub: 'KURUŞ' },
+        'TL': { main: 'TÜRK LİRASI', sub: 'KURUŞ' },
+        'GBP': { main: 'İNGİLİZ STERLİNİ', sub: 'PENİ' },
+        'USD': { main: 'AMERİKAN DOLARI', sub: 'CENT' },
+        'EUR': { main: 'EURO', sub: 'CENT' }
+      };
+
+      const c = currMap[(currency || 'TRY').toUpperCase()] || { main: currency, sub: 'KENT' };
+
+      const rounded = Math.round(amount * 100) / 100;
+      const whole = Math.floor(rounded);
+      const fraction = Math.round((rounded - whole) * 100);
+
+      function convertPart(n) {
+        if (n === 0) return '';
+        let s = '';
+        const h = Math.floor(n / 100);
+        const rem = n % 100;
+        const t = Math.floor(rem / 10);
+        const o = rem % 10;
+
+        if (h === 1) s += 'YÜZ ';
+        else if (h > 1) s += ones[h] + ' YÜZ ';
+
+        if (t > 0) s += tens[t] + ' ';
+        if (o > 0) s += ones[o] + ' ';
+        return s.trim();
+      }
+
+      let wholeWords = '';
+      if (whole === 0) {
+        wholeWords = 'SIFIR';
+      } else {
+        let temp = whole;
+        let gIdx = 0;
+        while (temp > 0) {
+          const chunk = temp % 1000;
+          if (chunk > 0) {
+            let chunkWords = convertPart(chunk);
+            if (gIdx === 1 && chunk === 1) chunkWords = ''; // "BİR BİN" değil "BİN"
+            wholeWords = (chunkWords + ' ' + groups[gIdx]).trim() + ' ' + wholeWords;
+          }
+          temp = Math.floor(temp / 1000);
+          gIdx++;
+        }
+      }
+
+      let fractionWords = '';
+      if (fraction > 0) {
+        fractionWords = convertPart(fraction);
+      }
+
+      let res = `YALNIZ ${wholeWords.trim()} ${c.main}`;
+      if (fractionWords) {
+        res += ` ${fractionWords} ${c.sub}`;
+      }
+      return res + 'DİR.';
+    }
+
+    function initNewInvoiceModal() {
+      const today = new Date().toISOString().split('T')[0];
+      const dueDate = new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+      const elDate = document.getElementById('inv-date');
+      const elDue = document.getElementById('inv-due-date');
+      if (elDate && !elDate.value) elDate.value = today;
+      if (elDue && !elDue.value) elDue.value = dueDate;
+
+      // Default Starter Items if empty
+      if (!window.invoiceItems || window.invoiceItems.length === 0) {
+        window.invoiceItems = [
+          {
+            name: '100% Cotton Crew Neck T-Shirt',
+            desc: 'Ben Ellis SS26 Collection - Acid Wash Heavy Cotton',
+            gtip: '6109.10.00.00.00',
+            qty: 450,
+            unit: 'ADET',
+            price: 8.20,
+            discount: 0,
+            taxRate: 0
+          },
+          {
+            name: 'Oversized Brushed Fleece Hoodie',
+            desc: 'Ben Ellis SS26 Collection - Loopback French Terry',
+            gtip: '6110.20.91.00.00',
+            qty: 319,
+            unit: 'ADET',
+            price: 11.5928,
+            discount: 0,
+            taxRate: 0
+          }
+        ];
+      }
+
+      onInvoiceCurrencyChanged();
+      renderInvoiceItemsRows();
+      recalculateInvoiceTotals();
+    }
+
+    function onInvoiceCustomerChanged() {
+      const cust = document.getElementById('inv-customer').value;
+      const typeEl = document.getElementById('inv-type');
+      const currEl = document.getElementById('inv-currency');
+
+      if (cust === 'BEN ELLİS') {
+        currEl.value = 'GBP';
+        typeEl.value = '301 - Mal İhracatı';
+      } else if (cust === 'FARUK AYTİN') {
+        currEl.value = 'TRY';
+        typeEl.value = 'TEVKİFATLI (5/10 Fason)';
+      } else if (cust === 'LAVI LA LLC') {
+        currEl.value = 'USD';
+        typeEl.value = '301 - Mal İhracatı';
+      } else if (cust.includes('Celik') || cust.includes('ATTERO')) {
+        currEl.value = 'EUR';
+        typeEl.value = '301 - Mal İhracatı';
+      }
+      onInvoiceCurrencyChanged();
+      onInvoiceTypeChanged();
+    }
+
+    function onInvoiceTypeChanged() {
+      const type = document.getElementById('inv-type').value;
+      const scenarioEl = document.getElementById('inv-scenario');
+      let defaultTax = 0;
+
+      if (type.includes('İhracat') || type.includes('301')) {
+        scenarioEl.value = 'IHRACAT';
+        defaultTax = 0;
+      } else if (type.includes('TEVKİFATLI')) {
+        scenarioEl.value = 'TICARIFATURA';
+        defaultTax = 10;
+      } else if (type.includes('%10')) {
+        scenarioEl.value = 'TICARIFATURA';
+        defaultTax = 10;
+      } else {
+        scenarioEl.value = 'TICARIFATURA';
+        defaultTax = 20;
+      }
+
+      if (window.invoiceItems) {
+        window.invoiceItems.forEach(it => {
+          it.taxRate = defaultTax;
+        });
+      }
+      renderInvoiceItemsRows();
+      recalculateInvoiceTotals();
+    }
+
+    function onInvoiceCurrencyChanged() {
+      const curr = document.getElementById('inv-currency').value;
+      const fxEl = document.getElementById('inv-fx-rate');
+      const rates = {
+        'GBP': 64.8493,
+        'USD': 48.7901,
+        'EUR': 52.8540,
+        'TRY': 1.0000
+      };
+      if (fxEl) {
+        fxEl.value = rates[curr] || 1.0;
+      }
+
+      const notice = document.getElementById('inv-ibkb-notice');
+      if (notice) {
+        if (curr === 'TRY') {
+          notice.classList.add('hidden');
+        } else {
+          notice.classList.remove('hidden');
+        }
+      }
+
+      renderInvoiceItemsRows();
+      recalculateInvoiceTotals();
+    }
+
+    function renderInvoiceItemsRows() {
+      const tbody = document.getElementById('invoice-items-tbody');
+      if (!tbody) return;
+
+      const curr = document.getElementById('inv-currency') ? document.getElementById('inv-currency').value : 'TRY';
+      const currSym = getCurrencySymbol(curr);
+
+      tbody.innerHTML = '';
+      window.invoiceItems.forEach((item, idx) => {
+        const qty = parseFloat(item.qty) || 0;
+        const price = parseFloat(item.price) || 0;
+        const discount = parseFloat(item.discount) || 0;
+        const taxRate = parseFloat(item.taxRate !== undefined ? item.taxRate : 20);
+
+        const base = qty * price;
+        const discAmount = base * (discount / 100);
+        const lineMatrah = base - discAmount;
+        const taxAmount = lineMatrah * (taxRate / 100);
+        const lineTotal = lineMatrah + taxAmount;
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50/80 transition-colors';
+        tr.innerHTML = `
+          <td class="py-2 px-2 text-center text-slate-400 font-mono text-[11px]">${idx + 1}</td>
+          <td class="py-1 px-2">
+            <input type="text" value="${escapeHtml(item.name || '')}" oninput="onInvoiceItemFieldChange(${idx}, 'name', this.value)" placeholder="Kalem / Ürün Adı" class="w-full p-1.5 border border-slate-200 rounded font-semibold text-slate-800 bg-white focus:ring-1 focus:ring-[#00AA6C] outline-none" />
+          </td>
+          <td class="py-1 px-2">
+            <input type="text" value="${escapeHtml(item.desc || '')}" oninput="onInvoiceItemFieldChange(${idx}, 'desc', this.value)" placeholder="Parti No / Renk / Özellik" class="w-full p-1.5 border border-slate-200 rounded text-slate-700 bg-white focus:ring-1 focus:ring-[#00AA6C] outline-none" />
+          </td>
+          <td class="py-1 px-2">
+            <input type="text" value="${escapeHtml(item.gtip || '')}" oninput="onInvoiceItemFieldChange(${idx}, 'gtip', this.value)" placeholder="Örn: 6109.10" class="w-full p-1.5 border border-slate-200 rounded font-mono text-slate-700 bg-white focus:ring-1 focus:ring-[#00AA6C] outline-none" />
+          </td>
+          <td class="py-1 px-2">
+            <input type="number" step="any" min="0" value="${item.qty}" oninput="onInvoiceItemFieldChange(${idx}, 'qty', this.value)" class="w-full p-1.5 border border-slate-200 rounded text-right font-mono font-bold text-slate-800 bg-white focus:ring-1 focus:ring-[#00AA6C] outline-none" />
+          </td>
+          <td class="py-1 px-2">
+            <select onchange="onInvoiceItemFieldChange(${idx}, 'unit', this.value)" class="w-full p-1.5 border border-slate-200 rounded font-semibold text-slate-700 bg-white outline-none">
+              <option value="ADET" ${item.unit === 'ADET' ? 'selected' : ''}>ADET</option>
+              <option value="KG" ${item.unit === 'KG' ? 'selected' : ''}>KG</option>
+              <option value="MT" ${item.unit === 'MT' ? 'selected' : ''}>MT</option>
+              <option value="TOP" ${item.unit === 'TOP' ? 'selected' : ''}>TOP</option>
+              <option value="PKT" ${item.unit === 'PKT' ? 'selected' : ''}>PKT</option>
+              <option value="RULO" ${item.unit === 'RULO' ? 'selected' : ''}>RULO</option>
+            </select>
+          </td>
+          <td class="py-1 px-2">
+            <input type="number" step="0.01" min="0" value="${item.price}" oninput="onInvoiceItemFieldChange(${idx}, 'price', this.value)" class="w-full p-1.5 border border-slate-200 rounded text-right font-mono font-bold text-slate-800 bg-white focus:ring-1 focus:ring-[#00AA6C] outline-none" />
+          </td>
+          <td class="py-1 px-2">
+            <input type="number" step="1" min="0" max="100" value="${item.discount || 0}" oninput="onInvoiceItemFieldChange(${idx}, 'discount', this.value)" class="w-full p-1.5 border border-slate-200 rounded text-right font-mono text-rose-600 bg-white focus:ring-1 focus:ring-rose-500 outline-none" />
+          </td>
+          <td class="py-1 px-2">
+            <select onchange="onInvoiceItemFieldChange(${idx}, 'taxRate', this.value)" class="w-full p-1.5 border border-slate-200 rounded font-bold text-slate-700 bg-white outline-none">
+              <option value="0" ${taxRate === 0 ? 'selected' : ''}>%0</option>
+              <option value="1" ${taxRate === 1 ? 'selected' : ''}>%1</option>
+              <option value="10" ${taxRate === 10 ? 'selected' : ''}>%10</option>
+              <option value="20" ${taxRate === 20 ? 'selected' : ''}>%20</option>
+            </select>
+          </td>
+          <td class="py-2 px-2 text-right font-mono text-slate-600 font-medium">
+            ${currSym}${taxAmount.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </td>
+          <td class="py-2 px-2 text-right font-mono font-bold text-slate-900">
+            ${currSym}${lineTotal.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </td>
+          <td class="py-2 px-1 text-center">
+            <button type="button" onclick="removeInvoiceItemLine(${idx})" title="Kalemi Sil" class="text-slate-400 hover:text-rose-600 p-1 rounded hover:bg-rose-50 transition-colors">
+              <span class="material-symbols-outlined text-[16px]">delete</span>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const badge = document.getElementById('inv-items-badge');
+      if (badge) badge.innerText = `${window.invoiceItems.length} Kalem`;
+    }
+
+    function addInvoiceItemLine() {
+      const type = document.getElementById('inv-type') ? document.getElementById('inv-type').value : '';
+      let defaultTax = 0;
+      if (type.includes('%10') || type.includes('TEVKİFATLI')) defaultTax = 10;
+      else if (type.includes('%20')) defaultTax = 20;
+
+      window.invoiceItems.push({
+        name: '',
+        desc: '',
+        gtip: '',
+        qty: 100,
+        unit: 'ADET',
+        price: 0,
+        discount: 0,
+        taxRate: defaultTax
+      });
+      renderInvoiceItemsRows();
+      recalculateInvoiceTotals();
+    }
+
+    function removeInvoiceItemLine(index) {
+      if (window.invoiceItems.length <= 1) {
+        window.invoiceItems[0] = {
+          name: '',
+          desc: '',
+          gtip: '',
+          qty: 1,
+          unit: 'ADET',
+          price: 0,
+          discount: 0,
+          taxRate: 0
+        };
+      } else {
+        window.invoiceItems.splice(index, 1);
+      }
+      renderInvoiceItemsRows();
+      recalculateInvoiceTotals();
+    }
+
+    function onInvoiceItemFieldChange(index, field, value) {
+      if (!window.invoiceItems[index]) return;
+      if (field === 'qty' || field === 'price' || field === 'discount' || field === 'taxRate') {
+        window.invoiceItems[index][field] = parseFloat(value) || 0;
+      } else {
+        window.invoiceItems[index][field] = value;
+      }
+      recalculateInvoiceTotals();
+    }
+
+    function recalculateInvoiceTotals() {
+      const curr = document.getElementById('inv-currency') ? document.getElementById('inv-currency').value : 'TRY';
+      const currSym = getCurrencySymbol(curr);
+      const fxRate = parseFloat(document.getElementById('inv-fx-rate') ? document.getElementById('inv-fx-rate').value : 1.0) || 1.0;
+      const invType = document.getElementById('inv-type') ? document.getElementById('inv-type').value : '';
+
+      let subtotal = 0;
+      let totalDiscount = 0;
+      let netMatrah = 0;
+      let taxTotal = 0;
+      let grandTotal = 0;
+
+      (window.invoiceItems || []).forEach(item => {
+        const qty = parseFloat(item.qty) || 0;
+        const price = parseFloat(item.price) || 0;
+        const discount = parseFloat(item.discount) || 0;
+        const taxRate = parseFloat(item.taxRate !== undefined ? item.taxRate : 0);
+
+        const rawAmount = qty * price;
+        const discAmount = rawAmount * (discount / 100);
+        const matrah = rawAmount - discAmount;
+        const tax = matrah * (taxRate / 100);
+        const total = matrah + tax;
+
+        subtotal += rawAmount;
+        totalDiscount += discAmount;
+        netMatrah += matrah;
+        taxTotal += tax;
+        grandTotal += total;
+      });
+
+      // Tevkifat Check (5/10 Fason Tekstil)
+      let tevkifatAmount = 0;
+      const tevkifatRow = document.getElementById('inv-row-tevkifat');
+      if (invType.includes('TEVKİFATLI')) {
+        tevkifatAmount = taxTotal * 0.5;
+        if (tevkifatRow) {
+          tevkifatRow.classList.remove('hidden');
+          document.getElementById('inv-sum-tevkifat').innerText = `-${currSym}${tevkifatAmount.toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
+        }
+      } else {
+        if (tevkifatRow) tevkifatRow.classList.add('hidden');
+      }
+
+      const payableGrandTotal = grandTotal - tevkifatAmount;
+      const tlEquivalent = payableGrandTotal * fxRate;
+
+      // Update UI elements
+      if (document.getElementById('inv-sum-subtotal')) {
+        document.getElementById('inv-sum-subtotal').innerText = `${currSym}${subtotal.toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
+      }
+      if (document.getElementById('inv-sum-discount')) {
+        document.getElementById('inv-sum-discount').innerText = `-${currSym}${totalDiscount.toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
+      }
+      if (document.getElementById('inv-sum-net-matrah')) {
+        document.getElementById('inv-sum-net-matrah').innerText = `${currSym}${netMatrah.toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
+      }
+      if (document.getElementById('inv-sum-tax')) {
+        document.getElementById('inv-sum-tax').innerText = `${currSym}${taxTotal.toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
+      }
+      if (document.getElementById('inv-sum-grand')) {
+        document.getElementById('inv-sum-grand').innerText = `${currSym}${payableGrandTotal.toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
+      }
+      if (document.getElementById('inv-sum-tl-equivalent')) {
+        document.getElementById('inv-sum-tl-equivalent').innerText = `₺${tlEquivalent.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL (Kur: ${fxRate.toFixed(4)})`;
+      }
+      if (document.getElementById('inv-sum-in-words')) {
+        document.getElementById('inv-sum-in-words').innerText = numberToTurkishWords(payableGrandTotal, curr);
+      }
+    }
+
     function openModal(modalId) {
       const el = document.getElementById(modalId);
       if (el) el.classList.remove('hidden');
+      if (modalId === 'modal-new-invoice') {
+        initNewInvoiceModal();
+      }
     }
     function closeModal(modalId) {
       const el = document.getElementById(modalId);
@@ -3222,37 +6639,116 @@
       showToast('TCMB %40 Bozum Gerçekleşti! £4.855,69 bozuldu, ₺219.088,73 Garanti TRY hesabına aktarıldı. İBKB kapatıldı!', 'success');
     }
 
-    // SUBMIT NEW INVOICE
-    function submitNewInvoice() {
+    // SUBMIT NEW INVOICE (MULTI-LINE & GİB UBL-TR PERSISTENCE)
+    async function submitNewInvoice(isDraft = false) {
       const cust = document.getElementById('inv-customer').value;
       const type = document.getElementById('inv-type').value;
+      const scenario = document.getElementById('inv-scenario').value;
       const curr = document.getElementById('inv-currency').value;
-      const amount = parseFloat(document.getElementById('inv-amount').value) || 12000;
+      const fxRate = parseFloat(document.getElementById('inv-fx-rate').value) || 1.0;
+      const dateVal = document.getElementById('inv-date').value || new Date().toISOString().split('T')[0];
+      const dueDateVal = document.getElementById('inv-due-date').value || dateVal;
       const etgb = document.getElementById('inv-etgb').value || '26340200EX' + Math.floor(100000 + Math.random() * 900000);
-      const gtip = document.getElementById('inv-gtip').value;
-      const newId = 'EFT2026' + String(BROSAN_ERP.invoices.length + 105).padStart(9, '0');
-      
-      const rate = BROSAN_ERP.fx[curr] || 1;
-      const amountTry = amount * rate;
+      const notes = document.getElementById('inv-notes').value || '';
+
+      if (!window.invoiceItems || window.invoiceItems.length === 0) {
+        showToast('En az bir adet mal/hizmet faturası kalemi girmelisiniz.', 'error');
+        return;
+      }
+
+      const validItems = window.invoiceItems.filter(it => (it.name || it.desc) && parseFloat(it.qty) > 0);
+      if (validItems.length === 0) {
+        showToast('Lütfen geçerli ürün adı ve miktarı olan en az bir kalem ekleyin.', 'error');
+        return;
+      }
+
+      // Calculate Totals
+      let subtotal = 0;
+      let totalDiscount = 0;
+      let netMatrah = 0;
+      let taxTotal = 0;
+      let grandTotal = 0;
+
+      const formattedItems = validItems.map(it => {
+        const q = parseFloat(it.qty) || 1;
+        const p = parseFloat(it.price) || 0;
+        const d = parseFloat(it.discount) || 0;
+        const r = parseFloat(it.taxRate !== undefined ? it.taxRate : 20);
+
+        const raw = q * p;
+        const disc = raw * (d / 100);
+        const mat = raw - disc;
+        const tax = mat * (r / 100);
+        const tot = mat + tax;
+
+        subtotal += raw;
+        totalDiscount += disc;
+        netMatrah += mat;
+        taxTotal += tax;
+        grandTotal += tot;
+
+        return {
+          name: it.name || 'Mal / Hizmet Kalemi',
+          description: it.desc || it.name || '',
+          gtip: it.gtip || '5208.52.00',
+          quantity: q,
+          unit: it.unit || 'ADET',
+          unitPrice: p,
+          discountRate: d,
+          taxRate: r,
+          taxAmount: Math.round(tax * 100) / 100,
+          total: Math.round(tot * 100) / 100
+        };
+      });
+
+      const newId = (type.includes('İhracat') || curr !== 'TRY' ? 'BS02026' : 'BR02026') + String(BROSAN_ERP.invoices.length + 105).padStart(7, '0');
+      const amountTry = grandTotal * fxRate;
+
+      // Persistence to Backend API (POST /api/invoices)
+      try {
+        fetch('/api/invoices', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            invoiceNo: newId,
+            type: (type.includes('İhracat') || curr !== 'TRY') ? 'EXPORT' : 'SALES',
+            scenario: scenario,
+            date: dateVal,
+            dueDate: dueDateVal,
+            currency: curr,
+            exchangeRate: fxRate,
+            notes: notes,
+            items: formattedItems
+          })
+        }).catch(err => console.warn('Backend sync note:', err.message));
+      } catch (e) {}
+
+      // Add to local reactive memory
+      const totalUnits = formattedItems.reduce((acc, it) => acc + it.quantity, 0);
+      const primaryUnit = formattedItems[0].unit || 'ADET';
 
       BROSAN_ERP.invoices.unshift({
         id: newId,
         customer: cust,
-        date: new Date().toLocaleDateString('tr-TR'),
+        date: new Date(dateVal).toLocaleDateString('tr-TR'),
         etgb: etgb,
         exemption: type,
         currency: curr,
-        amountFx: amount,
-        amountTry: amountTry,
-        ibkbStatus: curr !== 'TRY' ? 'Açık (180 Gün)' : 'Düzenlendi ✓',
-        isClosed: false,
-        gtip: gtip,
-        meters: '10.000 Metre'
+        amountFx: Math.round(grandTotal * 100) / 100,
+        amountTry: Math.round(amountTry * 100) / 100,
+        ibkbStatus: curr !== 'TRY' ? 'Açık (TCMB %40 Bozum Bekliyor)' : 'Düzenlendi ✓',
+        isClosed: isDraft ? false : (curr === 'TRY'),
+        gtip: formattedItems[0].gtip || '6109.10',
+        meters: `${totalUnits.toLocaleString('tr-TR')} ${primaryUnit} (${formattedItems.length} Kalem)`,
+        items: formattedItems,
+        notes: notes,
+        scenario: scenario,
+        exchangeRate: fxRate
       });
 
       closeModal('modal-new-invoice');
       renderSalesTable();
-      showToast(`${newId} nolu e-Fatura kesildi ve GİB portalına iletildi.`, 'success');
+      showToast(`${newId} nolu ${formattedItems.length} kalemli e-Fatura kesildi ve GİB portalına iletildi.`, 'success');
     }
 
     // SUBMIT NEW EXPENSE
@@ -3366,59 +6862,201 @@
       }
     }
 
-    // VIEW INVOICE DETAIL
+    // VIEW INVOICE DETAIL (GİB e-FATURA / e-ARŞİV UBL-TR RESMİ GÖRÜNÜM)
     function viewInvoiceDetail(invId) {
       const inv = BROSAN_ERP.invoices.find(i => i.id === invId);
       if (!inv) return;
 
-      document.getElementById('inv-viewer-title').innerText = `${inv.id} - ${inv.customer}`;
+      const curr = inv.currency || 'TRY';
+      const currSym = getCurrencySymbol(curr);
+
+      // Determine items
+      let items = inv.items;
+      if (!items || items.length === 0) {
+        if (inv.id === 'BS02026000000013') {
+          items = [
+            { name: '100% Cotton Crew Neck T-Shirt', description: 'Ben Ellis SS26 Collection - Acid Wash Heavy Cotton', gtip: '6109.10.00.00.00', quantity: 450, unit: 'ADET', unitPrice: 8.20, discountRate: 0, taxRate: 0, taxAmount: 0, total: 3690.00 },
+            { name: 'Oversized Brushed Fleece Hoodie', description: 'Ben Ellis SS26 Collection - Loopback French Terry', gtip: '6110.20.91.00.00', quantity: 319, unit: 'ADET', unitPrice: 11.59279, discountRate: 0, taxRate: 0, taxAmount: 0, total: 3698.10 }
+          ];
+        } else if (inv.id === 'BR02026000000024') {
+          items = [
+            { name: 'B.KUMAŞ 30/2 PENYE SÜPREM', description: 'Parti: 11280 - Siyah - 144 CM - 172 GSM', gtip: '5208.52.00.00.00', quantity: 227.0, unit: 'KG', unitPrice: 340.00, discountRate: 0, taxRate: 10, taxAmount: 7718.00, total: 84898.00 },
+            { name: 'B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA', description: 'Parti: 11605 - Ekru - 149 CM - 160 GSM', gtip: '5208.52.00.00.00', quantity: 14.5, unit: 'KG', unitPrice: 340.00, discountRate: 0, taxRate: 10, taxAmount: 493.00, total: 5423.00 },
+            { name: 'B.KUMAŞ 30/20/10 PENYE 3 İPLİK', description: 'Parti: 11842 - Melanj - 150 CM - 320 GSM', gtip: '6006.22.00.00.00', quantity: 650.0, unit: 'KG', unitPrice: 330.00, discountRate: 0, taxRate: 10, taxAmount: 21450.00, total: 235950.00 },
+            { name: 'B.KUMAŞ 30/2 PENYE 70 DNY LYC K.KORSE', description: 'Parti: 11901 - Antrasit - 140 CM - 240 GSM', gtip: '5208.52.00.00.00', quantity: 101.0, unit: 'KG', unitPrice: 340.00, discountRate: 0, taxRate: 10, taxAmount: 3434.00, total: 37774.00 }
+          ];
+        } else {
+          items = [
+            { name: inv.gtip || 'Tekstil Ürünü', description: inv.notes || 'Sipariş Yüklemesi', gtip: inv.gtip || '6109.10', quantity: 1, unit: 'ADET', unitPrice: inv.amountFx, discountRate: 0, taxRate: inv.exemption && inv.exemption.includes('%10') ? 10 : 0, taxAmount: 0, total: inv.amountFx }
+          ];
+        }
+      }
+
+      // Calculate totals
+      let sumBrut = 0;
+      let sumDisc = 0;
+      let sumMatrah = 0;
+      let sumVat = 0;
+      let sumGrand = 0;
+
+      const itemsRowsHtml = items.map((it, idx) => {
+        const qty = parseFloat(it.quantity || it.qty || 1);
+        const price = parseFloat(it.unitPrice || it.price || 0);
+        const discRate = parseFloat(it.discountRate || it.discount || 0);
+        const taxRate = parseFloat(it.taxRate !== undefined ? it.taxRate : 0);
+
+        const raw = qty * price;
+        const disc = raw * (discRate / 100);
+        const mat = raw - disc;
+        const vat = it.taxAmount !== undefined ? parseFloat(it.taxAmount) : (mat * (taxRate / 100));
+        const tot = it.total !== undefined ? parseFloat(it.total) : (mat + vat);
+
+        sumBrut += raw;
+        sumDisc += disc;
+        sumMatrah += mat;
+        sumVat += vat;
+        sumGrand += tot;
+
+        return `
+          <tr class="border-b border-slate-200">
+            <td class="p-2 text-center text-slate-500 font-mono text-[10px]">${idx + 1}</td>
+            <td class="p-2">
+              <span class="font-bold text-slate-900 block">${escapeHtml(it.name || it.description || 'Kalem')}</span>
+              <span class="text-[10px] text-slate-500">${escapeHtml(it.description || '')}</span>
+            </td>
+            <td class="p-2 font-mono text-[10px] text-slate-600">${escapeHtml(it.gtip || '-')}</td>
+            <td class="p-2 text-right font-mono font-semibold">${qty.toLocaleString('tr-TR', {minimumFractionDigits: qty % 1 === 0 ? 0 : 2})}</td>
+            <td class="p-2 text-slate-600 font-semibold">${it.unit || 'ADET'}</td>
+            <td class="p-2 text-right font-mono">${currSym}${price.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 4})}</td>
+            <td class="p-2 text-right font-mono text-slate-500">${discRate > 0 ? '%' + discRate : '-'}</td>
+            <td class="p-2 text-center font-mono font-bold text-slate-700">%${taxRate}</td>
+            <td class="p-2 text-right font-mono text-slate-700">${currSym}${vat.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</td>
+            <td class="p-2 text-right font-mono font-bold text-slate-900">${currSym}${tot.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</td>
+          </tr>
+        `;
+      }).join('');
+
+      const ettnUuid = 'e8b' + Math.abs(inv.id.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)).toString(16) + '-8f1b-410a-9d9e-' + Math.floor(100000000000 + Math.random()*900000000000);
+      const inWords = numberToTurkishWords(sumGrand, curr);
+
+      document.getElementById('inv-viewer-title').innerText = `${inv.id} — ${inv.customer} (e-Fatura / UBL-TR)`;
       document.getElementById('inv-viewer-content').innerHTML = `
-        <div class="border border-slate-200 rounded-lg p-4 bg-slate-50 space-y-3">
-          <div class="flex justify-between items-start border-b border-slate-200 pb-2">
+        <div class="border border-slate-300 rounded-xl p-5 bg-white space-y-4 shadow-sm text-slate-800">
+          <!-- GİB Üst Antet ve Kurumsal Logo -->
+          <div class="flex flex-col md:flex-row justify-between items-start border-b-2 border-slate-800 pb-3 gap-3">
             <div>
-              <span class="font-bold text-slate-900 block text-sm">BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.</span>
-              <span class="text-slate-500 text-[11px]">VKN: 1870492109 • İkitelli V.D.</span>
+              <div class="flex items-center gap-2">
+                <span class="w-7 h-7 rounded bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">B</span>
+                <span class="font-display font-black text-slate-950 text-base tracking-tight">BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.</span>
+              </div>
+              <p class="text-[11px] text-slate-600 mt-1">
+                İkitelli OSB Mah. Marmara San. Sit. O Blok No: 21 Küçükçekmece / İSTANBUL<br/>
+                VKN: <strong>1870492109</strong> • İkitelli V.D. • Tic. Sicil: 981240-5 • Mersis: 0187049210900001<br/>
+                Web: www.brosan.com.tr • E-Posta: export@brosan.com.tr
+              </p>
             </div>
             <div class="text-right">
-              <span class="font-mono font-bold text-slate-800">${inv.id}</span>
-              <span class="text-slate-500 block text-[11px]">${inv.date}</span>
+              <span class="inline-block px-3 py-1 rounded bg-slate-900 text-white font-mono font-extrabold text-sm tracking-wider mb-1">${inv.id}</span>
+              <span class="block text-[11px] text-slate-700">Tarih: <strong class="font-mono">${inv.date}</strong></span>
+              <span class="block text-[10px] text-slate-500 font-mono">ETTN: ${ettnUuid}</span>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-4">
+
+          <!-- Alıcı ve Belge Bilgileri Tablosu -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50/80 p-3.5 rounded-lg border border-slate-200">
             <div>
-              <span class="text-slate-400 font-semibold block text-[10px] uppercase">Alıcı Firma:</span>
-              <span class="font-bold text-slate-800">${inv.customer}</span>
-              <span class="text-slate-500 block">Manchester, Birleşik Krallık</span>
+              <span class="text-slate-500 font-bold block text-[10px] uppercase tracking-wider mb-1">SAYIN (ALICI BİLGİLERİ):</span>
+              <span class="font-bold text-slate-900 block text-xs">${inv.customer}</span>
+              <span class="text-[11px] text-slate-600 block mt-0.5">${inv.customer.includes('BEN') ? '23 Elan Rd, Cardiff CF14 0NR, United Kingdom' : (inv.customer.includes('FARUK') ? 'Sultangazi Eski Edirne Asfaltı No:574/4 İstanbul' : 'Los Angeles, California, USA')}</span>
+              <span class="text-[10px] text-slate-500 block mt-1">Vergi / TCKN: <strong>${inv.customer.includes('FARUK') ? '46849262292' : '11111111111'}</strong></span>
             </div>
-            <div>
-              <span class="text-slate-400 font-semibold block text-[10px] uppercase">Gümrük & İBKB Bilgisi:</span>
-              <span class="font-mono text-slate-800 font-bold block">${inv.etgb}</span>
-              <span class="text-emerald-700 font-medium">${inv.exemption}</span>
+            <div class="space-y-1 text-[11px]">
+              <div class="flex justify-between"><span class="text-slate-500">Fatura Tipi:</span><span class="font-bold text-slate-800">${inv.exemption || 'İSTİSNA'}</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Senaryo:</span><span class="font-mono font-bold text-blue-800">${inv.scenario || (curr === 'TRY' ? 'TICARIFATURA' : 'IHRACAT')}</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Gümrük Beyanname / ETGB:</span><span class="font-mono font-bold text-slate-900">${inv.etgb || '26340200EX009281'}</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Garanti BBVA IBAN:</span><span class="font-mono font-bold text-emerald-800">TR160006200041700006289477</span></div>
             </div>
           </div>
-          <table class="w-full text-left border border-slate-200 bg-white rounded mt-2">
-            <thead class="bg-slate-100 text-slate-600 text-[10px]">
-              <tr>
-                <th class="p-2">GTİP & Ürün</th>
-                <th class="p-2 text-right">Miktar</th>
-                <th class="p-2 text-right">Tutar (${inv.currency})</th>
-                <th class="p-2 text-right">TL Karşılığı</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="p-2 font-mono font-semibold">${inv.gtip}</td>
-                <td class="p-2 text-right">${inv.meters}</td>
-                <td class="p-2 text-right font-bold">${inv.currency === 'GBP' ? '£' : '€'}${inv.amountFx.toLocaleString('tr-TR', {minimumFractionDigits:2})}</td>
-                <td class="p-2 text-right font-bold text-slate-900">${fmtTRY(inv.amountTry)}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="flex justify-between items-center pt-2 border-t border-slate-200">
-            <span class="text-[11px] text-slate-500">Mali Mühür: <strong>Onaylandı (GİB e-Fatura Portalı)</strong></span>
+
+          <!-- Kalemler Masası -->
+          <div class="border border-slate-200 rounded-lg overflow-x-auto">
+            <table class="w-full text-left text-[11px]">
+              <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="p-2 text-center w-8">#</th>
+                  <th class="p-2 min-w-[180px]">Mal / Hizmet Adı & Açıklama</th>
+                  <th class="p-2 w-28">GTİP</th>
+                  <th class="p-2 text-right w-16">Miktar</th>
+                  <th class="p-2 w-14">Birim</th>
+                  <th class="p-2 text-right w-20">Birim Fiyat</th>
+                  <th class="p-2 text-right w-14">İsk %</th>
+                  <th class="p-2 text-center w-14">KDV %</th>
+                  <th class="p-2 text-right w-20">KDV Tutarı</th>
+                  <th class="p-2 text-right w-24">Satır Toplamı</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                ${itemsRowsHtml}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Finansal Vergi ve İcmal Tablosu -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start pt-1">
+            <div class="space-y-2">
+              <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-[11px] text-slate-700">
+                <span class="font-bold text-slate-900 block mb-1">Vergi İstisna & Muafiyet Bilgisi:</span>
+                <span>3065 sayılı KDVK md. 11/1-a (301 Mal İhracatı). Bedel TCMB İBKB genelgesine tabidir.</span>
+              </div>
+              <div class="p-2.5 bg-emerald-50/60 rounded-lg border border-emerald-200 text-[11px] text-emerald-900">
+                <span class="font-bold block">Mali Mühür & Güvenlik Doğrulaması:</span>
+                <span class="font-mono text-[10px]">TÜBİTAK BİLGEM Kamu SM — Zaman Damgalı Resmi Elektronik İmza ile GİB'e iletilmiştir.</span>
+              </div>
+            </div>
+
+            <!-- Alt Toplamlar Kartı -->
+            <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-1.5 text-xs">
+              <div class="flex justify-between text-slate-600">
+                <span>Mal / Hizmet Toplam Tutarı:</span>
+                <span class="font-mono font-semibold text-slate-900">${currSym}${sumBrut.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</span>
+              </div>
+              <div class="flex justify-between text-slate-600">
+                <span>Toplam İskonto:</span>
+                <span class="font-mono font-semibold text-rose-600">-${currSym}${sumDisc.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</span>
+              </div>
+              <div class="flex justify-between text-slate-600">
+                <span>Hesaplanan KDV Tutarı:</span>
+                <span class="font-mono font-semibold text-slate-900">${currSym}${sumVat.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</span>
+              </div>
+              <div class="border-t-2 border-slate-300 pt-2 flex justify-between items-baseline">
+                <span class="font-bold text-slate-900">ÖDENECEK GENEL TOPLAM:</span>
+                <span class="font-mono font-black text-base text-emerald-700">${currSym}${sumGrand.toLocaleString('tr-TR', {minimumFractionDigits: 2})}</span>
+              </div>
+              <div class="flex justify-between text-[11px] text-slate-500 pt-0.5">
+                <span>TCMB Karşılığı (TL):</span>
+                <span class="font-mono font-bold text-slate-800">${fmtTRY(inv.amountTry || (sumGrand * (inv.exchangeRate || 64.8493)))}</span>
+              </div>
+              <div class="border-t border-slate-200 pt-1 text-[10px] text-slate-600 italic">
+                ${inWords}
+              </div>
+            </div>
+          </div>
+
+          <!-- Alt İmza, Karekod ve Onay Bloğu -->
+          <div class="pt-3 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-500">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-slate-900 rounded p-1 text-white flex flex-col items-center justify-center font-mono font-bold text-[8px] tracking-tighter">
+                <span>[GİB]</span>
+                <span>QR-CODE</span>
+              </div>
+              <div>
+                <span class="font-bold text-slate-700 block">Elektronik İmzalıdır</span>
+                <span>Belge Doğrulama Kodu: GIB-${inv.id}-TR</span>
+              </div>
+            </div>
             <div class="text-right">
-              <span class="text-slate-500 text-xs">Genel Toplam:</span>
-              <span class="font-mono text-base font-bold text-slate-900 ml-2">${inv.currency === 'GBP' ? '£' : '€'}${inv.amountFx.toLocaleString('tr-TR', {minimumFractionDigits:2})}</span>
+              <span>BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.</span>
+              <span class="block font-semibold text-slate-700">Kaşe & İmza (Mali Mühür)</span>
             </div>
           </div>
         </div>

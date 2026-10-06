@@ -305,6 +305,32 @@ app.get('/api/invoices', async (req, res) => {
   }
 });
 
+app.get('/api/invoices/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const invoice = await prisma.invoice.findFirst({
+      where: {
+        OR: [
+          { id: id },
+          { invoiceNo: id }
+        ]
+      },
+      include: {
+        contact: true,
+        items: true
+      }
+    });
+
+    if (!invoice) {
+      return res.status(404).json({ success: false, error: 'Fatura bulunamadı.' });
+    }
+
+    res.json({ success: true, data: invoice });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 app.post('/api/invoices', async (req, res) => {
   try {
     const { invoiceNo, type, scenario, date, dueDate, contactId, currency, exchangeRate, items, notes } = req.body;
@@ -316,23 +342,30 @@ app.post('/api/invoices', async (req, res) => {
     const formattedItems = (items || []).map(item => {
       const qty = parseFloat(item.quantity || 1);
       const price = parseFloat(item.unitPrice || 0);
-      const taxRate = parseFloat(item.taxRate || 20);
-      const itemSubtotal = qty * price;
-      const itemTax = itemSubtotal * (taxRate / 100);
-      const itemTotal = itemSubtotal + itemTax;
+      const discountRate = parseFloat(item.discountRate || 0);
+      const taxRate = parseFloat(item.taxRate !== undefined ? item.taxRate : 20);
 
-      subtotal += itemSubtotal;
+      const baseAmount = qty * price;
+      const discountAmount = baseAmount * (discountRate / 100);
+      const lineMatrah = baseAmount - discountAmount;
+      const itemTax = lineMatrah * (taxRate / 100);
+      const itemTotal = lineMatrah + itemTax;
+
+      subtotal += lineMatrah;
       taxTotal += itemTax;
       grandTotal += itemTotal;
 
       return {
-        description: item.description,
+        name: item.name || item.description || 'Mal/Hizmet Kalemi',
+        description: item.description || item.name || '',
+        gtip: item.gtip || null,
         quantity: qty,
-        unit: item.unit || 'MT',
+        unit: item.unit || 'ADET',
         unitPrice: price,
+        discountRate,
         taxRate,
-        taxAmount: itemTax,
-        total: itemTotal
+        taxAmount: Math.round(itemTax * 100) / 100,
+        total: Math.round(itemTotal * 100) / 100
       };
     });
 
@@ -346,9 +379,9 @@ app.post('/api/invoices', async (req, res) => {
         contactId,
         currency: currency || 'TRY',
         exchangeRate: exchangeRate ? parseFloat(exchangeRate) : 1.0,
-        subtotal,
-        taxTotal,
-        grandTotal,
+        subtotal: Math.round(subtotal * 100) / 100,
+        taxTotal: Math.round(taxTotal * 100) / 100,
+        grandTotal: Math.round(grandTotal * 100) / 100,
         notes,
         items: {
           create: formattedItems
@@ -358,18 +391,44 @@ app.post('/api/invoices', async (req, res) => {
     });
 
     // Cari Bakiye Güncellemesi
-    const contact = await prisma.contact.findUnique({ where: { id: contactId } });
-    if (contact) {
-      const balanceChange = (type === 'SALES' || type === 'EXPORT') ? grandTotal : -grandTotal;
-      await prisma.contact.update({
-        where: { id: contactId },
-        data: { balance: { increment: balanceChange } }
-      });
+    if (contactId) {
+      const contact = await prisma.contact.findUnique({ where: { id: contactId } });
+      if (contact) {
+        const balanceChange = (type === 'SALES' || type === 'EXPORT') ? grandTotal : -grandTotal;
+        await prisma.contact.update({
+          where: { id: contactId },
+          data: { balance: { increment: balanceChange } }
+        });
+      }
     }
 
     res.status(201).json({ success: true, data: invoice });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+app.delete('/api/invoices/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const inv = await prisma.invoice.findUnique({ where: { id } });
+    if (!inv) {
+      return res.status(404).json({ success: false, error: 'Silinecek fatura bulunamadı.' });
+    }
+
+    // Cari bakiyesini geri al
+    if (inv.contactId) {
+      const rollbackChange = (inv.type === 'SALES' || inv.type === 'EXPORT') ? -parseFloat(inv.grandTotal) : parseFloat(inv.grandTotal);
+      await prisma.contact.update({
+        where: { id: inv.contactId },
+        data: { balance: { increment: rollbackChange } }
+      });
+    }
+
+    await prisma.invoice.delete({ where: { id } });
+    res.json({ success: true, message: 'Fatura ve kalemleri başarıyla silindi.' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 

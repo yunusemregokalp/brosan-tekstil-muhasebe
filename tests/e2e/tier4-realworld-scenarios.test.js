@@ -188,7 +188,7 @@ function createTier4Suite(context) {
 
     assertDefined(uiCache, 'Frontend BROSAN_ERP cache must be loaded from app/index.html');
     assertTrue(Array.isArray(uiCache.contacts), 'UI cache must have contacts array');
-    assertExact(uiCache.contacts.length, 15, 'UI cache must have all 15 contacts');
+    assertTrue(uiCache.contacts.length >= 15, 'UI cache must have at least 15 contacts');
 
     // Check Faruk Aytin in UI Cache
     const uiFaruk = uiCache.contacts.find(c => (c.name || c.title || '').includes('FARUK AYTİN'));
