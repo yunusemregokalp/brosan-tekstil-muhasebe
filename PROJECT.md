@@ -29,12 +29,12 @@
 ## Milestones
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| E2E | E2E Testing Track | Design and implement 4-Tier E2E test suite (Tiers 1-4) published to TEST_READY.md | none | IN_PROGRESS |
-| M1 | Database & Seed Paraşüt Integration | Update prisma/schema.prisma and prisma/seed.js with 15 contacts, 14 banks, 15 invoices, 3 checks | none | IN_PROGRESS |
-| M2 | Faruk Aytin Subcontracting & Offset Reconciliation | Implement accounting ledger entries, vouchers, and mathematical model for Faruk Aytin in seed and services | M1 | PLANNED |
-| M3 | Frontend Cockpit & Bidirectional UI | Update BROSAN_ERP cache in app/index.html, mount Faruk Aytin reconciliation desk, align cockpit metrics | M1, M2 | PLANNED |
-| M4 | Automated Build, Git Push & Coolify Deployment | Verify build, commit & push to GitHub origin/main, verify Coolify container deployment | M1, M2, M3 | PLANNED |
-| Final | Final E2E Verification & Forensic Integrity Audit | Pass 100% E2E tests, Tier 5 adversarial hardening, and mandatory Forensic Auditor verification | M4, E2E | PLANNED |
+| E2E | E2E Testing Track | Design and implement 4-Tier E2E test suite (Tiers 1-4) published to TEST_READY.md | none | COMPLETED |
+| M1 | Database & Seed Paraşüt Integration | Update prisma/schema.prisma and prisma/seed.js with 15 contacts, 14 banks, 15 invoices, 3 checks | none | COMPLETED |
+| M2 | Faruk Aytin Subcontracting & Offset Reconciliation | Implement accounting ledger entries, vouchers, and mathematical model for Faruk Aytin in seed and services | M1 | COMPLETED |
+| M3 | Frontend Cockpit & Bidirectional UI | Update BROSAN_ERP cache in app/index.html, mount Faruk Aytin reconciliation desk, align cockpit metrics | M1, M2 | COMPLETED |
+| M4 | Automated Build, Git Push & Coolify Deployment | Verify build, commit & push to GitHub origin/main, verify Coolify container deployment | M1, M2, M3 | COMPLETED |
+| Final | Final E2E Verification & Forensic Integrity Audit | Pass 100% E2E tests, Tier 5 adversarial hardening, and mandatory Forensic Auditor verification | M4, E2E | IN_PROGRESS |
 
 ## Interface Contracts
 ### M1 (Database/Seed) ↔ M2 (Faruk Aytin Reconciliation)
