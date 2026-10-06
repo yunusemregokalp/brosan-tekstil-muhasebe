@@ -193,7 +193,7 @@ function loadSeedData() {
   const chkMatch = seedSrc.match(/const checksData\s*=\s*(\[[\s\S]*?\n\s*\];)/);
   if (chkMatch) {
     try {
-      checksData = eval(chkMatch[1].replace(/;$/, ''));
+      checksData = eval('(function(contactParasutMap){ return ' + chkMatch[1].replace(/;$/, '') + '; })({})');
     } catch (e) {
       console.warn('Warning: Failed to eval checksData from seed.js:', e.message);
     }
