@@ -43,6 +43,10 @@ async function main() {
 
   // 2. CARİ HESAPLAR (MÜŞTERİ & TEDARİKÇİ)
   const contactsData = [
+    { code: 'CR-GB-0024', title: 'BEN ELLIS', type: 'CUSTOMER', taxOffice: 'UK HMRC', taxNumber: 'GB9283741', phone: '+44 161 832 1000', email: 'orders@benellis.co.uk', city: 'Manchester', country: 'Birleşik Krallık', balance: 547721.60 },
+    { code: 'CR-IT-0015', title: 'MILANO TESSUTI SRL', type: 'CUSTOMER', taxOffice: 'Agenzia Entrate', taxNumber: 'IT04819028', phone: '+39 02 87654321', email: 'amministrazione@milanotessuti.it', city: 'Milano', country: 'İtalya', balance: 554289.60 },
+    { code: 'CR-TR-0018', title: 'BİRLİK KUMAŞÇILIK SAN. TİC. LTD. ŞTİ.', type: 'SUPPLIER', taxOffice: 'Güneşli VD', taxNumber: '1780492811', phone: '+90 212 555 3344', email: 'muhasebe@birlikkumas.com', city: 'İstanbul', country: 'Türkiye', balance: -185000.00 },
+    { code: 'CR-TR-0022', title: 'ÇETİN MENSUCAT BOYA VE APRE LTD.', type: 'SUPPLIER', taxOffice: 'İkitelli VD', taxNumber: '2450891234', phone: '+90 282 673 8899', email: 'fason@cetinboya.com', city: 'Tekirdağ', country: 'Türkiye', balance: -92400.00 },
     { code: 'M-101', title: 'ZARA SPAN GİYİM SAN. VE TİC. A.Ş.', type: 'CUSTOMER', taxOffice: 'Güneşli VD', taxNumber: '9980124510', phone: '+90 212 555 1020', email: 'finans@zaraspangiyim.com', city: 'İstanbul', balance: 485200.00 },
     { code: 'M-102', title: 'MANGO İSTANBUL TEKSTİL A.Ş.', type: 'CUSTOMER', taxOffice: 'Marmara VD', taxNumber: '8870192834', phone: '+90 212 444 8899', email: 'muhasebe@mangotekstil.com', city: 'İstanbul', balance: 340900.00 },
     { code: 'M-103', title: 'BERLIN FASHION TEXTILES GMBH', type: 'CUSTOMER', taxOffice: 'DE Foreign Tax', taxNumber: 'DE294819284', phone: '+49 30 9182736', email: 'orders@berlinfashion.de', city: 'Berlin', country: 'Almanya', balance: 95400.00 },

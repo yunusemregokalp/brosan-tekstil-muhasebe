@@ -385,7 +385,7 @@ HTML_CODE = """<!DOCTYPE html>
                   <span class="font-mono text-xl font-bold text-slate-900">₺420.000</span>
                 </div>
                 <p id="hero-kpi-receivable-sub" class="text-xs text-slate-500 mt-1.5">
-                  1 ETGB Dosyası (Ben Ellis Ltd) + 4 Adet Çek
+                  1 ETGB Dosyası (Ben Ellis) + 4 Adet Çek
                 </p>
               </div>
               <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
@@ -430,7 +430,7 @@ HTML_CODE = """<!DOCTYPE html>
                   1 Açık ETGB Bekliyor
                 </div>
                 <p id="hero-ibkb-sub" class="text-xs text-amber-900 mb-2">
-                  Ben Ellis Ltd • ₺142.800 İhracat KDV İadesi
+                  Ben Ellis • ₺142.800 İhracat KDV İadesi
                 </p>
               </div>
               <div class="pt-2 border-t border-amber-200 flex items-center justify-between">
@@ -892,7 +892,7 @@ HTML_CODE = """<!DOCTYPE html>
           <div class="bg-white rounded-lg p-4 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="space-y-1">
               <div class="flex items-center gap-2">
-                <span class="font-display font-bold text-slate-900 text-base">BEN ELLIS TEXTILE LTD</span>
+                <span class="font-display font-bold text-slate-900 text-base">BEN ELLIS</span>
                 <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-800">Birleşik Krallık</span>
                 <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">VIP İhracat Müşterisi</span>
               </div>
@@ -1254,7 +1254,7 @@ HTML_CODE = """<!DOCTYPE html>
               <div class="p-3 border border-slate-200 rounded-lg bg-slate-50">
                 <span class="font-bold text-slate-800 uppercase block mb-1">Form Bs (Satış Bildirimi):</span>
                 <div class="font-mono text-sm font-bold text-slate-900">4 Belge • ₺1.854.200,00</div>
-                <span class="text-[11px] text-emerald-700 mt-1 block">Ben Ellis Ltd, Milano Tessuti, LCW</span>
+                <span class="text-[11px] text-emerald-700 mt-1 block">Ben Ellis, Milano Tessuti, LCW</span>
               </div>
             </div>
           </div>
@@ -1446,8 +1446,8 @@ HTML_CODE = """<!DOCTYPE html>
         <div>
           <label class="block text-slate-600 font-semibold mb-1">Müşteri Seçin (Cari Kartı)</label>
           <select id="inv-customer" class="w-full p-2 border border-slate-300 rounded font-semibold text-slate-800">
-            <option value="BEN ELLIS TEXTILE LTD (UK)">BEN ELLIS TEXTILE LTD (CR-GB-0024 - Manchester, UK)</option>
-            <option value="MILANO TESSUTI SRL (İtalya)">MILANO TESSUTI SRL (İtalya)</option>
+            <option value="BEN ELLIS (UK)">BEN ELLIS (CR-GB-0024 - Manchester, UK)</option>
+            <option value="MILANO TESSUTI SRL">MILANO TESSUTI SRL</option>
             <option value="DEFACTO PERAKENDE TİC. A.Ş.">DEFACTO PERAKENDE TİC. A.Ş.</option>
             <option value="ZİRVE TEKSTİL PAZARLAMA A.Ş.">ZİRVE TEKSTİL PAZARLAMA A.Ş.</option>
           </select>
@@ -1602,7 +1602,7 @@ HTML_CODE = """<!DOCTYPE html>
         <div>
           <label class="block text-slate-600 font-semibold mb-1">Cari Seçimi</label>
           <select id="pay-contact" class="w-full p-2 border border-slate-300 rounded font-semibold text-slate-800">
-            <option value="ben-ellis">BEN ELLIS TEXTILE LTD (£12.139,22 Açık Bakiye)</option>
+            <option value="ben-ellis">BEN ELLIS (£12.139,22 Açık Bakiye)</option>
             <option value="milano">MILANO TESSUTI SRL (€14.800,00)</option>
             <option value="zirve">ZİRVE TEKSTİL PAZARLAMA A.Ş. (₺150.000,00)</option>
           </select>
@@ -1887,7 +1887,7 @@ HTML_CODE = """<!DOCTYPE html>
       <div class="bg-amber-50/80 border border-amber-200/80 rounded-lg p-3 text-xs text-amber-900 space-y-1">
         <div class="font-bold flex items-center gap-1">
           <span class="material-symbols-outlined text-[16px]">info</span>
-          Ben Ellis Textile Ltd - Açık ETGB Bedeli
+          Ben Ellis - Açık ETGB Bedeli
         </div>
         <div>Fatura Tutarı: <strong>£12.139,22 GBP</strong> • Güncel TCMB Gösterge Alış Kuru: <strong class="font-mono">45.1200 TL</strong></div>
       </div>
@@ -1995,7 +1995,7 @@ HTML_CODE = """<!DOCTYPE html>
       invoices: [
         {
           id: 'EFT2026000000104',
-          customer: 'BEN ELLIS TEXTILE LTD (UK)',
+          customer: 'BEN ELLIS (UK)',
           date: '08.09.2026',
           etgb: '26340200EX009281',
           exemption: '301 - Mal İhracatı',
@@ -2009,7 +2009,7 @@ HTML_CODE = """<!DOCTYPE html>
         },
         {
           id: 'EFT2026000000098',
-          customer: 'BEN ELLIS TEXTILE LTD (UK)',
+          customer: 'BEN ELLIS (UK)',
           date: '12.08.2026',
           etgb: '26340200EX008104',
           exemption: '301 - Mal İhracatı',
@@ -2023,7 +2023,7 @@ HTML_CODE = """<!DOCTYPE html>
         },
         {
           id: 'EFT2026000000095',
-          customer: 'MILANO TESSUTI SRL (İtalya)',
+          customer: 'MILANO TESSUTI SRL',
           date: '24.07.2026',
           etgb: '26340200EX007551',
           exemption: '301 - Mal İhracatı',
@@ -2090,7 +2090,7 @@ HTML_CODE = """<!DOCTYPE html>
       contacts: [
         {
           code: 'CR-GB-0024',
-          name: 'BEN ELLIS TEXTILE LTD',
+          name: 'BEN ELLIS',
           type: 'İhracat Müşterisi',
           vkn: 'GB9283741',
           city: 'Manchester, İngiltere',
@@ -2183,7 +2183,7 @@ HTML_CODE = """<!DOCTYPE html>
       accounts: [
         { code: '100 KASA', sub: 'Merkez TL Kasası & Rezerv', debit: 125400, credit: 72100, bDebit: 53300, bCredit: 0, status: 'check' },
         { code: '102 BANKALAR', sub: 'Garanti BBVA Döviz / Akbank TL', debit: 2980500, credit: 1854200, bDebit: 1126300, bCredit: 0, status: 'sync' },
-        { code: '120 ALICILAR', sub: 'Ben Ellis Ltd (£12.139,22 Dahil)', debit: 1450800, credit: 890000, bDebit: 560800, bCredit: 0, status: 'pending_actions', isExport: true },
+        { code: '120 ALICILAR', sub: 'Ben Ellis (£12.139,22 Dahil)', debit: 1450800, credit: 890000, bDebit: 560800, bCredit: 0, status: 'pending_actions', isExport: true },
         { code: '121 ALACAK SENETLERİ & ÇEKLER', sub: 'Portföydeki 4 Adet Vadeli Çek', debit: 570000, credit: 150000, bDebit: 420000, bCredit: 0, status: 'schedule' },
         { code: '150 İLK MADDE VE MALZEME', sub: 'Pamuk İplik & Ham Kumaş Depo', debit: 1890000, credit: 640000, bDebit: 1250000, bCredit: 0, status: 'check' },
         { code: '191 İNDİRİLECEK KDV', sub: 'Alış & Fason Boyahane Faturaları', debit: 245800, credit: 177364, bDebit: 68436, bCredit: 0, status: 'receipt' },
@@ -2578,7 +2578,7 @@ HTML_CODE = """<!DOCTYPE html>
       document.getElementById('hero-ibkb-badge').innerText = 'KAPATILDI ✓';
       document.getElementById('hero-ibkb-badge').className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-emerald-200 text-emerald-900 font-mono';
       document.getElementById('hero-ibkb-title').innerText = "Tüm ETGB'ler Kapatıldı";
-      document.getElementById('hero-ibkb-sub').innerText = 'Ben Ellis Ltd İBKB terkin işlemi tamamlandı';
+      document.getElementById('hero-ibkb-sub').innerText = 'Ben Ellis İBKB terkin işlemi tamamlandı';
       document.getElementById('ben-ellis-balance-highlight').innerText = '£0,00 (Kapatıldı)';
 
       renderSalesTable();
@@ -2981,7 +2981,7 @@ HTML_CODE = """<!DOCTYPE html>
       let doc = "T. GARANTİ BANKASI A.Ş. BAHÇEŞEHİR ŞUBESİ MÜDÜRLÜĞÜ'NE\\n\\n";
       doc += "KONU: İBKB ve %40 TCMB Döviz Bozum Talimatı\\n\\n";
       doc += "Şirketimiz BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ. (VKN: 1870492109) adına kayıtlı ";
-      doc += "TR32 0006 2000 1827 0009 2381 01 IBAN no'lu hesabımıza Ben Ellis Textile Ltd firmasından gelen ";
+      doc += "TR32 0006 2000 1827 0009 2381 01 IBAN no'lu hesabımıza Ben Ellis firmasından gelen ";
       doc += "£12.139,22 GBP ihracat bedelinin TCMB İhracat Genelgesi uyarınca %40'lık kısmı olan £4.855,69 GBP'nin ";
       doc += "TCMB güncel kuru üzerinden bozdurularak TL hesabımıza aktarılmasını ve İBKB (İhracat Bedeli Kabul Belgesi) ";
       doc += "düzenlenmesini arz ederiz.\\n\\n";

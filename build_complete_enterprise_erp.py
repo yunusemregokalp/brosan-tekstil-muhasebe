@@ -377,7 +377,7 @@ HTML_CONTENT = """<!DOCTYPE html>
                   <span class="font-mono text-xl font-bold text-slate-900">₺420.000</span>
                 </div>
                 <p class="text-xs text-slate-500 mt-1.5">
-                  1 ETGB Dosyası (Ben Ellis Ltd) + 4 Adet Çek
+                  1 ETGB Dosyası (Ben Ellis) + 4 Adet Çek
                 </p>
               </div>
               <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
@@ -422,7 +422,7 @@ HTML_CONTENT = """<!DOCTYPE html>
                   1 Açık ETGB Bekliyor
                 </div>
                 <p class="text-xs text-amber-900 mb-2">
-                  Ben Ellis Ltd • ₺142.800 İhracat KDV İadesi
+                  Ben Ellis • ₺142.800 İhracat KDV İadesi
                 </p>
               </div>
               <div class="pt-2 border-t border-amber-200 flex items-center justify-between">
@@ -534,7 +534,7 @@ HTML_CONTENT = """<!DOCTYPE html>
                             <span class="font-bold text-slate-900">120 ALICILAR</span>
                             <span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-blue-100 text-blue-800 font-sans">İHRACAT</span>
                           </div>
-                          <span class="text-[10px] text-slate-600 font-sans">Ben Ellis Ltd (£12.139,22 Dahil)</span>
+                          <span class="text-[10px] text-slate-600 font-sans">Ben Ellis (£12.139,22 Dahil)</span>
                         </td>
                         <td class="py-2.5 px-3 text-right text-slate-800">1.450.800,00</td>
                         <td class="py-2.5 px-3 text-right text-slate-500">890.000,00</td>
@@ -890,7 +890,7 @@ HTML_CONTENT = """<!DOCTYPE html>
                     <td class="py-2 px-3 text-center font-sans"><button class="text-emerald-600 hover:underline">Muavin</button></td>
                   </tr>
                   <tr class="hover:bg-slate-50 bg-blue-50/20">
-                    <td class="py-2 px-3 font-bold text-slate-900">120.01 Ben Ellis Textile Ltd (UK)</td>
+                    <td class="py-2 px-3 font-bold text-slate-900">120.01 Ben Ellis</td>
                     <td class="py-2 px-3 font-sans text-blue-700 font-semibold">Yurtdışı Müşteri</td>
                     <td class="py-2 px-3 text-right text-slate-800">1.108.500,00</td>
                     <td class="py-2 px-3 text-right text-slate-600">560.800,00</td>
@@ -1045,7 +1045,7 @@ HTML_CONTENT = """<!DOCTYPE html>
                 <tbody class="divide-y divide-slate-100">
                   <tr class="hover:bg-slate-50 bg-amber-50/20">
                     <td class="py-3 px-3 font-bold text-slate-900">EFT2026000000104</td>
-                    <td class="py-3 px-3 font-sans font-bold text-slate-900">BEN ELLIS TEXTILE LTD (UK)</td>
+                    <td class="py-3 px-3 font-sans font-bold text-slate-900">BEN ELLIS (UK)</td>
                     <td class="py-3 px-3 text-slate-600">08.09.2026</td>
                     <td class="py-3 px-3 font-mono text-blue-700 font-bold">26340200EX009281</td>
                     <td class="py-3 px-3 font-sans"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold">301 - Mal İhracatı</span></td>
@@ -1058,7 +1058,7 @@ HTML_CONTENT = """<!DOCTYPE html>
                   </tr>
                   <tr class="hover:bg-slate-50">
                     <td class="py-3 px-3 font-bold text-slate-900">EFT2026000000098</td>
-                    <td class="py-3 px-3 font-sans font-bold text-slate-900">BEN ELLIS TEXTILE LTD (UK)</td>
+                    <td class="py-3 px-3 font-sans font-bold text-slate-900">BEN ELLIS (UK)</td>
                     <td class="py-3 px-3 text-slate-600">12.08.2026</td>
                     <td class="py-3 px-3 font-mono text-slate-600">26340200EX008104</td>
                     <td class="py-3 px-3 font-sans"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold">301 - Mal İhracatı</span></td>
@@ -1071,7 +1071,7 @@ HTML_CONTENT = """<!DOCTYPE html>
                   </tr>
                   <tr class="hover:bg-slate-50">
                     <td class="py-3 px-3 font-bold text-slate-900">EFT2026000000095</td>
-                    <td class="py-3 px-3 font-sans font-semibold text-slate-800">MILANO TESSUTI SRL (İtalya)</td>
+                    <td class="py-3 px-3 font-sans font-semibold text-slate-800">MILANO TESSUTI SRL</td>
                     <td class="py-3 px-3 text-slate-600">24.07.2026</td>
                     <td class="py-3 px-3 font-mono text-slate-600">26340200EX007551</td>
                     <td class="py-3 px-3 font-sans"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold">301 - Mal İhracatı</span></td>
@@ -1241,7 +1241,7 @@ HTML_CONTENT = """<!DOCTYPE html>
           <div class="bg-white rounded-lg p-4 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="space-y-1">
               <div class="flex items-center gap-2">
-                <span class="font-display font-bold text-slate-900 text-base">BEN ELLIS TEXTILE LTD</span>
+                <span class="font-display font-bold text-slate-900 text-base">BEN ELLIS</span>
                 <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-800">Birleşik Krallık</span>
                 <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">VIP İhracat Müşterisi</span>
               </div>
@@ -1293,7 +1293,7 @@ HTML_CONTENT = """<!DOCTYPE html>
                 <tbody class="divide-y divide-slate-100">
                   <tr class="hover:bg-slate-50 bg-blue-50/20">
                     <td class="py-3 px-3 font-bold text-slate-900">CR-GB-0024</td>
-                    <td class="py-3 px-3 font-sans font-bold text-slate-900">BEN ELLIS TEXTILE LTD</td>
+                    <td class="py-3 px-3 font-sans font-bold text-slate-900">BEN ELLIS</td>
                     <td class="py-3 px-3 font-sans"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold">İhracat Müşterisi</span></td>
                     <td class="py-3 px-3">GB9283741</td>
                     <td class="py-3 px-3 font-sans">Manchester, İngiltere</td>
@@ -1752,7 +1752,7 @@ HTML_CONTENT = """<!DOCTYPE html>
               <div class="p-3 border border-slate-200 rounded-lg bg-slate-50">
                 <span class="font-bold text-slate-800 uppercase block mb-1">Form Bs (Satış Bildirimi):</span>
                 <div class="font-mono text-sm font-bold text-slate-900">4 Belge • ₺1.854.200,00</div>
-                <span class="text-[11px] text-emerald-700 mt-1 block">Ben Ellis Ltd, Milano Tessuti, LCW</span>
+                <span class="text-[11px] text-emerald-700 mt-1 block">Ben Ellis, Milano Tessuti, LCW</span>
               </div>
             </div>
           </div>
@@ -1970,8 +1970,8 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div>
           <label class="block text-slate-600 font-semibold mb-1">Müşteri Seçin (Cari Kartı)</label>
           <select class="w-full p-2 border border-slate-300 rounded font-semibold text-slate-800">
-            <option>BEN ELLIS TEXTILE LTD (CR-GB-0024 - Manchester, UK)</option>
-            <option>MILANO TESSUTI SRL (İtalya)</option>
+            <option>BEN ELLIS (CR-GB-0024 - Manchester, UK)</option>
+            <option>MILANO TESSUTI SRL</option>
             <option>DEFACTO PERAKENDE TİC. A.Ş.</option>
             <option>ZİRVE TEKSTİL PAZARLAMA A.Ş.</option>
           </select>
@@ -2092,7 +2092,7 @@ HTML_CONTENT = """<!DOCTYPE html>
         <div>
           <label class="block text-slate-600 font-semibold mb-1">Cari Seçimi</label>
           <select class="w-full p-2 border border-slate-300 rounded font-semibold text-slate-800">
-            <option>BEN ELLIS TEXTILE LTD (£12.139,22 Açık Bakiye)</option>
+            <option>BEN ELLIS (£12.139,22 Açık Bakiye)</option>
             <option>MILANO TESSUTI SRL (€14.800,00)</option>
             <option>ZİRVE TEKSTİL PAZARLAMA A.Ş. (₺150.000,00)</option>
           </select>
@@ -2188,7 +2188,7 @@ HTML_CONTENT = """<!DOCTYPE html>
       <div class="bg-amber-50/80 border border-amber-200/80 rounded-lg p-3 text-xs text-amber-900 space-y-1">
         <div class="font-bold flex items-center gap-1">
           <span class="material-symbols-outlined text-[16px]">info</span>
-          Ben Ellis Textile Ltd - Açık ETGB Bedeli
+          Ben Ellis - Açık ETGB Bedeli
         </div>
         <div>Fatura Tutarı: <strong>£12.139,22 GBP</strong> • Güncel TCMB Gösterge Alış Kuru: <strong class="font-mono">45.1200 TL</strong></div>
       </div>
