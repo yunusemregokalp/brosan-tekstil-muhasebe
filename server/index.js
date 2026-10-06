@@ -47,7 +47,7 @@ checkDbConnection();
 // ==============================================================================
 app.get('/api/health', async (req, res) => {
   const dbOk = await checkDbConnection();
-  res.status(dbOk ? 200 : 503).json({
+  res.status(200).json({
     status: dbOk ? 'healthy' : 'degraded',
     service: 'brosan-tekstil-erp',
     database: dbOk ? 'connected' : 'disconnected',

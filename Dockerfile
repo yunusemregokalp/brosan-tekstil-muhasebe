@@ -35,6 +35,7 @@ COPY --from=builder /app/prisma ./prisma
 # Uygulama kaynak dosyaları
 COPY server ./server
 COPY app ./app
+COPY data ./data
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
 
 # Çalıştırma izinleri
