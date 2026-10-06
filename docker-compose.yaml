@@ -32,6 +32,8 @@ services:
     restart: unless-stopped
     expose:
       - "3000"
+    ports:
+      - "3000:3000"
     environment:
       NODE_ENV: production
       PORT: 3000
@@ -43,10 +45,19 @@ services:
     labels:
       - "coolify.managed=true"
       - "traefik.enable=true"
-      - "traefik.http.routers.brosan-erp.rule=Host(`${COOLIFY_FQDN:-173.249.23.10}`)"
-      - "traefik.http.routers.brosan-erp.entrypoints=web"
+      - "traefik.http.routers.brosan-erp.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.brosan-erp.entrypoints=http,https,web,websecure"
+      - "traefik.http.routers.brosan-erp.tls=true"
+      - "traefik.http.routers.brosan-erp-http.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.brosan-erp-http.entrypoints=http,web"
+      - "traefik.http.routers.brosan-erp-http.service=brosan-erp"
       - "traefik.http.services.brosan-erp.loadbalancer.server.port=3000"
 
 volumes:
   brosan_cloud_pgdata:
     name: brosan_cloud_pgdata
+
+networks:
+  default:
+    name: coolify
+    external: true
