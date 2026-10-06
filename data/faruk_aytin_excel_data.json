@@ -1,0 +1,152 @@
+{
+  "summary": {
+    "supplier_name": "FARUK AYTİN",
+    "sub_title": "NİSA TEKSTİL",
+    "tckn": "46849262292",
+    "address": "Sultangazi İstanbul Uğur Mumcu Mah. Eski Edirne Asfaltı No: 574/4",
+    "email": "nisatekstil34@hotmail.com",
+    "total_fason_alis_usd": 24032.8,
+    "total_fason_kdv_usd": 2184.8,
+    "total_banka_odemesi_usd": 6236.0,
+    "total_banka_odemesi_tl": 298471.0,
+    "kumas_satis_faturasi_usd": 7461.45,
+    "kumas_satis_faturasi_tl": 364045.0,
+    "net_kalan_cari_borc_usd": 10335.35,
+    "net_kalan_cari_borc_tl": 508894.07,
+    "net_odenecek_kdv_usd": 1230.49,
+    "net_odenecek_kdv_tl": 60355.83
+  },
+  "fason_faturalar": [
+    {
+      "fatura_no": "NSA2026000000070",
+      "tarih": "30.07.2026",
+      "aciklama": "EMK Oversized Tişört (276 Adet)",
+      "kur": 47.25,
+      "matrah_usd": 2760.0,
+      "kdv_usd": 276.0,
+      "toplam_usd": 3036.0,
+      "matrah_tl": 130410.0,
+      "kdv_tl": 13041.0,
+      "toplam_tl": 143451.0,
+      "durum": "Ödendi / Kapandı (31.07.2026 Garanti Bankası)"
+    },
+    {
+      "fatura_no": "NSA2026000000084",
+      "tarih": "01.10.2026",
+      "irsaliye_no": "IRS2026000000078",
+      "aciklama": "Ben Ellis (140 T-shirt + 180 Hoodie)",
+      "kur": 48.9303,
+      "matrah_usd": 5788.0,
+      "kdv_usd": 578.8,
+      "toplam_usd": 6366.8,
+      "matrah_tl": 283208.58,
+      "kdv_tl": 28320.86,
+      "toplam_tl": 311529.43,
+      "parasut_fis_no": "1044145905",
+      "durum": "Paraşüt İşlendi (Avans + Kumaş Mahsubu ile Kapandı)"
+    },
+    {
+      "fatura_no": "NSA2026000000087",
+      "tarih": "05.10.2026",
+      "irsaliye_no": "IRS2026000000080",
+      "aciklama": "Ben Ellis (375 T-shirt + 394 Hoodie)",
+      "kur": 48.9699,
+      "matrah_usd": 13300.0,
+      "kdv_usd": 1330.0,
+      "toplam_usd": 14630.0,
+      "matrah_tl": 651299.67,
+      "kdv_tl": 65129.97,
+      "toplam_tl": 716429.64,
+      "parasut_fis_no": "1044145920",
+      "durum": "Paraşüt İşlendi (Açık Kalan Bakiye: 10.335,35 USD)"
+    }
+  ],
+  "kumas_satis_faturasi": {
+    "fatura_no": "BR02026000000024",
+    "tarih": "27.09.2026",
+    "tcmb_kur": 48.7901,
+    "matrah_tl": 330950.0,
+    "kdv_tl": 33095.0,
+    "toplam_tl": 364045.0,
+    "matrah_usd": 6783.14,
+    "kdv_usd": 678.31,
+    "toplam_usd": 7461.45,
+    "kalemler": [
+      {
+        "cins": "B.KUMAŞ 30/2 PENYE SÜPREM",
+        "kg": 227,
+        "bf_tl": 340,
+        "toplam_tl": 84898,
+        "usd": 1740.07
+      },
+      {
+        "cins": "B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA",
+        "kg": 14.5,
+        "bf_tl": 340,
+        "toplam_tl": 5423,
+        "usd": 111.15
+      },
+      {
+        "cins": "B.KUMAŞ 30/20/10 PENYE ÜÇ İPLİK",
+        "kg": 650,
+        "bf_tl": 330,
+        "toplam_tl": 235950,
+        "usd": 4836.02
+      },
+      {
+        "cins": "B.KUMAŞ 30/2 PENYE 70 DNY LYC K.KORSE",
+        "kg": 101,
+        "bf_tl": 340,
+        "toplam_tl": 37774,
+        "usd": 774.21
+      }
+    ]
+  },
+  "banka_odemeleri": [
+    {
+      "sira": 1,
+      "tarih": "31.07.2026",
+      "tl": 143451,
+      "usd": 3036,
+      "kur": 47.25,
+      "dekont": "2026-07-31-17.07.43",
+      "aciklama": "NSA2026000000070 nolu fatura ödemesi"
+    },
+    {
+      "sira": 2,
+      "tarih": "07.09.2026",
+      "tl": 96600,
+      "usd": 2000,
+      "kur": 48.3,
+      "dekont": "2026-09-07-16.25.27",
+      "aciklama": "Verilen siparişe istinaden avans"
+    },
+    {
+      "sira": 3,
+      "tarih": "14.09.2026",
+      "tl": 48420,
+      "usd": 1000,
+      "kur": 48.42,
+      "dekont": "2026-09-14-14.19.11",
+      "aciklama": "Cari hesaba istinaden avans"
+    },
+    {
+      "sira": 4,
+      "tarih": "22.09.2026",
+      "tl": 5000,
+      "usd": 100,
+      "kur": 50.0,
+      "dekont": "2026-09-22-18.03.45",
+      "aciklama": "100 USD karşılığı cari ödeme"
+    },
+    {
+      "sira": 5,
+      "tarih": "30.09.2026",
+      "tl": 5000,
+      "usd": 100,
+      "kur": 50.0,
+      "dekont": "2026-09-30-18.20.49",
+      "aciklama": "100 USD karşılığı cari ödeme"
+    }
+  ]
+}

@@ -592,6 +592,23 @@ app.get('/api/reports/mizan', async (req, res) => {
   }
 });
 
+// ==============================================================================
+// 12. FARUK AYTİN & NİSA TEKSTİL FASON ÜRETİM & KUMAŞ MAHSUBU MUTABAKATI
+// ==============================================================================
+app.get('/api/mutabakat/faruk-aytin', (req, res) => {
+  try {
+    const fs = require('fs');
+    const dataPath = path.join(__dirname, '..', 'data', 'faruk_aytin_excel_data.json');
+    if (fs.existsSync(dataPath)) {
+      const raw = fs.readFileSync(dataPath, 'utf-8');
+      return res.json({ success: true, data: JSON.parse(raw) });
+    }
+    res.status(404).json({ success: false, error: 'Mutabakat verisi bulunamadı' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // Catch-all for SPA Navigation
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'app', 'index.html'));

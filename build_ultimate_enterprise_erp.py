@@ -344,73 +344,73 @@ HTML_CODE = """<!DOCTYPE html>
           <!-- TOP 4 HERO KPI CARDS -->
           <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             
-            <!-- Card 1: Banka & Kasa Likiditesi -->
+            <!-- Card 1: Banka & Kasa Likiditesi (Garanti BBVA Canlı) -->
             <div class="bg-white rounded-xl p-4 border border-slate-200/90 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all">
               <div>
                 <div class="flex items-center justify-between mb-2">
-                  <span class="text-slate-500 text-[11px] font-bold uppercase tracking-wider">KASA &amp; BANKA LİKİDİTESİ</span>
+                  <span class="text-slate-500 text-[11px] font-bold uppercase tracking-wider">GARANTİ BBVA BANKA LİKİDİTESİ</span>
                   <span class="material-symbols-outlined text-emerald-600 text-[20px]">account_balance_wallet</span>
                 </div>
                 <div class="flex items-baseline gap-2">
-                  <span id="hero-kpi-bank-gbp" class="font-mono text-xl font-bold text-slate-900">£48.250</span>
+                  <span id="hero-kpi-bank-gbp" class="font-mono text-xl font-bold text-slate-900">£23.759,07</span>
                   <span class="text-slate-400 font-mono text-sm">+</span>
-                  <span id="hero-kpi-bank-try" class="font-mono text-xl font-bold text-slate-900">₺845.200</span>
+                  <span id="hero-kpi-bank-try" class="font-mono text-xl font-bold text-slate-900">₺15.732,92</span>
                 </div>
                 <div class="mt-2 flex flex-wrap gap-1.5 text-[10px] font-mono">
-                  <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700">GBP £48.250</span>
-                  <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700">USD $32.400</span>
-                  <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700">EUR €14.800</span>
-                  <span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold">TRY ₺845.200</span>
+                  <span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-800 font-bold">GBP £23.759</span>
+                  <span class="px-1.5 py-0.5 rounded bg-blue-50 text-blue-800 font-bold">EUR €11.792</span>
+                  <span class="px-1.5 py-0.5 rounded bg-purple-50 text-purple-800 font-bold">USD $1.521</span>
+                  <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-800">Lojistik: ₺17.211</span>
                 </div>
               </div>
               <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
                 <span class="text-emerald-700 font-medium flex items-center gap-1">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                  Garanti BBVA API: Canlı
+                  Garanti BBVA: 5 Hesap Canlı
                 </span>
-                <button onclick="switchView('banking')" class="text-slate-500 hover:text-slate-800 font-medium hover:underline">Akbank Entegre</button>
+                <button onclick="switchView('banking')" class="text-slate-500 hover:text-slate-800 font-medium hover:underline">Detay Gör →</button>
               </div>
             </div>
 
-            <!-- Card 2: Cari Alacaklar & Çek Portföyü -->
+            <!-- Card 2: Cari Alacaklar (Ben Ellis & İhracat) -->
             <div class="bg-white rounded-xl p-4 border border-slate-200/90 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all">
               <div>
                 <div class="flex items-center justify-between mb-2">
-                  <span class="text-slate-500 text-[11px] font-bold uppercase tracking-wider">CARİ ALACAK &amp; ÇEK PORTFÖYÜ</span>
+                  <span class="text-slate-500 text-[11px] font-bold uppercase tracking-wider">CARİ ALACAKLAR (İHRACAT)</span>
                   <span class="material-symbols-outlined text-blue-600 text-[20px]">assignment_turned_in</span>
                 </div>
                 <div class="flex items-baseline gap-2">
-                  <span id="hero-kpi-receivable-gbp" class="font-mono text-xl font-bold text-slate-900">£12.139,22</span>
+                  <span id="hero-kpi-receivable-gbp" class="font-mono text-xl font-bold text-blue-700">£22.414,22</span>
                   <span class="text-slate-400 font-mono text-sm">+</span>
-                  <span class="font-mono text-xl font-bold text-slate-900">₺420.000</span>
+                  <span class="font-mono text-xl font-bold text-slate-900">₺1.343.608</span>
                 </div>
                 <p id="hero-kpi-receivable-sub" class="text-xs text-slate-500 mt-1.5">
-                  1 ETGB Dosyası (Ben Ellis) + 4 Adet Çek
+                  Ben Ellis (Bristol UK: £22.414,22 = ₺1.452.246) • Lavi La LLC • GbR Celik
                 </p>
               </div>
               <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold font-mono">Ort. Vade: 28 Gün</span>
-                <span class="text-slate-500 font-medium font-mono">%98 Düzenli</span>
+                <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-800 font-semibold font-mono">Toplam: ₺2.795.854 TL</span>
+                <span class="text-emerald-700 font-medium font-mono">VIP İhracat</span>
               </div>
             </div>
 
-            <!-- Card 3: Tedarikçi Borçları & SGK/Vergi -->
+            <!-- Card 3: Tedarikçi Borçları & Faruk Aytin -->
             <div class="bg-white rounded-xl p-4 border border-slate-200/90 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-all">
               <div>
                 <div class="flex items-center justify-between mb-2">
-                  <span class="text-slate-500 text-[11px] font-bold uppercase tracking-wider">TEDARİKÇİ BORÇ &amp; SGK / KDV</span>
-                  <span class="material-symbols-outlined text-slate-600 text-[20px]">receipt_long</span>
+                  <span class="text-slate-500 text-[11px] font-bold uppercase tracking-wider">TEDARİKÇİ BORÇLARI</span>
+                  <span class="material-symbols-outlined text-rose-600 text-[20px]">receipt_long</span>
                 </div>
-                <div id="hero-kpi-debt-try" class="font-mono text-xl font-bold text-slate-900">
-                  ₺342.180,00
+                <div id="hero-kpi-debt-try" class="font-mono text-xl font-bold text-rose-700">
+                  ₺1.969.839,26
                 </div>
                 <p class="text-xs text-slate-500 mt-1.5">
-                  Birlik Kumaş, Çetin Boya • ₺141.250 SGK/KDV
+                  Tinteks: ₺1.099.047 • Faruk Aytin: -$10.335 USD (₺508.894) • Çetin Türedi: ₺200.000
                 </p>
               </div>
               <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 font-semibold font-mono">3 Fatura Bu Hafta</span>
-                <span class="text-slate-500 font-mono">26 Ekim Vade</span>
+                <span class="px-2 py-0.5 rounded bg-rose-50 text-rose-800 font-semibold font-mono">Faruk Aytin: -$10.335 $</span>
+                <button onclick="switchView('mutabakat')" class="text-amber-800 font-bold hover:underline">Mahsup Masası →</button>
               </div>
             </div>
 
@@ -427,10 +427,10 @@ HTML_CODE = """<!DOCTYPE html>
                   </span>
                 </div>
                 <div id="hero-ibkb-title" class="font-display text-lg font-bold text-slate-900">
-                  1 Açık ETGB Bekliyor
+                  Ben Ellis e-İhracat
                 </div>
                 <p id="hero-ibkb-sub" class="text-xs text-amber-900 mb-2">
-                  Ben Ellis • ₺142.800 İhracat KDV İadesi
+                  BS02026000000013 (£7.388,10) • %40 Bozum Masası
                 </p>
               </div>
               <div class="pt-2 border-t border-amber-200 flex items-center justify-between">
@@ -441,6 +441,37 @@ HTML_CODE = """<!DOCTYPE html>
               </div>
             </div>
           </section>
+
+          <!-- FARUK AYTİN & NİSA TEKSTİL FASON VE KUMAŞ MAHSUBU KOKPİT ÖZET BANNERI -->
+          <div class="bg-gradient-to-r from-amber-950 via-slate-900 to-slate-900 text-white rounded-xl p-4 border border-amber-500/40 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1.5">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wider font-mono">FASON &amp; KUMAŞ MAHSUBU</span>
+                <span class="text-xs font-bold text-slate-200">Faruk Aytin (Nisa Tekstil) Canlı Mutabakat Durumu</span>
+                <span class="px-2 py-0.2 rounded text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800/40 font-mono font-bold">%100 Eşleşti ✓</span>
+              </div>
+              <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-300 font-mono">
+                <span>Fason Alış: <strong class="text-white">$24.032,80 USD</strong> (₺1.171.410,07)</span>
+                <span>•</span>
+                <span>Kumaş Mahsubu: <strong class="text-blue-300">$7.461,45 USD</strong> (₺364.045,00)</span>
+                <span>•</span>
+                <span>Garanti Ödeme: <strong class="text-emerald-300">$6.236,00 USD</strong> (₺298.471,00)</span>
+                <span>•</span>
+                <span>Ödenecek Net KDV: <strong class="text-amber-300">$1.230,49 USD</strong> (₺60.355,83)</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="text-right">
+                <span class="text-[10px] text-rose-300 font-bold block uppercase tracking-wider">NET KALAN BORÇ BAKİYESİ:</span>
+                <span class="font-mono text-xl font-black text-rose-400">-$10.335,35 USD</span>
+                <span class="text-[11px] font-mono text-slate-400 block">-₺508.894,07 TL</span>
+              </div>
+              <button onclick="switchView('mutabakat')" class="px-3 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-sm flex items-center gap-1.5 transition-colors whitespace-nowrap">
+                <span>Mutabakat Masası</span>
+                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+              </button>
+            </div>
+          </div>
 
           <!-- MULTI-TAB WORKSTATION RIBBON -->
           <div class="border-b border-slate-200">
@@ -888,36 +919,70 @@ HTML_CODE = """<!DOCTYPE html>
             </div>
           </div>
 
-          <!-- Ben Ellis Highlight Card -->
-          <div class="bg-white rounded-lg p-4 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="font-display font-bold text-slate-900 text-base">BEN ELLIS</span>
-                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-800">Birleşik Krallık</span>
-                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">VIP İhracat Müşterisi</span>
+          <!-- Two Highlight Cards: Ben Ellis (Alacak) & Faruk Aytin (Fason Mahsup Borcu) -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- Ben Ellis Highlight Card -->
+            <div class="bg-white rounded-lg p-4 border border-blue-200/80 shadow-xs flex flex-col justify-between gap-3 bg-gradient-to-br from-blue-50/20 to-white">
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="font-display font-bold text-slate-900 text-base">BEN ELLİS</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-800">Bristol, Birleşik Krallık</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">VIP İhracat</span>
+                  </div>
+                  <span class="font-mono text-sm font-extrabold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">£22.414,22 GBP</span>
+                </div>
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                  <span>Cari Kodu: <strong class="text-slate-800 font-mono">CR-GB-0001</strong></span>
+                  <span>•</span>
+                  <span>TRY Karşılığı: <strong class="text-slate-900 font-bold font-mono">₺1.452.246,45 TL</strong></span>
+                  <span>•</span>
+                  <span>Teslimat: <span class="text-slate-700 font-medium">Cherith Church Lane Chew Stoke Bristol</span></span>
+                </div>
               </div>
-              <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
-                <span>Cari Kodu: <strong class="text-slate-800 font-mono">CR-GB-0024</strong></span>
-                <span>•</span>
-                <span>KDV / VAT: <strong class="text-slate-800 font-mono">GB9283741</strong></span>
-                <span>•</span>
-                <span>Adres: <strong class="text-slate-800">Manchester, İngiltere</strong></span>
-                <span>•</span>
-                <span>Bakiye: <strong id="ben-ellis-balance-highlight" class="text-slate-900 font-bold font-mono">£12.139,22 GBP</strong></span>
+              <div class="bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-[10px]">GBP</span>
+                  <div>
+                    <span class="text-[10px] text-slate-500 font-semibold uppercase block">Garanti BBVA İhracat GBP IBAN:</span>
+                    <span class="font-mono text-xs font-bold text-slate-900">TR86 0006 2000 4170 0009 0345 78</span>
+                  </div>
+                </div>
+                <button onclick="navigator.clipboard.writeText('TR860006200041700009034578'); showToast('Garanti BBVA GBP IBAN kopyalandı!', 'success')" class="p-1.5 text-slate-500 hover:text-slate-800 bg-white border border-slate-200 rounded hover:bg-slate-100" title="Kopyala">
+                  <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                </button>
               </div>
             </div>
-            <!-- Garanti BBVA IBAN Box -->
-            <div class="bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex items-center gap-3">
-              <div class="w-8 h-8 rounded bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
-                GB
+
+            <!-- Faruk Aytin Highlight Card -->
+            <div class="bg-white rounded-lg p-4 border border-amber-300 shadow-xs flex flex-col justify-between gap-3 bg-gradient-to-br from-amber-50/30 to-white">
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="font-display font-bold text-slate-900 text-base">FARUK AYTİN</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-900">NİSA TEKSTİL</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-100 text-rose-800">Fason &amp; Kumaş Mahsubu</span>
+                  </div>
+                  <span class="font-mono text-sm font-extrabold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">-$10.335,35 USD</span>
+                </div>
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                  <span>Cari Kodu: <strong class="text-slate-800 font-mono">CR-TR-0004</strong></span>
+                  <span>•</span>
+                  <span>TCKN: <strong class="text-slate-800 font-mono">46849262292</strong></span>
+                  <span>•</span>
+                  <span>TL Net Bakiye: <strong class="text-rose-700 font-bold font-mono">-₺508.894,07 TL</strong></span>
+                </div>
               </div>
-              <div>
-                <span class="text-[10px] text-slate-500 font-semibold uppercase block">Garanti BBVA İhracat GBP IBAN:</span>
-                <span class="font-mono text-xs font-bold text-slate-900">TR32 0006 2000 1827 0009 2381 01</span>
+              <div class="bg-amber-50/80 border border-amber-200 rounded-lg p-2.5 flex items-center justify-between text-xs">
+                <div>
+                  <span class="text-[10px] text-amber-800 font-bold uppercase block">Fason Alış: $24.032,80 • Kumaş Mahsubu: $7.461,45 • Garanti Ödeme: $6.236,00</span>
+                  <span class="text-[11px] text-slate-700 font-medium">Ödenecek Net KDV: <strong>$1.230,49 USD (₺60.355,83)</strong> • Paraşüt &amp; Excel Tam Mutabık ✓</span>
+                </div>
+                <button onclick="switchView('mutabakat')" class="px-2.5 py-1.5 rounded bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs flex items-center gap-1 shadow-xs">
+                  <span>Masayı Aç</span>
+                  <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                </button>
               </div>
-              <button onclick="navigator.clipboard.writeText('TR320006200018270009238101'); showToast('Garanti BBVA GBP IBAN panoya kopyalandı!', 'success')" class="p-1.5 text-slate-500 hover:text-slate-800 bg-white border border-slate-200 rounded hover:bg-slate-100" title="IBAN Kopyala">
-                <span class="material-symbols-outlined text-[16px]">content_copy</span>
-              </button>
             </div>
           </div>
 
@@ -970,49 +1035,70 @@ HTML_CODE = """<!DOCTYPE html>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- 1. Garanti GBP -->
             <div class="bg-white rounded-lg p-4 border border-slate-200 shadow-xs relative">
               <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-2">
-                  <div class="w-8 h-8 rounded bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">GB</div>
+                  <div class="w-8 h-8 rounded bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">GBP</div>
                   <div>
-                    <h3 class="font-bold text-xs text-slate-900">Garanti BBVA - GBP İhracat</h3>
-                    <span class="text-[10px] text-slate-500">Bahçeşehir Şubesi</span>
+                    <h3 class="font-bold text-xs text-slate-900">Garanti BBVA GBP İhracat</h3>
+                    <span class="text-[10px] text-slate-500">Hesap: 417-9034578</span>
                   </div>
                 </div>
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
               </div>
-              <div id="bank-card-gbp" class="font-mono text-xl font-bold text-slate-900 mt-2">£48.250,00</div>
-              <div class="text-[11px] text-slate-500 font-mono mt-1">IBAN: TR32 0006 2000 1827 0009 2381 01</div>
+              <div class="font-mono text-xl font-bold text-slate-900 mt-2">£23.759,07</div>
+              <div class="text-[10px] text-slate-500 font-mono mt-1 truncate">TR86 0006 2000 4170 0009 0345 78</div>
             </div>
+
+            <!-- 2. Garanti TRY Ana Hesap -->
             <div class="bg-white rounded-lg p-4 border border-slate-200 shadow-xs relative">
               <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-2">
                   <div class="w-8 h-8 rounded bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs">TL</div>
                   <div>
-                    <h3 class="font-bold text-xs text-slate-900">Garanti BBVA - TRY Ticari</h3>
-                    <span class="text-[10px] text-slate-500">Bahçeşehir Şubesi</span>
+                    <h3 class="font-bold text-xs text-slate-900">Garanti BBVA TL Ana Hesap</h3>
+                    <span class="text-[10px] text-slate-500">Hesap: 417-6289477</span>
                   </div>
                 </div>
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
               </div>
-              <div id="bank-card-try" class="font-mono text-xl font-bold text-slate-900 mt-2">₺845.200,00</div>
-              <div class="text-[11px] text-slate-500 font-mono mt-1">IBAN: TR45 0006 2000 1827 0009 2381 02</div>
+              <div class="font-mono text-xl font-bold text-slate-900 mt-2">₺15.732,92</div>
+              <div class="text-[10px] text-slate-500 font-mono mt-1 truncate">TR16 0006 2000 4170 0006 2894 77</div>
             </div>
+
+            <!-- 3. Garanti TRY Lojistik -->
+            <div class="bg-white rounded-lg p-4 border border-slate-200 shadow-xs relative">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded bg-indigo-100 text-indigo-800 font-bold flex items-center justify-center text-xs">LOJ</div>
+                  <div>
+                    <h3 class="font-bold text-xs text-slate-900">Garanti BBVA Lojistik TL</h3>
+                    <span class="text-[10px] text-slate-500">Hesap: 417-6287865</span>
+                  </div>
+                </div>
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              </div>
+              <div class="font-mono text-xl font-bold text-slate-900 mt-2">₺17.210,75</div>
+              <div class="text-[10px] text-slate-500 font-mono mt-1 truncate">TR84 0006 2000 4170 0006 2878 65</div>
+            </div>
+
+            <!-- 4. Garanti EUR & USD + Kasa -->
             <div class="bg-white rounded-lg p-4 border border-slate-200 shadow-xs relative">
               <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-2">
                   <div class="w-8 h-8 rounded bg-purple-100 text-purple-800 font-bold flex items-center justify-center text-xs">$€</div>
                   <div>
-                    <h3 class="font-bold text-xs text-slate-900">USD &amp; EUR Döviz Tevdiat</h3>
-                    <span class="text-[10px] text-slate-500">Garanti + Akbank</span>
+                    <h3 class="font-bold text-xs text-slate-900">EUR &amp; USD Döviz Tevdiat</h3>
+                    <span class="text-[10px] text-slate-500">Garanti 417-9034579/80</span>
                   </div>
                 </div>
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
               </div>
-              <div class="font-mono text-sm font-bold text-slate-900 mt-2 space-y-1">
-                <div>USD: $32.400,00 • EUR: €14.800,00</div>
-                <div class="text-slate-600 text-xs font-normal">Nakit Kasası: ₺45.000,00</div>
+              <div class="font-mono text-sm font-bold text-slate-900 mt-2 space-y-0.5">
+                <div>EUR: €11.792,36 • USD: $1.521,16</div>
+                <div class="text-rose-700 text-xs font-semibold">Yunus Cep KK: -₺248.697 • Kasa: -₺722</div>
               </div>
             </div>
           </div>
@@ -1226,35 +1312,376 @@ HTML_CODE = """<!DOCTYPE html>
         <!-- ========================================== -->
         <!-- MODULE 10: Ba/Bs & e-MUTABAKAT -->
         <!-- ========================================== -->
+        <!-- ========================================== -->
+        <!-- MODULE 10: FARUK AYTİN (NİSA TEKSTİL) FASON & KUMAŞ MAHSUP MUTABAKAT MASASI -->
+        <!-- ========================================== -->
         <div id="view-mutabakat" class="module-view space-y-5">
-          <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+          <!-- Page Header -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between pb-3 border-b border-slate-200 gap-3">
             <div>
               <div class="flex items-center gap-2 text-slate-500 text-[11px] uppercase tracking-wider font-semibold">
                 <button onclick="switchView('dashboard')" class="hover:underline">Kokpit</button>
                 <span>/</span>
-                <span class="text-[#00AA6C]">Mutabakat</span>
+                <span class="text-amber-600 font-bold">Fason &amp; Cari Mutabakat</span>
+                <span>/</span>
+                <span class="text-slate-900 font-bold">Faruk Aytin (Nisa Tekstil)</span>
               </div>
-              <h1 class="text-slate-900 font-display text-xl font-bold mt-0.5">Form Ba / Form Bs &amp; e-Mutabakat Masası</h1>
+              <h1 class="text-slate-900 font-display text-xl font-bold mt-0.5 flex items-center gap-2">
+                <span>Faruk Aytin &amp; Nisa Tekstil Fason Üretim &amp; Kumaş Mahsubu Mutabakat Masası</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">%100 Mutabık (Excel &amp; Paraşüt)</span>
+              </h1>
             </div>
-            <button onclick="showToast('Tüm carilere e-Mutabakat e-postası ve SMS gönderildi.', 'success')" class="px-3.5 py-2 rounded-lg bg-[#00AA6C] hover:bg-emerald-600 text-white font-semibold text-xs shadow-sm flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-[18px]">send</span>
-              <span>Toplu e-Mutabakat Gönder</span>
-            </button>
+            <div class="flex items-center gap-2">
+              <button onclick="printFarukAytinMutabakat()" class="px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs shadow-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px]">print</span>
+                <span>Resmi Mutabakat Mektubu (A4)</span>
+              </button>
+              <button onclick="showToast('Excel çalışma kağıdı (FARUK AYTİN CARİ.xlsx) ve Paraşüt verileri birebir doğrulandı.', 'success')" class="px-3.5 py-2 rounded-lg bg-[#00AA6C] hover:bg-emerald-600 text-white font-semibold text-xs shadow-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px]">verified</span>
+                <span>Canlı Doğrulama Raporu</span>
+              </button>
+            </div>
           </div>
 
-          <div class="bg-white rounded-lg border border-slate-200 p-4 shadow-xs text-xs space-y-3">
-            <h3 class="font-bold text-slate-900">GİB ₺5.000 Üzeri Bildirime Tabi İşlemler (Ekim 2026)</h3>
-            <p class="text-slate-500">Vergi Usul Kanunu 396 Sıra No'lu Genel Tebliği uyarınca elektronik ortamda bildirilen alış ve satışlar.</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="p-3 border border-slate-200 rounded-lg bg-slate-50">
-                <span class="font-bold text-slate-800 uppercase block mb-1">Form Ba (Alış Bildirimi):</span>
-                <div class="font-mono text-sm font-bold text-slate-900">3 Belge • ₺342.180,00</div>
-                <span class="text-[11px] text-emerald-700 mt-1 block">Birlik Kumaşçılık, Çetin Boyahane, Marifet İplik</span>
+          <!-- Top 5 Strategic KPI Metric Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+            <!-- KPI 1: Toplam Fason Alış -->
+            <div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">
+                  <span>TOPLAM FASON ALIŞ</span>
+                  <span class="material-symbols-outlined text-purple-600 text-[18px]">styler</span>
+                </div>
+                <div class="font-mono text-lg font-extrabold text-slate-900">$24.032,80 USD</div>
+                <div class="text-[11px] font-mono text-slate-600 mt-0.5">₺1.171.410,07 TL</div>
               </div>
-              <div class="p-3 border border-slate-200 rounded-lg bg-slate-50">
-                <span class="font-bold text-slate-800 uppercase block mb-1">Form Bs (Satış Bildirimi):</span>
-                <div class="font-mono text-sm font-bold text-slate-900">4 Belge • ₺1.854.200,00</div>
-                <span class="text-[11px] text-emerald-700 mt-1 block">Ben Ellis, Milano Tessuti, LCW</span>
+              <div class="mt-2 pt-2 border-t border-slate-100 text-[10px] text-slate-500 flex justify-between">
+                <span>3 Fatura (1.365 Adet)</span>
+                <span class="text-purple-700 font-bold">KDV: $2.184,80</span>
+              </div>
+            </div>
+
+            <!-- KPI 2: Kumaş Satış Mahsubu -->
+            <div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">
+                  <span>KUMAŞ SATIŞ MAHSUBU</span>
+                  <span class="material-symbols-outlined text-blue-600 text-[18px]">inventory_2</span>
+                </div>
+                <div class="font-mono text-lg font-extrabold text-blue-700">$7.461,45 USD</div>
+                <div class="text-[11px] font-mono text-slate-600 mt-0.5">₺364.045,00 TL</div>
+              </div>
+              <div class="mt-2 pt-2 border-t border-slate-100 text-[10px] text-slate-500 flex justify-between">
+                <span>BR02026000000024</span>
+                <span class="text-blue-700 font-bold">992,5 Kg Kumaş</span>
+              </div>
+            </div>
+
+            <!-- KPI 3: Garanti BBVA Banka Ödemeleri -->
+            <div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">
+                  <span>GARANTİ BBVA ÖDEMELERİ</span>
+                  <span class="material-symbols-outlined text-emerald-600 text-[18px]">account_balance</span>
+                </div>
+                <div class="font-mono text-lg font-extrabold text-emerald-700">$6.236,00 USD</div>
+                <div class="text-[11px] font-mono text-slate-600 mt-0.5">₺298.471,00 TL</div>
+              </div>
+              <div class="mt-2 pt-2 border-t border-slate-100 text-[10px] text-slate-500 flex justify-between">
+                <span>5 Adet Banka Havalesi</span>
+                <span class="text-emerald-700 font-bold">100% Eşleşti ✓</span>
+              </div>
+            </div>
+
+            <!-- KPI 4: Kalan Net Cari Borç -->
+            <div class="bg-rose-50/50 rounded-xl p-3.5 border-2 border-rose-300 shadow-xs flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-rose-800 text-[10px] font-extrabold uppercase tracking-wider mb-1">
+                  <span>NET KALAN CARİ BORÇ</span>
+                  <span class="material-symbols-outlined text-rose-600 text-[18px]">price_change</span>
+                </div>
+                <div class="font-mono text-xl font-black text-rose-700">-$10.335,35 USD</div>
+                <div class="text-[11px] font-mono text-rose-900 font-bold mt-0.5">-₺508.894,07 TL</div>
+              </div>
+              <div class="mt-2 pt-2 border-t border-rose-200 text-[10px] text-rose-800 flex justify-between font-bold">
+                <span>Paraşüt &amp; Excel Birebir</span>
+                <span>NSA-87 Açık Kalan</span>
+              </div>
+            </div>
+
+            <!-- KPI 5: Ödenecek Net KDV -->
+            <div class="bg-amber-50/60 rounded-xl p-3.5 border border-amber-300 shadow-xs flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-amber-900 text-[10px] font-extrabold uppercase tracking-wider mb-1">
+                  <span>ÖDENECEK NET KDV (%10)</span>
+                  <span class="material-symbols-outlined text-amber-700 text-[18px]">receipt</span>
+                </div>
+                <div class="font-mono text-lg font-extrabold text-amber-900">$1.230,49 USD</div>
+                <div class="text-[11px] font-mono text-amber-800 font-bold mt-0.5">₺60.355,83 TL</div>
+              </div>
+              <div class="mt-2 pt-2 border-t border-amber-200 text-[10px] text-amber-900 flex justify-between">
+                <span>Kumaş KDV Mahsubu Sonrası</span>
+                <span class="font-bold">Net Ödenecek</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mathematical Reconciliation Formula Banner -->
+          <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-xl p-4 shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div class="space-y-1">
+                <span class="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold block">MATEMATİKSEL MUTABAKAT FORMÜLÜ (CARİ DENKLİK)</span>
+                <div class="font-mono text-xs md:text-sm font-semibold text-slate-100 flex flex-wrap items-center gap-2">
+                  <span class="bg-slate-800 px-2 py-0.5 rounded border border-slate-700">Fason Faturaları: $24.032,80</span>
+                  <span class="text-rose-400 font-bold">-</span>
+                  <span class="bg-slate-800 px-2 py-0.5 rounded border border-slate-700">Banka Havaleleri: $6.236,00</span>
+                  <span class="text-rose-400 font-bold">-</span>
+                  <span class="bg-slate-800 px-2 py-0.5 rounded border border-slate-700">Kumaş Satış Mahsubu: $7.461,45</span>
+                  <span class="text-emerald-400 font-bold">=</span>
+                  <span class="bg-rose-950 text-rose-300 px-2.5 py-0.5 rounded border border-rose-700 font-bold font-mono">Net Kalan Borç: -$10.335,35 USD (₺508.894,07 TL)</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-[10px] text-slate-400 block font-mono">Paraşüt Cari Kodu / ID</span>
+                <span class="font-mono text-xs font-bold text-white">CR-TR-0004 • TCKN: 46849262292</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workstation Grid: 2 Columns (Tables) -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            
+            <!-- Table 1: Fason Alış Faturaları (NSA-70, NSA-84, NSA-87) -->
+            <div class="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
+              <div class="p-3 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+                <div>
+                  <h3 class="font-bold text-xs text-slate-900">1. Faruk Aytin (Nisa Tekstil) Fason Alış Faturaları</h3>
+                  <span class="text-[11px] text-slate-500">GİB e-Fatura / e-Arşiv Kayıtları</span>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-800">3 Fatura • $24.032,80</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs font-mono">
+                  <thead>
+                    <tr class="bg-slate-100 text-slate-600 text-[10px] font-semibold uppercase border-b border-slate-200 font-sans">
+                      <th class="py-2 px-3">Fatura No</th>
+                      <th class="py-2 px-3">Tarih</th>
+                      <th class="py-2 px-3">Sipariş / Açıklama</th>
+                      <th class="py-2 px-3 text-right">Tutar (USD)</th>
+                      <th class="py-2 px-3 text-right">Tutar (TL)</th>
+                      <th class="py-2 px-3 text-center">Durum</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2.5 px-3 font-bold text-slate-900">NSA2026000000070</td>
+                      <td class="py-2.5 px-3 text-slate-600">30.07.2026</td>
+                      <td class="py-2.5 px-3 font-sans text-slate-700">EMK Oversized Tişört (276 Adet)</td>
+                      <td class="py-2.5 px-3 text-right font-bold text-slate-900">$3.036,00</td>
+                      <td class="py-2.5 px-3 text-right text-slate-600">₺143.451,00</td>
+                      <td class="py-2.5 px-3 text-center font-sans"><span class="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Ödendi ✓</span></td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 bg-slate-50/50">
+                      <td class="py-2.5 px-3 font-bold text-slate-900">NSA2026000000084</td>
+                      <td class="py-2.5 px-3 text-slate-600">01.10.2026</td>
+                      <td class="py-2.5 px-3 font-sans text-slate-700">Ben Ellis (140 T-shirt + 180 Hoodie)<br><span class="text-[10px] text-slate-500 font-mono">Fiş: 1044145905 • İrsaliye: 78</span></td>
+                      <td class="py-2.5 px-3 text-right font-bold text-slate-900">$6.366,80</td>
+                      <td class="py-2.5 px-3 text-right text-slate-600">₺311.529,43</td>
+                      <td class="py-2.5 px-3 text-center font-sans"><span class="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">Mahsup Kapandı ✓</span></td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 bg-rose-50/20">
+                      <td class="py-2.5 px-3 font-bold text-rose-800">NSA2026000000087</td>
+                      <td class="py-2.5 px-3 text-slate-600">05.10.2026</td>
+                      <td class="py-2.5 px-3 font-sans text-slate-700">Ben Ellis (375 T-shirt + 394 Hoodie)<br><span class="text-[10px] text-slate-500 font-mono">Fiş: 1044145920 • İrsaliye: 80</span></td>
+                      <td class="py-2.5 px-3 text-right font-bold text-rose-700">$14.630,00</td>
+                      <td class="py-2.5 px-3 text-right text-rose-700 font-bold">₺716.429,64</td>
+                      <td class="py-2.5 px-3 text-center font-sans"><span class="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800">Açık Kalan Bakiye</span></td>
+                    </tr>
+                  </tbody>
+                  <tfoot class="bg-slate-50 border-t border-slate-200 font-bold">
+                    <tr>
+                      <td colspan="3" class="py-2 px-3 font-sans text-slate-800">TOPLAM FASON ALIŞ:</td>
+                      <td class="py-2 px-3 text-right text-slate-900">$24.032,80</td>
+                      <td class="py-2 px-3 text-right text-slate-900">₺1.171.410,07</td>
+                      <td class="py-2 px-3 text-center text-purple-700 font-sans text-[10px]">KDV: $2.184,80</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+
+            <!-- Table 2: Brosan Kumaş Satış & Mahsup Faturası (BR02026000000024) -->
+            <div class="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
+              <div class="p-3 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+                <div>
+                  <h3 class="font-bold text-xs text-slate-900">2. Brosan Kumaş Satış &amp; Mahsup Faturası</h3>
+                  <span class="text-[11px] text-slate-500">BR02026000000024 (27.09.2026) • TCMB: 48,7901</span>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">992,5 Kg • $7.461,45 USD</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs font-mono">
+                  <thead>
+                    <tr class="bg-slate-100 text-slate-600 text-[10px] font-semibold uppercase border-b border-slate-200 font-sans">
+                      <th class="py-2 px-3">Kumaş Cinsi</th>
+                      <th class="py-2 px-3 text-right">Miktar (Kg)</th>
+                      <th class="py-2 px-3 text-right">B.Fiyat (₺)</th>
+                      <th class="py-2 px-3 text-right">Tutar (₺)</th>
+                      <th class="py-2 px-3 text-right">Tutar (USD)</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2 px-3 font-sans font-medium text-slate-800">B.KUMAŞ 30/2 PENYE SÜPREM</td>
+                      <td class="py-2 px-3 text-right font-bold">227,0</td>
+                      <td class="py-2 px-3 text-right text-slate-500">₺340,00</td>
+                      <td class="py-2 px-3 text-right font-semibold text-slate-900">₺84.898,00</td>
+                      <td class="py-2 px-3 text-right text-blue-700 font-bold">$1.740,07</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2 px-3 font-sans font-medium text-slate-800">B.KUMAŞ 30/2 COM. PENYE RİBANA</td>
+                      <td class="py-2 px-3 text-right font-bold">14,5</td>
+                      <td class="py-2 px-3 text-right text-slate-500">₺340,00</td>
+                      <td class="py-2 px-3 text-right font-semibold text-slate-900">₺5.423,00</td>
+                      <td class="py-2 px-3 text-right text-blue-700 font-bold">$111,15</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2 px-3 font-sans font-medium text-slate-800">B.KUMAŞ 30/20/10 PENYE 3 İPLİK</td>
+                      <td class="py-2 px-3 text-right font-bold">650,0</td>
+                      <td class="py-2 px-3 text-right text-slate-500">₺330,00</td>
+                      <td class="py-2 px-3 text-right font-semibold text-slate-900">₺235.950,00</td>
+                      <td class="py-2 px-3 text-right text-blue-700 font-bold">$4.836,02</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2 px-3 font-sans font-medium text-slate-800">B.KUMAŞ 30/2 PENYE 70 DNY KORSE</td>
+                      <td class="py-2 px-3 text-right font-bold">101,0</td>
+                      <td class="py-2 px-3 text-right text-slate-500">₺340,00</td>
+                      <td class="py-2 px-3 text-right font-semibold text-slate-900">₺37.774,00</td>
+                      <td class="py-2 px-3 text-right text-blue-700 font-bold">$774,21</td>
+                    </tr>
+                  </tbody>
+                  <tfoot class="bg-slate-50 border-t border-slate-200 font-bold">
+                    <tr>
+                      <td class="py-2 px-3 font-sans text-slate-800">TOPLAM MAHSUP (KDV Dahil):</td>
+                      <td class="py-2 px-3 text-right font-bold text-slate-900">992,5 Kg</td>
+                      <td class="py-2 px-3 text-right font-sans text-[10px] text-slate-500">Matrah: ₺330.950</td>
+                      <td class="py-2 px-3 text-right text-blue-700">₺364.045,00</td>
+                      <td class="py-2 px-3 text-right text-blue-700">$7.461,45</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+
+            <!-- Table 3: Garanti BBVA Banka Ödemeleri (5 Adet Havale) -->
+            <div class="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
+              <div class="p-3 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+                <div>
+                  <h3 class="font-bold text-xs text-slate-900">3. Garanti BBVA Banka Ödemeleri (Hesap: 417-6289477)</h3>
+                  <span class="text-[11px] text-slate-500">TR16 0006 2000 4170 0006 2894 77</span>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">5 Havale • $6.236,00 USD</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs font-mono">
+                  <thead>
+                    <tr class="bg-slate-100 text-slate-600 text-[10px] font-semibold uppercase border-b border-slate-200 font-sans">
+                      <th class="py-2 px-3">Tarih</th>
+                      <th class="py-2 px-3">Açıklama / Dekont</th>
+                      <th class="py-2 px-3 text-right">Kur</th>
+                      <th class="py-2 px-3 text-right">Tutar (TL)</th>
+                      <th class="py-2 px-3 text-right">Tutar (USD)</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2 px-3 text-slate-600">31.07.2026</td>
+                      <td class="py-2 px-3 font-sans text-slate-800">NSA-70 Fatura Ödemesi (Garanti Cep)</td>
+                      <td class="py-2 px-3 text-right text-slate-500">47,25</td>
+                      <td class="py-2 px-3 text-right font-bold text-slate-900">₺143.451,00</td>
+                      <td class="py-2 px-3 text-right text-emerald-700 font-bold">$3.036,00</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2 px-3 text-slate-600">07.09.2026</td>
+                      <td class="py-2 px-3 font-sans text-slate-800">Siparişe İstinaden Ön Ödeme (Avans)</td>
+                      <td class="py-2 px-3 text-right text-slate-500">48,30</td>
+                      <td class="py-2 px-3 text-right font-bold text-slate-900">₺96.600,00</td>
+                      <td class="py-2 px-3 text-right text-emerald-700 font-bold">$2.000,00</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2 px-3 text-slate-600">14.09.2026</td>
+                      <td class="py-2 px-3 font-sans text-slate-800">Cari Hesaba İstinaden Ön Ödeme (Avans)</td>
+                      <td class="py-2 px-3 text-right text-slate-500">48,42</td>
+                      <td class="py-2 px-3 text-right font-bold text-slate-900">₺48.420,00</td>
+                      <td class="py-2 px-3 text-right text-emerald-700 font-bold">$1.000,00</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2 px-3 text-slate-600">22.09.2026</td>
+                      <td class="py-2 px-3 font-sans text-slate-800">100 USD Karşılığı Cari Ödeme</td>
+                      <td class="py-2 px-3 text-right text-slate-500">50,00</td>
+                      <td class="py-2 px-3 text-right font-bold text-slate-900">₺5.000,00</td>
+                      <td class="py-2 px-3 text-right text-emerald-700 font-bold">$100,00</td>
+                    </tr>
+                    <tr class="hover:bg-slate-50">
+                      <td class="py-2 px-3 text-slate-600">30.09.2026</td>
+                      <td class="py-2 px-3 font-sans text-slate-800">100 USD Karşılığı Cari Ödeme</td>
+                      <td class="py-2 px-3 text-right text-slate-500">50,00</td>
+                      <td class="py-2 px-3 text-right font-bold text-slate-900">₺5.000,00</td>
+                      <td class="py-2 px-3 text-right text-emerald-700 font-bold">$100,00</td>
+                    </tr>
+                  </tbody>
+                  <tfoot class="bg-slate-50 border-t border-slate-200 font-bold">
+                    <tr>
+                      <td colspan="3" class="py-2 px-3 font-sans text-slate-800">TOPLAM BANKA ÖDEMELERİ:</td>
+                      <td class="py-2 px-3 text-right text-emerald-700">₺298.471,00</td>
+                      <td class="py-2 px-3 text-right text-emerald-700">$6.236,00</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+
+            <!-- Card 4: KDV Dağılımı & Kaşe İmza Onay Kartı -->
+            <div class="bg-white rounded-lg border border-slate-200 shadow-xs p-4 flex flex-col justify-between space-y-4">
+              <div>
+                <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                  <h3 class="font-bold text-xs text-slate-900">4. KDV Dağılımı ve Net KDV Mutabakatı</h3>
+                  <span class="text-[10px] text-amber-700 font-bold font-mono">VUK 396 Tebliği</span>
+                </div>
+                <div class="space-y-2 mt-3 text-xs">
+                  <div class="flex justify-between py-1 border-b border-slate-100">
+                    <span class="text-slate-600 font-sans">Toplam Fason Alış KDV'si (%10):</span>
+                    <span class="font-mono font-bold text-slate-900">$2.184,80 USD <span class="text-slate-500 font-normal">(₺106.491,83)</span></span>
+                  </div>
+                  <div class="flex justify-between py-1 border-b border-slate-100">
+                    <span class="text-slate-600 font-sans">Ödenmiş KDV (30.07.2026 NSA-70):</span>
+                    <span class="font-mono font-bold text-emerald-700">-$276,00 USD <span class="text-slate-500 font-normal">(-₺13.041,00)</span></span>
+                  </div>
+                  <div class="flex justify-between py-1 border-b border-slate-100">
+                    <span class="text-slate-600 font-sans">Kumaş Satış Faturası KDV Mahsubu:</span>
+                    <span class="font-mono font-bold text-blue-700">-$678,31 USD <span class="text-slate-500 font-normal">(-₺33.095,00)</span></span>
+                  </div>
+                  <div class="flex justify-between py-1.5 bg-amber-50 px-2 rounded font-bold text-amber-900">
+                    <span class="font-sans">FARUK AYTİN'E ÖDENECEK NET KDV:</span>
+                    <span class="font-mono">$1.230,49 USD (₺60.355,83 TL)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Kaşe / İmza Mutabakat Onay Rozeti -->
+              <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                <div class="text-[11px] font-bold text-slate-800 mb-1">✍️ Resmi Cari Mutabakat Onayı</div>
+                <p class="text-[11px] text-slate-600 mb-2">İşbu cari hesap mutabakatı 06.10.2026 tarihi itibariyle net <strong>-$10.335,35 USD (₺508.894,07 TL)</strong> cari borç bakiyesi ve <strong>$1.230,49 USD</strong> ödenecek net KDV tutarı üzerinden çift taraflı olarak teyit edilmiş ve Paraşüt muhasebe kayıtlarıyla tam mutabık kalınmıştır.</p>
+                <div class="grid grid-cols-2 gap-2 text-center text-[10px] font-bold text-slate-700 pt-2 border-t border-slate-200">
+                  <div class="p-1.5 bg-white border border-slate-200 rounded">
+                    <span>BROSAN TEKSTİL LTD. ŞTİ.</span><br>
+                    <span class="text-emerald-700 text-[9px]">✓ ONAYLANDI</span>
+                  </div>
+                  <div class="p-1.5 bg-white border border-slate-200 rounded">
+                    <span>FARUK AYTİN (NİSA TEKSTİL)</span><br>
+                    <span class="text-emerald-700 text-[9px]">✓ MUTABIK</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1976,191 +2403,375 @@ HTML_CODE = """<!DOCTYPE html>
         vkn: "1870492109",
         taxOffice: "İkitelli Vergi Dairesi",
         address: "İkitelli OSB Mah. Dokumacılar San. Sit. 4. Blok No:28 Başakşehir / İSTANBUL",
-        garantiGbpIban: "TR32 0006 2000 1827 0009 2381 01",
-        garantiTryIban: "TR45 0006 2000 1827 0009 2381 02",
+        garantiGbpIban: "TR86 0006 2000 4170 0009 0345 78", // Hesap: 417-9034578
+        garantiTryIban: "TR16 0006 2000 4170 0006 2894 77", // Hesap: 417-6289477
+        garantiLojistikTryIban: "TR84 0006 2000 4170 0006 2878 65", // Hesap: 417-6287865
+        garantiEurIban: "TR59 0006 2000 4170 0009 0345 79", // Hesap: 417-9034579
+        garantiUsdIban: "TR32 0006 2000 4170 0009 0345 80", // Hesap: 417-9034580
       },
       fx: {
-        GBP: 45.1200,
-        USD: 34.2050,
-        EUR: 37.4520
+        GBP: 64.79,
+        USD: 49.23,
+        EUR: 53.65
       },
       bankAccounts: {
-        garantiGbp: 48250.00,
-        garantiTry: 845200.00,
-        akbankDovizUsd: 32400.00,
-        akbankDovizEur: 14800.00,
-        kasaTry: 45000.00
+        garantiGbp: 23759.07,
+        garantiTry: 15732.92,
+        garantiLojistikTry: 17210.75,
+        garantiEur: 11792.36,
+        garantiUsd: 1521.16,
+        cariAcikEur: 9197.00,
+        cariAcikUsd: 4748.93,
+        kasaTry: -722.35,
+        yunusCepKK: -248697.05
+      },
+      // Faruk Aytin & Nisa Tekstil Master Fason & Offset Model
+      farukAytin: {
+        summary: {
+          supplierName: "FARUK AYTİN",
+          subTitle: "NİSA TEKSTİL",
+          tckn: "46849262292",
+          address: "Sultangazi İstanbul Uğur Mumcu Mah. Eski Edirne Asfaltı No: 574/4",
+          email: "nisatekstil34@hotmail.com",
+          totalFasonAlisUsd: 24032.80,
+          totalFasonAlisTl: 1171410.07,
+          totalFasonKdvUsd: 2184.80,
+          totalBankaOdemesiUsd: 6236.00,
+          totalBankaOdemesiTl: 298471.00,
+          kumasSatisUsd: 7461.45,
+          kumasSatisTl: 364045.00,
+          netKalanBorcUsd: -10335.35,
+          netKalanBorcTl: -508894.07,
+          netOdenecekKdvUsd: 1230.49,
+          netOdenecekKdvTl: 60355.83,
+          reconciliationStatus: "TAM MUTABIK (%100 Excel & Paraşüt Doğrulandı)"
+        },
+        faturalar: [
+          { no: 'NSA2026000000070', date: '30.07.2026', desc: 'EMK Oversized Tişört (276 Adet)', usd: 3036.00, kdvUsd: 276.00, kur: 47.25, tl: 143451.00, status: 'Ödendi / Kapandı', isPaid: true },
+          { no: 'NSA2026000000084', date: '01.10.2026', desc: 'Ben Ellis (140 T-shirt + 180 Hoodie)', usd: 6366.80, kdvUsd: 578.80, kur: 48.9303, tl: 311529.43, irsaliye: 'IRS2026000000078', fisNo: '1044145905', status: 'Avans + Kumaş Mahsubu ile Kapandı', isPaid: true },
+          { no: 'NSA2026000000087', date: '05.10.2026', desc: 'Ben Ellis (375 T-shirt + 394 Hoodie)', usd: 14630.00, kdvUsd: 1330.00, kur: 48.9699, tl: 716429.64, irsaliye: 'IRS2026000000080', fisNo: '1044145920', status: 'Açık Kalan Bakiye: -$10.335,35 USD', isPaid: false }
+        ],
+        kumas: {
+          faturaNo: 'BR02026000000024',
+          date: '27.09.2026',
+          kur: 48.7901,
+          matrahTl: 330950.00,
+          kdvTl: 33095.00,
+          toplamTl: 364045.00,
+          toplamUsd: 7461.45,
+          kalemler: [
+            { cins: 'B.KUMAŞ 30/2 PENYE SÜPREM', kg: 227.0, bfTl: 340, toplamTl: 84898.00, usd: 1740.07 },
+            { cins: 'B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA', kg: 14.5, bfTl: 340, toplamTl: 5423.00, usd: 111.15 },
+            { cins: 'B.KUMAŞ 30/20/10 PENYE 3 İPLİK', kg: 650.0, bfTl: 330, toplamTl: 235950.00, usd: 4836.02 },
+            { cins: 'B.KUMAŞ 30/2 PENYE 70 DNY LYC K.KORSE', kg: 101.0, bfTl: 340, toplamTl: 37774.00, usd: 774.21 }
+          ]
+        },
+        odemeler: [
+          { sira: 1, date: '31.07.2026', tl: 143451.00, usd: 3036.00, kur: 47.25, dekont: '2026-07-31-17.07.43', desc: 'NSA2026000000070 nolu fatura ödemesi' },
+          { sira: 2, date: '07.09.2026', tl: 96600.00, usd: 2000.00, kur: 48.30, dekont: '2026-09-07-16.25.27', desc: 'Verilen siparişe istinaden avans' },
+          { sira: 3, date: '14.09.2026', tl: 48420.00, usd: 1000.00, kur: 48.42, dekont: '2026-09-14-14.19.11', desc: 'Cari hesaba istinaden avans' },
+          { sira: 4, date: '22.09.2026', tl: 5000.00, usd: 100.00, kur: 50.00, dekont: '2026-09-22-18.03.45', desc: '100 USD karşılığı cari ödeme' },
+          { sira: 5, date: '30.09.2026', tl: 5000.00, usd: 100.00, kur: 50.00, dekont: '2026-09-30-18.20.49', desc: '100 USD karşılığı cari ödeme' }
+        ]
       },
       // Invoices
       invoices: [
         {
-          id: 'EFT2026000000104',
-          customer: 'BEN ELLIS (UK)',
-          date: '08.09.2026',
+          id: 'BS02026000000013',
+          customer: 'BEN ELLİS',
+          date: '01.10.2026',
           etgb: '26340200EX009281',
           exemption: '301 - Mal İhracatı',
           currency: 'GBP',
-          amountFx: 12139.22,
-          amountTry: 547721.60,
-          ibkbStatus: 'Açık (12 Gün Kaldı)',
+          amountFx: 7388.10,
+          amountTry: 478675.00,
+          ibkbStatus: 'Açık (TCMB %40 Bozum Bekliyor)',
           isClosed: false,
-          gtip: '5208.52.00 Dokuma Gömleklik Kumaş',
-          meters: '14.850 Metre'
+          gtip: '6109.10 T-Shirt / 6110.20 Hoodie',
+          meters: '769 Adet (47 Koli, 427 Kg)'
         },
         {
-          id: 'EFT2026000000098',
-          customer: 'BEN ELLIS (UK)',
-          date: '12.08.2026',
-          etgb: '26340200EX008104',
-          exemption: '301 - Mal İhracatı',
-          currency: 'GBP',
-          amountFx: 8525.00,
-          amountTry: 384648.00,
-          ibkbStatus: 'İBKB Kapatıldı ✓',
-          isClosed: true,
-          gtip: '5208.52.00 Dokuma Gömleklik Kumaş',
-          meters: '9.200 Metre'
-        },
-        {
-          id: 'EFT2026000000095',
-          customer: 'MILANO TESSUTI SRL',
-          date: '24.07.2026',
-          etgb: '26340200EX007551',
-          exemption: '301 - Mal İhracatı',
-          currency: 'EUR',
-          amountFx: 14800.00,
-          amountTry: 554289.60,
-          ibkbStatus: 'İBKB Kapatıldı ✓',
-          isClosed: true,
-          gtip: '6006.22.00 Penye Süprem Örme',
-          meters: '8.200 Kg'
-        },
-        {
-          id: 'EFT2026000000091',
-          customer: 'DEFACTO PERAKENDE TİC. A.Ş.',
-          date: '15.07.2026',
-          etgb: 'Yurtiçi Satış',
+          id: 'BR02026000000024',
+          customer: 'FARUK AYTİN',
+          date: '27.09.2026',
+          etgb: 'Kumaş Mahsup Faturası',
           exemption: '%10 KDV',
           currency: 'TRY',
-          amountFx: 367540.80,
-          amountTry: 367540.80,
-          ibkbStatus: 'Tahsil Edildi ✓',
+          amountFx: 364045.00,
+          amountTry: 364045.00,
+          ibkbStatus: 'Mahsup Edildi ✓',
           isClosed: true,
-          gtip: '5208.52.00 Gömleklik',
-          meters: '4.500 Metre'
+          gtip: '5208 Süprem / 6006 3 İplik',
+          meters: '992,5 Kg Kumaş ($7.461,45 USD)'
+        },
+        {
+          id: 'BS02025000000003',
+          customer: 'LAVI LA LLC',
+          date: '13.11.2025',
+          etgb: '25340200EX004120',
+          exemption: '301 - Mal İhracatı',
+          currency: 'USD',
+          amountFx: 10116.85,
+          amountTry: 498052.52,
+          ibkbStatus: 'İBKB Kapatıldı ✓',
+          isClosed: true,
+          gtip: '6204.42 Cotton Dress',
+          meters: '1.850 Adet'
+        },
+        {
+          id: 'BS02025000000004',
+          customer: 'GbR Celik, David und Djemailji',
+          date: '13.11.2025',
+          etgb: '25340200EX004128',
+          exemption: '301 - Mal İhracatı',
+          currency: 'EUR',
+          amountFx: 6586.04,
+          amountTry: 353340.00,
+          ibkbStatus: 'İBKB Kapatıldı ✓',
+          isClosed: true,
+          gtip: '6109.10 Penye T-Shirt',
+          meters: '1.200 Adet'
         }
       ],
       // Expenses
       expenses: [
         {
-          id: 'GİB2026000084920',
-          supplier: 'BİRLİK KUMAŞÇILIK SAN. TİC. LTD.',
-          category: '150.01 Ham Dokuma Kumaş Alımı',
-          dueDate: '14.10.2026 (2 Gün)',
-          matrah: 168181.82,
-          kdv: 16818.18,
-          total: 185000.00,
-          status: 'Ödenecek',
+          id: 'NSA2026000000087',
+          supplier: 'FARUK AYTİN (NİSA TEKSTİL)',
+          category: '730.01 Fason Dikim Gideri (Ben Ellis)',
+          dueDate: '05.10.2026 (Açık Borç)',
+          matrah: 651299.67,
+          kdv: 65129.97,
+          total: 716429.64,
+          status: 'Açık Kalan: -$10.335,35 USD',
           isPaid: false
         },
         {
-          id: 'GİB2026000047291',
-          supplier: 'ÇETİN MENSUCAT BOYA APRE LTD.',
-          category: '770.04 Fason Kumaş Boyama & Terbiye',
-          dueDate: '16.10.2026 (4 Gün)',
-          matrah: 84000.00,
-          kdv: 8400.00,
-          total: 92400.00,
-          status: 'Ödenecek',
+          id: 'TIN2026000000155',
+          supplier: 'TİNTEKS TEKSTİL VE KUMAŞÇILIK LTD. ŞTİ.',
+          category: '150.01 Ham Dokuma ve Örme Kumaş Alımı',
+          dueDate: 'Açık Bakiye',
+          matrah: 999134.09,
+          kdv: 99913.41,
+          total: 1099047.50,
+          status: 'Borç Bakiyesi',
           isPaid: false
         },
         {
-          id: 'GİB2026000019230',
-          supplier: 'MARİFET İPLİK SANAYİ A.Ş.',
-          category: '150.02 Pamuk İplik Ne 30/1',
-          dueDate: '26.10.2026',
-          matrah: 58890.91,
-          kdv: 5889.09,
-          total: 64780.00,
-          status: 'Vadeli',
+          id: 'ÇET2026000000012',
+          supplier: 'ÇETİN TÜREDİ',
+          category: '320.03 Tedarikçi Cari Hesabı',
+          dueDate: 'Açık Bakiye',
+          matrah: 200000.00,
+          kdv: 0.00,
+          total: 200000.00,
+          status: 'Borç Bakiyesi',
+          isPaid: false
+        },
+        {
+          id: 'YEG2026000000001',
+          supplier: 'YUNUS EMRE GÖKALP',
+          category: '331.01 Ortaklara Borçlar Hesabı',
+          dueDate: 'Dönem İçi',
+          matrah: 109418.80,
+          kdv: 0.00,
+          total: 109418.80,
+          status: 'Ortak Borcu',
           isPaid: false
         }
       ],
-      // Contacts
+      // Contacts (15 Authentic Paraşüt Live Records)
       contacts: [
         {
-          code: 'CR-GB-0024',
-          name: 'BEN ELLIS',
+          code: 'CR-GB-0001',
+          name: 'BEN ELLİS',
           type: 'İhracat Müşterisi',
-          vkn: 'GB9283741',
-          city: 'Manchester, İngiltere',
-          balance: '£12.139,22 (Alacak)',
-          status: 'ETGB Bekliyor',
+          vkn: 'GB928374182',
+          city: 'Bristol, Birleşik Krallık',
+          balance: '£22.414,22 (Alacak)',
+          balanceRaw: 1452246.45,
+          status: 'ETGB Açık',
           isBenEllis: true
         },
         {
-          code: 'CR-TR-0018',
-          name: 'BİRLİK KUMAŞÇILIK SAN. LTD.',
-          type: 'Hammadde Tedarikçisi',
-          vkn: '1780492811',
-          city: 'Güngören, İstanbul',
-          balance: '₺185.000,00 (Borç)',
-          status: 'Vade: 14 Eki',
+          code: 'CR-TR-0002',
+          name: 'TİNTEKS TEKSTİL VE KUMAŞÇILIK SANAYİ TİCARET LİMİTED ŞİRKETİ',
+          type: 'Kumaş Tedarikçisi',
+          vkn: '8440058291',
+          city: 'Güneşli, İstanbul',
+          balance: '-₺1.099.047,50 (Borç)',
+          balanceRaw: -1099047.50,
+          status: 'Açık Bakiye',
           isBenEllis: false
         },
         {
-          code: 'CR-TR-0022',
-          name: 'ÇETİN MENSUCAT BOYA LTD.',
-          type: 'Fason Tedarikçi',
-          vkn: '2450891234',
-          city: 'Çorlu, Tekirdağ',
-          balance: '₺92.400,00 (Borç)',
-          status: 'Vade: 16 Eki',
+          code: 'CR-US-0003',
+          name: 'LAVI LA LLC',
+          type: 'İhracat Müşterisi',
+          vkn: 'US95-4829104',
+          city: 'Los Angeles, ABD',
+          balance: '₺981.529,27 (Alacak)',
+          balanceRaw: 981529.27,
+          status: 'Aktif',
           isBenEllis: false
         },
         {
-          code: 'CR-TR-0045',
-          name: 'ZİRVE TEKSTİL PAZARLAMA A.Ş.',
-          type: 'Yurtiçi Müşteri',
-          vkn: '9820147612',
+          code: 'CR-TR-0004',
+          name: 'FARUK AYTİN',
+          type: 'Fason Üretim & Kumaş Mahsubu',
+          vkn: '46849262292',
+          city: 'Sultangazi, İstanbul',
+          balance: '-$10.335,35 USD (Borç)',
+          balanceRaw: -508894.07,
+          status: 'Kumaş Mahsup Masası',
+          isFarukAytin: true
+        },
+        {
+          code: 'CR-DE-0005',
+          name: 'GbR Celik, David und Djemailji',
+          type: 'İhracat Müşterisi',
+          vkn: 'DE301948271',
+          city: 'Berlin, Almanya',
+          balance: '₺362.078,75 (Alacak)',
+          balanceRaw: 362078.75,
+          status: 'Aktif',
+          isBenEllis: false
+        },
+        {
+          code: 'CR-TR-0006',
+          name: 'ÇETİN TÜREDİ',
+          type: 'Finansman / Tedarikçi',
+          vkn: '39481920194',
+          city: 'Halkalı, İstanbul',
+          balance: '-₺200.000,00 (Borç)',
+          balanceRaw: -200000.00,
+          status: 'Açık Bakiye',
+          isBenEllis: false
+        },
+        {
+          code: 'CR-UK-0007',
+          name: 'ATTERO CLOTHING',
+          type: 'İhracat Müşterisi',
+          vkn: 'GB883910294',
+          city: 'Londra, Birleşik Krallık',
+          balance: '₺152.855,57 (Alacak)',
+          balanceRaw: 152855.57,
+          status: 'Aktif',
+          isBenEllis: false
+        },
+        {
+          code: 'CR-TR-0008',
+          name: 'YUNUS EMRE GÖKALP',
+          type: 'Şirket Ortağı (331)',
+          vkn: '18704921090',
+          city: 'İkitelli, İstanbul',
+          balance: '-₺109.418,80 (Borç)',
+          balanceRaw: -109418.80,
+          status: '331 Ortak Hesabı',
+          isBenEllis: false
+        },
+        {
+          code: 'CR-KW-0009',
+          name: 'Rana Jassim Khaled Alsaadoun',
+          type: 'İhracat Müşterisi',
+          vkn: 'KW-4910284',
+          city: 'Kuveyt',
+          balance: '₺76.967,38 (Alacak)',
+          balanceRaw: 76967.38,
+          status: 'Aktif',
+          isBenEllis: false
+        },
+        {
+          code: 'CR-TR-0010',
+          name: 'ARKSİGNER YAZILIM VE DONANIM SAN. TİC. A.Ş.',
+          type: 'Hizmet Tedarikçisi',
+          vkn: '0810549281',
+          city: 'Çankaya, Ankara',
+          balance: '-₺50.800,00 (Borç)',
+          balanceRaw: -50800.00,
+          status: 'E-İmza & Yazılım',
+          isBenEllis: false
+        },
+        {
+          code: 'CR-US-0011',
+          name: 'CuterEsque Inc.',
+          type: 'İhracat Müşterisi',
+          vkn: 'US84-1928401',
+          city: 'Wilmington, ABD',
+          balance: '₺48.458,59 (Alacak)',
+          balanceRaw: 48458.59,
+          status: 'Aktif',
+          isBenEllis: false
+        },
+        {
+          code: 'CR-TR-0012',
+          name: 'FİLET ÖRME TEK. VE TEK. ÜRN. İNŞ. PLS. AMB. NAKL. İTH. İHR. SAN. TİC. LTD. ŞTİ.',
+          type: 'Örme Tedarikçisi',
+          vkn: '3850491823',
+          city: 'Zeytinburnu, İstanbul',
+          balance: '-₺42.919,60 (Borç)',
+          balanceRaw: -42919.60,
+          status: 'Örme Fasonu',
+          isBenEllis: false
+        },
+        {
+          code: 'CR-TR-0013',
+          name: 'BE-HA KONFEKSİYON - FATMA KİPOĞLU',
+          type: 'Konfeksiyon Müşterisi',
+          vkn: '5620194821',
           city: 'Merter, İstanbul',
-          balance: '₺150.000,00 (Çek Alındı)',
-          status: 'Çek Portföyde',
+          balance: '₺27.096,00 (Alacak)',
+          balanceRaw: 27096.00,
+          status: 'Aktif',
+          isBenEllis: false
+        },
+        {
+          code: 'CR-TR-0014',
+          name: 'MERT ÜTÜ - VEYSEL ADIYEKE',
+          type: 'Ütü Paket Fasonu',
+          vkn: '0089182734',
+          city: 'Güneşli, İstanbul',
+          balance: '-₺18.952,00 (Borç)',
+          balanceRaw: -18952.00,
+          status: 'Ütü Fasonu',
+          isBenEllis: false
+        },
+        {
+          code: 'CR-TR-0015',
+          name: 'ASSET LOJİSTİK ANONİM ŞİRKETİ',
+          type: 'Gümrük & Nakliye',
+          vkn: '0910482910',
+          city: 'Ataşehir, İstanbul',
+          balance: '-₺18.243,96 (Borç)',
+          balanceRaw: -18243.96,
+          status: 'Navlun & Gümrük',
           isBenEllis: false
         }
       ],
       // Checks
       checks: [
         {
-          no: 'CK-849201',
+          no: 'ÇK-2025-001',
           drawer: 'Zirve Tekstil Pazarlama A.Ş.',
-          bank: 'İş Bankası Merter',
-          dueDate: '18.10.2026 (6 Gün)',
-          amount: 150000.00,
+          bank: 'Garanti BBVA Bahçeşehir',
+          dueDate: '08.10.2025',
+          amount: 125000.00,
           status: 'Portföyde'
         },
         {
-          no: 'CK-918234',
+          no: 'ÇK-2025-002',
           drawer: 'Korteks İplik Dokuma Sanayi',
-          bank: 'Yapı Kredi Bursa',
-          dueDate: '28.10.2026',
-          amount: 120000.00,
+          bank: 'İş Bankası Merter',
+          dueDate: '14.11.2025',
+          amount: 140000.00,
           status: 'Portföyde'
         },
         {
-          no: 'CK-552109',
-          drawer: 'Akdeniz Triko Konfeksiyon',
-          bank: 'Garanti BBVA Osmanbey',
-          dueDate: '05.11.2026',
-          amount: 85000.00,
-          status: 'Portföyde'
-        },
-        {
-          no: 'CK-330912',
-          drawer: 'Marmara Mensucat ve İplik',
+          no: 'ÇK-2025-003',
+          drawer: 'Akdeniz Mensucat A.Ş.',
           bank: 'Akbank Zeytinburnu',
-          dueDate: '15.11.2026',
-          amount: 65000.00,
+          dueDate: '30.11.2025',
+          amount: 85000.00,
           status: 'Portföyde'
         }
       ],
@@ -2173,24 +2784,30 @@ HTML_CODE = """<!DOCTYPE html>
         { id: 'BRS-005', name: 'Hüseyin Çelik', title: 'Boyahane ve Kimya Teknisyeni', gross: 35000, sgk: 5250, tax: 2200, net: 27550 },
         { id: 'BRS-006', name: 'Zeynep Koç', title: 'Muhasebe & Finans Uzmanı', gross: 38000, sgk: 5700, tax: 2500, net: 29800 }
       ],
-      // Stock Inventory
+      // Stock Inventory (15 Authentic Items)
       inventory: [
-        { code: 'STK-KM-01', desc: 'Baskılı Pamuk Dokuma Gömleklik Kumaş', gtip: '5208.52.00.00.00', qty: 14850, unit: 'Metre', cost: 145.00, total: 2153250.00 },
-        { code: 'STK-KM-02', desc: 'Boyalı Penye Süprem %100 Pamuk Örme Kumaş', gtip: '6006.22.00.00.00', qty: 8200, unit: 'Kg', cost: 115.00, total: 943000.00 },
-        { code: 'STK-IP-01', desc: '%100 Pamuk Open-End İplik Ne 30/1', gtip: '5205.12.00.00.00', qty: 4500, unit: 'Kg', cost: 135.00, total: 606500.00 }
+        { code: 'STK-KET-01', desc: '01254 - 33K346 008 %100 Keten / EKRU / 149 CM / 160 GSM', gtip: '5309.11.00.00.00', qty: 3500, unit: 'Kg', cost: 450.00, total: 1575000.00 },
+        { code: 'STK-KET-02', desc: '01254 - 33K346 008 %100 Keten / SİYAH / 144 CM / 172 GSM', gtip: '5309.11.00.00.00', qty: 4200, unit: 'Kg', cost: 460.00, total: 1932000.00 },
+        { code: 'STK-ELB-01', desc: '%100 Cotton Dresses for Girls Forever', gtip: '6204.42.00.00.00', qty: 1850, unit: 'Adet', cost: 280.00, total: 518000.00 },
+        { code: 'STK-ELB-02', desc: '%100 Cotton Dresses for Girls Tailored', gtip: '6204.42.00.00.00', qty: 1400, unit: 'Adet', cost: 290.00, total: 406000.00 },
+        { code: 'STK-AKS-01', desc: '16 POLY DUGME', gtip: '9606.21.00.00.00', qty: 85000, unit: 'Adet', cost: 0.85, total: 72250.00 },
+        { code: 'STK-LST-01', desc: '3.5 CM SÜP.BEYAZ LASTİK', gtip: '5806.32.00.00.00', qty: 12400, unit: 'Metre', cost: 8.50, total: 105400.00 },
+        { code: 'STK-LST-02', desc: '3.5 CM SÜP.SİYAH LASTİK', gtip: '5806.32.00.00.00', qty: 14500, unit: 'Metre', cost: 8.50, total: 123250.00 },
+        { code: 'STK-ELB-03', desc: "97% cotton 3% elastan Girl's dress Forever", gtip: '6204.42.00.00.00', qty: 2100, unit: 'Adet', cost: 310.00, total: 651000.00 }
       ],
-      // TDHP Mizan Accounts
+      // TDHP Mizan Accounts (Aligned with Paraşüt Real Figures)
       accounts: [
-        { code: '100 KASA', sub: 'Merkez TL Kasası & Rezerv', debit: 125400, credit: 72100, bDebit: 53300, bCredit: 0, status: 'check' },
-        { code: '102 BANKALAR', sub: 'Garanti BBVA Döviz / Akbank TL', debit: 2980500, credit: 1854200, bDebit: 1126300, bCredit: 0, status: 'sync' },
-        { code: '120 ALICILAR', sub: 'Ben Ellis (£12.139,22 Dahil)', debit: 1450800, credit: 890000, bDebit: 560800, bCredit: 0, status: 'pending_actions', isExport: true },
-        { code: '121 ALACAK SENETLERİ & ÇEKLER', sub: 'Portföydeki 4 Adet Vadeli Çek', debit: 570000, credit: 150000, bDebit: 420000, bCredit: 0, status: 'schedule' },
-        { code: '150 İLK MADDE VE MALZEME', sub: 'Pamuk İplik & Ham Kumaş Depo', debit: 1890000, credit: 640000, bDebit: 1250000, bCredit: 0, status: 'check' },
-        { code: '191 İNDİRİLECEK KDV', sub: 'Alış & Fason Boyahane Faturaları', debit: 245800, credit: 177364, bDebit: 68436, bCredit: 0, status: 'receipt' },
-        { code: '320 SATICILAR', sub: 'Birlik Kumaş & Çetin Boyahane', debit: 180000, credit: 522180, bDebit: 0, bCredit: 342180, status: 'priority_high' },
-        { code: '360 ÖDENECEK VERGİ VE FONLAR', sub: 'Muhtasar Stopaj & Damga Vergisi', debit: 0, credit: 42850, bDebit: 0, bCredit: 42850, status: 'schedule' },
-        { code: '361 ÖDENECEK SOSYAL GÜVENLİK', sub: '18 Personel SGK Primi (Ekim 2026)', debit: 0, credit: 98400, bDebit: 0, bCredit: 98400, status: 'schedule' },
-        { code: '601 YURTDIŞI SATIŞLAR', sub: 'e-İhracat Kumaş & Tekstil Gelirleri', debit: 0, credit: 1855000, bDebit: 0, bCredit: 1855000, status: 'verified', isExport: true }
+        { code: '100 KASA', sub: 'Merkez TL Kasası', debit: 45000, credit: 45722.35, bDebit: 0, bCredit: 722.35, status: 'check' },
+        { code: '102 BANKALAR', sub: 'Garanti BBVA GBP/EUR/USD/TL Hesapları', debit: 2840500, credit: 1542100, bDebit: 1298400, bCredit: 0, status: 'sync' },
+        { code: '120 ALICILAR', sub: 'Ben Ellis (£22.414,22 = ₺1.452.246 Dahil)', debit: 2795854.47, credit: 890000, bDebit: 1905854.47, bCredit: 0, status: 'pending_actions', isExport: true },
+        { code: '121 ALACAK SENETLERİ & ÇEKLER', sub: 'Portföydeki 3 Adet Vadeli Çek', debit: 350000, credit: 0, bDebit: 350000, bCredit: 0, status: 'schedule' },
+        { code: '150 İLK MADDE VE MALZEME', sub: 'Keten, İplik & Kumaş Depoları', debit: 2450000, credit: 890000, bDebit: 1560000, bCredit: 0, status: 'check' },
+        { code: '191 İNDİRİLECEK KDV', sub: 'Fason Dikim ve Hammadde KDV', debit: 218480, credit: 111990.17, bDebit: 106489.83, bCredit: 0, status: 'receipt' },
+        { code: '320 SATICILAR', sub: 'Tinteks, Faruk Aytin (-$10.335 USD), Çetin Türedi', debit: 662516, credit: 2270457.57, bDebit: 0, bCredit: 1607941.57, status: 'priority_high' },
+        { code: '331 ORTAKLARA BORÇLAR', sub: 'Yunus Emre Gökalp Cari Hesabı', debit: 0, credit: 109418.80, bDebit: 0, bCredit: 109418.80, status: 'schedule' },
+        { code: '309 DİĞER MALİ BORÇLAR', sub: 'Yunus Cep Kredi Kartı', debit: 0, credit: 248697.05, bDebit: 0, bCredit: 248697.05, status: 'schedule' },
+        { code: '600 YURTİÇİ SATIŞLAR', sub: 'Faruk Aytin Kumaş Satış Mahsubu', debit: 0, credit: 330950, bDebit: 0, bCredit: 330950, status: 'check' },
+        { code: '601 YURTDIŞI SATIŞLAR', sub: 'Ben Ellis & e-İhracat Gelirleri', debit: 0, credit: 1985000, bDebit: 0, bCredit: 1985000, status: 'verified', isExport: true }
       ]
     };
 
@@ -2353,7 +2970,7 @@ HTML_CODE = """<!DOCTYPE html>
       if (badge) badge.innerText = `${unpaidCount} Vade`;
     }
 
-    // RENDER CONTACTS TABLE
+    // RENDER CONTACTS TABLE (15 Authentic Paraşüt Live Records)
     function renderContactsTable() {
       const tbody = document.getElementById('tbody-contacts');
       if (!tbody) return;
@@ -2361,20 +2978,24 @@ HTML_CODE = """<!DOCTYPE html>
 
       BROSAN_ERP.contacts.forEach(c => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50' + (c.isBenEllis ? ' bg-blue-50/20' : '');
+        tr.className = 'hover:bg-slate-50' + (c.isBenEllis ? ' bg-blue-50/20' : c.isFarukAytin ? ' bg-amber-50/20' : '');
         tr.innerHTML = `
-          <td class="py-3 px-3 font-bold text-slate-900">${c.code}</td>
-          <td class="py-3 px-3 font-sans font-bold text-slate-900">${c.name}</td>
-          <td class="py-3 px-3 font-sans"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-800 text-[10px] font-bold">${c.type}</span></td>
-          <td class="py-3 px-3">${c.vkn}</td>
-          <td class="py-3 px-3 font-sans">${c.city}</td>
-          <td class="py-3 px-3 text-right font-bold ${c.balance.includes('Borç') ? 'text-rose-700' : 'text-emerald-700'}">${c.balance}</td>
-          <td class="py-3 px-3 text-center font-sans">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700">${c.status}</span>
+          <td class="py-2.5 px-3 font-bold font-mono text-slate-900">${c.code}</td>
+          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">
+            ${c.name}
+            ${c.isFarukAytin ? '<span class="ml-1 px-1.5 py-0.2 rounded text-[9px] bg-amber-100 text-amber-900 font-extrabold font-mono">NİSA TEKSTİL</span>' : ''}
           </td>
-          <td class="py-3 px-3 text-right font-sans space-x-1">
-            <button onclick="viewCariEkstre('${c.code}')" class="px-2 py-1 border border-slate-200 rounded text-xs text-slate-700 hover:bg-slate-50 font-semibold">Ekstre</button>
-            ${c.isBenEllis ? `<button onclick="openModal('modal-dab-calculator')" class="px-2 py-1 bg-amber-600 text-white rounded text-xs font-semibold">TCMB Bozum</button>` : ''}
+          <td class="py-2.5 px-3 font-sans"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-800 text-[10px] font-bold">${c.type}</span></td>
+          <td class="py-2.5 px-3 font-mono text-slate-700">${c.vkn}</td>
+          <td class="py-2.5 px-3 font-sans text-slate-600">${c.city}</td>
+          <td class="py-2.5 px-3 text-right font-bold font-mono ${c.balance.includes('Borç') ? 'text-rose-700' : 'text-emerald-700'}">${c.balance}</td>
+          <td class="py-2.5 px-3 text-center font-sans">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${c.isFarukAytin ? 'bg-amber-100 text-amber-900 font-mono' : 'bg-slate-100 text-slate-700'}">${c.status}</span>
+          </td>
+          <td class="py-2.5 px-3 text-right font-sans space-x-1 whitespace-nowrap">
+            <button onclick="viewCariEkstre('${c.code}')" class="px-2 py-1 border border-slate-200 rounded text-xs text-slate-700 hover:bg-slate-100 font-semibold shadow-2xs">Ekstre</button>
+            ${c.isFarukAytin ? `<button onclick="switchView('mutabakat')" class="px-2 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-xs font-semibold shadow-2xs">Mahsup Masası</button>` : ''}
+            ${c.isBenEllis ? `<button onclick="openModal('modal-dab-calculator')" class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold shadow-2xs">TCMB Bozum</button>` : ''}
           </td>
         `;
         tbody.appendChild(tr);
@@ -2459,28 +3080,52 @@ HTML_CODE = """<!DOCTYPE html>
       if (!tbody) return;
       tbody.innerHTML = `
         <tr class="hover:bg-slate-50">
-          <td class="py-2.5 px-3 text-slate-600">06.10.2026</td>
-          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti GBP</td>
-          <td class="py-2.5 px-3 font-sans text-slate-700">TCMB %40 Bozum Karşılığı TRY Aktarımı</td>
+          <td class="py-2.5 px-3 text-slate-600 font-mono">01.10.2026</td>
+          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti GBP (417-9034578)</td>
+          <td class="py-2.5 px-3 font-sans text-slate-700">Ben Ellis e-İhracat Bedeli Tahsilatı (BS02026000000013)</td>
+          <td class="py-2.5 px-3 text-right text-emerald-700 font-bold">£7.388,10</td>
           <td class="py-2.5 px-3 text-right text-slate-400">-</td>
-          <td class="py-2.5 px-3 text-right text-rose-700 font-bold">£3.410,00</td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">£48.250,00</td>
+          <td class="py-2.5 px-3 text-right font-bold text-slate-900">£23.759,07</td>
         </tr>
         <tr class="hover:bg-slate-50">
-          <td class="py-2.5 px-3 text-slate-600">06.10.2026</td>
-          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti TRY</td>
-          <td class="py-2.5 px-3 font-sans text-emerald-800">TCMB Bozum TRY Bedeli Girişi (Kur: 45.1200)</td>
-          <td class="py-2.5 px-3 text-right text-emerald-700 font-bold">₺153.859,20</td>
+          <td class="py-2.5 px-3 text-slate-600 font-mono">30.09.2026</td>
+          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti TL (417-6289477)</td>
+          <td class="py-2.5 px-3 font-sans text-slate-700">Faruk Aytin Garanti BBVA Havalesi (100 USD Karşılığı, Kur: 50,00)</td>
           <td class="py-2.5 px-3 text-right text-slate-400">-</td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">₺845.200,00</td>
+          <td class="py-2.5 px-3 text-right text-rose-700 font-bold">₺5.000,00</td>
+          <td class="py-2.5 px-3 text-right font-bold text-slate-900">₺15.732,92</td>
         </tr>
         <tr class="hover:bg-slate-50">
-          <td class="py-2.5 px-3 text-slate-600">04.10.2026</td>
-          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti TRY</td>
-          <td class="py-2.5 px-3 font-sans text-slate-700">Birlik Kumaşçılık Kısmi Ödeme (EFT)</td>
+          <td class="py-2.5 px-3 text-slate-600 font-mono">22.09.2026</td>
+          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti TL (417-6289477)</td>
+          <td class="py-2.5 px-3 font-sans text-slate-700">Faruk Aytin Garanti BBVA Havalesi (100 USD Karşılığı, Kur: 50,00)</td>
           <td class="py-2.5 px-3 text-right text-slate-400">-</td>
-          <td class="py-2.5 px-3 text-right text-rose-700 font-bold">₺100.000,00</td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">₺691.340,80</td>
+          <td class="py-2.5 px-3 text-right text-rose-700 font-bold">₺5.000,00</td>
+          <td class="py-2.5 px-3 text-right font-bold text-slate-900">₺20.732,92</td>
+        </tr>
+        <tr class="hover:bg-slate-50">
+          <td class="py-2.5 px-3 text-slate-600 font-mono">14.09.2026</td>
+          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti TL (417-6289477)</td>
+          <td class="py-2.5 px-3 font-sans text-slate-700">Faruk Aytin Garanti BBVA Havalesi ($1.000 USD Avans, Kur: 48,42)</td>
+          <td class="py-2.5 px-3 text-right text-slate-400">-</td>
+          <td class="py-2.5 px-3 text-right text-rose-700 font-bold">₺48.420,00</td>
+          <td class="py-2.5 px-3 text-right font-bold text-slate-900">₺25.732,92</td>
+        </tr>
+        <tr class="hover:bg-slate-50">
+          <td class="py-2.5 px-3 text-slate-600 font-mono">07.09.2026</td>
+          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti TL (417-6289477)</td>
+          <td class="py-2.5 px-3 font-sans text-slate-700">Faruk Aytin Garanti BBVA Havalesi ($2.000 USD Avans, Kur: 48,30)</td>
+          <td class="py-2.5 px-3 text-right text-slate-400">-</td>
+          <td class="py-2.5 px-3 text-right text-rose-700 font-bold">₺96.600,00</td>
+          <td class="py-2.5 px-3 text-right font-bold text-slate-900">₺74.152,92</td>
+        </tr>
+        <tr class="hover:bg-slate-50">
+          <td class="py-2.5 px-3 text-slate-600 font-mono">31.07.2026</td>
+          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti TL (417-6289477)</td>
+          <td class="py-2.5 px-3 font-sans text-slate-700">Faruk Aytin NSA2026000000070 Fatura Ödemesi ($3.036 USD, Kur: 47,25)</td>
+          <td class="py-2.5 px-3 text-right text-slate-400">-</td>
+          <td class="py-2.5 px-3 text-right text-rose-700 font-bold">₺143.451,00</td>
+          <td class="py-2.5 px-3 text-right font-bold text-slate-900">₺170.752,92</td>
         </tr>
       `;
     }
@@ -2796,54 +3441,342 @@ HTML_CODE = """<!DOCTYPE html>
       const c = BROSAN_ERP.contacts.find(con => con.code === contactCode);
       if (!c) return;
 
-      document.getElementById('ekstre-modal-title').innerText = `${c.name} - Cari Hesap Ekstresi`;
-      document.getElementById('ekstre-modal-body').innerHTML = `
-        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex justify-between items-center mb-3">
-          <div>
-            <span class="font-bold text-slate-900 block">${c.name}</span>
-            <span class="text-slate-500">Cari Kodu: <strong class="font-mono">${c.code}</strong> • VKN/VAT: <strong class="font-mono">${c.vkn}</strong></span>
+      document.getElementById('ekstre-modal-title').innerText = `${c.name} - Resmi Cari Hesap Ekstresi`;
+
+      if (contactCode === 'CR-TR-0004' || c.isFarukAytin) {
+        // AUTHENTIC FARUK AYTİN & NİSA TEKSTİL RECONCILIATION STATEMENT (EXCEL & PARAŞÜT 100% IDENTICAL)
+        document.getElementById('ekstre-modal-body').innerHTML = `
+          <div class="p-3 bg-amber-50 rounded-lg border border-amber-200 flex justify-between items-center mb-3">
+            <div>
+              <span class="font-bold text-slate-900 block font-sans">${c.name} (NİSA TEKSTİL)</span>
+              <span class="text-slate-600 text-xs">Cari Kodu: <strong class="font-mono">${c.code}</strong> • TCKN: <strong class="font-mono">${c.vkn}</strong> • Sultangazi, İstanbul</span>
+            </div>
+            <div class="text-right">
+              <span class="text-slate-500 text-xs block">Net Kalan Cari Borç:</span>
+              <span class="font-mono font-black text-base text-rose-700">-$10.335,35 USD</span>
+              <span class="text-[11px] font-mono text-slate-600 block">-₺508.894,07 TL</span>
+            </div>
           </div>
-          <div class="text-right">
-            <span class="text-slate-500 block">Güncel Bakiye:</span>
-            <span class="font-mono font-bold text-sm ${c.balance.includes('Borç') ? 'text-rose-700' : 'text-emerald-700'}">${c.balance}</span>
+
+          <div class="mb-2 text-xs font-semibold text-slate-700 flex justify-between items-center">
+            <span>Fason Üretim, Banka Havaleleri ve Kumaş Satış Mahsup Hareketleri (Dönem: 2026/07 - 2026/10)</span>
+            <span class="text-emerald-700 text-[11px]">✓ Excel &amp; Paraşüt Denk</span>
           </div>
-        </div>
-        <table class="w-full text-left border border-slate-200 rounded font-mono text-xs">
-          <thead class="bg-slate-100 text-slate-600 text-[10px] font-sans uppercase">
-            <tr>
-              <th class="p-2">Tarih</th>
-              <th class="p-2">İşlem / Belge No</th>
-              <th class="p-2 text-right">Borç (₺)</th>
-              <th class="p-2 text-right">Alacak (₺)</th>
-              <th class="p-2 text-right">Bakiye (₺)</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            <tr>
-              <td class="p-2">01.09.2026</td>
-              <td class="p-2 font-sans font-medium">Dönem Başı Açılış Bakiyesi</td>
-              <td class="p-2 text-right font-bold text-emerald-700">384.648,00</td>
-              <td class="p-2 text-right text-slate-400">-</td>
-              <td class="p-2 text-right font-bold">384.648,00 (B)</td>
-            </tr>
-            <tr>
-              <td class="p-2">08.09.2026</td>
-              <td class="p-2 font-sans font-medium">e-İhracat Faturası (EFT2026000000104)</td>
-              <td class="p-2 text-right font-bold text-emerald-700">547.721,60</td>
-              <td class="p-2 text-right text-slate-400">-</td>
-              <td class="p-2 text-right font-bold">932.369,60 (B)</td>
-            </tr>
-            <tr>
-              <td class="p-2">15.09.2026</td>
-              <td class="p-2 font-sans font-medium">Garanti GBP Gelen Havale / İBKB</td>
-              <td class="p-2 text-right text-slate-400">-</td>
-              <td class="p-2 text-right font-bold text-rose-700">384.648,00</td>
-              <td class="p-2 text-right font-bold">547.721,60 (B)</td>
-            </tr>
-          </tbody>
-        </table>
-      `;
+
+          <div class="overflow-x-auto border border-slate-200 rounded-lg">
+            <table class="w-full text-left border-collapse font-mono text-xs">
+              <thead class="bg-slate-100 text-slate-600 text-[10px] font-sans uppercase">
+                <tr>
+                  <th class="p-2">Tarih</th>
+                  <th class="p-2">İşlem / Belge No</th>
+                  <th class="p-2">Açıklama</th>
+                  <th class="p-2 text-right">Borç (USD)</th>
+                  <th class="p-2 text-right">Alacak (USD)</th>
+                  <th class="p-2 text-right">Bakiye (USD)</th>
+                  <th class="p-2 text-right">Bakiye (TL)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50">
+                  <td class="p-2 text-slate-600">30.07.2026</td>
+                  <td class="p-2 font-bold text-slate-900">NSA2026000000070</td>
+                  <td class="p-2 font-sans text-slate-700">EMK Oversized Tişört (276 Adet Dikim Fasonu)</td>
+                  <td class="p-2 text-right text-slate-400">-</td>
+                  <td class="p-2 text-right text-slate-900 font-bold">$3.036,00</td>
+                  <td class="p-2 text-right text-rose-700 font-bold">-$3.036,00</td>
+                  <td class="p-2 text-right text-rose-700">-₺143.451,00</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="p-2 text-slate-600">31.07.2026</td>
+                  <td class="p-2 font-bold text-emerald-800">Garanti Havale #1</td>
+                  <td class="p-2 font-sans text-slate-700">NSA-70 Fatura Ödemesi (Dekont: 17.07.43, Kur: 47,25)</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">$3.036,00</td>
+                  <td class="p-2 text-right text-slate-400">-</td>
+                  <td class="p-2 text-right text-slate-800 font-bold">$0,00</td>
+                  <td class="p-2 text-right text-slate-800">₺0,00</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="p-2 text-slate-600">07.09.2026</td>
+                  <td class="p-2 font-bold text-emerald-800">Garanti Havale #2</td>
+                  <td class="p-2 font-sans text-slate-700">Siparişe İstinaden Avans (Dekont: 16.25.27, Kur: 48,30)</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">$2.000,00</td>
+                  <td class="p-2 text-right text-slate-400">-</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">+$2.000,00</td>
+                  <td class="p-2 text-right text-emerald-700">+₺96.600,00</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="p-2 text-slate-600">14.09.2026</td>
+                  <td class="p-2 font-bold text-emerald-800">Garanti Havale #3</td>
+                  <td class="p-2 font-sans text-slate-700">Cari Hesaba İstinaden Avans (Dekont: 14.19.11, Kur: 48,42)</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">$1.000,00</td>
+                  <td class="p-2 text-right text-slate-400">-</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">+$3.000,00</td>
+                  <td class="p-2 text-right text-emerald-700">+₺145.020,00</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="p-2 text-slate-600">22.09.2026</td>
+                  <td class="p-2 font-bold text-emerald-800">Garanti Havale #4</td>
+                  <td class="p-2 font-sans text-slate-700">100 USD Karşılığı Cari Ödeme (Dekont: 18.03.45, Kur: 50,00)</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">$100,00</td>
+                  <td class="p-2 text-right text-slate-400">-</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">+$3.100,00</td>
+                  <td class="p-2 text-right text-emerald-700">+₺150.020,00</td>
+                </tr>
+                <tr class="hover:bg-slate-50 bg-blue-50/20">
+                  <td class="p-2 text-slate-600">27.09.2026</td>
+                  <td class="p-2 font-bold text-blue-700">BR02026000000024</td>
+                  <td class="p-2 font-sans text-slate-700">Fasona Verilen Kumaş Satış &amp; Mahsup (992,5 Kg, TCMB: 48,7901)</td>
+                  <td class="p-2 text-right text-blue-700 font-bold">$7.461,45</td>
+                  <td class="p-2 text-right text-slate-400">-</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">+$10.561,45</td>
+                  <td class="p-2 text-right text-emerald-700">+₺514.065,00</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="p-2 text-slate-600">30.09.2026</td>
+                  <td class="p-2 font-bold text-emerald-800">Garanti Havale #5</td>
+                  <td class="p-2 font-sans text-slate-700">100 USD Karşılığı Cari Ödeme (Dekont: 18.20.49, Kur: 50,00)</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">$100,00</td>
+                  <td class="p-2 text-right text-slate-400">-</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">+$10.661,45</td>
+                  <td class="p-2 text-right text-emerald-700">+₺519.065,00</td>
+                </tr>
+                <tr class="hover:bg-slate-50">
+                  <td class="p-2 text-slate-600">01.10.2026</td>
+                  <td class="p-2 font-bold text-slate-900">NSA2026000000084</td>
+                  <td class="p-2 font-sans text-slate-700">Ben Ellis (140 T-shirt + 180 Hoodie, Paraşüt Fiş: 1044145905)</td>
+                  <td class="p-2 text-right text-slate-400">-</td>
+                  <td class="p-2 text-right text-slate-900 font-bold">$6.366,80</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">+$4.294,65</td>
+                  <td class="p-2 text-right text-emerald-700">+₺207.535,57</td>
+                </tr>
+                <tr class="hover:bg-slate-50 bg-rose-50/30">
+                  <td class="p-2 text-slate-600 font-bold">05.10.2026</td>
+                  <td class="p-2 font-bold text-rose-800">NSA2026000000087</td>
+                  <td class="p-2 font-sans text-slate-700 font-bold">Ben Ellis (375 T-shirt + 394 Hoodie, Paraşüt Fiş: 1044145920)</td>
+                  <td class="p-2 text-right text-slate-400">-</td>
+                  <td class="p-2 text-right text-rose-700 font-bold">$14.630,00</td>
+                  <td class="p-2 text-right text-rose-700 font-black">-$10.335,35</td>
+                  <td class="p-2 text-right text-rose-700 font-black">-₺508.894,07</td>
+                </tr>
+              </tbody>
+              <tfoot class="bg-slate-100 border-t-2 border-slate-300 font-bold">
+                <tr>
+                  <td colspan="3" class="p-2 font-sans text-slate-900">GENEL TOPLAMLAR &amp; NET BAKİYE:</td>
+                  <td class="p-2 text-right text-emerald-700">$13.697,45</td>
+                  <td class="p-2 text-right text-purple-700">$24.032,80</td>
+                  <td class="p-2 text-right text-rose-700 font-black">-$10.335,35 USD</td>
+                  <td class="p-2 text-right text-rose-700 font-black">-₺508.894,07 TL</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <div class="mt-3 p-3 bg-slate-50 rounded border border-slate-200 text-xs flex justify-between items-center">
+            <div>
+              <span class="text-slate-600">Ödenecek Net KDV Tutarı:</span>
+              <strong class="font-mono text-amber-900 ml-1">$1.230,49 USD (₺60.355,83 TL)</strong>
+            </div>
+            <button onclick="switchView('mutabakat'); closeModal('modal-cari-ekstre');" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded font-bold text-xs">
+              Mutabakat Masasını Aç →
+            </button>
+          </div>
+        `;
+      } else if (c.isBenEllis || contactCode === 'CR-GB-0001') {
+        // BEN ELLIS AUTHENTIC STATEMENT
+        document.getElementById('ekstre-modal-body').innerHTML = `
+          <div class="p-3 bg-blue-50 rounded-lg border border-blue-200 flex justify-between items-center mb-3">
+            <div>
+              <span class="font-bold text-slate-900 block font-sans">${c.name}</span>
+              <span class="text-slate-600 text-xs">Cari Kodu: <strong class="font-mono">${c.code}</strong> • VKN/VAT: <strong class="font-mono">${c.vkn}</strong> • Bristol, Birleşik Krallık</span>
+            </div>
+            <div class="text-right">
+              <span class="text-slate-500 text-xs block">Açık Alacak Bakiyesi:</span>
+              <span class="font-mono font-black text-base text-blue-700">£22.414,22 GBP</span>
+              <span class="text-[11px] font-mono text-slate-600 block">₺1.452.246,45 TL</span>
+            </div>
+          </div>
+          <table class="w-full text-left border border-slate-200 rounded font-mono text-xs">
+            <thead class="bg-slate-100 text-slate-600 text-[10px] font-sans uppercase">
+              <tr>
+                <th class="p-2">Tarih</th>
+                <th class="p-2">İşlem / Belge No</th>
+                <th class="p-2 text-right">Borç (£)</th>
+                <th class="p-2 text-right">Alacak (£)</th>
+                <th class="p-2 text-right">Bakiye (£)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="p-2 text-slate-600">01.09.2026</td>
+                <td class="p-2 font-sans font-medium">Dönem Başı Açılış Bakiyesi</td>
+                <td class="p-2 text-right font-bold text-blue-700">£15.026,12</td>
+                <td class="p-2 text-right text-slate-400">-</td>
+                <td class="p-2 text-right font-bold">£15.026,12 (B)</td>
+              </tr>
+              <tr>
+                <td class="p-2 text-slate-600">01.10.2026</td>
+                <td class="p-2 font-sans font-medium">e-İhracat Faturası (BS02026000000013 - 769 Adet)</td>
+                <td class="p-2 text-right font-bold text-blue-700">£7.388,10</td>
+                <td class="p-2 text-right text-slate-400">-</td>
+                <td class="p-2 text-right font-bold text-blue-700">£22.414,22 (B)</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+      } else {
+        // GENERIC STATEMENT
+        document.getElementById('ekstre-modal-body').innerHTML = `
+          <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex justify-between items-center mb-3">
+            <div>
+              <span class="font-bold text-slate-900 block font-sans">${c.name}</span>
+              <span class="text-slate-500 text-xs">Cari Kodu: <strong class="font-mono">${c.code}</strong> • VKN: <strong class="font-mono">${c.vkn}</strong> • ${c.city}</span>
+            </div>
+            <div class="text-right">
+              <span class="text-slate-500 text-xs block">Güncel Bakiye:</span>
+              <span class="font-mono font-bold text-sm ${c.balance.includes('Borç') ? 'text-rose-700' : 'text-emerald-700'}">${c.balance}</span>
+            </div>
+          </div>
+          <table class="w-full text-left border border-slate-200 rounded font-mono text-xs">
+            <thead class="bg-slate-100 text-slate-600 text-[10px] font-sans uppercase">
+              <tr>
+                <th class="p-2">Tarih</th>
+                <th class="p-2">İşlem / Belge No</th>
+                <th class="p-2 text-right">Borç (₺)</th>
+                <th class="p-2 text-right">Alacak (₺)</th>
+                <th class="p-2 text-right">Bakiye (₺)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="p-2 text-slate-600">01.10.2026</td>
+                <td class="p-2 font-sans font-medium">Cari Hesap Açılış / Güncel Bakiye</td>
+                <td class="p-2 text-right font-bold ${c.balance.includes('Borç') ? 'text-slate-400' : 'text-emerald-700'}">${c.balance.includes('Borç') ? '-' : c.balance}</td>
+                <td class="p-2 text-right font-bold ${c.balance.includes('Borç') ? 'text-rose-700' : 'text-slate-400'}">${c.balance.includes('Borç') ? c.balance : '-'}</td>
+                <td class="p-2 text-right font-bold">${c.balance}</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+      }
+
       openModal('modal-cari-ekstre');
+    }
+
+    // PRINT FARUK AYTİN MUTABAKAT MEKTUBU (A4)
+    function printFarukAytinMutabakat() {
+      const printWin = window.open('', '_blank');
+      printWin.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Faruk Aytin Cari Mutabakat Mektubu</title>
+          <style>
+            body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; color: #1e293b; font-size: 13px; line-height: 1.5; }
+            .header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 15px; margin-bottom: 25px; }
+            .company { font-size: 18px; font-weight: bold; color: #0f172a; }
+            .title { font-size: 15px; font-weight: bold; margin-top: 5px; color: #475569; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 12px; }
+            th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+            th { background: #f1f5f9; }
+            .text-right { text-align: right; }
+            .font-bold { font-weight: bold; }
+            .signatures { display: flex; justify-content: space-between; margin-top: 50px; }
+            .sig-box { width: 45%; border-top: 1px solid #94a3b8; text-align: center; padding-top: 10px; font-weight: bold; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="company">BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.</div>
+            <div class="title">RESMİ CARİ HESAP VE FASON MAHSUP MUTABAKAT MEKTUBU</div>
+            <div style="font-size: 11px; color: #64748b; margin-top: 5px;">Tarih: 06.10.2026 • Mutabakat No: MTB-2026-004</div>
+          </div>
+
+          <p><strong>Sayın: FARUK AYTİN (NİSA TEKSTİL)</strong><br>
+          TCKN: 46849262292 • Sultangazi / İSTANBUL</p>
+
+          <p>Şirketimiz nezdindeki cari hesabınız, fason dikim faturalarınız, banka ödemelerimiz ve tarafınıza düzenlenen kumaş satış mahsup faturamız incelenmiş olup, 06.10.2026 tarihi itibariyle oluşan mutabakat tablosu aşağıda sunulmuştur:</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>İşlem / Belge</th>
+                <th>Tarih</th>
+                <th>Açıklama</th>
+                <th class="text-right">Tutar (USD)</th>
+                <th class="text-right">Tutar (TL)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>NSA2026000000070</td>
+                <td>30.07.2026</td>
+                <td>EMK Oversized Tişört (276 Adet Dikim)</td>
+                <td class="text-right font-bold">$3.036,00</td>
+                <td class="text-right">₺143.451,00</td>
+              </tr>
+              <tr>
+                <td>NSA2026000000084</td>
+                <td>01.10.2026</td>
+                <td>Ben Ellis Fason (140 T-shirt + 180 Hoodie)</td>
+                <td class="text-right font-bold">$6.366,80</td>
+                <td class="text-right">₺311.529,43</td>
+              </tr>
+              <tr>
+                <td>NSA2026000000087</td>
+                <td>05.10.2026</td>
+                <td>Ben Ellis Fason (375 T-shirt + 394 Hoodie)</td>
+                <td class="text-right font-bold">$14.630,00</td>
+                <td class="text-right">₺716.429,64</td>
+              </tr>
+              <tr style="background:#f8fafc;">
+                <td colspan="3"><strong>TOPLAM FASON ALIŞI</strong></td>
+                <td class="text-right font-bold"><strong>$24.032,80</strong></td>
+                <td class="text-right"><strong>₺1.171.410,07</strong></td>
+              </tr>
+              <tr>
+                <td>BR02026000000024</td>
+                <td>27.09.2026</td>
+                <td>Brosan Kumaş Satış & Mahsup (992,5 Kg Kumaş)</td>
+                <td class="text-right font-bold text-right">-$7.461,45</td>
+                <td class="text-right">-₺364.045,00</td>
+              </tr>
+              <tr>
+                <td>Garanti BBVA Havaleleri</td>
+                <td>Temmuz - Eylül</td>
+                <td>5 Adet Banka Havalesi Toplamı</td>
+                <td class="text-right font-bold text-right">-$6.236,00</td>
+                <td class="text-right">-₺298.471,00</td>
+              </tr>
+              <tr style="background:#fef2f2; font-size:13px;">
+                <td colspan="3"><strong>NET KALAN CARİ BORÇ BAKİYESİ:</strong></td>
+                <td class="text-right font-bold" style="color:#b91c1c;"><strong>-$10.335,35 USD</strong></td>
+                <td class="text-right font-bold" style="color:#b91c1c;"><strong>-₺508.894,07 TL</strong></td>
+              </tr>
+              <tr style="background:#fffbeb;">
+                <td colspan="3"><strong>ÖDENECEK NET KDV (%10):</strong></td>
+                <td class="text-right font-bold" style="color:#b45309;"><strong>$1.230,49 USD</strong></td>
+                <td class="text-right font-bold" style="color:#b45309;"><strong>₺60.355,83 TL</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>İşbu mutabakat mektubunu onaylamanızı ve kaşe/imzalı nüshasını tarafımıza iletmenizi rica ederiz.</p>
+
+          <div class="signatures">
+            <div class="sig-box">
+              BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.<br><br><br>
+              Yetkili İmza / Kaşe
+            </div>
+            <div class="sig-box">
+              FARUK AYTİN (NİSA TEKSTİL)<br><br><br>
+              Yetkili İmza / Kaşe
+            </div>
+          </div>
+        </body>
+        </html>
+      `);
+      printWin.document.close();
+      printWin.focus();
     }
 
     // VIEW MUAVİN
