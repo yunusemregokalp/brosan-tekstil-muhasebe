@@ -159,6 +159,14 @@
         if (res.ok) return await res.json();
       } catch (e) {}
       return null;
+    },
+
+    async getFarukAytinReconciliation() {
+      try {
+        const res = await fetch(`${API_BASE}/mutabakat/faruk-aytin`);
+        if (res.ok) return await res.json();
+      } catch (e) {}
+      return null;
     }
   };
 
