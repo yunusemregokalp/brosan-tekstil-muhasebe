@@ -9,6 +9,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { PrismaClient } = require('@prisma/client');
+const auth = require('./auth');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -93,6 +94,150 @@ app.get('/api/health', async (req, res) => {
     version: '1.0.0'
   });
 });
+
+// ==============================================================================
+// 1.1 SİBER GÜVENLİK & KİMLİK DOĞRULAMA (LOGIN, LOGOUT, ME, CHANGE-PASSWORD)
+// ==============================================================================
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body || {};
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+
+    if (!username || !password) {
+      return res.status(400).json({ success: false, error: 'Kullanıcı adı ve şifre zorunludur.' });
+    }
+
+    // 1. IP ve Kullanıcı bazlı Brute-Force Kalkanı Kontrolü
+    const ipCheck = auth.checkBruteForce(`ip:${clientIp}`);
+    const userCheck = auth.checkBruteForce(`user:${username.toLowerCase()}`);
+    if (ipCheck.isLocked || userCheck.isLocked) {
+      const waitSec = Math.max(ipCheck.remainingSec || 0, userCheck.remainingSec || 0);
+      return res.status(429).json({
+        success: false,
+        error: `Çok fazla hatalı giriş denemesi yapıldı! Güvenlik nedeniyle erişiminiz ${waitSec} saniye kilitlendi.`,
+        locked: true,
+        remainingSec: waitSec
+      });
+    }
+
+    // 2. Kullanıcıyı Veritabanında veya Fallback Modunda Ara
+    let user = null;
+    const dbOk = await checkDbConnection();
+    if (dbOk) {
+      user = await prisma.user.findUnique({
+        where: { username: username.trim() }
+      });
+    } else {
+      // Çevrimdışı / Yerel Fallback
+      if (username.trim() === 'admin') {
+        const adminPass = process.env.ADMIN_INITIAL_PASSWORD || 'Brosan2026!SecureErp';
+        user = {
+          id: 'local-admin-id',
+          username: 'admin',
+          passwordHash: auth.hashPassword(adminPass),
+          fullName: 'Yunus Emre Gökalp (Yönetici)',
+          role: 'ADMIN',
+          isActive: true
+        };
+      }
+    }
+
+    // 3. Parola Doğrulama
+    const isValid = user && auth.verifyPassword(password, user.passwordHash);
+
+    if (!isValid) {
+      auth.recordFailedAttempt(`ip:${clientIp}`);
+      auth.recordFailedAttempt(`user:${username.toLowerCase()}`);
+      return res.status(401).json({
+        success: false,
+        error: 'Kullanıcı adı veya şifre hatalı!'
+      });
+    }
+
+    // 4. Aktiflik ve Kilit Kontrolü
+    if (!user.isActive) {
+      return res.status(403).json({ success: false, error: 'Bu kullanıcı hesabı devre dışı bırakılmıştır.' });
+    }
+
+    // 5. Başarılı Giriş: Sayaçları sıfırla ve token üret
+    auth.clearFailedAttempts(`ip:${clientIp}`);
+    auth.clearFailedAttempts(`user:${username.toLowerCase()}`);
+
+    if (dbOk && user.id !== 'local-admin-id') {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { lastLoginAt: new Date(), failedAttempts: 0, lockedUntil: null }
+      }).catch(() => {});
+    }
+
+    const token = auth.generateToken(user);
+
+    res.status(200).json({
+      success: true,
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        fullName: user.fullName,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Giriş işlemi sırasında sunucu hatası oluştu: ' + error.message });
+  }
+});
+
+// Oturum Bilgisi Doğrulama
+app.get('/api/auth/me', auth.requireAuth, (req, res) => {
+  res.status(200).json({
+    success: true,
+    user: req.user
+  });
+});
+
+// Oturumu Kapatma
+app.post('/api/auth/logout', (req, res) => {
+  res.status(200).json({ success: true, message: 'Oturum başarıyla kapatıldı.' });
+});
+
+// Şifre Değiştirme
+app.post('/api/auth/change-password', auth.requireAuth, async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body || {};
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ success: false, error: 'Eski şifre ve yeni şifre alanları zorunludur.' });
+    }
+    if (newPassword.length < 8) {
+      return res.status(400).json({ success: false, error: 'Yeni şifre en az 8 karakter uzunluğunda olmalıdır.' });
+    }
+
+    const dbOk = await checkDbConnection();
+    if (!dbOk) {
+      return res.status(503).json({ success: false, error: 'Veritabanı bağlantısı yok, şifre güncellenemez.' });
+    }
+
+    const user = await prisma.user.findUnique({ where: { id: req.user.id } });
+    if (!user || !auth.verifyPassword(oldPassword, user.passwordHash)) {
+      return res.status(400).json({ success: false, error: 'Mevcut şifreniz hatalı.' });
+    }
+
+    const newHash = auth.hashPassword(newPassword);
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { passwordHash: newHash }
+    });
+
+    res.status(200).json({ success: true, message: 'Şifreniz başarıyla güncellendi!' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Şifre güncellenirken hata oluştu: ' + err.message });
+  }
+});
+
+// ==============================================================================
+// 1.2 FAIL-CLOSED REST API GÜVENLİK KALKANI
+// /api/health ve /api/auth/login hariç tüm muhasebe rotalarını korur
+// ==============================================================================
+app.use('/api', auth.requireAuth);
 
 // ==============================================================================
 // 2. DASHBOARD KPI SUMMARY

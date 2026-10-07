@@ -198,7 +198,7 @@ async function main() {
     { code: '101.01', name: 'Portföydeki Vadeli Çekler', type: 'ASSET', category: 'KASA', currency: 'TRY', balance: 221511.13 },
     { code: '120.01', name: 'Alıcılar - Yurtdışı İhracat (Ben Ellis & Lavi La)', type: 'ASSET', category: 'CARI', currency: 'TRY', balance: 2795854.47 },
     { code: '191.01', name: 'İndirilecek KDV %10 (Fason & Malzeme)', type: 'ASSET', category: 'KDV', currency: 'TRY', balance: 106489.83 },
-    { code: '320.01', name: 'Satıcılar - Faruk Aytin & Nisa Tekstil (-$10.335,35 USD)', type: 'LIABILITY', category: 'CARI', currency: 'USD', balance: -10335.35 },
+    { code: '320.01', name: 'Satıcılar - Faruk Aytin & Nisa Tekstil (-$9.335,35 USD)', type: 'LIABILITY', category: 'CARI', currency: 'USD', balance: -9335.35 },
     { code: '320.02', name: 'Satıcılar - Tinteks Tekstil ve Kumaşçılık', type: 'LIABILITY', category: 'CARI', currency: 'TRY', balance: -1099047.50 },
     { code: '331.01', name: 'Ortaklara Borçlar - Yunus Emre Gökalp', type: 'LIABILITY', category: 'CARI', currency: 'TRY', balance: -109418.80 },
     { code: '391.01', name: 'Hesaplanan KDV %10 (Kumaş Satış & Fason)', type: 'LIABILITY', category: 'KDV', currency: 'TRY', balance: 33095.00 },
@@ -292,9 +292,9 @@ async function main() {
       city: 'İstanbul',
       country: 'Türkiye',
       currency: 'USD',
-      balance: -10335.35, // -$10,335.35 USD Net Kalan Fason Üretim Borcu
-      balanceUsd: -10335.35,
-      balanceTrl: -508894.07,
+      balance: -9335.35, // -$9,335.35 USD Net Kalan Fason Üretim Borcu (07.10.2026 1.000 USD Ödeme Sonrası)
+      balanceUsd: -9335.35,
+      balanceTrl: -459874.07,
       balanceEur: 0.0,
       balanceGbp: 0.0,
       isAbroad: false,
@@ -1053,6 +1053,7 @@ async function main() {
       { date: new Date('2026-09-14'), amount: 48420.00, desc: 'FARUK AYTİN-CARİ HESABA İSTİNADEN ÖN ÖDEME 1.000 usd karşılığı kur 48,42-HVL-CEP ŞUBE', ref: '2026-09-14-14.19.11' },
       { date: new Date('2026-09-22'), amount: 5000.00, desc: 'FARUK AYTİN-100 usd karşılığı , kur 50,00 , cari hesaba istinaden-HVL-CEP ŞUBE', ref: '2026-09-22-18.03.45' },
       { date: new Date('2026-09-30'), amount: 5000.00, desc: 'FARUK AYTİN-usd cari ödeme 100 usd karşılığı , kur 50,00 TL-HVL-CEP ŞUBE', ref: '2026-09-30-18.20.49' },
+      { date: new Date('2026-10-07'), amount: 49020.00, desc: 'FARUK AYTİN-1.000 USD karşılığı, kur 49,02 cari ödeme 49.020 TL-HVL-GARANTİ BBVA', ref: '2026-10-07-17.14.25' },
     ];
 
     for (const bp of bankPayments) {
@@ -1101,16 +1102,16 @@ async function main() {
       tckn: '46849262292',
       totalFasonUsd: 24032.80,
       totalFasonKdvUsd: 2184.80,
-      totalBankPaymentUsd: 6236.00,
-      totalBankPaymentTl: 298471.00,
+      totalBankPaymentUsd: 7236.00,
+      totalBankPaymentTl: 347491.00,
       fabricInvoiceUsd: 7461.45,
       fabricInvoiceTl: 364045.00,
-      netRemainingDebtUsd: -10335.35,
-      netRemainingDebtTl: -508894.07,
+      netRemainingDebtUsd: -9335.35,
+      netRemainingDebtTl: -459874.07,
       netVatPayableUsd: 1230.49,
       netVatPayableTl: 60355.83,
       status: 'RECONCILED',
-      notes: 'Faruk Aytin & Nisa Tekstil Fason Üretim ve Kumaş Mahsubu Tam Çift Yönlü Mutabakatı (NSA-70, NSA-84, NSA-87, BR02026000000024, 5 Garanti BBVA Havalesi)'
+      notes: 'Faruk Aytin & Nisa Tekstil Fason Üretim ve Kumaş Mahsubu Tam Çift Yönlü Mutabakatı (NSA-70, NSA-84, NSA-87, BR02026000000024, 6 Garanti BBVA Havalesi)'
     },
     create: {
       id: 'FARUK-AYTIN-2026-RECON',
@@ -1119,16 +1120,16 @@ async function main() {
       tckn: '46849262292',
       totalFasonUsd: 24032.80,
       totalFasonKdvUsd: 2184.80,
-      totalBankPaymentUsd: 6236.00,
-      totalBankPaymentTl: 298471.00,
+      totalBankPaymentUsd: 7236.00,
+      totalBankPaymentTl: 347491.00,
       fabricInvoiceUsd: 7461.45,
       fabricInvoiceTl: 364045.00,
-      netRemainingDebtUsd: -10335.35,
-      netRemainingDebtTl: -508894.07,
+      netRemainingDebtUsd: -9335.35,
+      netRemainingDebtTl: -459874.07,
       netVatPayableUsd: 1230.49,
       netVatPayableTl: 60355.83,
       status: 'RECONCILED',
-      notes: 'Faruk Aytin & Nisa Tekstil Fason Üretim ve Kumaş Mahsubu Tam Çift Yönlü Mutabakatı (NSA-70, NSA-84, NSA-87, BR02026000000024, 5 Garanti BBVA Havalesi)'
+      notes: 'Faruk Aytin & Nisa Tekstil Fason Üretim ve Kumaş Mahsubu Tam Çift Yönlü Mutabakatı (NSA-70, NSA-84, NSA-87, BR02026000000024, 6 Garanti BBVA Havalesi)'
     }
   });
   console.log('✅ Faruk Aytin SubcontractReconciliation çift yönlü mutabakat kaydı işlendi.');
@@ -1315,8 +1316,37 @@ async function main() {
     console.log('✅ Faruk Aytin Fason ve Kumaş Mahsup Yevmiye maddeleri işlendi.');
   }
 
+  // ==========================================
+  // 11. GÜVENLİ YÖNETİCİ KULLANICISI (ADMIN)
+  // ==========================================
+  const bcrypt = require('bcryptjs');
+  const adminPassword = process.env.ADMIN_INITIAL_PASSWORD || 'Brosan2026!SecureErp';
+  const salt = bcrypt.genSaltSync(12);
+  const passwordHash = bcrypt.hashSync(adminPassword, salt);
+
+  await prisma.user.upsert({
+    where: { username: 'admin' },
+    update: {
+      fullName: 'Yunus Emre Gökalp (Yönetici)',
+      role: 'ADMIN',
+      isActive: true,
+      failedAttempts: 0,
+      lockedUntil: null
+    },
+    create: {
+      username: 'admin',
+      passwordHash: passwordHash,
+      fullName: 'Yunus Emre Gökalp (Yönetici)',
+      role: 'ADMIN',
+      isActive: true,
+      failedAttempts: 0,
+      lockedUntil: null
+    }
+  });
+  console.log('✅ Kurumsal Yönetici Kullanıcısı (admin) oluşturuldu/güncellendi.');
+
   console.log('🎉 Brosan Tekstil ERP Veritabanı Canlı Verilerle Başarıyla Tohumlandı!');
-  console.log('📊 ÖZET: 15 Gerçek Cari, 14 Banka/Kasa, 15 Satış Faturası, 3 Fason Faturası, 3 Gerçek Çek, 15 Stok Kartı, 5 Garanti BBVA Havalesi, Faruk Aytin -$10.335,35 USD Mutabakatı Doğrulandı.');
+  console.log('📊 ÖZET: 15 Gerçek Cari, 14 Banka/Kasa, 15 Satış Faturası, 3 Fason Faturası, 3 Gerçek Çek, 15 Stok Kartı, 6 Garanti BBVA Havalesi, Faruk Aytin -$9.335,35 USD Mutabakatı Doğrulandı.');
 }
 
 main()

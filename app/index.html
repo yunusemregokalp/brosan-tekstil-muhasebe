@@ -71,8 +71,111 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased h-full overflow-hidden flex flex-col">
 
+  <!-- ============================================================================== -->
+  <!-- BROSAN SİBER GÜVENLİK KALKANI — KURUMSAL GİRİŞ VE KİLİT EKRANI (LOCKSCREEN) -->
+  <!-- ============================================================================== -->
+  <div id="auth-lockscreen" class="fixed inset-0 z-[99999] bg-gradient-to-br from-[#060a0f] via-[#0d131a] to-[#040608] flex items-center justify-center p-4 select-none">
+    <div class="w-full max-w-md bg-[#111922] border border-slate-800/90 rounded-2xl shadow-2xl p-7 text-slate-200 relative overflow-hidden backdrop-blur-xl">
+      <!-- Background subtle glow -->
+      <div class="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Header & Brand -->
+      <div class="flex flex-col items-center text-center mb-6">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-emerald-950/50 mb-3 border border-emerald-400/30">
+          B
+        </div>
+        <h1 class="text-xl font-display font-extrabold text-white tracking-tight flex items-center gap-1.5">
+          <span>BROSAN TEKSTİL ERP</span>
+        </h1>
+        <p class="text-xs text-slate-400 mt-1 font-medium">Ön &amp; Genel Muhasebe Kurumsal Giriş Kapısı</p>
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 mt-2.5 rounded-full bg-emerald-950/70 border border-emerald-700/50 text-emerald-400 text-[10px] font-mono font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Siber Güvenlik Kalkanı v2.0 Aktif</span>
+        </div>
+      </div>
+
+      <!-- Error Message Banner -->
+      <div id="login-error-box" class="hidden mb-4 p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-200 text-xs flex items-start gap-2.5 animate-fadeIn">
+        <span class="material-symbols-outlined text-[18px] text-rose-400 flex-shrink-0 mt-0.5">error</span>
+        <div id="login-error-text" class="flex-1 font-medium leading-relaxed"></div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" onsubmit="window.BrosanAuth.handleLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Kullanıcı Adı</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+              <span class="material-symbols-outlined text-[18px]">person</span>
+            </span>
+            <input
+              type="text"
+              id="login-username"
+              required
+              autocomplete="username"
+              class="w-full pl-9 pr-3 py-2.5 text-xs bg-slate-900/90 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-mono"
+              placeholder="admin"
+            />
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-xs font-semibold text-slate-300">Şifre</label>
+            <span class="text-[10px] text-slate-500 font-mono">12+ Karakter</span>
+          </div>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+              <span class="material-symbols-outlined text-[18px]">lock</span>
+            </span>
+            <input
+              type="password"
+              id="login-password"
+              required
+              autocomplete="current-password"
+              class="w-full pl-9 pr-10 py-2.5 text-xs bg-slate-900/90 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-mono"
+              placeholder="••••••••••••"
+            />
+            <button
+              type="button"
+              onclick="window.BrosanAuth.togglePasswordVisibility('login-password', this)"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300 transition-colors"
+            >
+              <span class="material-symbols-outlined text-[18px]">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          id="login-submit-btn"
+          class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#00AA6C] to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold text-xs shadow-lg shadow-emerald-950/40 transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
+        >
+          <span class="material-symbols-outlined text-[18px]">verified_user</span>
+          <span id="login-btn-text">Güvenli Giriş Yap</span>
+        </button>
+      </form>
+
+      <!-- Security Guarantees Footer -->
+      <div class="mt-6 pt-5 border-t border-slate-800/80 grid grid-cols-2 gap-2 text-[10px] text-slate-400">
+        <div class="flex items-center gap-1.5 bg-slate-900/60 p-2 rounded-lg border border-slate-800/60">
+          <span class="material-symbols-outlined text-emerald-400 text-[14px]">shield</span>
+          <span>Bcrypt &amp; JWT 256-bit</span>
+        </div>
+        <div class="flex items-center gap-1.5 bg-slate-900/60 p-2 rounded-lg border border-slate-800/60">
+          <span class="material-symbols-outlined text-blue-400 text-[14px]">security</span>
+          <span>Brute-Force Kalkanı</span>
+        </div>
+      </div>
+      <div class="text-center mt-3 text-[10px] text-slate-500 font-mono">
+        Brosan Tekstil Sanayi ve Ticaret A.Ş. © 2026
+      </div>
+    </div>
+  </div>
+
   <!-- TOP APP CONTAINER -->
-  <div class="flex-1 flex overflow-hidden">
+  <div id="erp-main-app" class="flex-1 flex overflow-hidden hidden">
     
     <!-- LEFT SIDEBAR -->
     <aside class="w-64 bg-[#0d131a] text-slate-300 flex flex-col flex-shrink-0 border-r border-slate-800 z-30 select-none">
@@ -214,16 +317,38 @@
       </nav>
 
       <!-- Sidebar Footer -->
-      <div class="p-3 border-t border-slate-800/80 bg-[#090d12]">
+      <div class="p-3 border-t border-slate-800/80 bg-[#090d12] space-y-2.5">
+        <!-- Active User Badge -->
+        <div class="p-2 rounded-lg bg-slate-900/80 border border-slate-800/80 flex items-center justify-between">
+          <div class="flex items-center gap-2 overflow-hidden">
+            <div id="sidebar-user-avatar" class="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold text-[11px] flex items-center justify-center flex-shrink-0">
+              AD
+            </div>
+            <div class="overflow-hidden">
+              <div id="sidebar-user-name" class="text-xs font-bold text-white truncate leading-tight">Yönetici</div>
+              <div id="sidebar-user-role" class="text-[10px] text-emerald-400 font-medium truncate leading-tight">Sistem Yöneticisi</div>
+            </div>
+          </div>
+          <button onclick="window.BrosanAuth.openPasswordModal()" title="Şifre Değiştir" class="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+            <span class="material-symbols-outlined text-[16px]">key</span>
+          </button>
+        </div>
+
         <div class="flex items-center justify-between text-xs">
           <span class="text-slate-400 font-medium">GİB &amp; TDHP Durumu</span>
           <span class="font-bold text-emerald-400 font-mono">v4.8 Canlı</span>
         </div>
-        <div class="text-[11px] text-slate-500 font-semibold mt-0.5">Brosan Enterprise ERP</div>
-        <button onclick="window.open('https://uygulama.parasut.com', '_blank')" class="mt-2 w-full py-1.5 px-2 bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-[11px] rounded flex items-center justify-center gap-1.5 transition-colors">
-          <span class="material-symbols-outlined text-[14px]">menu_book</span>
-          <span>Mevzuat &amp; İBKB Kılavuzu</span>
-        </button>
+        
+        <div class="grid grid-cols-2 gap-1.5 pt-1">
+          <button onclick="window.open('https://uygulama.parasut.com', '_blank')" class="py-1.5 px-2 bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-[10px] font-semibold rounded flex items-center justify-center gap-1 transition-colors">
+            <span class="material-symbols-outlined text-[13px]">menu_book</span>
+            <span>Mevzuat</span>
+          </button>
+          <button onclick="window.BrosanAuth.logout()" class="py-1.5 px-2 bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 border border-rose-800/50 text-[10px] font-semibold rounded flex items-center justify-center gap-1 transition-colors">
+            <span class="material-symbols-outlined text-[13px]">logout</span>
+            <span>Çıkış Yap</span>
+          </button>
+        </div>
       </div>
     </aside>
 
@@ -291,16 +416,21 @@
             <span class="absolute top-1 right-1 w-4 h-4 bg-rose-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span>
           </button>
 
-          <!-- User Profile -->
-          <div class="flex items-center gap-2.5 pl-3 border-l border-slate-200">
-            <div class="w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-              YG
+          <!-- User Profile & Session Menu -->
+          <div class="flex items-center gap-2 pl-3 border-l border-slate-200">
+            <div id="nav-user-avatar" class="w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+              AD
             </div>
             <div class="hidden md:block text-left">
-              <div class="text-xs font-bold text-slate-800 leading-tight">Yunus Emre Gökalp</div>
-              <div class="text-[10px] text-slate-500 leading-tight">Mali Müşavir &amp; Finans Dir.</div>
+              <div id="nav-user-name" class="text-xs font-bold text-slate-800 leading-tight">Yönetici</div>
+              <div id="nav-user-role" class="text-[10px] text-slate-500 leading-tight">Sistem Yöneticisi</div>
             </div>
-            <span class="material-symbols-outlined text-slate-400 text-[18px]">expand_more</span>
+            <button onclick="window.BrosanAuth.openPasswordModal()" title="Şifre Değiştir" class="p-1.5 text-slate-500 hover:text-slate-800 rounded-lg hover:bg-slate-100 transition-colors ml-0.5">
+              <span class="material-symbols-outlined text-[18px]">key</span>
+            </button>
+            <button onclick="window.BrosanAuth.logout()" title="Güvenli Çıkış" class="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors">
+              <span class="material-symbols-outlined text-[18px]">logout</span>
+            </button>
           </div>
         </div>
       </header>
@@ -1381,11 +1511,11 @@
                   <span>GARANTİ BBVA ÖDEMELERİ</span>
                   <span class="material-symbols-outlined text-emerald-600 text-[18px]">account_balance</span>
                 </div>
-                <div class="font-mono text-lg font-extrabold text-emerald-700">$6.236,00 USD</div>
-                <div class="text-[11px] font-mono text-slate-600 mt-0.5">₺298.471,00 TL</div>
+                <div class="font-mono text-lg font-extrabold text-emerald-700">$7.236,00 USD</div>
+                <div class="text-[11px] font-mono text-slate-600 mt-0.5">₺347.491,00 TL</div>
               </div>
               <div class="mt-2 pt-2 border-t border-slate-100 text-[10px] text-slate-500 flex justify-between">
-                <span>5 Adet Banka Havalesi</span>
+                <span>6 Adet Banka Havalesi</span>
                 <span class="text-emerald-700 font-bold">100% Eşleşti ✓</span>
               </div>
             </div>
@@ -1397,8 +1527,8 @@
                   <span>NET KALAN CARİ BORÇ</span>
                   <span class="material-symbols-outlined text-rose-600 text-[18px]">price_change</span>
                 </div>
-                <div class="font-mono text-xl font-black text-rose-700">-$10.335,35 USD</div>
-                <div class="text-[11px] font-mono text-rose-900 font-bold mt-0.5">-₺508.894,07 TL</div>
+                <div class="font-mono text-xl font-black text-rose-700">-$9.335,35 USD</div>
+                <div class="text-[11px] font-mono text-rose-900 font-bold mt-0.5">-₺459.874,07 TL</div>
               </div>
               <div class="mt-2 pt-2 border-t border-rose-200 text-[10px] text-rose-800 flex justify-between font-bold">
                 <span>Paraşüt &amp; Excel Birebir</span>
@@ -1431,11 +1561,11 @@
                 <div class="font-mono text-xs md:text-sm font-semibold text-slate-100 flex flex-wrap items-center gap-2">
                   <span class="bg-slate-800 px-2 py-0.5 rounded border border-slate-700">Fason Faturaları: $24.032,80</span>
                   <span class="text-rose-400 font-bold">-</span>
-                  <span class="bg-slate-800 px-2 py-0.5 rounded border border-slate-700">Banka Havaleleri: $6.236,00</span>
+                  <span class="bg-slate-800 px-2 py-0.5 rounded border border-slate-700">Banka Havaleleri: $7.236,00</span>
                   <span class="text-rose-400 font-bold">-</span>
                   <span class="bg-slate-800 px-2 py-0.5 rounded border border-slate-700">Kumaş Satış Mahsubu: $7.461,45</span>
                   <span class="text-emerald-400 font-bold">=</span>
-                  <span class="bg-rose-950 text-rose-300 px-2.5 py-0.5 rounded border border-rose-700 font-bold font-mono">Net Kalan Borç: -$10.335,35 USD (₺508.894,07 TL)</span>
+                  <span class="bg-rose-950 text-rose-300 px-2.5 py-0.5 rounded border border-rose-700 font-bold font-mono">Net Kalan Borç: -$9.335,35 USD (₺459.874,07 TL)</span>
                 </div>
               </div>
               <div class="text-right">
@@ -1577,7 +1707,7 @@
                   <h3 class="font-bold text-xs text-slate-900">3. Garanti BBVA Banka Ödemeleri (Hesap: 417-6289477)</h3>
                   <span class="text-[11px] text-slate-500">TR16 0006 2000 4170 0006 2894 77</span>
                 </div>
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">5 Havale • $6.236,00 USD</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">6 Havale • $7.236,00 USD</span>
               </div>
               <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-xs font-mono">
@@ -1626,12 +1756,19 @@
                       <td class="py-2 px-3 text-right font-bold text-slate-900">₺5.000,00</td>
                       <td class="py-2 px-3 text-right text-emerald-700 font-bold">$100,00</td>
                     </tr>
+                    <tr class="hover:bg-slate-50 bg-emerald-50/20">
+                      <td class="py-2 px-3 text-slate-600 font-bold">07.10.2026</td>
+                      <td class="py-2 px-3 font-sans text-slate-800 font-bold">1.000 USD Karşılığı Cari Ödeme (Garanti Havale)</td>
+                      <td class="py-2 px-3 text-right text-slate-500">49,02</td>
+                      <td class="py-2 px-3 text-right font-bold text-slate-900">₺49.020,00</td>
+                      <td class="py-2 px-3 text-right text-emerald-700 font-bold">$1.000,00</td>
+                    </tr>
                   </tbody>
                   <tfoot class="bg-slate-50 border-t border-slate-200 font-bold">
                     <tr>
                       <td colspan="3" class="py-2 px-3 font-sans text-slate-800">TOPLAM BANKA ÖDEMELERİ:</td>
-                      <td class="py-2 px-3 text-right text-emerald-700">₺298.471,00</td>
-                      <td class="py-2 px-3 text-right text-emerald-700">$6.236,00</td>
+                      <td class="py-2 px-3 text-right text-emerald-700">₺347.491,00</td>
+                      <td class="py-2 px-3 text-right text-emerald-700">$7.236,00</td>
                     </tr>
                   </tfoot>
                 </table>
@@ -1668,7 +1805,7 @@
               <!-- Kaşe / İmza Mutabakat Onay Rozeti -->
               <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
                 <div class="text-[11px] font-bold text-slate-800 mb-1">✍️ Resmi Cari Mutabakat Onayı</div>
-                <p class="text-[11px] text-slate-600 mb-2">İşbu cari hesap mutabakatı 06.10.2026 tarihi itibariyle net <strong>-$10.335,35 USD (₺508.894,07 TL)</strong> cari borç bakiyesi ve <strong>$1.230,49 USD</strong> ödenecek net KDV tutarı üzerinden çift taraflı olarak teyit edilmiş ve Paraşüt muhasebe kayıtlarıyla tam mutabık kalınmıştır.</p>
+                <p class="text-[11px] text-slate-600 mb-2">İşbu cari hesap mutabakatı 07.10.2026 tarihi itibariyle net <strong>-$9.335,35 USD (₺459.874,07 TL)</strong> cari borç bakiyesi ve <strong>$1.230,49 USD</strong> ödenecek net KDV tutarı üzerinden çift taraflı olarak teyit edilmiş ve Paraşüt muhasebe kayıtlarıyla tam mutabık kalınmıştır.</p>
                 <div class="grid grid-cols-2 gap-2 text-center text-[10px] font-bold text-slate-700 pt-2 border-t border-slate-200">
                   <div class="p-1.5 bg-white border border-slate-200 rounded">
                     <span>BROSAN TEKSTİL LTD. ŞTİ.</span><br>
@@ -2521,8 +2658,95 @@
     </div>
   </div>
 
+  <!-- CHANGE PASSWORD MODAL -->
+  <div id="modal-change-password" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[20px]">key</span>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-800">Şifre Değiştir</h3>
+            <p class="text-[11px] text-slate-500">Hesap güvenliğiniz için güçlü bir şifre seçin</p>
+          </div>
+        </div>
+        <button onclick="window.BrosanAuth.closePasswordModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-colors">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <form id="change-password-form" onsubmit="window.BrosanAuth.submitChangePassword(event)" class="p-5 space-y-4">
+        <!-- Error Banner -->
+        <div id="pw-modal-error" class="hidden p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+          <span class="material-symbols-outlined text-[16px]">error</span>
+          <span id="pw-modal-error-text" class="flex-1 font-medium"></span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Mevcut Şifre</label>
+          <input
+            type="password"
+            id="pw-current"
+            required
+            autocomplete="current-password"
+            placeholder="••••••••••••"
+            class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:bg-white transition-all font-mono"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Yeni Şifre (En az 8 karakter)</label>
+          <input
+            type="password"
+            id="pw-new"
+            required
+            minlength="8"
+            autocomplete="new-password"
+            placeholder="••••••••••••"
+            class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:bg-white transition-all font-mono"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Yeni Şifre Tekrar</label>
+          <input
+            type="password"
+            id="pw-confirm"
+            required
+            minlength="8"
+            autocomplete="new-password"
+            placeholder="••••••••••••"
+            class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:bg-white transition-all font-mono"
+          />
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onclick="window.BrosanAuth.closePasswordModal()"
+            class="px-4 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-colors"
+          >
+            İptal
+          </button>
+          <button
+            type="submit"
+            id="pw-submit-btn"
+            class="px-4 py-2 rounded-lg bg-[#00AA6C] hover:bg-emerald-600 text-white text-xs font-bold transition-colors shadow-sm flex items-center gap-1.5"
+          >
+            <span class="material-symbols-outlined text-[16px]">check</span>
+            <span>Şifreyi Güncelle</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION POPUP -->
   <div id="toast-container" class="fixed bottom-12 right-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- LOAD API CLIENT -->
+  <script src="api-client.js"></script>
 
   <!-- ========================================== -->
   <!-- JAVASCRIPT REACTIVE CONTROLLER -->
@@ -2568,12 +2792,12 @@
           totalFasonAlisUsd: 24032.80,
           totalFasonAlisTl: 1171410.07,
           totalFasonKdvUsd: 2184.80,
-          totalBankaOdemesiUsd: 6236.00,
-          totalBankaOdemesiTl: 298471.00,
+          totalBankaOdemesiUsd: 7236.00,
+          totalBankaOdemesiTl: 347491.00,
           kumasSatisUsd: 7461.45,
           kumasSatisTl: 364045.00,
-          netKalanBorcUsd: -10335.35,
-          netKalanBorcTl: -508894.07,
+          netKalanBorcUsd: -9335.35,
+          netKalanBorcTl: -459874.07,
           netOdenecekKdvUsd: 1230.49,
           netOdenecekKdvTl: 60355.83,
           reconciliationStatus: "TAM MUTABIK (%100 Excel & Paraşüt Doğrulandı)"
@@ -2581,7 +2805,7 @@
         faturalar: [
           { no: 'NSA2026000000070', date: '30.07.2026', desc: 'EMK Oversized Tişört (276 Adet)', usd: 3036.00, kdvUsd: 276.00, kur: 47.25, tl: 143451.00, status: 'Ödendi / Kapandı', isPaid: true },
           { no: 'NSA2026000000084', date: '01.10.2026', desc: 'Ben Ellis (140 T-shirt + 180 Hoodie)', usd: 6366.80, kdvUsd: 578.80, kur: 48.9303, tl: 311529.43, irsaliye: 'IRS2026000000078', fisNo: '1044145905', status: 'Avans + Kumaş Mahsubu ile Kapandı', isPaid: true },
-          { no: 'NSA2026000000087', date: '05.10.2026', desc: 'Ben Ellis (375 T-shirt + 394 Hoodie)', usd: 14630.00, kdvUsd: 1330.00, kur: 48.9699, tl: 716429.64, irsaliye: 'IRS2026000000080', fisNo: '1044145920', status: 'Açık Kalan Bakiye: -$10.335,35 USD', isPaid: false }
+          { no: 'NSA2026000000087', date: '05.10.2026', desc: 'Ben Ellis (375 T-shirt + 394 Hoodie)', usd: 14630.00, kdvUsd: 1330.00, kur: 48.9699, tl: 716429.64, irsaliye: 'IRS2026000000080', fisNo: '1044145920', status: 'Açık Kalan Bakiye: -$9.335,35 USD', isPaid: false }
         ],
         kumas: {
           faturaNo: 'BR02026000000024',
@@ -2603,7 +2827,8 @@
           { sira: 2, date: '07.09.2026', tl: 96600.00, usd: 2000.00, kur: 48.30, dekont: '2026-09-07-16.25.27', desc: 'Verilen siparişe istinaden avans' },
           { sira: 3, date: '14.09.2026', tl: 48420.00, usd: 1000.00, kur: 48.42, dekont: '2026-09-14-14.19.11', desc: 'Cari hesaba istinaden avans' },
           { sira: 4, date: '22.09.2026', tl: 5000.00, usd: 100.00, kur: 50.00, dekont: '2026-09-22-18.03.45', desc: '100 USD karşılığı cari ödeme' },
-          { sira: 5, date: '30.09.2026', tl: 5000.00, usd: 100.00, kur: 50.00, dekont: '2026-09-30-18.20.49', desc: '100 USD karşılığı cari ödeme' }
+          { sira: 5, date: '30.09.2026', tl: 5000.00, usd: 100.00, kur: 50.00, dekont: '2026-09-30-18.20.49', desc: '100 USD karşılığı cari ödeme' },
+          { sira: 6, date: '07.10.2026', tl: 49020.00, usd: 1000.00, kur: 49.02, dekont: '2026-10-07-17.14.25', desc: '1.000 USD karşılığı cari ödeme (Garanti Havale)' }
         ]
       },
       // 46 Authentic Sales Invoices from Paraşüt
@@ -3263,7 +3488,7 @@
                 "matrah": 13300.0,
                 "kdv": 1330.0,
                 "total": 14630.0,
-                "status": "Açık Kalan: -$10.335,35 USD",
+                "status": "Açık Kalan: -$9.335,35 USD",
                 "isPaid": false
         },
         {
@@ -4172,8 +4397,8 @@
                 "type": "Fason Üretim & Kumaş Mahsubu",
                 "vkn": "46849262292",
                 "city": "İstanbul",
-                "balance": "-$10.335,35 USD (Borç)",
-                "balanceRaw": -507380.94,
+                "balance": "-$9.335,35 USD (Borç)",
+                "balanceRaw": -459874.07,
                 "status": "Kumaş Mahsup Masası",
                 "isBenEllis": false,
                 "isFarukAytin": true,
@@ -5807,7 +6032,7 @@
         { code: '121 ALACAK SENETLERİ & ÇEKLER', sub: 'Portföydeki 3 Adet Vadeli Çek', debit: 350000, credit: 0, bDebit: 350000, bCredit: 0, status: 'schedule' },
         { code: '150 İLK MADDE VE MALZEME', sub: 'Keten, İplik & Kumaş Depoları', debit: 2450000, credit: 890000, bDebit: 1560000, bCredit: 0, status: 'check' },
         { code: '191 İNDİRİLECEK KDV', sub: 'Fason Dikim ve Hammadde KDV', debit: 218480, credit: 111990.17, bDebit: 106489.83, bCredit: 0, status: 'receipt' },
-        { code: '320 SATICILAR', sub: 'Tinteks, Faruk Aytin (-$10.335 USD), Çetin Türedi', debit: 662516, credit: 2270457.57, bDebit: 0, bCredit: 1607941.57, status: 'priority_high' },
+        { code: '320 SATICILAR', sub: 'Tinteks, Faruk Aytin (-$9.335 USD), Çetin Türedi', debit: 711536, credit: 2270457.57, bDebit: 0, bCredit: 1558921.57, status: 'priority_high' },
         { code: '331 ORTAKLARA BORÇLAR', sub: 'Yunus Emre Gökalp Cari Hesabı', debit: 0, credit: 109418.80, bDebit: 0, bCredit: 109418.80, status: 'schedule' },
         { code: '309 DİĞER MALİ BORÇLAR', sub: 'Yunus Cep Kredi Kartı', debit: 0, credit: 248697.05, bDebit: 0, bCredit: 248697.05, status: 'schedule' },
         { code: '600 YURTİÇİ SATIŞLAR', sub: 'Faruk Aytin Kumaş Satış Mahsubu', debit: 0, credit: 330950, bDebit: 0, bCredit: 330950, status: 'check' },
@@ -6090,6 +6315,14 @@
           <td class="py-2.5 px-3 text-right text-emerald-700 font-bold">£7.388,10</td>
           <td class="py-2.5 px-3 text-right text-slate-400">-</td>
           <td class="py-2.5 px-3 text-right font-bold text-slate-900">£23.759,07</td>
+        </tr>
+        <tr class="hover:bg-slate-50">
+          <td class="py-2.5 px-3 text-slate-600 font-mono">07.10.2026</td>
+          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti TL (417-6289477)</td>
+          <td class="py-2.5 px-3 font-sans text-slate-700">Faruk Aytin Garanti BBVA Havalesi (1.000 USD Karşılığı, Kur: 49,02)</td>
+          <td class="py-2.5 px-3 text-right text-slate-400">-</td>
+          <td class="py-2.5 px-3 text-right text-rose-700 font-bold">₺49.020,00</td>
+          <td class="py-2.5 px-3 text-right font-bold text-slate-900">₺15.732,92</td>
         </tr>
         <tr class="hover:bg-slate-50">
           <td class="py-2.5 px-3 text-slate-600 font-mono">30.09.2026</td>
@@ -7088,8 +7321,8 @@
             </div>
             <div class="text-right">
               <span class="text-slate-500 text-xs block">Net Kalan Cari Borç:</span>
-              <span class="font-mono font-black text-base text-rose-700">-$10.335,35 USD</span>
-              <span class="text-[11px] font-mono text-slate-600 block">-₺508.894,07 TL</span>
+              <span class="font-mono font-black text-base text-rose-700">-$9.335,35 USD</span>
+              <span class="text-[11px] font-mono text-slate-600 block">-₺459.874,07 TL</span>
             </div>
           </div>
 
@@ -7193,14 +7426,23 @@
                   <td class="p-2 text-right text-rose-700 font-black">-$10.335,35</td>
                   <td class="p-2 text-right text-rose-700 font-black">-₺508.894,07</td>
                 </tr>
+                <tr class="hover:bg-slate-50 bg-emerald-50/20">
+                  <td class="p-2 text-slate-600 font-bold">07.10.2026</td>
+                  <td class="p-2 font-bold text-emerald-800">Garanti Havale #6</td>
+                  <td class="p-2 font-sans text-slate-700 font-bold">1.000 USD Karşılığı Cari Ödeme (49.020 TL, Kur: 49,02)</td>
+                  <td class="p-2 text-right text-emerald-700 font-bold">$1.000,00</td>
+                  <td class="p-2 text-right text-slate-400">-</td>
+                  <td class="p-2 text-right text-rose-700 font-black">-$9.335,35</td>
+                  <td class="p-2 text-right text-rose-700 font-black">-₺459.874,07</td>
+                </tr>
               </tbody>
               <tfoot class="bg-slate-100 border-t-2 border-slate-300 font-bold">
                 <tr>
                   <td colspan="3" class="p-2 font-sans text-slate-900">GENEL TOPLAMLAR &amp; NET BAKİYE:</td>
-                  <td class="p-2 text-right text-emerald-700">$13.697,45</td>
+                  <td class="p-2 text-right text-emerald-700">$14.697,45</td>
                   <td class="p-2 text-right text-purple-700">$24.032,80</td>
-                  <td class="p-2 text-right text-rose-700 font-black">-$10.335,35 USD</td>
-                  <td class="p-2 text-right text-rose-700 font-black">-₺508.894,07 TL</td>
+                  <td class="p-2 text-right text-rose-700 font-black">-$9.335,35 USD</td>
+                  <td class="p-2 text-right text-rose-700 font-black">-₺459.874,07 TL</td>
                 </tr>
               </tfoot>
             </table>
@@ -7323,13 +7565,13 @@
           <div class="header">
             <div class="company">BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.</div>
             <div class="title">RESMİ CARİ HESAP VE FASON MAHSUP MUTABAKAT MEKTUBU</div>
-            <div style="font-size: 11px; color: #64748b; margin-top: 5px;">Tarih: 06.10.2026 • Mutabakat No: MTB-2026-004</div>
+            <div style="font-size: 11px; color: #64748b; margin-top: 5px;">Tarih: 07.10.2026 • Mutabakat No: MTB-2026-004</div>
           </div>
 
           <p><strong>Sayın: FARUK AYTİN (NİSA TEKSTİL)</strong><br>
           TCKN: 46849262292 • Sultangazi / İSTANBUL</p>
 
-          <p>Şirketimiz nezdindeki cari hesabınız, fason dikim faturalarınız, banka ödemelerimiz ve tarafınıza düzenlenen kumaş satış mahsup faturamız incelenmiş olup, 06.10.2026 tarihi itibariyle oluşan mutabakat tablosu aşağıda sunulmuştur:</p>
+          <p>Şirketimiz nezdindeki cari hesabınız, fason dikim faturalarınız, banka ödemelerimiz ve tarafınıza düzenlenen kumaş satış mahsup faturamız incelenmiş olup, 07.10.2026 tarihi itibariyle oluşan mutabakat tablosu aşağıda sunulmuştur:</p>
 
           <table>
             <thead>
@@ -7377,15 +7619,15 @@
               </tr>
               <tr>
                 <td>Garanti BBVA Havaleleri</td>
-                <td>Temmuz - Eylül</td>
-                <td>5 Adet Banka Havalesi Toplamı</td>
-                <td class="text-right font-bold text-right">-$6.236,00</td>
-                <td class="text-right">-₺298.471,00</td>
+                <td>Temmuz - Ekim</td>
+                <td>6 Adet Banka Havalesi Toplamı (07.10.2026 Dahil)</td>
+                <td class="text-right font-bold text-right">-$7.236,00</td>
+                <td class="text-right">-₺347.491,00</td>
               </tr>
               <tr style="background:#fef2f2; font-size:13px;">
                 <td colspan="3"><strong>NET KALAN CARİ BORÇ BAKİYESİ:</strong></td>
-                <td class="text-right font-bold" style="color:#b91c1c;"><strong>-$10.335,35 USD</strong></td>
-                <td class="text-right font-bold" style="color:#b91c1c;"><strong>-₺508.894,07 TL</strong></td>
+                <td class="text-right font-bold" style="color:#b91c1c;"><strong>-$9.335,35 USD</strong></td>
+                <td class="text-right font-bold" style="color:#b91c1c;"><strong>-₺459.874,07 TL</strong></td>
               </tr>
               <tr style="background:#fffbeb;">
                 <td colspan="3"><strong>ÖDENECEK NET KDV (%10):</strong></td>
@@ -7642,13 +7884,233 @@
       }
     });
 
-    // RUN ON LOAD
-    document.addEventListener('DOMContentLoaded', () => {
-      renderAll();
-    });
-    // In case DOMContentLoaded already fired:
-    renderAll();
+    // ==========================================
+    // BROSAN CYBER SECURITY & AUTH CONTROLLER
+    // ==========================================
+    window.BrosanAuth = {
+      currentUser: null,
+
+      async init() {
+        const token = window.BrosanAPI ? window.BrosanAPI.getToken() : sessionStorage.getItem('brosan_auth_token');
+        if (!token) {
+          this.showLockscreen();
+          return;
+        }
+
+        try {
+          const res = await window.BrosanAPI.getMe();
+          if (res && res.user) {
+            this.currentUser = res.user;
+            this.updateUserUI(res.user);
+            this.unlockApp();
+            renderAll();
+          } else {
+            this.logout();
+          }
+        } catch (err) {
+          console.warn('Oturum doğrulanamadı:', err);
+          this.logout();
+        }
+      },
+
+      showLockscreen() {
+        const lockscreen = document.getElementById('auth-lockscreen');
+        const mainApp = document.getElementById('erp-main-app');
+        if (lockscreen) lockscreen.classList.remove('hidden');
+        if (mainApp) mainApp.classList.add('hidden');
+        const pass = document.getElementById('login-password');
+        if (pass) pass.value = '';
+        const user = document.getElementById('login-username');
+        if (user) setTimeout(() => user.focus(), 150);
+      },
+
+      unlockApp() {
+        const lockscreen = document.getElementById('auth-lockscreen');
+        const mainApp = document.getElementById('erp-main-app');
+        if (lockscreen) lockscreen.classList.add('hidden');
+        if (mainApp) mainApp.classList.remove('hidden');
+      },
+
+      updateUserUI(user) {
+        if (!user) return;
+        const name = user.fullName || user.username || 'Yönetici';
+        const role = user.role === 'admin' ? 'Sistem Yöneticisi' : 'Kullanıcı';
+        const initials = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'AD';
+
+        const navName = document.getElementById('nav-user-name');
+        const navRole = document.getElementById('nav-user-role');
+        const navAvatar = document.getElementById('nav-user-avatar');
+        const sideName = document.getElementById('sidebar-user-name');
+        const sideRole = document.getElementById('sidebar-user-role');
+        const sideAvatar = document.getElementById('sidebar-user-avatar');
+
+        if (navName) navName.textContent = name;
+        if (navRole) navRole.textContent = role;
+        if (navAvatar) navAvatar.textContent = initials;
+        if (sideName) sideName.textContent = name;
+        if (sideRole) sideRole.textContent = role;
+        if (sideAvatar) sideAvatar.textContent = initials;
+      },
+
+      togglePasswordVisibility(inputId, btn) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (input.type === 'password') {
+          input.type = 'text';
+          if (icon) icon.textContent = 'visibility_off';
+        } else {
+          input.type = 'password';
+          if (icon) icon.textContent = 'visibility';
+        }
+      },
+
+      async handleLoginSubmit(event) {
+        if (event) event.preventDefault();
+        const userInput = document.getElementById('login-username');
+        const passInput = document.getElementById('login-password');
+        const errBox = document.getElementById('login-error-box');
+        const errText = document.getElementById('login-error-text');
+        const submitBtn = document.getElementById('login-submit-btn');
+        const btnText = document.getElementById('login-btn-text');
+
+        if (errBox) errBox.classList.add('hidden');
+
+        const username = userInput ? userInput.value.trim() : '';
+        const password = passInput ? passInput.value : '';
+
+        if (!username || !password) {
+          if (errBox && errText) {
+            errText.textContent = 'Kullanıcı adı ve şifre gereklidir.';
+            errBox.classList.remove('hidden');
+          }
+          return false;
+        }
+
+        if (submitBtn) submitBtn.disabled = true;
+        if (btnText) btnText.textContent = 'Doğrulanıyor...';
+
+        try {
+          const res = await window.BrosanAPI.login(username, password);
+          if (res && res.token) {
+            this.currentUser = res.user;
+            this.updateUserUI(res.user);
+            this.unlockApp();
+            renderAll();
+            showToast('Başarıyla giriş yapıldı. Güvenli oturum açıldı.', 'success');
+          }
+        } catch (err) {
+          if (errBox && errText) {
+            errText.textContent = err.message || 'Giriş başarısız. Lütfen bilgilerinizi kontrol edin.';
+            errBox.classList.remove('hidden');
+          }
+          if (passInput) {
+            passInput.value = '';
+            passInput.focus();
+          }
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+          if (btnText) btnText.textContent = 'Güvenli Giriş Yap';
+        }
+        return false;
+      },
+
+      async logout() {
+        try {
+          if (window.BrosanAPI) await window.BrosanAPI.logout();
+        } catch (e) {}
+        this.currentUser = null;
+        this.showLockscreen();
+        showToast('Güvenli oturum sonlandırıldı.', 'info');
+      },
+
+      openPasswordModal() {
+        const modal = document.getElementById('modal-change-password');
+        if (modal) modal.classList.remove('hidden');
+        const errBox = document.getElementById('pw-modal-error');
+        if (errBox) errBox.classList.add('hidden');
+        const curr = document.getElementById('pw-current');
+        const n = document.getElementById('pw-new');
+        const conf = document.getElementById('pw-confirm');
+        if (curr) curr.value = '';
+        if (n) n.value = '';
+        if (conf) conf.value = '';
+      },
+
+      closePasswordModal() {
+        const modal = document.getElementById('modal-change-password');
+        if (modal) modal.classList.add('hidden');
+      },
+
+      async submitChangePassword(event) {
+        if (event) event.preventDefault();
+        const curr = document.getElementById('pw-current');
+        const n = document.getElementById('pw-new');
+        const conf = document.getElementById('pw-confirm');
+        const errBox = document.getElementById('pw-modal-error');
+        const errText = document.getElementById('pw-modal-error-text');
+        const submitBtn = document.getElementById('pw-submit-btn');
+
+        if (errBox) errBox.classList.add('hidden');
+
+        const currentPassword = curr ? curr.value : '';
+        const newPassword = n ? n.value : '';
+        const confirmPassword = conf ? conf.value : '';
+
+        if (!currentPassword || !newPassword) {
+          if (errBox && errText) {
+            errText.textContent = 'Mevcut şifre ve yeni şifre gereklidir.';
+            errBox.classList.remove('hidden');
+          }
+          return false;
+        }
+
+        if (newPassword.length < 8) {
+          if (errBox && errText) {
+            errText.textContent = 'Yeni şifre en az 8 karakter olmalıdır.';
+            errBox.classList.remove('hidden');
+          }
+          return false;
+        }
+
+        if (newPassword !== confirmPassword) {
+          if (errBox && errText) {
+            errText.textContent = 'Yeni şifreler birbiriyle uyuşmuyor.';
+            errBox.classList.remove('hidden');
+          }
+          return false;
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span class="inline-block animate-spin mr-1">⟳</span> Güncelleniyor...';
+        }
+
+        try {
+          await window.BrosanAPI.changePassword(currentPassword, newPassword);
+          this.closePasswordModal();
+          showToast('Şifreniz başarıyla güncellendi.', 'success');
+        } catch (err) {
+          if (errBox && errText) {
+            errText.textContent = err.message || 'Şifre güncellenemedi.';
+            errBox.classList.remove('hidden');
+          }
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span><span>Şifreyi Güncelle</span>';
+          }
+        }
+        return false;
+      }
+    };
+
+    // SECURE BOOTSTRAP ON LOAD
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => window.BrosanAuth.init());
+    } else {
+      window.BrosanAuth.init();
+    }
   </script>
-  <script src="api-client.js"></script>
 </body>
 </html>

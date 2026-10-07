@@ -29,39 +29,39 @@ function createTier2Suite(context) {
   const { excelSummary, parasutLive } = authoritative;
 
   // 2.1: Exact Cent Precision on Net Remaining Debt
-  suite.test('T2.1: Exact Cent Precision on Remaining Debt (-$10,335.35 USD / -508,894.07 TL)', () => {
+  suite.test('T2.1: Exact Cent Precision on Remaining Debt (-$9,335.35 USD / -459,874.07 TL)', () => {
     // Authoritative figures from Excel and Paraşüt
     const totalFasonUsd = excelSummary.summary.total_fason_alis_usd; // 24032.80
     const fabricSalesUsd = excelSummary.summary.kumas_satis_faturasi_usd; // 7461.45
-    const bankPaymentsUsd = excelSummary.summary.total_banka_odemesi_usd; // 6236.00
+    const bankPaymentsUsd = excelSummary.summary.total_banka_odemesi_usd; // 7236.00
 
-    // Math: 24,032.80 - 7,461.45 - 6,236.00
-    // Note: IEEE 754 raw subtraction yields 10335.350000000002. roundCent ensures exact cent precision.
+    // Math: 24,032.80 - 7,461.45 - 7,236.00
+    // Note: IEEE 754 raw subtraction yields 9335.350000000002. roundCent ensures exact cent precision.
     const netDebtUsdRaw = totalFasonUsd - fabricSalesUsd - bankPaymentsUsd;
     const netDebtUsd = roundCent(netDebtUsdRaw);
 
-    assertExact(netDebtUsd, 10335.35, 'Net remaining debt absolute USD must equal 10,335.35');
+    assertExact(netDebtUsd, 9335.35, 'Net remaining debt absolute USD must equal 9,335.35');
 
     // As a liability balance (negative = company owes supplier)
     const liabilityBalanceUsd = roundCent(-netDebtUsd);
-    assertExact(liabilityBalanceUsd, -10335.35, 'Liability balance must be -$10,335.35 USD');
+    assertExact(liabilityBalanceUsd, -9335.35, 'Liability balance must be -$9,335.35 USD');
 
     // TL Exact Cent Precision
     const totalFasonTl = excelSummary.summary.fason_faturalar
       ? excelSummary.fason_faturalar.reduce((acc, f) => roundCent(acc + f.toplam_tl), 0)
       : 1171410.07;
     const fabricSalesTl = excelSummary.summary.kumas_satis_faturasi_tl; // 364045.00
-    const bankPaymentsTl = excelSummary.summary.total_banka_odemesi_tl; // 298471.00
+    const bankPaymentsTl = excelSummary.summary.total_banka_odemesi_tl; // 347491.00
 
     const netDebtTl = roundCent(totalFasonTl - fabricSalesTl - bankPaymentsTl);
-    assertExact(netDebtTl, 508894.07, 'Net remaining debt in TL must equal 508,894.07 TL');
+    assertExact(netDebtTl, 459874.07, 'Net remaining debt in TL must equal 459,874.07 TL');
 
     const liabilityBalanceTl = roundCent(-netDebtTl);
-    assertExact(liabilityBalanceTl, -508894.07, 'Liability balance in TL must be -508,894.07 TL');
+    assertExact(liabilityBalanceTl, -459874.07, 'Liability balance in TL must be -459,874.07 TL');
 
     // Verify zero cent discrepancy (Delta = 0.0000)
-    const deltaUsd = Math.abs(netDebtUsd - 10335.35);
-    const deltaTl = Math.abs(netDebtTl - 508894.07);
+    const deltaUsd = Math.abs(netDebtUsd - 9335.35);
+    const deltaTl = Math.abs(netDebtTl - 459874.07);
     assertTrue(deltaUsd < 0.00001, `Delta USD must be zero (was ${deltaUsd})`);
     assertTrue(deltaTl < 0.00001, `Delta TL must be zero (was ${deltaTl})`);
   });
@@ -140,15 +140,15 @@ function createTier2Suite(context) {
     const parasutTotalOffset = roundCent(3164.61 + 4294.65);
     assertExact(parasutTotalOffset, 7459.26, 'Total fabric offset allocated in Paraşüt bills is $7,459.26');
 
-    // NSA-87 remaining open balance in Paraşüt:
-    // $14,630.00 - $4,294.65 = $10,335.35 USD!
-    const nsa87OpenBalance = roundCent(14630.00 - 4294.65);
-    assertExact(nsa87OpenBalance, 10335.35, 'NSA-87 open balance in Paraşüt is exactly $10,335.35 USD');
+    // NSA-87 remaining open balance after 07.10.2026 bank payment:
+    // $14,630.00 - $4,294.65 - $1,000.00 = $9,335.35 USD!
+    const nsa87OpenBalance = roundCent(14630.00 - 4294.65 - 1000.00);
+    assertExact(nsa87OpenBalance, 9335.35, 'NSA-87 open balance is exactly $9,335.35 USD');
 
     // In Excel:
-    // Total Fason ($24,032.80) - Total Bank ($6,236.00) - Total Fabric ($7,461.45) = $10,335.35 USD!
-    const excelNetBalance = roundCent(24032.80 - 6236.00 - 7461.45);
-    assertExact(excelNetBalance, 10335.35, 'Excel net balance is exactly $10,335.35 USD');
+    // Total Fason ($24,032.80) - Total Bank ($7,236.00) - Total Fabric ($7,461.45) = $9,335.35 USD!
+    const excelNetBalance = roundCent(24032.80 - 7236.00 - 7461.45);
+    assertExact(excelNetBalance, 9335.35, 'Excel net balance is exactly $9,335.35 USD');
 
     // Both methods converge with ZERO net drift on Faruk Aytin final balance:
     assertExact(roundCent(nsa87OpenBalance - excelNetBalance), 0.00, 'Zero balance drift across FX conversion methods');
@@ -192,7 +192,7 @@ function createTier2Suite(context) {
     assertExact(parseFloat(benEllis.eur_balance), 0.00, 'Ben Ellis zero EUR');
 
     // Faruk Aytin must only have USD native balance
-    assertExact(parseFloat(farukAytin.usd_balance), -10335.35, 'Faruk Aytin native USD');
+    assertExact(parseFloat(farukAytin.usd_balance), -9335.35, 'Faruk Aytin native USD');
     assertExact(parseFloat(farukAytin.gbp_balance), 0.00, 'Faruk Aytin zero GBP');
     assertExact(parseFloat(farukAytin.eur_balance), 0.00, 'Faruk Aytin zero EUR');
 
@@ -207,7 +207,7 @@ function createTier2Suite(context) {
     assertExact(parseFloat(tinteks.usd_balance), 0.00, 'Tinteks zero USD');
 
     // 3. Adversarial Currency Violation Check:
-    // Mixing £22,414.22 GBP and -$10,335.35 USD directly without FX rate must be rejected
+    // Mixing £22,414.22 GBP and -$9,335.35 USD directly without FX rate must be rejected
     const naiveCrossSum = () => {
       const gbp = parseFloat(benEllis.gbp_balance);
       const usd = parseFloat(farukAytin.usd_balance);

@@ -7,12 +7,12 @@
     "email": "nisatekstil34@hotmail.com",
     "total_fason_alis_usd": 24032.8,
     "total_fason_kdv_usd": 2184.8,
-    "total_banka_odemesi_usd": 6236.0,
-    "total_banka_odemesi_tl": 298471.0,
+    "total_banka_odemesi_usd": 7236.0,
+    "total_banka_odemesi_tl": 347491.0,
     "kumas_satis_faturasi_usd": 7461.45,
     "kumas_satis_faturasi_tl": 364045.0,
-    "net_kalan_cari_borc_usd": 10335.35,
-    "net_kalan_cari_borc_tl": 508894.07,
+    "net_kalan_cari_borc_usd": 9335.35,
+    "net_kalan_cari_borc_tl": 459874.07,
     "net_odenecek_kdv_usd": 1230.49,
     "net_odenecek_kdv_tl": 60355.83
   },
@@ -147,6 +147,15 @@
       "kur": 50.0,
       "dekont": "2026-09-30-18.20.49",
       "aciklama": "100 USD karşılığı cari ödeme"
+    },
+    {
+      "sira": 6,
+      "tarih": "07.10.2026",
+      "tl": 49020.0,
+      "usd": 1000.0,
+      "kur": 49.02,
+      "dekont": "2026-10-07-17.14.25",
+      "aciklama": "1.000 USD karşılığı cari ödeme (49.020 TL, Kur: 49,02)"
     }
   ]
 }

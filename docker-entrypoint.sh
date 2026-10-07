@@ -15,11 +15,9 @@ if [ -n "$DATABASE_URL" ]; then
     sleep 2
   done
 
-  # Tohumlama (Seed)
-  if [ "$RUN_SEED" = "true" ]; then
-    echo "🌱 [BROSAN ERP] Varsayılan veriler yükleniyor (Seed)..."
-    node prisma/seed.js || true
-  fi
+  # Tohumlama (Seed) & Güvenlik Kullanıcı Kontrolü
+  echo "🌱 [BROSAN ERP] Varsayılan sistem verileri ve admin kullanıcısı doğrulanıyor (Seed)..."
+  node prisma/seed.js || true
 fi
 
 set -e
