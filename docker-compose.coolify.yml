@@ -43,10 +43,10 @@ services:
     labels:
       - "coolify.managed=true"
       - "traefik.enable=true"
-      - "traefik.http.routers.brosan-erp.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.brosan-erp.rule=(Host(`brosangroup.com`) && PathPrefix(`/muhasebe`)) || Host(`muhasebe.brosangroup.com`)"
       - "traefik.http.routers.brosan-erp.entrypoints=http,https,web,websecure"
       - "traefik.http.routers.brosan-erp.tls=true"
-      - "traefik.http.routers.brosan-erp-http.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.brosan-erp-http.rule=(Host(`brosangroup.com`) && PathPrefix(`/muhasebe`)) || Host(`muhasebe.brosangroup.com`)"
       - "traefik.http.routers.brosan-erp-http.entrypoints=http,web"
       - "traefik.http.routers.brosan-erp-http.service=brosan-erp"
       - "traefik.http.services.brosan-erp.loadbalancer.server.port=3000"

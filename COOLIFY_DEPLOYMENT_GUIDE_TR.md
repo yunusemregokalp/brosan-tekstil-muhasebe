@@ -36,9 +36,16 @@ Coolify panelindeki **`Environment Variables`** sekmesine gidin ve aşağıdaki 
 | `POSTGRES_USER` | `postgres` | Veritabanı yöneticisi kullanıcı adı |
 | `POSTGRES_PASSWORD` | `Brosan2026TekstilSecureDBPass!` | Güçlü veritabanı şifresi |
 | `POSTGRES_DB` | `brosan_accounting_db` | Üretim veritabanı adı |
-| `COOLIFY_FQDN` | `https://muhasebe.brosan.com` veya `http://173.249.23.10:3000` | Sisteme erişilecek alan adı veya IP |
+| `COOLIFY_FQDN` | `https://brosangroup.com/muhasebe` (veya `https://muhasebe.brosangroup.com`) | Sisteme erişilecek güvenli alt dizin veya subdomain |
 | `RUN_SEED` | `true` | İlk kurulumda varsayılan TDHP ve cari verileri yükler |
 | `NODE_ENV` | `production` | Üretim modu |
+
+### 👻 Hayalet Mod (Ghost Mode / Sıfır İndekslenme Garantisi)
+Sistem kamuya ve arama motorlarına tamamen kapalıdır:
+- **`robots.txt`**: Tüm arama motoru örümceklerine `Disallow: /` çeker.
+- **HTTP Başlıkları**: Sunucu düzeyinde `X-Robots-Tag: noindex, nofollow, noarchive, nosnippet` ve `Referrer-Policy: no-referrer` başlıkları zorunlu kılınmıştır.
+- **HTML Meta Tag**: `<meta name="robots" content="noindex, nofollow, noarchive" />` ile Google, Yandex, Bing ve yapay zeka botlarının sayfayı indekslemesi %100 engellenir.
+- **Görünmezlik**: Ana site menülerinde veya bağlantılarında yer almaz, yalnızca doğrudan adresi bilen yetkili kullanıcılar erişebilir.
 
 > **Önemli Güvenlik Notu:**
 > `docker-compose.coolify.yml` dosyasında PostgreSQL portu (`5432`) dış internete kesinlikle açılmaz (`expose: none`). Sadece iç Docker ağı üzerinden `app` konteyneri veritabanına erişebilir. Bu sayede veritabanınız internet korsanlarına ve port taramalarına karşı %100 korumalıdır.

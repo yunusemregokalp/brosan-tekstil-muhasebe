@@ -25,8 +25,45 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve Frontend Static Files
-app.use(express.static(path.join(__dirname, '..', 'app')));
+// ==============================================================================
+// GHOST MODE & ANTI-INDEXING SECURITY HEADERS (KİMSE GÖREMEZ / ASLA İNDEKSLENMEZ)
+// ==============================================================================
+app.use((req, res, next) => {
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet, noimageindex');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'no-referrer');
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  next();
+});
+
+// Explicit robots.txt endpoint blocking all search engine spiders & bots
+const ROBOTS_TXT_CONTENT = 'User-agent: *\nDisallow: /\n';
+app.get(['/robots.txt', '/muhasebe/robots.txt'], (req, res) => {
+  res.type('text/plain');
+  res.send(ROBOTS_TXT_CONTENT);
+});
+
+// URL Rewriting: /muhasebe/api/* -> /api/* (Ensures unified REST API handlers)
+app.use((req, res, next) => {
+  if (req.url.startsWith('/muhasebe/api')) {
+    req.url = req.url.replace(/^\/muhasebe\/api/, '/api');
+  }
+  next();
+});
+
+// Serve Frontend Static Files on both '/' and '/muhasebe'
+const appStaticDir = path.join(__dirname, '..', 'app');
+app.use(express.static(appStaticDir));
+app.use('/muhasebe', express.static(appStaticDir));
+
+// Route handlers for /muhasebe subpath SPA navigation
+app.get(['/muhasebe', '/muhasebe/*'], (req, res, next) => {
+  if (req.path.startsWith('/api') || req.path.startsWith('/muhasebe/api')) {
+    return next();
+  }
+  res.sendFile(path.join(appStaticDir, 'index.html'));
+});
 
 // Helper: Prisma Connection Checker
 let isDbConnected = false;

@@ -81,10 +81,10 @@ Coolify panelinizde (`http://173.249.23.10:8000`):
    POSTGRES_USER=postgres
    POSTGRES_PASSWORD=GÜÇLÜ_BİR_ŞİFRE
    POSTGRES_DB=brosan_accounting_db
-   COOLIFY_FQDN=muhasebe.brosan.com (veya SERVER_IP:3000)
+   COOLIFY_FQDN=https://brosangroup.com/muhasebe
    RUN_SEED=true
    ```
-5. **Deploy**: `Deploy` butonuna basın. Birkaç dakika içinde Traefik otomatik SSL sertifikasını alacak ve sistem yayına girecektir.
+5. **Deploy**: `Deploy` butonuna basın. Birkaç dakika içinde Traefik otomatik SSL sertifikasını alacak ve sistem yayına girecektir. Sistem Ghost Mode ile çalışır (Noindex/Nofollow, arama motorlarında ve kamuya açık dizinlerde asla görünmez).
 
 ---
 

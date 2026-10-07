@@ -4,8 +4,10 @@
  */
 
 (function () {
+  const isMuhasebeSubpath = window.location.pathname.startsWith('/muhasebe');
+  const apiPath = isMuhasebeSubpath ? '/muhasebe/api' : '/api';
   const API_BASE = window.location.origin.startsWith('http') 
-    ? `${window.location.origin}/api` 
+    ? `${window.location.origin}${apiPath}` 
     : 'http://localhost:3000/api';
 
   window.BrosanAPI = {
