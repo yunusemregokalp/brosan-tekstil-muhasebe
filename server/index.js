@@ -94,6 +94,14 @@ app.use(cors({
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 
+// URL Rewriting: /muhasebe/api/* -> /api/* (Mounted FIRST so all subsequent middlewares match /api)
+app.use((req, res, next) => {
+  if (req.url.startsWith('/muhasebe/api')) {
+    req.url = req.url.replace(/^\/muhasebe\/api/, '/api');
+  }
+  next();
+});
+
 // Güvenlik: Global API Hız Sınırı (Dakikada 120 İstek / IP - Askeri Düzey)
 const globalApiLimiter = rateLimit({
   windowMs: 60 * 1000,
@@ -106,7 +114,7 @@ const globalApiLimiter = rateLimit({
     code: 'RATE_LIMIT_EXCEEDED'
   }
 });
-app.use('/api', globalApiLimiter);
+app.use(['/api', '/muhasebe/api'], globalApiLimiter);
 
 // Güvenlik: Giriş Kapısı Hız Sınırı (15 dakikada 10 deneme / IP)
 const authLoginLimiter = rateLimit({
@@ -137,18 +145,22 @@ app.get(['/robots.txt', '/muhasebe/robots.txt'], (req, res) => {
   res.send(ROBOTS_TXT_CONTENT);
 });
 
-// URL Rewriting: /muhasebe/api/* -> /api/* (Ensures unified REST API handlers)
+// Güvenlik: Hassas Sistem & Gizli Dosya Engelleme (Anti-Query-Bypass, Anti-Encoding, Anti-Traversal)
 app.use((req, res, next) => {
-  if (req.url.startsWith('/muhasebe/api')) {
-    req.url = req.url.replace(/^\/muhasebe\/api/, '/api');
+  let checkedPath = '';
+  try {
+    checkedPath = decodeURIComponent(req.path || req.url || '');
+  } catch (e) {
+    checkedPath = req.path || req.url || '';
   }
-  next();
-});
+  const cleanPath = checkedPath.toLowerCase().split('?')[0].split('#')[0];
 
-// Güvenlik: Hassas Sistem & Gizli Dosya Engelleme (Sensitive File Leak Prevention)
-app.use((req, res, next) => {
-  const url = req.url || '';
-  if (/(^\/|\/)\.(env|git|svn|htaccess|aws|ssh)/i.test(url) || /\.(db|sqlite|log|key|pem|cert|bak|sql)$/i.test(url)) {
+  const isDotfile = /(^|\/|\.)\.(env|git|svn|htaccess|htpasswd|aws|ssh|dockerignore|gitignore)($|\/)/i.test(cleanPath) ||
+                    /(^|\/)\.(env|git|svn|htaccess|aws|ssh)/i.test(cleanPath);
+  const isDangerousExt = /\.(db|sqlite|sqlite3|log|key|pem|cert|crt|bak|backup|sql|tar|gz|zip|yml|yaml|md|sh)$/i.test(cleanPath);
+  const isTraversal = /\.\./.test(cleanPath);
+
+  if (isDotfile || isDangerousExt || isTraversal) {
     return res.status(403).json({
       success: false,
       error: 'Erişim engellendi: Bu dosya tipine veya gizli dizine erişim izni yoktur.',
@@ -248,6 +260,17 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
       }
     }
 
+    // DB bazlı kalıcı kilit kontrolü
+    if (user && user.lockedUntil && new Date(user.lockedUntil) > new Date()) {
+      const waitSec = Math.ceil((new Date(user.lockedUntil) - Date.now()) / 1000);
+      return res.status(429).json({
+        success: false,
+        error: `Çok fazla hatalı giriş denemesi yapıldı! Hesabınız güvenlik nedeniyle ${waitSec} saniye kilitlendi.`,
+        locked: true,
+        remainingSec: waitSec
+      });
+    }
+
     // 3. Parola Doğrulama (Timing-Attack Koruması: Kullanıcı var veya yok fark etmeksizin her zaman bcrypt çalışır)
     const hashToCompare = user ? user.passwordHash : auth.DUMMY_HASH;
     const isValid = Boolean(user && auth.verifyPassword(password, hashToCompare));
@@ -255,6 +278,20 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
     if (!isValid) {
       auth.recordFailedAttempt(`ip:${clientIp}`);
       auth.recordFailedAttempt(`user:${username.toLowerCase()}`);
+
+      // DB'de hatalı denemeyi ve kilidi kalıcı kaydet
+      if (dbOk && user && user.id !== 'local-admin-id') {
+        const nextAttempts = (user.failedAttempts || 0) + 1;
+        const willLock = nextAttempts >= 5;
+        await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            failedAttempts: nextAttempts,
+            lockedUntil: willLock ? new Date(Date.now() + 15 * 60 * 1000) : user.lockedUntil
+          }
+        }).catch(() => {});
+      }
+
       return res.status(401).json({
         success: false,
         error: 'Kullanıcı adı veya şifre hatalı!'
