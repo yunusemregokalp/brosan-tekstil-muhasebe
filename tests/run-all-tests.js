@@ -26,9 +26,24 @@ const suites = [
     type: 'Unit'
   },
   {
+    name: 'RFC 6238 TOTP Cryptographic Engine Suite',
+    file: 'test-totp-unit.js',
+    type: 'Unit'
+  },
+  {
+    name: 'Dynamic IP Quarantine Engine (Fail2ban) Suite',
+    file: 'test-quarantine-unit.js',
+    type: 'Security'
+  },
+  {
     name: '12-Vector OWASP Top 10 Red-Team Penetration Suite',
     file: 'test-security-penetration.js',
     type: 'Security'
+  },
+  {
+    name: '4-Tier End-to-End Security & 2FA Harness Suite',
+    file: path.join('e2e', 'test-security-e2e.js'),
+    type: 'E2E'
   },
   {
     name: '4-Tier Accounting Domain & Reconciliation E2E Suite',

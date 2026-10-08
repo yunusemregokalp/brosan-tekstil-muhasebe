@@ -10,6 +10,7 @@
  */
 
 const { z } = require('zod');
+const auditLogger = require('./auditLogger');
 
 // 1. KULLANICI GİRİŞ ŞEMASI
 const LoginSchema = z.object({
@@ -184,6 +185,19 @@ function validateBody(schema) {
       next();
     } catch (err) {
       if (err instanceof z.ZodError) {
+        auditLogger.logSecurityEvent('INVALID_INPUT', {
+          req,
+          severity: 'WARN',
+          status: 422,
+          details: {
+            path: req.originalUrl || req.url,
+            method: req.method,
+            issues: err.issues.map(i => ({
+              field: i.path.join('.'),
+              message: i.message
+            }))
+          }
+        });
         return res.status(422).json({
           success: false,
           error: 'Girdi doğrulama hatası (Validation Failed)',

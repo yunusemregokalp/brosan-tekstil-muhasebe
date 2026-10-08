@@ -12,6 +12,8 @@ const rateLimit = require('express-rate-limit');
 const path = require('path');
 const { PrismaClient } = require('@prisma/client');
 const auth = require('./auth');
+const totp = require('./totp');
+const { quarantineEngine, quarantineGuard } = require('./quarantine');
 const {
   LoginSchema,
   ChangePasswordSchema,
@@ -26,6 +28,7 @@ const {
   EmployeeSchema,
   validateBody
 } = require('./validators');
+const { auditMiddleware, logSecurityEvent } = require('./auditLogger');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,6 +41,9 @@ app.set('trust proxy', 1);
 
 // Güvenlik: Parmak İzi Gizleme (X-Powered-By Express başlığını tamamen kaldır)
 app.disable('x-powered-by');
+
+// Güvenlik: SIEM Güvenlik Denetim Günlüğü Middleware'i
+app.use(auditMiddleware);
 
 // ==============================================================================
 // 0. HOST HEADER GÜVENLİK KALKANI (REVERSE PROXY ORIGIN BINDING - 403 FORBIDDEN)
@@ -66,6 +72,11 @@ app.use((req, res, next) => {
 });
 
 // ==============================================================================
+// 0.05 DİNAMİK IP KARANTİNA KALKANI (FAIL2BAN SHIELD - 403 IP_QUARANTINED)
+// ==============================================================================
+app.use(quarantineGuard);
+
+// ==============================================================================
 // 0.1 HASSAS SİSTEM VE GİZLİ DOSYA ENGELLEME (ANTI-TRAVERSAL, ANTI-QUERY, DUAL-DECODE)
 // ==============================================================================
 app.use((req, res, next) => {
@@ -88,10 +99,20 @@ app.use((req, res, next) => {
 
   // Null byte injection denetimi
   if (rawUrl.includes('\0') || rawUrl.toLowerCase().includes('%00') || decodedPath.includes('\0')) {
+    const clientIp = auth.getClientIp(req);
+    quarantineEngine.quarantineIp(clientIp, 'PROBING_SENSITIVE_FILES', { path: rawUrl });
+    logSecurityEvent('SENSITIVE_FILE_PROBE', {
+      req,
+      severity: 'CRITICAL',
+      status: 403,
+      clientIp,
+      details: { rawUrl, reason: 'NULL_BYTE_INJECTION' }
+    });
     return res.status(403).json({
       success: false,
       error: 'Erişim engellendi: Geçersiz karakter tespiti.',
-      code: 'FORBIDDEN_FILE'
+      code: 'FORBIDDEN_FILE',
+      quarantined: !quarantineEngine.isWhitelisted(clientIp)
     });
   }
 
@@ -109,10 +130,26 @@ app.use((req, res, next) => {
   const hasSensitiveExt = /\.(db|sqlite|sqlite3|log|key|pem|cert|crt|bak|backup|sql|tar|gz|zip|env)$/i.test(normalized);
 
   if (hasTraversal || hasDotfile || hasSensitiveExt) {
+    const clientIp = auth.getClientIp(req);
+    quarantineEngine.quarantineIp(clientIp, 'PROBING_SENSITIVE_FILES', { path: rawUrl });
+    logSecurityEvent('SENSITIVE_FILE_PROBE', {
+      req,
+      severity: 'CRITICAL',
+      status: 403,
+      clientIp,
+      details: {
+        rawUrl,
+        normalized,
+        hasTraversal,
+        hasDotfile,
+        hasSensitiveExt
+      }
+    });
     return res.status(403).json({
       success: false,
       error: 'Erişim engellendi: Bu dosya tipine veya gizli dizine erişim izni yoktur.',
-      code: 'FORBIDDEN_FILE'
+      code: 'FORBIDDEN_FILE',
+      quarantined: !quarantineEngine.isWhitelisted(clientIp)
     });
   }
   next();
@@ -206,10 +243,22 @@ const authLoginLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   store: new auth.BoundedLruMemoryStore({ maxEntries: 5000 }),
-  message: {
-    success: false,
-    error: 'Giriş deneme sınırı aşıldı. Lütfen 15 dakika sonra tekrar deneyin.',
-    code: 'LOGIN_RATE_LIMIT_EXCEEDED'
+  handler: (req, res, next) => {
+    const clientIp = auth.getClientIp(req);
+    quarantineEngine.quarantineIp(clientIp, 'BRUTE_FORCE_LOGIN_EXCEEDED');
+    logSecurityEvent('RATE_LIMIT_EXCEEDED', {
+      req,
+      severity: 'WARN',
+      status: 429,
+      clientIp,
+      details: { endpoint: '/api/auth/login', reason: 'LOGIN_RATE_LIMIT_EXCEEDED' }
+    });
+    return res.status(429).json({
+      success: false,
+      error: 'Giriş deneme sınırı aşıldı. Lütfen 15 dakika sonra tekrar deneyin.',
+      code: 'LOGIN_RATE_LIMIT_EXCEEDED',
+      quarantined: !quarantineEngine.isWhitelisted(clientIp)
+    });
   }
 });
 
@@ -247,9 +296,15 @@ app.get(['/muhasebe', '/muhasebe/*'], (req, res, next) => {
   res.sendFile(path.join(appStaticDir, 'index.html'));
 });
 
-// Helper: Prisma Connection Checker
+// Helper: Prisma Connection Checker (with 5s cooldown to avoid connection timeouts when offline)
 let isDbConnected = false;
+let lastDbCheckTime = 0;
 async function checkDbConnection() {
+  const now = Date.now();
+  if (!isDbConnected && (now - lastDbCheckTime < 5000)) {
+    return false;
+  }
+  lastDbCheckTime = now;
   try {
     await prisma.$queryRaw`SELECT 1`;
     isDbConnected = true;
@@ -290,6 +345,15 @@ app.get('/api/health', async (req, res) => {
 // ==============================================================================
 // 1.1 SİBER GÜVENLİK & KİMLİK DOĞRULAMA (LOGIN, LOGOUT, ME, CHANGE-PASSWORD)
 // ==============================================================================
+// Çevrimdışı / Yerel Fallback 2FA Hafıza Durumu
+const localAdmin2FA = {
+  enabled: false,
+  secret: null,
+  tempSecret: null,
+  lastStep: null,
+  recoveryCodes: null
+};
+
 app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -300,6 +364,17 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
     const userCheck = auth.checkBruteForce(`user:${username.toLowerCase()}`);
     if (ipCheck.isLocked || userCheck.isLocked) {
       const waitSec = Math.max(ipCheck.remainingSec || 0, userCheck.remainingSec || 0);
+      const ipRecord = auth.recordFailedAttempt(`ip:${clientIp}`);
+      if (ipRecord && ipRecord.count >= 10) {
+        quarantineEngine.quarantineIp(clientIp, 'BRUTE_FORCE_LOGIN_EXCEEDED');
+      }
+      logSecurityEvent('LOGIN_LOCKED', {
+        req,
+        severity: 'WARN',
+        status: 429,
+        clientIp,
+        details: { username, remainingSec: waitSec, reason: 'BRUTE_FORCE_LOCKOUT' }
+      });
       return res.status(429).json({
         success: false,
         error: `Çok fazla hatalı giriş denemesi yapıldı! Güvenlik nedeniyle erişiminiz ${waitSec} saniye kilitlendi.`,
@@ -325,7 +400,12 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
           passwordHash: auth.hashPassword(adminPass),
           fullName: 'Yunus Emre Gökalp (Yönetici)',
           role: 'ADMIN',
-          isActive: true
+          isActive: true,
+          twoFactorEnabled: localAdmin2FA.enabled,
+          twoFactorSecret: localAdmin2FA.secret,
+          twoFactorTempSecret: localAdmin2FA.tempSecret,
+          twoFactorLastStep: localAdmin2FA.lastStep,
+          twoFactorRecoveryCodes: localAdmin2FA.recoveryCodes
         };
       }
     }
@@ -333,6 +413,13 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
     // DB bazlı kalıcı kilit kontrolü
     if (user && user.lockedUntil && new Date(user.lockedUntil) > new Date()) {
       const waitSec = Math.ceil((new Date(user.lockedUntil) - Date.now()) / 1000);
+      logSecurityEvent('LOGIN_LOCKED', {
+        req,
+        severity: 'WARN',
+        status: 429,
+        clientIp,
+        details: { username, remainingSec: waitSec, reason: 'ACCOUNT_LOCKED_UNTIL' }
+      });
       return res.status(429).json({
         success: false,
         error: `Çok fazla hatalı giriş denemesi yapıldı! Hesabınız güvenlik nedeniyle ${waitSec} saniye kilitlendi.`,
@@ -346,13 +433,21 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
     const isValid = Boolean(user && auth.verifyPassword(password, hashToCompare));
 
     if (!isValid) {
-      auth.recordFailedAttempt(`ip:${clientIp}`);
+      const ipRecord = auth.recordFailedAttempt(`ip:${clientIp}`);
       auth.recordFailedAttempt(`user:${username.toLowerCase()}`);
+
+      // Tekrarlanan brute-force saldırganını dinamik karantinaya al (Fail2ban)
+      if (ipRecord && ipRecord.count >= 10) {
+        quarantineEngine.quarantineIp(clientIp, 'BRUTE_FORCE_LOGIN_EXCEEDED');
+      }
 
       // DB'de hatalı denemeyi ve kilidi kalıcı kaydet
       if (dbOk && user && user.id !== 'local-admin-id') {
         const nextAttempts = (user.failedAttempts || 0) + 1;
         const willLock = nextAttempts >= 5;
+        if (nextAttempts >= 10) {
+          quarantineEngine.quarantineIp(clientIp, 'BRUTE_FORCE_LOGIN_EXCEEDED');
+        }
         await prisma.user.update({
           where: { id: user.id },
           data: {
@@ -362,6 +457,14 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
         }).catch(() => {});
       }
 
+      logSecurityEvent('LOGIN_FAILURE', {
+        req,
+        severity: 'WARN',
+        status: 401,
+        clientIp,
+        details: { username, reason: 'INVALID_CREDENTIALS' }
+      });
+
       return res.status(401).json({
         success: false,
         error: 'Kullanıcı adı veya şifre hatalı!'
@@ -370,6 +473,13 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
 
     // 4. Aktiflik ve Kilit Kontrolü
     if (!user.isActive) {
+      logSecurityEvent('LOGIN_FAILURE', {
+        req,
+        severity: 'WARN',
+        status: 403,
+        clientIp,
+        details: { username, reason: 'ACCOUNT_INACTIVE' }
+      });
       return res.status(403).json({ success: false, error: 'Bu kullanıcı hesabı devre dışı bırakılmıştır.' });
     }
 
@@ -384,10 +494,64 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
       }).catch(() => {});
     }
 
-    const token = auth.generateToken(user);
+    // 2FA Kontrolü: 2FA etkinse kısıtlı preAuthToken yayınla
+    const is2faActive = user.id === 'local-admin-id'
+      ? Boolean(localAdmin2FA.enabled)
+      : Boolean(user.twoFactorEnabled);
+
+    if (is2faActive) {
+      const preAuthToken = auth.generatePreAuthToken(user);
+      logSecurityEvent('LOGIN_SUCCESS', {
+        req,
+        severity: 'INFO',
+        status: 200,
+        clientIp,
+        user: {
+          id: user.id,
+          username: user.username,
+          role: user.role
+        },
+        details: {
+          username: user.username,
+          requires2FA: true,
+          type: 'PRE_AUTH_2FA'
+        }
+      });
+      return res.status(200).json({
+        success: true,
+        requires2FA: true,
+        preAuthToken,
+        user: {
+          id: user.id,
+          username: user.username,
+          fullName: user.fullName,
+          role: user.role
+        }
+      });
+    }
+
+    const token = auth.generateToken(user, { is2FAVerified: true });
+
+    logSecurityEvent('LOGIN_SUCCESS', {
+      req,
+      severity: 'INFO',
+      status: 200,
+      clientIp,
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role
+      },
+      details: {
+        username: user.username,
+        requires2FA: false,
+        type: 'FULL_ACCESS'
+      }
+    });
 
     res.status(200).json({
       success: true,
+      requires2FA: false,
       token,
       user: {
         id: user.id,
@@ -416,6 +580,12 @@ app.post('/api/auth/logout', (req, res) => {
     const token = authHeader.substring(7).trim();
     auth.revokeToken(token);
   }
+  logSecurityEvent('TOKEN_REVOKED', {
+    req,
+    severity: 'INFO',
+    status: 200,
+    details: { reason: 'USER_LOGOUT' }
+  });
   res.status(200).json({ success: true, message: 'Oturum başarıyla kapatıldı ve token iptal edildi.' });
 });
 
@@ -448,6 +618,434 @@ app.post('/api/auth/change-password', auth.requireAuth, validateBody(ChangePassw
     res.status(200).json({ success: true, message: 'Şifreniz başarıyla güncellendi! Güvenlik nedeniyle lütfen yeni şifrenizle tekrar giriş yapın.' });
   } catch (err) {
     return sendSafeError(res, 500, 'Şifre güncellenirken sunucu hatası oluştu.', err);
+  }
+});
+
+// ==============================================================================
+// 1.1.1 İKİ AŞAMALI DOĞRULAMA (RFC 6238 TOTP 2FA SHIELD)
+// ==============================================================================
+const auth2FaLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  store: new auth.BoundedLruMemoryStore({ maxEntries: 5000 }),
+  message: {
+    success: false,
+    error: 'Çok fazla 2FA denemesi yapıldı. Lütfen 15 dakika sonra tekrar deneyin.',
+    code: '2FA_RATE_LIMIT_EXCEEDED'
+  }
+});
+
+// 2FA Doğrulama & High-Privilege Token Takası
+app.post('/api/auth/2fa/verify', auth2FaLimiter, auth.requireAuth, async (req, res) => {
+  try {
+    const { code } = req.body || {};
+    if (!code || typeof code !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Doğrulama kodu zorunludur.',
+        code: 'INVALID_CODE_FORMAT'
+      });
+    }
+
+    const cleanCode = code.trim();
+    const clientIp = auth.getClientIp(req);
+    const dbOk = await checkDbConnection();
+    let user = null;
+
+    if (dbOk && req.user.id !== 'local-admin-id') {
+      user = await prisma.user.findUnique({ where: { id: req.user.id } });
+    } else if (req.user.username === 'admin' || req.user.id === 'local-admin-id') {
+      user = {
+        id: 'local-admin-id',
+        username: 'admin',
+        fullName: 'Yunus Emre Gökalp (Yönetici)',
+        role: 'ADMIN',
+        isActive: true,
+        twoFactorEnabled: localAdmin2FA.enabled,
+        twoFactorSecret: localAdmin2FA.secret,
+        twoFactorLastStep: localAdmin2FA.lastStep,
+        twoFactorRecoveryCodes: localAdmin2FA.recoveryCodes
+      };
+    }
+
+    if (!user || !user.twoFactorEnabled || !user.twoFactorSecret) {
+      return res.status(400).json({
+        success: false,
+        error: 'İki aşamalı doğrulama bu kullanıcı için aktif değildir.',
+        code: '2FA_NOT_ENABLED'
+      });
+    }
+
+    // 1. Tek kullanımlık kurtarma kodu kontrolü (Hashed single-use recovery code)
+    let recoveryMatched = false;
+    let remainingRecovery = [];
+    if (user.twoFactorRecoveryCodes) {
+      try {
+        const parsed = JSON.parse(user.twoFactorRecoveryCodes);
+        if (Array.isArray(parsed)) {
+          const recCheck = totp.verifyRecoveryCode(cleanCode, parsed);
+          if (recCheck.valid) {
+            recoveryMatched = true;
+            remainingRecovery = recCheck.remainingCodes;
+          }
+        }
+      } catch (_) {}
+    }
+
+    // 2. RFC 6238 TOTP Doğrulaması (Eğer kurtarma kodu kullanılmadıysa)
+    let totpResult = { valid: false };
+    if (!recoveryMatched) {
+      totpResult = totp.verifyTotp(user.twoFactorSecret, cleanCode, user.twoFactorLastStep);
+    }
+
+    if (!recoveryMatched && !totpResult.valid) {
+      auth.recordFailedAttempt(`ip:${clientIp}`);
+      auth.recordFailedAttempt(`user:${user.username.toLowerCase()}`);
+
+      logSecurityEvent('2FA_VERIFY_FAILURE', {
+        req,
+        severity: 'WARN',
+        status: 401,
+        clientIp,
+        user: { id: user.id, username: user.username, role: user.role },
+        details: {
+          username: user.username,
+          reason: totpResult.code || 'INVALID_2FA_CODE'
+        }
+      });
+
+      if (totpResult.code === 'REPLAY_ATTACK') {
+        return res.status(401).json({
+          success: false,
+          error: 'Tek kullanımlık kod daha önce kullanılmıştır (Anti-Replay koruması).',
+          code: 'REPLAY_ATTACK'
+        });
+      }
+      return res.status(401).json({
+        success: false,
+        error: 'İki aşamalı doğrulama kodu geçersiz.',
+        code: 'INVALID_2FA_CODE'
+      });
+    }
+
+    // Başarılı doğrulama: Hatalı deneme sayaçlarını sıfırla
+    auth.clearFailedAttempts(`ip:${clientIp}`);
+    auth.clearFailedAttempts(`user:${user.username.toLowerCase()}`);
+
+    // DB veya Yerel Hafıza Güncellemesi (Anti-Replay monotonic step veya kullanılan kurtarma kodu)
+    if (dbOk && user.id !== 'local-admin-id') {
+      const updateData = {};
+      if (recoveryMatched) {
+        updateData.twoFactorRecoveryCodes = JSON.stringify(remainingRecovery);
+      } else if (totpResult.step !== undefined) {
+        updateData.twoFactorLastStep = totpResult.step;
+      }
+      await prisma.user.update({
+        where: { id: user.id },
+        data: updateData
+      }).catch(() => {});
+    } else {
+      if (recoveryMatched) {
+        localAdmin2FA.recoveryCodes = JSON.stringify(remainingRecovery);
+      } else if (totpResult.step !== undefined) {
+        localAdmin2FA.lastStep = totpResult.step;
+      }
+    }
+
+    // Geçici preAuthToken'ı iptal et (Tekrar kullanılamaz)
+    if (req.token) {
+      auth.revokeToken(req.token);
+    }
+
+    // Yüksek yetkili ve 2FA onaylı kalıcı oturum token'ı üret
+    const fullToken = auth.generateToken(user, { is2FAVerified: true });
+
+    logSecurityEvent('2FA_VERIFY_SUCCESS', {
+      req,
+      severity: 'INFO',
+      status: 200,
+      clientIp,
+      user: { id: user.id, username: user.username, role: user.role },
+      details: {
+        username: user.username,
+        recoveryUsed: recoveryMatched
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      token: fullToken,
+      user: {
+        id: user.id,
+        username: user.username,
+        fullName: user.fullName,
+        role: user.role
+      },
+      recoveryUsed: recoveryMatched
+    });
+  } catch (err) {
+    return sendSafeError(res, 500, '2FA doğrulama sırasında sunucu hatası oluştu.', err);
+  }
+});
+
+// 2FA Durum Sorgulama
+app.get('/api/auth/2fa/status', auth.requireAuth, async (req, res) => {
+  try {
+    const dbOk = await checkDbConnection();
+    let user = null;
+    if (dbOk && req.user.id !== 'local-admin-id') {
+      user = await prisma.user.findUnique({ where: { id: req.user.id } });
+    } else if (req.user.username === 'admin' || req.user.id === 'local-admin-id') {
+      user = {
+        twoFactorEnabled: localAdmin2FA.enabled
+      };
+    }
+
+    res.status(200).json({
+      success: true,
+      enabled: Boolean(user && user.twoFactorEnabled),
+      verified: Boolean(req.user && req.user.is2FAVerified)
+    });
+  } catch (err) {
+    return sendSafeError(res, 500, '2FA durum sorgulanırken sunucu hatası oluştu.', err);
+  }
+});
+
+// 2FA Kurulum Başlatma (Secret, QR Code SVG & Data URL, Kurtarma Kodları)
+app.post('/api/auth/2fa/setup', auth.requireAuth, async (req, res) => {
+  try {
+    const secret = totp.generateSecret(20);
+    const username = req.user.username || 'admin';
+    const otpauthUri = totp.getOtpauthUri(username, secret);
+    const qr = totp.generateQrSvg(otpauthUri);
+    const recovery = totp.generateRecoveryCodes(8);
+
+    const dbOk = await checkDbConnection();
+    if (dbOk && req.user.id !== 'local-admin-id') {
+      await prisma.user.update({
+        where: { id: req.user.id },
+        data: {
+          twoFactorTempSecret: secret,
+          twoFactorRecoveryCodes: JSON.stringify(recovery.hashedCodes)
+        }
+      }).catch(() => {});
+    } else {
+      localAdmin2FA.tempSecret = secret;
+      localAdmin2FA.recoveryCodes = JSON.stringify(recovery.hashedCodes);
+    }
+
+    res.status(200).json({
+      success: true,
+      secret,
+      otpauthUri,
+      qrCodeDataUrl: qr.dataUrl,
+      qrCodeSvg: qr.svg,
+      recoveryCodes: recovery.plainCodes
+    });
+  } catch (err) {
+    return sendSafeError(res, 500, '2FA kurulum başlatılırken sunucu hatası oluştu.', err);
+  }
+});
+
+// 2FA Kurulumunu Doğrulayıp Aktif Etme
+app.post('/api/auth/2fa/verify-setup', auth.requireAuth, async (req, res) => {
+  try {
+    const { code } = req.body || {};
+    if (!code || typeof code !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Kurulum doğrulama kodu zorunludur.',
+        code: 'INVALID_CODE_FORMAT'
+      });
+    }
+
+    const cleanCode = code.trim();
+    const dbOk = await checkDbConnection();
+    let user = null;
+    let tempSecret = null;
+
+    if (dbOk && req.user.id !== 'local-admin-id') {
+      user = await prisma.user.findUnique({ where: { id: req.user.id } });
+      tempSecret = user ? user.twoFactorTempSecret : null;
+    } else {
+      user = {
+        id: 'local-admin-id',
+        username: 'admin',
+        role: 'ADMIN',
+        fullName: 'Yunus Emre Gökalp (Yönetici)'
+      };
+      tempSecret = localAdmin2FA.tempSecret;
+    }
+
+    if (!tempSecret) {
+      return res.status(400).json({
+        success: false,
+        error: 'Aktif bir 2FA kurulum isteği bulunamadı. Lütfen önce kurulumu başlatın.',
+        code: 'SETUP_NOT_INITIATED'
+      });
+    }
+
+    const verifyResult = totp.verifyTotp(tempSecret, cleanCode);
+    if (!verifyResult.valid) {
+      return res.status(400).json({
+        success: false,
+        error: 'Doğrulama kodu hatalı. Lütfen Google Authenticator / 1Password üzerindeki 6 haneli kodu kontrol edin.',
+        code: 'INVALID_2FA_CODE'
+      });
+    }
+
+    if (dbOk && user.id !== 'local-admin-id') {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          twoFactorEnabled: true,
+          twoFactorSecret: tempSecret,
+          twoFactorTempSecret: null,
+          twoFactorLastStep: verifyResult.step
+        }
+      });
+    } else {
+      localAdmin2FA.enabled = true;
+      localAdmin2FA.secret = tempSecret;
+      localAdmin2FA.tempSecret = null;
+      localAdmin2FA.lastStep = verifyResult.step;
+    }
+
+    if (req.token) {
+      auth.revokeToken(req.token);
+    }
+    const updatedUser = {
+      ...user,
+      twoFactorEnabled: true
+    };
+    const newToken = auth.generateToken(updatedUser, { is2FAVerified: true });
+
+    res.status(200).json({
+      success: true,
+      message: 'İki aşamalı doğrulama (2FA) başarıyla etkinleştirildi.',
+      token: newToken
+    });
+  } catch (err) {
+    return sendSafeError(res, 500, '2FA kurulum doğrulanırken sunucu hatası oluştu.', err);
+  }
+});
+
+// 2FA Devre Dışı Bırakma (Şifre + TOTP veya Kurtarma Kodu Doğrulaması Şart)
+app.post('/api/auth/2fa/disable', auth.requireAuth, async (req, res) => {
+  try {
+    const { password, code } = req.body || {};
+    if (!password || !code || typeof code !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Mevcut şifre ve 2FA kodu gereklidir.',
+        code: 'MISSING_CREDENTIALS'
+      });
+    }
+
+    const cleanCode = code.trim();
+    const dbOk = await checkDbConnection();
+    let user = null;
+
+    if (dbOk && req.user.id !== 'local-admin-id') {
+      user = await prisma.user.findUnique({ where: { id: req.user.id } });
+    } else {
+      const adminPass = process.env.ADMIN_INITIAL_PASSWORD || 'Brosan2026!SecureErp';
+      user = {
+        id: 'local-admin-id',
+        username: 'admin',
+        passwordHash: auth.hashPassword(adminPass),
+        twoFactorEnabled: localAdmin2FA.enabled,
+        twoFactorSecret: localAdmin2FA.secret,
+        twoFactorLastStep: localAdmin2FA.lastStep,
+        twoFactorRecoveryCodes: localAdmin2FA.recoveryCodes
+      };
+    }
+
+    if (!user || !user.twoFactorEnabled || !user.twoFactorSecret) {
+      return res.status(400).json({
+        success: false,
+        error: '2FA zaten aktif değil.',
+        code: '2FA_NOT_ENABLED'
+      });
+    }
+
+    // Şifre doğrulama
+    if (!auth.verifyPassword(password, user.passwordHash)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Mevcut şifreniz hatalı.',
+        code: 'INVALID_PASSWORD'
+      });
+    }
+
+    // 2FA Kodu veya Kurtarma Kodu doğrulama
+    let codeValid = false;
+    if (user.twoFactorRecoveryCodes) {
+      try {
+        const parsed = JSON.parse(user.twoFactorRecoveryCodes);
+        if (Array.isArray(parsed)) {
+          const recCheck = totp.verifyRecoveryCode(cleanCode, parsed);
+          if (recCheck.valid) {
+            codeValid = true;
+          }
+        }
+      } catch (_) {}
+    }
+
+    if (!codeValid) {
+      const totpResult = totp.verifyTotp(user.twoFactorSecret, cleanCode, user.twoFactorLastStep);
+      if (totpResult.valid) {
+        codeValid = true;
+      }
+    }
+
+    if (!codeValid) {
+      return res.status(401).json({
+        success: false,
+        error: 'Doğrulama kodu geçersiz.',
+        code: 'INVALID_2FA_CODE'
+      });
+    }
+
+    // Veritabanında ve yerel hafızada 2FA'yı sıfırla
+    if (dbOk && user.id !== 'local-admin-id') {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          twoFactorEnabled: false,
+          twoFactorSecret: null,
+          twoFactorTempSecret: null,
+          twoFactorLastStep: null,
+          twoFactorRecoveryCodes: null
+        }
+      });
+    } else {
+      localAdmin2FA.enabled = false;
+      localAdmin2FA.secret = null;
+      localAdmin2FA.tempSecret = null;
+      localAdmin2FA.lastStep = null;
+      localAdmin2FA.recoveryCodes = null;
+    }
+
+    // Eski token'ı iptal et ve yeni standart token üret
+    if (req.token) {
+      auth.revokeToken(req.token);
+    }
+    const updatedUser = {
+      ...user,
+      twoFactorEnabled: false
+    };
+    const newToken = auth.generateToken(updatedUser, { is2FAVerified: true });
+
+    res.status(200).json({
+      success: true,
+      message: 'İki aşamalı doğrulama (2FA) başarıyla devre dışı bırakıldı.',
+      token: newToken
+    });
+  } catch (err) {
+    return sendSafeError(res, 500, '2FA devre dışı bırakılırken sunucu hatası oluştu.', err);
   }
 });
 
@@ -1098,11 +1696,18 @@ app.use((err, req, res, next) => {
 });
 
 // Start Server
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`====================================================`);
-  console.log(`🏭 BROSAN TEKSTİL ERP SUNUCUSU AKTİF`);
-  console.log(`🌐 URL: http://0.0.0.0:${PORT}`);
-  console.log(`🏥 Healthcheck: http://0.0.0.0:${PORT}/api/health`);
-  console.log(`📊 Ortam: ${process.env.NODE_ENV || 'production'}`);
-  console.log(`====================================================`);
-});
+if (require.main === module) {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`====================================================`);
+    console.log(`🏭 BROSAN TEKSTİL ERP SUNUCUSU AKTİF`);
+    console.log(`🌐 URL: http://0.0.0.0:${PORT}`);
+    console.log(`🏥 Healthcheck: http://0.0.0.0:${PORT}/api/health`);
+    console.log(`📊 Ortam: ${process.env.NODE_ENV || 'production'}`);
+    console.log(`====================================================`);
+  });
+}
+
+app.quarantineEngine = quarantineEngine;
+app.quarantineGuard = quarantineGuard;
+
+module.exports = app;

@@ -16,6 +16,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const { MemoryStore } = require('express-rate-limit');
+const auditLogger = require('./auditLogger');
 
 // Bounded LRU Cache Rate Limit Store (Max 5000 Entries to prevent OOM DoS)
 class BoundedLruMemoryStore extends MemoryStore {
@@ -171,14 +172,42 @@ function verifyPassword(password, hash) {
 // ==============================================================================
 // 3. JWT TOKEN İŞLEMLERİ
 // ==============================================================================
-function generateToken(user) {
+function generateToken(user, options = {}) {
+  const is2FA = Boolean(user && user.twoFactorEnabled);
+  const isVerified = options.is2FAVerified !== undefined
+    ? options.is2FAVerified
+    : (is2FA ? false : true);
+
   const payload = {
-    id: user.id,
-    username: user.username,
-    fullName: user.fullName || user.username,
-    role: user.role || 'ADMIN'
+    id: user ? user.id : undefined,
+    username: user ? user.username : undefined,
+    fullName: user ? (user.fullName || user.username) : undefined,
+    role: (options.role !== undefined) ? options.role : (user ? (user.role || 'ADMIN') : 'ADMIN'),
+    twoFactorEnabled: is2FA,
+    is2FAVerified: isVerified,
+    type: options.type || 'ACCESS'
   };
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN, algorithm: 'HS256' });
+  return jwt.sign(payload, JWT_SECRET, {
+    expiresIn: options.expiresIn || JWT_EXPIRES_IN,
+    algorithm: 'HS256'
+  });
+}
+
+function generatePreAuthToken(user) {
+  const payload = {
+    id: user ? user.id : undefined,
+    username: user ? user.username : undefined,
+    fullName: user ? (user.fullName || user.username) : undefined,
+    role: 'PRE_AUTH_2FA',
+    twoFactorEnabled: true,
+    is2FAVerified: false,
+    type: 'PRE_AUTH_2FA'
+  };
+  // 5 dakikalık kısıtlı ve kısa ömürlü pre-auth token
+  return jwt.sign(payload, JWT_SECRET, {
+    expiresIn: '5m',
+    algorithm: 'HS256'
+  });
 }
 
 function verifyToken(token) {
@@ -323,6 +352,12 @@ function requireAuth(req, res, next) {
   // Authorization başlığını oku
   const authHeader = req.headers['authorization'];
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    auditLogger.logSecurityEvent('UNAUTHORIZED_ACCESS', {
+      req,
+      severity: 'WARN',
+      status: 401,
+      details: { path, reason: 'MISSING_OR_INVALID_AUTH_HEADER' }
+    });
     return res.status(401).json({
       success: false,
       error: 'Yetkisiz erişim. Lütfen kullanıcı adı ve şifrenizle giriş yapın.',
@@ -334,6 +369,12 @@ function requireAuth(req, res, next) {
 
   // Oturum iptal / çıkış kontrolü (Blacklist)
   if (isTokenRevoked(token)) {
+    auditLogger.logSecurityEvent('TOKEN_REVOKED', {
+      req,
+      severity: 'WARN',
+      status: 401,
+      details: { path, reason: 'REVOKED_TOKEN_PRESENTED' }
+    });
     return res.status(401).json({
       success: false,
       error: 'Bu oturum sonlandırılmış veya geçersiz kılınmıştır. Lütfen tekrar giriş yapın.',
@@ -344,10 +385,46 @@ function requireAuth(req, res, next) {
   const decoded = verifyToken(token);
 
   if (!decoded) {
+    auditLogger.logSecurityEvent('UNAUTHORIZED_ACCESS', {
+      req,
+      severity: 'WARN',
+      status: 401,
+      details: { path, reason: 'TOKEN_EXPIRED_OR_INVALID' }
+    });
     return res.status(401).json({
       success: false,
       error: 'Oturum süresi dolmuş veya geçersiz token. Lütfen tekrar giriş yapın.',
       code: 'TOKEN_EXPIRED'
+    });
+  }
+
+  // Dual-Tier 2FA Enforcement:
+  // Pre-auth tokens or unverified tokens can ONLY access the 2FA verify endpoint.
+  // All business endpoints (/api/accounts, /api/contacts, etc.) are blocked with 401 UNAUTHORIZED_2FA_REQUIRED.
+  if (decoded.role === 'PRE_AUTH_2FA' || decoded.is2FAVerified === false) {
+    const is2faVerifyEndpoint =
+      path === '/auth/2fa/verify' ||
+      path === '/api/auth/2fa/verify' ||
+      path === '/muhasebe/api/auth/2fa/verify' ||
+      path.endsWith('/auth/2fa/verify');
+
+    if (is2faVerifyEndpoint) {
+      req.user = decoded;
+      req.token = token;
+      return next();
+    }
+
+    auditLogger.logSecurityEvent('UNAUTHORIZED_ACCESS', {
+      req,
+      user: decoded,
+      severity: 'WARN',
+      status: 401,
+      details: { path, reason: 'UNAUTHORIZED_2FA_REQUIRED', role: decoded.role }
+    });
+    return res.status(401).json({
+      success: false,
+      error: 'Bu işlem için iki aşamalı doğrulama (2FA) zorunludur.',
+      code: 'UNAUTHORIZED_2FA_REQUIRED'
     });
   }
 
@@ -360,6 +437,7 @@ module.exports = {
   hashPassword,
   verifyPassword,
   generateToken,
+  generatePreAuthToken,
   verifyToken,
   revokeToken,
   isTokenRevoked,
