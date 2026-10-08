@@ -35,3 +35,9 @@ Thumbs.db
 
 # Antigravity agent scratch & logs
 .agents/
+
+# Security Runtime State & Cache
+data/lockdown_state.json
+data/quarantined_ips.json
+data/revoked_tokens.json
+data/test_*.json

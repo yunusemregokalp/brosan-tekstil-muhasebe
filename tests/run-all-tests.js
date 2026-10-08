@@ -46,6 +46,21 @@ const suites = [
     type: 'E2E'
   },
   {
+    name: 'Real-Time Threat Alerter & Notification Queue Suite',
+    file: 'test-threat-alerter-unit.js',
+    type: 'Security'
+  },
+  {
+    name: 'AES-256-GCM Field Cryptography Vault Suite',
+    file: 'test-crypto-vault-unit.js',
+    type: 'Security'
+  },
+  {
+    name: 'Emergency Panic Lockdown & Token Epoch Revocation Suite',
+    file: 'test-lockdown-unit.js',
+    type: 'Security'
+  },
+  {
     name: '4-Tier Accounting Domain & Reconciliation E2E Suite',
     file: path.join('e2e', 'run-all-tests.js'),
     type: 'E2E'

@@ -14,6 +14,18 @@ const fs = require('fs');
 const path = require('path');
 const auditLogger = require('./auditLogger');
 
+let cachedThreatAlerter = null;
+function getThreatAlerter() {
+  if (cachedThreatAlerter === null) {
+    try {
+      cachedThreatAlerter = require('./threatAlerter');
+    } catch (_) {
+      cachedThreatAlerter = false;
+    }
+  }
+  return cachedThreatAlerter || null;
+}
+
 const QUARANTINE_FILE = path.join(__dirname, '..', 'data', 'quarantined_ips.json');
 const DEFAULT_TTL_MS = parseInt(process.env.IP_QUARANTINE_TTL_MS, 10) || 60 * 60 * 1000; // 1 hour (3,600,000 ms)
 const MAX_ENTRIES = parseInt(process.env.IP_QUARANTINE_MAX_ENTRIES, 10) || 10000;
@@ -125,15 +137,11 @@ class BoundedLruQuarantineEngine {
     const ttl = details.ttlMs || this.defaultTtlMs;
     const expiresAt = now + ttl;
 
-    // Prune if reaching capacity to avoid Memory Exhaustion DoS
+    // Evict oldest entry (O(1) LRU eviction) if reaching capacity
     if (this.cache.size >= this.maxEntries) {
-      this.pruneExpired();
-      if (this.cache.size >= this.maxEntries) {
-        // Evict oldest entry (LRU eviction)
-        const oldestKey = this.cache.keys().next().value;
-        if (oldestKey) {
-          this.cache.delete(oldestKey);
-        }
+      const oldestKey = this.cache.keys().next().value;
+      if (oldestKey) {
+        this.cache.delete(oldestKey);
       }
     }
 
@@ -156,19 +164,39 @@ class BoundedLruQuarantineEngine {
     }
     this.cache.set(ip, record);
 
-    auditLogger.logSecurityEvent('IP_QUARANTINED', {
-      severity: 'CRITICAL',
-      status: 403,
-      clientIp: ip,
-      details: {
-        ip,
-        reason: record.reason,
-        count: record.count,
-        triggerPath: record.triggerPath,
-        expiresAt: new Date(expiresAt).toISOString(),
-        ...details
-      }
+    const isoExpiresAt = new Date(expiresAt).toISOString();
+
+    setImmediate(() => {
+      try {
+        auditLogger.logSecurityEvent('IP_QUARANTINED', {
+          severity: 'CRITICAL',
+          status: 403,
+          clientIp: ip,
+          details: {
+            ip,
+            reason: record.reason,
+            count: record.count,
+            triggerPath: record.triggerPath,
+            expiresAt: isoExpiresAt,
+            ...details
+          }
+        });
+      } catch (_) {}
     });
+
+    const alerter = getThreatAlerter();
+    if (alerter && typeof alerter.alertIpQuarantined === 'function') {
+      try {
+        alerter.alertIpQuarantined(ip, {
+          reason: record.reason,
+          count: record.count,
+          triggerPath: record.triggerPath,
+          durationSec: Math.round(ttl / 1000),
+          expiresAt: isoExpiresAt,
+          ...details
+        });
+      } catch (_) {}
+    }
 
     this.schedulePersist();
     return record;

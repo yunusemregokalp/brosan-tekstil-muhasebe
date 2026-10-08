@@ -14,6 +14,9 @@ const { PrismaClient } = require('@prisma/client');
 const auth = require('./auth');
 const totp = require('./totp');
 const { quarantineEngine, quarantineGuard } = require('./quarantine');
+const threatAlerter = require('./threatAlerter');
+const cryptoVault = require('./cryptoVault');
+const { lockdownManager, lockdownGuard } = require('./lockdown');
 const {
   LoginSchema,
   ChangePasswordSchema,
@@ -32,9 +35,10 @@ const { auditMiddleware, logSecurityEvent } = require('./auditLogger');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const prisma = new PrismaClient({
+const basePrisma = new PrismaClient({
   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
 });
+const prisma = cryptoVault.withCryptoVault(basePrisma);
 
 // Güvenlik: Ters Vekil (Traefik / Coolify) İstemci IP Doğrulaması (Anti-IP-Spoofing)
 app.set('trust proxy', 1);
@@ -77,6 +81,11 @@ app.use((req, res, next) => {
 app.use(quarantineGuard);
 
 // ==============================================================================
+// 0.08 ACİL DURUM KİLİT KALKANI (EMERGENCY PANIC LOCKDOWN - 503 SYSTEM_IN_LOCKDOWN)
+// ==============================================================================
+app.use(lockdownGuard);
+
+// ==============================================================================
 // 0.1 HASSAS SİSTEM VE GİZLİ DOSYA ENGELLEME (ANTI-TRAVERSAL, ANTI-QUERY, DUAL-DECODE)
 // ==============================================================================
 app.use((req, res, next) => {
@@ -108,6 +117,12 @@ app.use((req, res, next) => {
       clientIp,
       details: { rawUrl, reason: 'NULL_BYTE_INJECTION' }
     });
+    try {
+      threatAlerter.alertSensitiveProbe(clientIp, rawUrl, {
+        rawUrl,
+        reason: 'NULL_BYTE_INJECTION'
+      });
+    } catch (_) {}
     return res.status(403).json({
       success: false,
       error: 'Erişim engellendi: Geçersiz karakter tespiti.',
@@ -145,6 +160,15 @@ app.use((req, res, next) => {
         hasSensitiveExt
       }
     });
+    try {
+      threatAlerter.alertSensitiveProbe(clientIp, rawUrl, {
+        rawUrl,
+        normalized,
+        hasTraversal,
+        hasDotfile,
+        hasSensitiveExt
+      });
+    } catch (_) {}
     return res.status(403).json({
       success: false,
       error: 'Erişim engellendi: Bu dosya tipine veya gizli dizine erişim izni yoktur.',
@@ -375,6 +399,12 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
         clientIp,
         details: { username, remainingSec: waitSec, reason: 'BRUTE_FORCE_LOCKOUT' }
       });
+      try {
+        threatAlerter.alertBruteForceLockout(clientIp, username, {
+          remainingSec: waitSec,
+          reason: 'BRUTE_FORCE_LOCKOUT'
+        });
+      } catch (_) {}
       return res.status(429).json({
         success: false,
         error: `Çok fazla hatalı giriş denemesi yapıldı! Güvenlik nedeniyle erişiminiz ${waitSec} saniye kilitlendi.`,
@@ -420,6 +450,12 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
         clientIp,
         details: { username, remainingSec: waitSec, reason: 'ACCOUNT_LOCKED_UNTIL' }
       });
+      try {
+        threatAlerter.alertBruteForceLockout(clientIp, username, {
+          remainingSec: waitSec,
+          reason: 'ACCOUNT_LOCKED_UNTIL'
+        });
+      } catch (_) {}
       return res.status(429).json({
         success: false,
         error: `Çok fazla hatalı giriş denemesi yapıldı! Hesabınız güvenlik nedeniyle ${waitSec} saniye kilitlendi.`,
@@ -717,6 +753,11 @@ app.post('/api/auth/2fa/verify', auth2FaLimiter, auth.requireAuth, async (req, r
       });
 
       if (totpResult.code === 'REPLAY_ATTACK') {
+        try {
+          threatAlerter.alertReplayAttack(clientIp, user.username, {
+            step: totpResult.step ? totpResult.step.toString() : null
+          });
+        } catch (_) {}
         return res.status(401).json({
           success: false,
           error: 'Tek kullanımlık kod daha önce kullanılmıştır (Anti-Replay koruması).',
@@ -1050,6 +1091,54 @@ app.post('/api/auth/2fa/disable', auth.requireAuth, async (req, res) => {
 });
 
 // ==============================================================================
+// 1.15 ACİL DURUM KİLİT MODU VE KURTARMA KAPISI (PANIC LOCKDOWN ENDPOINTS)
+// ==============================================================================
+// GET /api/auth/emergency-lockdown (Durum Sorgulama - Public)
+app.get('/api/auth/emergency-lockdown', (req, res) => {
+  const status = lockdownManager.getStatus();
+  res.status(200).json({
+    success: true,
+    ...status,
+    lockdown: status
+  });
+});
+
+// POST /api/auth/emergency-lockdown/activate (Kilit Modunu Devreye Alma - Admin Yetkisi Gerekir)
+app.post(['/api/auth/emergency-lockdown/activate', '/api/auth/emergency-lockdown'], auth.requireAuth, async (req, res) => {
+  if (!req.user || req.user.role !== 'ADMIN') {
+    return res.status(403).json({
+      success: false,
+      error: 'Yetkisiz erişim. Yalnızca ADMIN rolü acil durum kilidini devreye alabilir.',
+      code: 'FORBIDDEN_ROLE'
+    });
+  }
+  const { reason, customRecoveryPhrase } = req.body || {};
+  const result = lockdownManager.activateLockdown({
+    initiatedBy: req.user.username || 'admin',
+    reason,
+    customRecoveryPhrase
+  });
+  res.status(200).json(result);
+});
+
+// POST /api/auth/emergency-lockdown/restore (Kurtarma Anahtarıyla Kilidi Açma - Public)
+app.post('/api/auth/emergency-lockdown/restore', async (req, res) => {
+  const { recoveryPhrase } = req.body || {};
+  if (!recoveryPhrase || typeof recoveryPhrase !== 'string') {
+    return res.status(400).json({
+      success: false,
+      error: 'Kurtarma anahtarı zorunludur.',
+      code: 'MISSING_RECOVERY_PHRASE'
+    });
+  }
+  const result = lockdownManager.restoreSystem(recoveryPhrase);
+  if (!result.success) {
+    return res.status(403).json(result);
+  }
+  res.status(200).json(result);
+});
+
+// ==============================================================================
 // 1.2 FAIL-CLOSED REST API GÜVENLİK KALKANI
 // /api/health ve /api/auth/login hariç tüm muhasebe rotalarını korur
 // ==============================================================================
@@ -1150,7 +1239,7 @@ app.get('/api/accounts', async (req, res) => {
 
 app.post('/api/accounts', validateBody(AccountSchema), async (req, res) => {
   try {
-    const { code, name, type, category, currency, balance } = req.body;
+    const { code, name, type, category, currency, balance, iban, accountNo, bankName, branchName } = req.body;
     const newAccount = await prisma.account.create({
       data: {
         code,
@@ -1158,7 +1247,11 @@ app.post('/api/accounts', validateBody(AccountSchema), async (req, res) => {
         type: type || 'ASSET',
         category,
         currency: currency || 'TRY',
-        balance: balance ? parseFloat(balance) : 0.0
+        balance: balance ? parseFloat(balance) : 0.0,
+        iban,
+        accountNo,
+        bankName,
+        branchName
       }
     });
     res.status(201).json({ success: true, data: newAccount });
@@ -1709,5 +1802,9 @@ if (require.main === module) {
 
 app.quarantineEngine = quarantineEngine;
 app.quarantineGuard = quarantineGuard;
+app.cryptoVault = cryptoVault;
+app.prisma = prisma;
+app.lockdownManager = lockdownManager;
+app.lockdownGuard = lockdownGuard;
 
 module.exports = app;

@@ -17,6 +17,7 @@ const fs = require('fs');
 const path = require('path');
 const { MemoryStore } = require('express-rate-limit');
 const auditLogger = require('./auditLogger');
+const { lockdownManager } = require('./lockdown');
 
 // Bounded LRU Cache Rate Limit Store (Max 5000 Entries to prevent OOM DoS)
 class BoundedLruMemoryStore extends MemoryStore {
@@ -320,6 +321,19 @@ function revokeToken(token) {
 
 function isTokenRevoked(token) {
   if (!token) return true;
+
+  // 1. Global Token Revocation Epoch (Panic Lockdown Mass Invalidation Check)
+  try {
+    const epoch = lockdownManager.getTokenRevocationEpoch();
+    if (epoch > 0) {
+      const decoded = verifyToken(token);
+      if (decoded && decoded.iat && (decoded.iat * 1000 <= epoch)) {
+        return true;
+      }
+    }
+  } catch (_) {}
+
+  // 2. Individual Token Hash Blacklist
   const tokenHash = hashTokenForBlacklist(token);
   const expiry = revokedTokensMap.get(tokenHash);
   if (!expiry) return false;
@@ -342,6 +356,11 @@ function requireAuth(req, res, next) {
     path === '/api/health' ||
     path === '/auth/login' ||
     path === '/api/auth/login' ||
+    path === '/auth/emergency-lockdown' ||
+    path === '/api/auth/emergency-lockdown' ||
+    path === '/auth/emergency-lockdown/restore' ||
+    path === '/api/auth/emergency-lockdown/restore' ||
+    path.endsWith('/auth/emergency-lockdown/restore') ||
     path === '/robots.txt' ||
     path.endsWith('/robots.txt');
 
