@@ -7,9 +7,20 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 const { PrismaClient } = require('@prisma/client');
 const auth = require('./auth');
+const {
+  LoginSchema,
+  ChangePasswordSchema,
+  AccountSchema,
+  ContactSchema,
+  JournalEntrySchema,
+  InvoiceSchema,
+  validateBody
+} = require('./validators');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,23 +28,99 @@ const prisma = new PrismaClient({
   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
 });
 
-// Middleware
-app.use(cors({
-  origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : '*',
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+// Güvenlik: Ters Vekil (Traefik / Coolify) İstemci IP Doğrulaması (Anti-IP-Spoofing)
+app.set('trust proxy', 1);
+
+// Güvenlik: Parmak İzi Gizleme (X-Powered-By Express başlığını tamamen kaldır)
+app.disable('x-powered-by');
+
+// Güvenlik: Helmet Çok Katmanlı Güvenlik Kalkanı & CSP
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.tailwindcss.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.tailwindcss.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+      imgSrc: ["'self'", "data:", "blob:", "https:"],
+      connectSrc: ["'self'", "https://brosangroup.com", "https://www.brosangroup.com"],
+      frameAncestors: ["'none'"],
+      objectSrc: ["'none'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"]
+    }
+  },
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  },
+  frameguard: { action: 'deny' },
+  noSniff: true
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+// Güvenlik: Sıkılaştırılmış CORS Politikası (Yalnızca Yetkili Kökler)
+const ALLOWED_ORIGINS = [
+  'https://brosangroup.com',
+  'https://www.brosangroup.com'
+];
+if (process.env.NODE_ENV !== 'production') {
+  ALLOWED_ORIGINS.push('http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5173');
+}
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Mobil uygulamalar, sunucular arası çağrılar veya aynı köken
+    if (!origin) return callback(null, true);
+    if (ALLOWED_ORIGINS.indexOf(origin) !== -1 || process.env.CORS_ALLOW_ALL === 'true') {
+      return callback(null, true);
+    }
+    return callback(new Error('CORS Güvenlik Engeli: Bu kökene erişim izni verilmemiştir.'));
+  },
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  maxAge: 86400
+}));
+
+// Güvenlik: DoS ve Bellek Tükenmesi Korumalı Yük Sınırları (100KB tavan)
+app.use(express.json({ limit: '100kb' }));
+app.use(express.urlencoded({ extended: true, limit: '100kb' }));
+
+// Güvenlik: Global API Hız Sınırı (Dakikada 120 İstek / IP - Askeri Düzey)
+const globalApiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 120,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    error: 'Çok fazla istek gönderildi. Lütfen bir dakika sonra tekrar deneyin (Hız Sınırı Aşıldı).',
+    code: 'RATE_LIMIT_EXCEEDED'
+  }
+});
+app.use('/api', globalApiLimiter);
+
+// Güvenlik: Giriş Kapısı Hız Sınırı (15 dakikada 10 deneme / IP)
+const authLoginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    error: 'Giriş deneme sınırı aşıldı. Lütfen 15 dakika sonra tekrar deneyin.',
+    code: 'LOGIN_RATE_LIMIT_EXCEEDED'
+  }
+});
 
 // ==============================================================================
 // GHOST MODE & ANTI-INDEXING SECURITY HEADERS (KİMSE GÖREMEZ / ASLA İNDEKSLENMEZ)
 // ==============================================================================
 app.use((req, res, next) => {
   res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet, noimageindex');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
-  res.setHeader('Referrer-Policy', 'no-referrer');
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   next();
 });
@@ -98,14 +185,10 @@ app.get('/api/health', async (req, res) => {
 // ==============================================================================
 // 1.1 SİBER GÜVENLİK & KİMLİK DOĞRULAMA (LOGIN, LOGOUT, ME, CHANGE-PASSWORD)
 // ==============================================================================
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (req, res) => {
   try {
-    const { username, password } = req.body || {};
-    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
-
-    if (!username || !password) {
-      return res.status(400).json({ success: false, error: 'Kullanıcı adı ve şifre zorunludur.' });
-    }
+    const { username, password } = req.body;
+    const clientIp = auth.getClientIp(req);
 
     // 1. IP ve Kullanıcı bazlı Brute-Force Kalkanı Kontrolü
     const ipCheck = auth.checkBruteForce(`ip:${clientIp}`);
@@ -200,16 +283,10 @@ app.post('/api/auth/logout', (req, res) => {
   res.status(200).json({ success: true, message: 'Oturum başarıyla kapatıldı.' });
 });
 
-// Şifre Değiştirme
-app.post('/api/auth/change-password', auth.requireAuth, async (req, res) => {
+// Şifre Değiştirme (Askeri Düzey Parola Güvenliği Denetimi)
+app.post('/api/auth/change-password', auth.requireAuth, validateBody(ChangePasswordSchema), async (req, res) => {
   try {
-    const { oldPassword, newPassword } = req.body || {};
-    if (!oldPassword || !newPassword) {
-      return res.status(400).json({ success: false, error: 'Eski şifre ve yeni şifre alanları zorunludur.' });
-    }
-    if (newPassword.length < 8) {
-      return res.status(400).json({ success: false, error: 'Yeni şifre en az 8 karakter uzunluğunda olmalıdır.' });
-    }
+    const { oldPassword, newPassword } = req.body;
 
     const dbOk = await checkDbConnection();
     if (!dbOk) {
@@ -332,7 +409,7 @@ app.get('/api/accounts', async (req, res) => {
   }
 });
 
-app.post('/api/accounts', async (req, res) => {
+app.post('/api/accounts', validateBody(AccountSchema), async (req, res) => {
   try {
     const { code, name, type, category, currency, balance } = req.body;
     const newAccount = await prisma.account.create({
@@ -370,7 +447,7 @@ app.get('/api/journal', async (req, res) => {
   }
 });
 
-app.post('/api/journal', async (req, res) => {
+app.post('/api/journal', validateBody(JournalEntrySchema), async (req, res) => {
   try {
     const { description, documentType, documentNo, items } = req.body;
 
@@ -445,7 +522,7 @@ app.get('/api/contacts', async (req, res) => {
   }
 });
 
-app.post('/api/contacts', async (req, res) => {
+app.post('/api/contacts', validateBody(ContactSchema), async (req, res) => {
   try {
     const { code, title, type, taxOffice, taxNumber, phone, email, address, city, country, balance } = req.body;
     const contact = await prisma.contact.create({
@@ -513,7 +590,7 @@ app.get('/api/invoices/:id', async (req, res) => {
   }
 });
 
-app.post('/api/invoices', async (req, res) => {
+app.post('/api/invoices', validateBody(InvoiceSchema), async (req, res) => {
   try {
     const { invoiceNo, type, scenario, date, dueDate, contactId, currency, exchangeRate, items, notes } = req.body;
 
@@ -853,6 +930,30 @@ app.get('/api/mutabakat/faruk-aytin', (req, res) => {
 // Catch-all for SPA Navigation
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'app', 'index.html'));
+});
+
+// Centralized Fail-Closed Error Handler (Prevents stack-trace leaks & handles 413, CORS errors)
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.too.large') {
+    return res.status(413).json({
+      success: false,
+      error: 'Gönderilen veri paketi çok büyük! Maksimum yük boyutu: 100KB.',
+      code: 'PAYLOAD_TOO_LARGE'
+    });
+  }
+  if (err.message && err.message.includes('CORS')) {
+    return res.status(403).json({
+      success: false,
+      error: err.message,
+      code: 'CORS_FORBIDDEN'
+    });
+  }
+  console.error('⚠️ [HATA GÜVENLİK YAKALAYICI]:', err.message || err);
+  res.status(500).json({
+    success: false,
+    error: process.env.NODE_ENV === 'production' ? 'Sunucu içi güvenlik hatası oluştu.' : err.message,
+    code: 'INTERNAL_SERVER_ERROR'
+  });
 });
 
 // Start Server
