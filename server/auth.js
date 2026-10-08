@@ -13,6 +13,33 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
+const { MemoryStore } = require('express-rate-limit');
+
+// Bounded LRU Cache Rate Limit Store (Max 5000 Entries to prevent OOM DoS)
+class BoundedLruMemoryStore extends MemoryStore {
+  constructor(options = {}) {
+    super();
+    this.maxEntries = options.maxEntries || 5000;
+  }
+
+  getClient(key) {
+    if (this.current.has(key)) {
+      const existing = this.current.get(key);
+      this.current.delete(key);
+      this.current.set(key, existing);
+      return existing;
+    }
+    if (this.current.size >= this.maxEntries) {
+      const oldestKey = this.current.keys().next().value;
+      if (oldestKey !== undefined) {
+        this.current.delete(oldestKey);
+      }
+    }
+    return super.getClient(key);
+  }
+}
 
 // Cryptographically secure secret
 let JWT_SECRET = process.env.JWT_SECRET;
@@ -167,15 +194,21 @@ function verifyToken(token) {
 // ==============================================================================
 function getClientIp(req) {
   if (req.ip) return req.ip;
-  const forwarded = req.headers['x-forwarded-for'];
+  if (req.socket && req.socket.remoteAddress) {
+    return req.socket.remoteAddress;
+  }
+  const forwarded = req.headers && req.headers['x-forwarded-for'];
   if (forwarded) {
-    const firstIp = forwarded.split(',')[0].trim();
-    // IPv4 / IPv6 temel doğrulama
-    if (/^[a-fA-F0-9:.]+$/.test(firstIp)) {
-      return firstIp;
+    const hops = forwarded.split(',').map(s => s.trim()).filter(Boolean);
+    if (hops.length > 0) {
+      // In single-hop trust proxy 1 architecture, the trusted hop is appended at the end
+      const trustedHop = hops[hops.length - 1];
+      if (/^[a-fA-F0-9:.]+$/.test(trustedHop)) {
+        return trustedHop;
+      }
     }
   }
-  return req.socket.remoteAddress || '127.0.0.1';
+  return '127.0.0.1';
 }
 
 // Pre-computed dummy hash to guarantee constant-time verification when user doesn't exist
@@ -183,10 +216,53 @@ function getClientIp(req) {
 const DUMMY_HASH = bcrypt.hashSync('BrosanConstantTimingMitigationSalt2026!@#', 12);
 
 // ==============================================================================
-// 4.1 IN-MEMORY BOUNDED TOKEN REVOCATION BLACKLIST (LOGOUT & PASSWORD CHANGE)
+// 4.1 DURABLE & BOUNDED TOKEN REVOCATION BLACKLIST (PERSISTS ACROSS RESTARTS)
 // ==============================================================================
+const REVOKED_TOKENS_FILE = path.join(__dirname, '..', 'data', 'revoked_tokens.json');
 const revokedTokensMap = new Map(); // tokenHash -> expiresAtMs
 const MAX_REVOKED_ENTRIES = 10000;
+
+function loadRevokedTokens() {
+  try {
+    if (fs.existsSync(REVOKED_TOKENS_FILE)) {
+      const raw = fs.readFileSync(REVOKED_TOKENS_FILE, 'utf8');
+      const data = JSON.parse(raw);
+      const now = Date.now();
+      if (Array.isArray(data)) {
+        for (const item of data) {
+          if (item && item.hash && item.exp && item.exp > now) {
+            revokedTokensMap.set(item.hash, item.exp);
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('⚠️ [GÜVENLİK] İptal edilen token listesi yüklenemedi:', err.message);
+  }
+}
+
+function persistRevokedTokens() {
+  try {
+    const now = Date.now();
+    const active = [];
+    for (const [hash, exp] of revokedTokensMap.entries()) {
+      if (exp > now) {
+        active.push({ hash, exp });
+      }
+    }
+    const trimmed = active.slice(-MAX_REVOKED_ENTRIES);
+    const dir = path.dirname(REVOKED_TOKENS_FILE);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(REVOKED_TOKENS_FILE, JSON.stringify(trimmed, null, 2), 'utf8');
+  } catch (err) {
+    console.warn('⚠️ [GÜVENLİK] İptal edilen token listesi kaydedilemedi:', err.message);
+  }
+}
+
+// Kalıcı kara listeyi başlangıçta yükle
+loadRevokedTokens();
 
 function hashTokenForBlacklist(token) {
   return crypto.createHash('sha256').update(token).digest('hex');
@@ -195,9 +271,7 @@ function hashTokenForBlacklist(token) {
 function revokeToken(token) {
   if (!token || typeof token !== 'string') return;
   const decoded = verifyToken(token);
-  if (!decoded) return;
-
-  const expMs = (decoded.exp ? decoded.exp * 1000 : Date.now() + 12 * 3600 * 1000);
+  const expMs = (decoded && decoded.exp ? decoded.exp * 1000 : Date.now() + 12 * 3600 * 1000);
   const tokenHash = hashTokenForBlacklist(token);
 
   if (revokedTokensMap.size >= MAX_REVOKED_ENTRIES) {
@@ -205,9 +279,14 @@ function revokeToken(token) {
     for (const [hash, expiry] of revokedTokensMap.entries()) {
       if (expiry <= now) revokedTokensMap.delete(hash);
     }
+    if (revokedTokensMap.size >= MAX_REVOKED_ENTRIES) {
+      const oldest = revokedTokensMap.keys().next().value;
+      if (oldest) revokedTokensMap.delete(oldest);
+    }
   }
 
   revokedTokensMap.set(tokenHash, expMs);
+  persistRevokedTokens();
 }
 
 function isTokenRevoked(token) {
@@ -217,6 +296,7 @@ function isTokenRevoked(token) {
   if (!expiry) return false;
   if (Date.now() > expiry) {
     revokedTokensMap.delete(tokenHash);
+    persistRevokedTokens();
     return false;
   }
   return true;
@@ -290,5 +370,6 @@ module.exports = {
   clearFailedAttempts,
   getClientIp,
   validatePasswordStrength,
-  PASSWORD_COMPLEXITY_REGEX
+  PASSWORD_COMPLEXITY_REGEX,
+  BoundedLruMemoryStore
 };

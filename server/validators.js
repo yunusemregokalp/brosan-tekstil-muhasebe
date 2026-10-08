@@ -34,6 +34,10 @@ const AccountSchema = z.object({
   type: z.enum(['ASSET', 'LIABILITY', 'EQUITY', 'REVENUE', 'EXPENSE']).default('ASSET'),
   category: z.string().min(1).max(50).trim(),
   currency: z.enum(['TRY', 'USD', 'EUR', 'GBP']).default('TRY'),
+  iban: z.string().max(50).optional().nullable(),
+  accountNo: z.string().max(50).optional().nullable(),
+  bankName: z.string().max(100).optional().nullable(),
+  branchName: z.string().max(100).optional().nullable(),
   balance: z.union([z.number(), z.string()]).transform(val => {
     const num = typeof val === 'string' ? parseFloat(val) : val;
     return isNaN(num) ? 0 : num;
@@ -52,6 +56,11 @@ const ContactSchema = z.object({
   address: z.string().max(500).optional().nullable(),
   city: z.string().max(100).optional().nullable(),
   country: z.string().max(100).default('Türkiye'),
+  balanceTrl: z.union([z.number(), z.string()]).optional().nullable(),
+  balanceUsd: z.union([z.number(), z.string()]).optional().nullable(),
+  balanceEur: z.union([z.number(), z.string()]).optional().nullable(),
+  balanceGbp: z.union([z.number(), z.string()]).optional().nullable(),
+  isAbroad: z.boolean().optional(),
   balance: z.union([z.number(), z.string()]).transform(val => {
     const num = typeof val === 'string' ? parseFloat(val) : val;
     return isNaN(num) ? 0 : num;
@@ -88,7 +97,7 @@ const InvoiceItemSchema = z.object({
   discountRate: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseFloat(val) || 0 : val).default(0),
   discountPercent: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseFloat(val) || 0 : val).optional(),
   totalAmount: z.union([z.number(), z.string()]).optional()
-});
+}).strict();
 
 const InvoiceSchema = z.object({
   invoiceNo: z.string().min(1).max(50).trim().optional(),
@@ -107,7 +116,7 @@ const InvoiceSchema = z.object({
   notes: z.string().max(1000).optional().nullable(),
   description: z.string().max(1000).optional().nullable(),
   items: z.array(InvoiceItemSchema).min(1, 'Faturada en az bir kalem bulunmalıdır.')
-});
+}).strict();
 
 // 7. ÜRÜN & STOK (PRODUCT) ŞEMASI
 const ProductSchema = z.object({

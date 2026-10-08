@@ -39,6 +39,96 @@ app.set('trust proxy', 1);
 // Güvenlik: Parmak İzi Gizleme (X-Powered-By Express başlığını tamamen kaldır)
 app.disable('x-powered-by');
 
+// ==============================================================================
+// 0. HOST HEADER GÜVENLİK KALKANI (REVERSE PROXY ORIGIN BINDING - 403 FORBIDDEN)
+// ==============================================================================
+const ALLOWED_HOSTS = new Set([
+  'brosangroup.com',
+  'muhasebe.brosangroup.com',
+  'www.brosangroup.com',
+  'localhost',
+  '127.0.0.1',
+  '::1'
+]);
+
+app.use((req, res, next) => {
+  const hostHeader = req.headers.host || '';
+  // Desteklenen formatlar: domain.com, domain.com:port, [::1]:port
+  const host = hostHeader.replace(/^\[([a-fA-F0-9:]+)\](?::\d+)?$/, '$1').split(':')[0].toLowerCase();
+  if (!host || !ALLOWED_HOSTS.has(host)) {
+    return res.status(403).json({
+      success: false,
+      error: 'Erişim engellendi: İzin verilmeyen Host başlığı (Forbidden Host).',
+      code: 'FORBIDDEN_HOST'
+    });
+  }
+  next();
+});
+
+// ==============================================================================
+// 0.1 HASSAS SİSTEM VE GİZLİ DOSYA ENGELLEME (ANTI-TRAVERSAL, ANTI-QUERY, DUAL-DECODE)
+// ==============================================================================
+app.use((req, res, next) => {
+  let rawUrl = req.url || '';
+  // Sorgu parametreleri (?v=1) ve çapa (#) ayıklama
+  const rawPath = rawUrl.split('?')[0].split('#')[0];
+
+  // Çift katmanlı URL decode (Dual-Decode: %252e -> %2e -> .)
+  let decodedPath = rawPath;
+  try {
+    decodedPath = decodeURIComponent(decodedPath);
+  } catch (e) {
+    return res.status(400).json({ success: false, error: 'Geçersiz URI biçimi', code: 'INVALID_URI' });
+  }
+  try {
+    if (decodedPath.includes('%')) {
+      decodedPath = decodeURIComponent(decodedPath);
+    }
+  } catch (_) {}
+
+  // Null byte injection denetimi
+  if (rawUrl.includes('\0') || rawUrl.toLowerCase().includes('%00') || decodedPath.includes('\0')) {
+    return res.status(403).json({
+      success: false,
+      error: 'Erişim engellendi: Geçersiz karakter tespiti.',
+      code: 'FORBIDDEN_FILE'
+    });
+  }
+
+  // Yol ayraçlarını standartlaştır ve dizin gezinme (..) çözümle
+  const normalized = path.posix.normalize(decodedPath.replace(/\\/g, '/')).toLowerCase();
+
+  // Dizin atlama / Path Traversal denetimi
+  const hasTraversal = normalized.includes('..') || rawUrl.includes('..') || rawUrl.toLowerCase().includes('%2e%2e');
+
+  // Gizli dosya / Dotfile denetimi (.env, .git, .sqlite vb.)
+  const hasDotfile = /(?:^|\/)\.(?:[a-z0-9_-]+)/i.test(normalized) ||
+                     /(?:^|\/)\.(?:env|git|svn|htaccess|htpasswd|aws|ssh|dockerignore|gitignore)/i.test(normalized);
+
+  // Hassas uzantı denetimi
+  const hasSensitiveExt = /\.(db|sqlite|sqlite3|log|key|pem|cert|crt|bak|backup|sql|tar|gz|zip|env)$/i.test(normalized);
+
+  if (hasTraversal || hasDotfile || hasSensitiveExt) {
+    return res.status(403).json({
+      success: false,
+      error: 'Erişim engellendi: Bu dosya tipine veya gizli dizine erişim izni yoktur.',
+      code: 'FORBIDDEN_FILE'
+    });
+  }
+  next();
+});
+
+// ==============================================================================
+// 0.2 URL YENİDEN YÖNLENDİRME (URL REWRITE: /muhasebe/api/* -> /api/*)
+// Hız sınırı ve rota eşleşmelerinden ÖNCE çalıştırılır
+// ==============================================================================
+app.use((req, res, next) => {
+  if (req.url.startsWith('/muhasebe/api')) {
+    req.url = req.url.replace(/^\/muhasebe\/api/, '/api');
+  }
+  next();
+});
+
 // Güvenlik: Helmet Çok Katmanlı Güvenlik Kalkanı & CSP
 app.use(helmet({
   contentSecurityPolicy: {
@@ -94,20 +184,13 @@ app.use(cors({
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 
-// URL Rewriting: /muhasebe/api/* -> /api/* (Mounted FIRST so all subsequent middlewares match /api)
-app.use((req, res, next) => {
-  if (req.url.startsWith('/muhasebe/api')) {
-    req.url = req.url.replace(/^\/muhasebe\/api/, '/api');
-  }
-  next();
-});
-
-// Güvenlik: Global API Hız Sınırı (Dakikada 120 İstek / IP - Askeri Düzey)
+// Güvenlik: Global API Hız Sınırı (Bounded LRU Store: Max 5000 Anahtar, Dakikada 120 İstek / IP)
 const globalApiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 120,
   standardHeaders: true,
   legacyHeaders: false,
+  store: new auth.BoundedLruMemoryStore({ maxEntries: 5000 }),
   message: {
     success: false,
     error: 'Çok fazla istek gönderildi. Lütfen bir dakika sonra tekrar deneyin (Hız Sınırı Aşıldı).',
@@ -116,12 +199,13 @@ const globalApiLimiter = rateLimit({
 });
 app.use(['/api', '/muhasebe/api'], globalApiLimiter);
 
-// Güvenlik: Giriş Kapısı Hız Sınırı (15 dakikada 10 deneme / IP)
+// Güvenlik: Giriş Kapısı Hız Sınırı (Bounded LRU Store: 15 dakikada 10 deneme / IP)
 const authLoginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
   standardHeaders: true,
   legacyHeaders: false,
+  store: new auth.BoundedLruMemoryStore({ maxEntries: 5000 }),
   message: {
     success: false,
     error: 'Giriş deneme sınırı aşıldı. Lütfen 15 dakika sonra tekrar deneyin.',
@@ -143,31 +227,6 @@ const ROBOTS_TXT_CONTENT = 'User-agent: *\nDisallow: /\n';
 app.get(['/robots.txt', '/muhasebe/robots.txt'], (req, res) => {
   res.type('text/plain');
   res.send(ROBOTS_TXT_CONTENT);
-});
-
-// Güvenlik: Hassas Sistem & Gizli Dosya Engelleme (Anti-Query-Bypass, Anti-Encoding, Anti-Traversal)
-app.use((req, res, next) => {
-  let checkedPath = '';
-  try {
-    checkedPath = decodeURIComponent(req.path || req.url || '');
-  } catch (e) {
-    checkedPath = req.path || req.url || '';
-  }
-  const cleanPath = checkedPath.toLowerCase().split('?')[0].split('#')[0];
-
-  const isDotfile = /(^|\/|\.)\.(env|git|svn|htaccess|htpasswd|aws|ssh|dockerignore|gitignore)($|\/)/i.test(cleanPath) ||
-                    /(^|\/)\.(env|git|svn|htaccess|aws|ssh)/i.test(cleanPath);
-  const isDangerousExt = /\.(db|sqlite|sqlite3|log|key|pem|cert|crt|bak|backup|sql|tar|gz|zip|yml|yaml|md|sh)$/i.test(cleanPath);
-  const isTraversal = /\.\./.test(cleanPath);
-
-  if (isDotfile || isDangerousExt || isTraversal) {
-    return res.status(403).json({
-      success: false,
-      error: 'Erişim engellendi: Bu dosya tipine veya gizli dizine erişim izni yoktur.',
-      code: 'FORBIDDEN_FILE'
-    });
-  }
-  next();
 });
 
 // Serve Frontend Static Files on both '/' and '/muhasebe' with strict dotfiles denial
@@ -201,6 +260,17 @@ async function checkDbConnection() {
   }
 }
 checkDbConnection();
+
+// Güvenli Hata Yanıtlayıcı (Teknoloji sızıntısını ve ham veritabanı hatalarını önler)
+function sendSafeError(res, status = 500, clientMessage = 'İşlem sırasında bir sunucu hatası oluştu.', internalError = null) {
+  if (internalError) {
+    console.error('⚠️ [GÜVENLİK/SUNUCU HATASI]:', internalError.message || internalError);
+  }
+  return res.status(status).json({
+    success: false,
+    error: clientMessage
+  });
+}
 
 // ==============================================================================
 // 1. HEALTHCHECK & SYSTEM STATUS (Coolify / Docker Probe)
@@ -327,7 +397,7 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, error: 'Giriş işlemi sırasında sunucu hatası oluştu: ' + error.message });
+    return sendSafeError(res, 500, 'Giriş işlemi sırasında sunucu hatası oluştu.', error);
   }
 });
 
@@ -377,7 +447,7 @@ app.post('/api/auth/change-password', auth.requireAuth, validateBody(ChangePassw
 
     res.status(200).json({ success: true, message: 'Şifreniz başarıyla güncellendi! Güvenlik nedeniyle lütfen yeni şifrenizle tekrar giriş yapın.' });
   } catch (err) {
-    res.status(500).json({ success: false, error: 'Şifre güncellenirken hata oluştu: ' + err.message });
+    return sendSafeError(res, 500, 'Şifre güncellenirken sunucu hatası oluştu.', err);
   }
 });
 
@@ -456,7 +526,7 @@ app.get('/api/summary', async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return sendSafeError(res, 500, 'Gösterge paneli verileri alınırken sunucu hatası oluştu.', error);
   }
 });
 
@@ -476,7 +546,7 @@ app.get('/api/accounts', async (req, res) => {
     });
     res.json({ success: true, data: accounts });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return sendSafeError(res, 500, 'Hesap planı verileri alınırken sunucu hatası oluştu.', error);
   }
 });
 
@@ -495,7 +565,7 @@ app.post('/api/accounts', validateBody(AccountSchema), async (req, res) => {
     });
     res.status(201).json({ success: true, data: newAccount });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return sendSafeError(res, 400, 'Hesap oluşturulamadı. Girdi verilerini kontrol ediniz.', error);
   }
 });
 
@@ -514,7 +584,7 @@ app.get('/api/journal', async (req, res) => {
     });
     res.json({ success: true, data: entries });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return sendSafeError(res, 500, 'Yevmiye kayıtları listelenirken sunucu hatası oluştu.', error);
   }
 });
 
@@ -572,7 +642,7 @@ app.post('/api/journal', validateBody(JournalEntrySchema), async (req, res) => {
 
     res.status(201).json({ success: true, data: entry });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return sendSafeError(res, 400, 'Yevmiye kaydı oluşturulamadı. Girdi verilerini kontrol ediniz.', error);
   }
 });
 
@@ -589,7 +659,7 @@ app.get('/api/contacts', async (req, res) => {
     });
     res.json({ success: true, data: contacts });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return sendSafeError(res, 500, 'Cari kartlar listelenirken sunucu hatası oluştu.', error);
   }
 });
 
@@ -613,7 +683,7 @@ app.post('/api/contacts', validateBody(ContactSchema), async (req, res) => {
     });
     res.status(201).json({ success: true, data: contact });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return sendSafeError(res, 400, 'Cari kart oluşturulamadı. Girdi verilerini kontrol ediniz.', error);
   }
 });
 
@@ -631,7 +701,7 @@ app.get('/api/invoices', async (req, res) => {
     });
     res.json({ success: true, data: invoices });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return sendSafeError(res, 500, 'Faturalar listelenirken sunucu hatası oluştu.', error);
   }
 });
 
@@ -657,7 +727,7 @@ app.get('/api/invoices/:id', async (req, res) => {
 
     res.json({ success: true, data: invoice });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return sendSafeError(res, 500, 'Fatura detayları getirilirken sunucu hatası oluştu.', error);
   }
 });
 
@@ -734,7 +804,7 @@ app.post('/api/invoices', validateBody(InvoiceSchema), async (req, res) => {
 
     res.status(201).json({ success: true, data: invoice });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return sendSafeError(res, 400, 'Fatura kaydedilemedi. Girdi verilerini kontrol ediniz.', error);
   }
 });
 
@@ -758,7 +828,7 @@ app.delete('/api/invoices/:id', async (req, res) => {
     await prisma.invoice.delete({ where: { id } });
     res.json({ success: true, message: 'Fatura ve kalemleri başarıyla silindi.' });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return sendSafeError(res, 500, 'Fatura silinirken sunucu hatası oluştu.', error);
   }
 });
 
@@ -773,7 +843,7 @@ app.get('/api/transactions', async (req, res) => {
     });
     res.json({ success: true, data: transactions });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return sendSafeError(res, 500, 'Finansal işlemler listelenirken sunucu hatası oluştu.', error);
   }
 });
 
@@ -812,7 +882,7 @@ app.post('/api/transactions', validateBody(TransactionSchema), async (req, res) 
 
     res.status(201).json({ success: true, data: transaction });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return sendSafeError(res, 400, 'Finansal işlem kaydedilemedi. Girdi verilerini kontrol ediniz.', error);
   }
 });
 

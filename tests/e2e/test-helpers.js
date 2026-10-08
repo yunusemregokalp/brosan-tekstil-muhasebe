@@ -124,6 +124,14 @@ function loadAuthoritativeData() {
   }
 
   const parasutLive = JSON.parse(fs.readFileSync(parasutLivePath, 'utf8'));
+  const accountsChecksPath = path.join(DATA_DIR, 'parasut_accounts_and_checks.json');
+  if (fs.existsSync(accountsChecksPath)) {
+    const accountsChecksData = JSON.parse(fs.readFileSync(accountsChecksPath, 'utf8'));
+    if (accountsChecksData && Array.isArray(accountsChecksData.accounts) && accountsChecksData.accounts.length === 14) {
+      parasutLive.bank_accounts = accountsChecksData.accounts;
+    }
+  }
+
   const excelSummary = JSON.parse(fs.readFileSync(excelSummaryPath, 'utf8'));
   const excelExtracted = fs.existsSync(excelExtractedPath)
     ? JSON.parse(fs.readFileSync(excelExtractedPath, 'utf8'))
