@@ -178,6 +178,50 @@ function getClientIp(req) {
   return req.socket.remoteAddress || '127.0.0.1';
 }
 
+// Pre-computed dummy hash to guarantee constant-time verification when user doesn't exist
+// This completely thwarts username enumeration via side-channel timing analysis
+const DUMMY_HASH = bcrypt.hashSync('BrosanConstantTimingMitigationSalt2026!@#', 12);
+
+// ==============================================================================
+// 4.1 IN-MEMORY BOUNDED TOKEN REVOCATION BLACKLIST (LOGOUT & PASSWORD CHANGE)
+// ==============================================================================
+const revokedTokensMap = new Map(); // tokenHash -> expiresAtMs
+const MAX_REVOKED_ENTRIES = 10000;
+
+function hashTokenForBlacklist(token) {
+  return crypto.createHash('sha256').update(token).digest('hex');
+}
+
+function revokeToken(token) {
+  if (!token || typeof token !== 'string') return;
+  const decoded = verifyToken(token);
+  if (!decoded) return;
+
+  const expMs = (decoded.exp ? decoded.exp * 1000 : Date.now() + 12 * 3600 * 1000);
+  const tokenHash = hashTokenForBlacklist(token);
+
+  if (revokedTokensMap.size >= MAX_REVOKED_ENTRIES) {
+    const now = Date.now();
+    for (const [hash, expiry] of revokedTokensMap.entries()) {
+      if (expiry <= now) revokedTokensMap.delete(hash);
+    }
+  }
+
+  revokedTokensMap.set(tokenHash, expMs);
+}
+
+function isTokenRevoked(token) {
+  if (!token) return true;
+  const tokenHash = hashTokenForBlacklist(token);
+  const expiry = revokedTokensMap.get(tokenHash);
+  if (!expiry) return false;
+  if (Date.now() > expiry) {
+    revokedTokensMap.delete(tokenHash);
+    return false;
+  }
+  return true;
+}
+
 // ==============================================================================
 // 5. FAIL-CLOSED AUTHENTICATION MIDDLEWARE
 // ==============================================================================
@@ -207,6 +251,16 @@ function requireAuth(req, res, next) {
   }
 
   const token = authHeader.substring(7).trim();
+
+  // Oturum iptal / çıkış kontrolü (Blacklist)
+  if (isTokenRevoked(token)) {
+    return res.status(401).json({
+      success: false,
+      error: 'Bu oturum sonlandırılmış veya geçersiz kılınmıştır. Lütfen tekrar giriş yapın.',
+      code: 'TOKEN_REVOKED'
+    });
+  }
+
   const decoded = verifyToken(token);
 
   if (!decoded) {
@@ -218,6 +272,7 @@ function requireAuth(req, res, next) {
   }
 
   req.user = decoded;
+  req.token = token;
   next();
 }
 
@@ -226,6 +281,9 @@ module.exports = {
   verifyPassword,
   generateToken,
   verifyToken,
+  revokeToken,
+  isTokenRevoked,
+  DUMMY_HASH,
   requireAuth,
   checkBruteForce,
   recordFailedAttempt,

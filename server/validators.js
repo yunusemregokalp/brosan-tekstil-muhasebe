@@ -109,6 +109,61 @@ const InvoiceSchema = z.object({
   items: z.array(InvoiceItemSchema).min(1, 'Faturada en az bir kalem bulunmalıdır.')
 });
 
+// 7. ÜRÜN & STOK (PRODUCT) ŞEMASI
+const ProductSchema = z.object({
+  code: z.string().min(1).max(50).trim(),
+  name: z.string().min(1).max(255).trim(),
+  category: z.string().min(1).max(100).trim().optional().default('GENEL'),
+  gtipCode: z.string().max(30).optional().nullable(),
+  unit: z.string().max(20).default('MT'),
+  currentStock: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseFloat(val) || 0 : val).default(0),
+  minStock: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseFloat(val) || 0 : val).default(0),
+  unitCost: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseFloat(val) || 0 : val).default(0),
+  salePrice: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseFloat(val) || 0 : val).default(0)
+}).strict();
+
+// 8. KASA & BANKA FİNANSAL İŞLEM (TRANSACTION) ŞEMASI
+const TransactionSchema = z.object({
+  type: z.enum(['CASH_IN', 'CASH_OUT', 'BANK_IN', 'BANK_OUT']),
+  accountId: z.string().min(1),
+  contactId: z.string().optional().nullable(),
+  amount: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseFloat(val) || 0 : val).refine(n => n > 0, 'İşlem tutarı sıfırdan büyük olmalıdır.'),
+  currency: z.enum(['TRY', 'USD', 'EUR', 'GBP']).default('TRY'),
+  description: z.string().max(255).optional().nullable(),
+  referenceNo: z.string().max(50).optional().nullable()
+}).strict();
+
+// 9. ÇEK & SENET (CHECK) ŞEMASI
+const CheckSchema = z.object({
+  docType: z.enum(['CHECK', 'PROMISSORY']).default('CHECK'),
+  direction: z.enum(['RECEIVED', 'ISSUED']).default('RECEIVED'),
+  serialNo: z.string().min(1).max(50).trim(),
+  bankName: z.string().max(100).optional().nullable(),
+  branchName: z.string().max(100).optional().nullable(),
+  drawer: z.string().max(150).optional().nullable(),
+  dueDate: z.string().min(1),
+  amount: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseFloat(val) || 0 : val).refine(n => n > 0, 'Tutar sıfırdan büyük olmalıdır.'),
+  currency: z.enum(['TRY', 'USD', 'EUR', 'GBP']).default('TRY'),
+  contactId: z.string().optional().nullable(),
+  notes: z.string().max(500).optional().nullable()
+}).strict();
+
+const CheckStatusSchema = z.object({
+  status: z.enum(['PORTFOLIO', 'COLLECTED', 'BOUNCED', 'ENDORSED', 'CANCELLED'])
+}).strict();
+
+// 10. PERSONEL & BORDRO (EMPLOYEE) ŞEMASI
+const EmployeeSchema = z.object({
+  tcNo: z.string().min(10).max(11).trim().optional().nullable(),
+  fullName: z.string().min(2).max(150).trim(),
+  department: z.string().max(100).optional().nullable(),
+  position: z.string().max(100).optional().nullable(),
+  startDate: z.string().optional().nullable(),
+  grossSalary: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseFloat(val) || 0 : val).default(0),
+  netSalary: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseFloat(val) || 0 : val).default(0),
+  iban: z.string().max(40).optional().nullable()
+}).strict();
+
 // ==========================================
 // EXPRESS VALIDATION MIDDLEWARE GENERATOR
 // ==========================================
@@ -145,6 +200,11 @@ module.exports = {
   ContactSchema,
   JournalEntrySchema,
   InvoiceSchema,
+  ProductSchema,
+  TransactionSchema,
+  CheckSchema,
+  CheckStatusSchema,
+  EmployeeSchema,
   validateBody,
   PasswordComplexityRegex
 };

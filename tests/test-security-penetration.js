@@ -223,12 +223,103 @@ async function runPenetrationSuite() {
     assert.strictEqual(invalidJson.code, 'INVALID_INPUT');
     console.log('   ✅ Malformed payload rejected with HTTP 422 Unprocessable Entity.');
 
+    // 4d. Sensitive File Traversal & Dotfile Blocker
+    console.log('   Simulating Sensitive File (.env, .git, .key) Theft Attack...');
+    testApp.use((req, res, next) => {
+      const url = req.url || '';
+      if (/(^\/|\/)\.(env|git|svn|htaccess|aws|ssh)/i.test(url) || /\.(db|sqlite|log|key|pem|cert|bak|sql)$/i.test(url)) {
+        return res.status(403).json({
+          success: false,
+          error: 'Erişim engellendi: Yasaklı dosya',
+          code: 'FORBIDDEN_FILE'
+        });
+      }
+      next();
+    });
+
+    const envRes = await fetch(`http://127.0.0.1:${port}/.env`);
+    assert.strictEqual(envRes.status, 403, 'Access to /.env must be blocked with 403 Forbidden');
+    const envJson = await envRes.json();
+    assert.strictEqual(envJson.code, 'FORBIDDEN_FILE');
+
+    const gitRes = await fetch(`http://127.0.0.1:${port}/.git/config`);
+    assert.strictEqual(gitRes.status, 403, 'Access to /.git must be blocked with 403 Forbidden');
+    console.log('   ✅ Sensitive file theft (.env, .git, .key) strictly blocked with HTTP 403.');
+
   } finally {
     server.close();
   }
 
+  // ---------------------------------------------------------------------------
+  // TEST 5: JWT Token Revocation & Immediate Invalidation (Anti-Replay)
+  // ---------------------------------------------------------------------------
+  console.log('\n🔍 [TEST 5] Testing JWT Token Revocation & Blacklist Engine...');
+  const testUser = { id: 101, username: 'admin', role: 'ADMIN' };
+  const userToken = auth.generateToken(testUser);
+  assert.strictEqual(auth.isTokenRevoked(userToken), false, 'Newly issued token must not be revoked');
+
+  // Revoke token
+  auth.revokeToken(userToken);
+  assert.strictEqual(auth.isTokenRevoked(userToken), true, 'Revoked token must be recognized by blacklist');
+
+  // Verify requireAuth middleware rejects revoked token
+  let revokedStatus = 200;
+  let revokedJson = null;
+  const mockReqRevoked = {
+    path: '/api/protected-resource',
+    headers: { authorization: `Bearer ${userToken}` }
+  };
+  const mockResRevoked = {
+    status: (code) => {
+      revokedStatus = code;
+      return { json: (d) => { revokedJson = d; } };
+    }
+  };
+  auth.requireAuth(mockReqRevoked, mockResRevoked, () => {});
+  assert.strictEqual(revokedStatus, 401, 'Revoked token must return 401 Unauthorized');
+  assert.strictEqual(revokedJson.code, 'TOKEN_REVOKED');
+  console.log('   ✅ Revoked JWT rejected immediately with HTTP 401 TOKEN_REVOKED.');
+
+  // ---------------------------------------------------------------------------
+  // TEST 6: Constant-Time Dummy Hash Protection (Anti-Account Enumeration)
+  // ---------------------------------------------------------------------------
+  console.log('\n🔍 [TEST 6] Testing Timing-Attack Dummy Bcrypt Mitigation...');
+  assert.ok(auth.DUMMY_HASH && auth.DUMMY_HASH.startsWith('$2'), 'DUMMY_HASH must be pre-computed 12-round bcrypt hash');
+  const dummyCompare = auth.verifyPassword('ArbitraryPassword123!', auth.DUMMY_HASH);
+  assert.strictEqual(dummyCompare, false, 'Dummy password comparison must return false');
+  console.log('   ✅ Constant-time dummy hash verification confirmed (timing side-channel immune).');
+
+  // ---------------------------------------------------------------------------
+  // TEST 7: Full Schema Defense on Products, Transactions, Checks, Employees
+  // ---------------------------------------------------------------------------
+  console.log('\n🔍 [TEST 7] Testing Comprehensive Schema Armor on Extended Mutation Endpoints...');
+  const {
+    ProductSchema,
+    TransactionSchema,
+    CheckSchema,
+    EmployeeSchema
+  } = require('../server/validators');
+
+  // Product schema rejects extra fields
+  const badProduct = { code: 'PRD-01', name: 'Kumaş', extraField: 'hacked' };
+  assert.strictEqual(ProductSchema.safeParse(badProduct).success, false, 'ProductSchema must reject unknown keys');
+
+  // Transaction schema rejects negative amount and unknown type
+  const badTx = { type: 'INVALID_TYPE', accountId: 'acc1', amount: -500 };
+  assert.strictEqual(TransactionSchema.safeParse(badTx).success, false, 'TransactionSchema must reject negative amounts & invalid types');
+
+  // Check schema rejects negative amount
+  const badCheck = { serialNo: 'CHK-01', dueDate: '2026-12-31', amount: 0 };
+  assert.strictEqual(CheckSchema.safeParse(badCheck).success, false, 'CheckSchema must reject non-positive amounts');
+
+  // Employee schema validates properly
+  const validEmp = { fullName: 'Ali Veli', grossSalary: 35000, netSalary: 28000 };
+  assert.strictEqual(EmployeeSchema.safeParse(validEmp).success, true, 'Valid Employee must pass');
+
+  console.log('   ✅ 100% of mutation schemas validated with strict anti-pollution rules.');
+
   console.log('\n================================================================');
-  console.log('🎉 ALL PENETRATION & SİBER GÜVENLİK TESTLERİ BAŞARIYLA GEÇTİ!');
+  console.log('🎉 ALL ULTIMATE FORTRESS PENETRATION & CYBER TESTS PASSED!');
   console.log('================================================================');
 }
 

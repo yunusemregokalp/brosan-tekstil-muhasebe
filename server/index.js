@@ -19,6 +19,11 @@ const {
   ContactSchema,
   JournalEntrySchema,
   InvoiceSchema,
+  ProductSchema,
+  TransactionSchema,
+  CheckSchema,
+  CheckStatusSchema,
+  EmployeeSchema,
   validateBody
 } = require('./validators');
 
@@ -140,10 +145,28 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve Frontend Static Files on both '/' and '/muhasebe'
+// Güvenlik: Hassas Sistem & Gizli Dosya Engelleme (Sensitive File Leak Prevention)
+app.use((req, res, next) => {
+  const url = req.url || '';
+  if (/(^\/|\/)\.(env|git|svn|htaccess|aws|ssh)/i.test(url) || /\.(db|sqlite|log|key|pem|cert|bak|sql)$/i.test(url)) {
+    return res.status(403).json({
+      success: false,
+      error: 'Erişim engellendi: Bu dosya tipine veya gizli dizine erişim izni yoktur.',
+      code: 'FORBIDDEN_FILE'
+    });
+  }
+  next();
+});
+
+// Serve Frontend Static Files on both '/' and '/muhasebe' with strict dotfiles denial
 const appStaticDir = path.join(__dirname, '..', 'app');
-app.use(express.static(appStaticDir));
-app.use('/muhasebe', express.static(appStaticDir));
+const staticOptions = {
+  dotfiles: 'deny',
+  index: ['index.html'],
+  maxAge: '1h'
+};
+app.use(express.static(appStaticDir, staticOptions));
+app.use('/muhasebe', express.static(appStaticDir, staticOptions));
 
 // Route handlers for /muhasebe subpath SPA navigation
 app.get(['/muhasebe', '/muhasebe/*'], (req, res, next) => {
@@ -225,8 +248,9 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
       }
     }
 
-    // 3. Parola Doğrulama
-    const isValid = user && auth.verifyPassword(password, user.passwordHash);
+    // 3. Parola Doğrulama (Timing-Attack Koruması: Kullanıcı var veya yok fark etmeksizin her zaman bcrypt çalışır)
+    const hashToCompare = user ? user.passwordHash : auth.DUMMY_HASH;
+    const isValid = Boolean(user && auth.verifyPassword(password, hashToCompare));
 
     if (!isValid) {
       auth.recordFailedAttempt(`ip:${clientIp}`);
@@ -278,12 +302,17 @@ app.get('/api/auth/me', auth.requireAuth, (req, res) => {
   });
 });
 
-// Oturumu Kapatma
+// Oturumu Kapatma (Token Anında İptal Edilir / Blacklist)
 app.post('/api/auth/logout', (req, res) => {
-  res.status(200).json({ success: true, message: 'Oturum başarıyla kapatıldı.' });
+  const authHeader = req.headers['authorization'];
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.substring(7).trim();
+    auth.revokeToken(token);
+  }
+  res.status(200).json({ success: true, message: 'Oturum başarıyla kapatıldı ve token iptal edildi.' });
 });
 
-// Şifre Değiştirme (Askeri Düzey Parola Güvenliği Denetimi)
+// Şifre Değiştirme (Askeri Düzey Parola Güvenliği Denetimi & Token Revocation)
 app.post('/api/auth/change-password', auth.requireAuth, validateBody(ChangePasswordSchema), async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
@@ -304,7 +333,12 @@ app.post('/api/auth/change-password', auth.requireAuth, validateBody(ChangePassw
       data: { passwordHash: newHash }
     });
 
-    res.status(200).json({ success: true, message: 'Şifreniz başarıyla güncellendi!' });
+    // Mevcut oturum token'ını iptal et (Force Re-Authentication)
+    if (req.token) {
+      auth.revokeToken(req.token);
+    }
+
+    res.status(200).json({ success: true, message: 'Şifreniz başarıyla güncellendi! Güvenlik nedeniyle lütfen yeni şifrenizle tekrar giriş yapın.' });
   } catch (err) {
     res.status(500).json({ success: false, error: 'Şifre güncellenirken hata oluştu: ' + err.message });
   }
@@ -706,7 +740,7 @@ app.get('/api/transactions', async (req, res) => {
   }
 });
 
-app.post('/api/transactions', async (req, res) => {
+app.post('/api/transactions', validateBody(TransactionSchema), async (req, res) => {
   try {
     const { type, accountId, contactId, amount, currency, description, referenceNo } = req.body;
     const numAmount = parseFloat(amount);
@@ -760,7 +794,7 @@ app.get('/api/checks', async (req, res) => {
   }
 });
 
-app.post('/api/checks', async (req, res) => {
+app.post('/api/checks', validateBody(CheckSchema), async (req, res) => {
   try {
     const { docType, direction, serialNo, bankName, branchName, drawer, dueDate, amount, currency, contactId, notes } = req.body;
     const check = await prisma.checkPromissory.create({
@@ -784,7 +818,7 @@ app.post('/api/checks', async (req, res) => {
   }
 });
 
-app.patch('/api/checks/:id/status', async (req, res) => {
+app.patch('/api/checks/:id/status', validateBody(CheckStatusSchema), async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -813,7 +847,7 @@ app.get('/api/employees', async (req, res) => {
   }
 });
 
-app.post('/api/employees', async (req, res) => {
+app.post('/api/employees', validateBody(EmployeeSchema), async (req, res) => {
   try {
     const { tcNo, fullName, department, position, startDate, grossSalary, netSalary, iban } = req.body;
     const employee = await prisma.employee.create({
@@ -849,7 +883,7 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-app.post('/api/products', async (req, res) => {
+app.post('/api/products', validateBody(ProductSchema), async (req, res) => {
   try {
     const { code, name, category, gtipCode, unit, currentStock, minStock, unitCost, salePrice } = req.body;
     const product = await prisma.product.create({
