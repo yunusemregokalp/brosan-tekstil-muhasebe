@@ -26,6 +26,9 @@ const { egressFirewall } = require('./egressFirewall');
 const { ephemeralTokenGuard, ephemeralTokenEngine } = require('./ephemeralTokens');
 const { proofOfWorkGuard, proofOfWorkEngine } = require('./proofOfWork');
 const { processArmor } = require('./processArmor');
+const { behavioralShieldGuard, behavioralShieldEngine } = require('./behavioralShield');
+const dbGuard = require('./dbGuard');
+const { responseArmorGuard, responseArmor } = require('./responseArmor');
 const {
   LoginSchema,
   ChangePasswordSchema,
@@ -47,12 +50,15 @@ app.egressFirewall = egressFirewall;
 app.ephemeralTokenEngine = ephemeralTokenEngine;
 app.proofOfWorkEngine = proofOfWorkEngine;
 app.processArmor = processArmor;
+app.behavioralShield = behavioralShieldEngine;
+app.dbGuard = dbGuard;
+app.responseArmor = responseArmor;
 
 const PORT = process.env.PORT || 3000;
 const basePrisma = new PrismaClient({
   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
 });
-const prisma = cryptoVault.withCryptoVault(basePrisma);
+const prisma = dbGuard.withDbGuard(cryptoVault.withCryptoVault(basePrisma));
 
 // ==============================================================================
 // SOVEREIGN CITADEL DEFENSE INITIALIZATION (PHASE 6)
@@ -245,6 +251,9 @@ app.use(helmet({
   noSniff: true
 }));
 
+// Güvenlik: Gelişmiş HTTP Yanıt Zırhı (COOP, COEP, CORP, Permissions-Policy, Cache-Control - Phase 7)
+app.use(responseArmorGuard);
+
 // Güvenlik: Sıkılaştırılmış CORS Politikası (Yalnızca Yetkili Kökler)
 const ALLOWED_ORIGINS = [
   'https://brosangroup.com',
@@ -304,6 +313,11 @@ app.use(honeytokenParamGuard);
 // Güvenlik: Derin Uçuş-İçi Sezgisel WAF ve Yük Denetçisi (Heuristic WAF Payload Guard)
 // SQLi, NoSQLi, XSS, Prototype Pollution ve Dizin Atlama (Path Traversal) engelleme
 app.use(heuristicWafGuard);
+
+// ==============================================================================
+// 0.25 SOVEREIGN APEX CITADEL DAVRANIŞSAL ANOMALİ VE HIZ KALKANI (PHASE 7)
+// ==============================================================================
+app.use(['/api', '/muhasebe/api'], behavioralShieldGuard);
 
 // Güvenlik: Global API Hız Sınırı (Bounded LRU Store: Max 5000 Anahtar, Dakikada 120 İstek / IP)
 const globalApiLimiter = rateLimit({
@@ -414,6 +428,13 @@ checkDbConnection();
 function sendSafeError(res, status = 500, clientMessage = 'İşlem sırasında bir sunucu hatası oluştu.', internalError = null) {
   if (internalError) {
     console.error('⚠️ [GÜVENLİK/SUNUCU HATASI]:', internalError.message || internalError);
+  }
+  if (dbGuard.isDatabaseError(internalError)) {
+    return res.status(status).json({
+      success: false,
+      error: 'DATABASE_OPERATION_FAILED',
+      code: 'DATABASE_OPERATION_FAILED'
+    });
   }
   return res.status(status).json({
     success: false,
@@ -1965,7 +1986,7 @@ app.get('/api/reports/mizan', async (req, res) => {
 
     res.json({ success: true, data: mizanData });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return sendSafeError(res, 500, 'Mizan verisi işlenirken hata oluştu.', error);
   }
 });
 
@@ -1982,7 +2003,7 @@ app.get('/api/mutabakat/faruk-aytin', (req, res) => {
     }
     res.status(404).json({ success: false, error: 'Mutabakat verisi bulunamadı' });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    return sendSafeError(res, 500, 'Mutabakat verisi işlenirken hata oluştu.', err);
   }
 });
 
@@ -1990,6 +2011,9 @@ app.get('/api/mutabakat/faruk-aytin', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'app', 'index.html'));
 });
+
+// Güvenlik: Veritabanı Hata Maskeleme Middleware'i (Database Error Cloaking - Phase 7)
+app.use(dbGuard.dbGuardErrorMiddleware);
 
 // Centralized Fail-Closed Error Handler (Prevents stack-trace leaks & handles 413, CORS errors)
 app.use((err, req, res, next) => {
@@ -2044,5 +2068,8 @@ app.honeytokenRouteGuard = honeytokenRouteGuard;
 app.honeytokenParamGuard = honeytokenParamGuard;
 app.requestSignatureGuard = requestSignatureGuard;
 app.memoryIntegritySentinel = memoryIntegritySentinel;
+app.dbGuard = dbGuard;
+app.behavioralShield = behavioralShieldEngine;
+app.responseArmor = responseArmor;
 
 module.exports = app;

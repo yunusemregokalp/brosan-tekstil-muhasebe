@@ -41,7 +41,10 @@ const DEFAULT_TARGET_FILES = [
   'egressFirewall.js',
   'ephemeralTokens.js',
   'proofOfWork.js',
-  'processArmor.js'
+  'processArmor.js',
+  'behavioralShield.js',
+  'dbGuard.js',
+  'responseArmor.js'
 ];
 
 class MemoryIntegritySentinel {
