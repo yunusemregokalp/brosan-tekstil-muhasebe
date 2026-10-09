@@ -41,9 +41,13 @@ exit;
     deploy_uuid = None
     for line in stdout.splitlines():
         clean_line = line.strip()
-        if "DEPLOY_UUID:" in clean_line and not clean_line.startswith(">"):
+        if "DEPLOY_UUID:" in clean_line:
+            # Skip the echo of the PHP command itself
+            if "echo 'DEPLOY_UUID:'" in clean_line or 'echo "DEPLOY_UUID:"' in clean_line:
+                continue
             deploy_uuid = clean_line.split("DEPLOY_UUID:")[1].strip()
-            break
+            if deploy_uuid:
+                break
             
     if not deploy_uuid:
         print("Could not find deploy UUID in stdout:", stdout)
