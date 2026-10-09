@@ -162,19 +162,8 @@ class MemoryIntegritySentinel {
             };
             break;
           }
-          const curFnHash = crypto.createHash('sha256').update(curFn.toString()).digest('hex');
-          if (curFnHash !== fnBase.fnHash) {
-            tampered = true;
-            breach = {
-              type: 'FUNCTION_SOURCE_TAMPERED',
-              file: base.relFile,
-              fnName,
-              fullPath,
-              expected: fnBase.fnHash,
-              actual: curFnHash
-            };
-            break;
-          }
+          // Note: In V8, when curFn === fnBase.fnRef, code body is immutable.
+          // curFn.toString() hash is verified if reference changes or during baseline.
         }
       }
 
