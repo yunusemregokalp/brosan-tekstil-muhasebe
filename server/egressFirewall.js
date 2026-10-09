@@ -239,12 +239,12 @@ class EgressFirewall {
     const ipLong = ipv4ToLong(host);
     if (ipLong !== null) {
       // Cloud Metadata: 169.254.0.0/16 (covers 169.254.169.254)
-      if ((ipLong & 0xFFFF0000) === 0xA9FE0000) {
+      if (((ipLong & 0xFFFF0000) >>> 0) === 0xA9FE0000) {
         return { allowed: false, reason: 'CLOUD_METADATA_PROHIBITED', target };
       }
 
       // Loopback: 127.0.0.0/8
-      if ((ipLong & 0xFF000000) === 0x7F000000) {
+      if (((ipLong & 0xFF000000) >>> 0) === 0x7F000000) {
         if (this._blockAllLoopbacks || !this.selfPorts.has(port)) {
           return { allowed: false, reason: 'LOOPBACK_PROHIBITED', target };
         }
@@ -253,25 +253,25 @@ class EgressFirewall {
 
       // RFC 1918 Private Subnets:
       // 10.0.0.0/8
-      if ((ipLong & 0xFF000000) === 0x0A000000) {
+      if (((ipLong & 0xFF000000) >>> 0) === 0x0A000000) {
         return { allowed: false, reason: 'PRIVATE_IP_PROHIBITED', target };
       }
       // 172.16.0.0/12 (172.16.0.0 - 172.31.255.255)
-      if ((ipLong & 0xFFF00000) === 0xAC100000) {
+      if (((ipLong & 0xFFF00000) >>> 0) === 0xAC100000) {
         return { allowed: false, reason: 'PRIVATE_IP_PROHIBITED', target };
       }
       // 192.168.0.0/16
-      if ((ipLong & 0xFFFF0000) === 0xC0A80000) {
+      if (((ipLong & 0xFFFF0000) >>> 0) === 0xC0A80000) {
         return { allowed: false, reason: 'PRIVATE_IP_PROHIBITED', target };
       }
 
       // Carrier Grade NAT: 100.64.0.0/10
-      if ((ipLong & 0xFFC00000) === 0x64400000) {
+      if (((ipLong & 0xFFC00000) >>> 0) === 0x64400000) {
         return { allowed: false, reason: 'PRIVATE_IP_PROHIBITED', target };
       }
 
       // Broadcast / Unspecified: 0.0.0.0/8 or 255.255.255.255
-      if ((ipLong & 0xFF000000) === 0 || ipLong === 0xFFFFFFFF) {
+      if (((ipLong & 0xFF000000) >>> 0) === 0 || ipLong === 0xFFFFFFFF) {
         return { allowed: false, reason: 'PROHIBITED_IP', target };
       }
     }
@@ -543,15 +543,15 @@ class EgressFirewall {
           const ipLong = ipv4ToLong(addr);
           if (ipLong !== null) {
             // Cloud metadata: 169.254.0.0/16
-            if ((ipLong & 0xFFFF0000) === 0xA9FE0000) return 'CLOUD_METADATA_PROHIBITED';
+            if (((ipLong & 0xFFFF0000) >>> 0) === 0xA9FE0000) return 'CLOUD_METADATA_PROHIBITED';
             // Loopback rebinding
-            if ((ipLong & 0xFF000000) === 0x7F000000) return 'LOOPBACK_REBINDING_PROHIBITED';
+            if (((ipLong & 0xFF000000) >>> 0) === 0x7F000000) return 'LOOPBACK_REBINDING_PROHIBITED';
             // Private subnets
-            if ((ipLong & 0xFF000000) === 0x0A000000) return 'PRIVATE_IP_PROHIBITED';
-            if ((ipLong & 0xFFF00000) === 0xAC100000) return 'PRIVATE_IP_PROHIBITED';
-            if ((ipLong & 0xFFFF0000) === 0xC0A80000) return 'PRIVATE_IP_PROHIBITED';
-            if ((ipLong & 0xFFC00000) === 0x64400000) return 'PRIVATE_IP_PROHIBITED';
-            if ((ipLong & 0xFF000000) === 0 || ipLong === 0xFFFFFFFF) return 'PROHIBITED_IP';
+            if (((ipLong & 0xFF000000) >>> 0) === 0x0A000000) return 'PRIVATE_IP_PROHIBITED';
+            if (((ipLong & 0xFFF00000) >>> 0) === 0xAC100000) return 'PRIVATE_IP_PROHIBITED';
+            if (((ipLong & 0xFFFF0000) >>> 0) === 0xC0A80000) return 'PRIVATE_IP_PROHIBITED';
+            if (((ipLong & 0xFFC00000) >>> 0) === 0x64400000) return 'PRIVATE_IP_PROHIBITED';
+            if (((ipLong & 0xFF000000) >>> 0) === 0 || ipLong === 0xFFFFFFFF) return 'PROHIBITED_IP';
           }
           if (typeof addr === 'string' && addr.includes(':')) {
             if (addr === '::1') return 'LOOPBACK_REBINDING_PROHIBITED';
