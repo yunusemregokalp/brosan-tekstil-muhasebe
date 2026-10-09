@@ -9,8 +9,8 @@
  */
 
 const { quarantineEngine } = require('./quarantine');
-const { threatAlerter } = require('./threatAlerter');
-const { logSecurityEvent } = require('./auth');
+const threatAlerter = require('./threatAlerter');
+const { logSecurityEvent } = require('./auditLogger');
 
 // High-fidelity deceptive honeypot patterns
 const CANARY_PATTERNS = [
@@ -79,31 +79,42 @@ function honeyFilesGuard(req, res, next) {
     canaryLog.push(incident);
     if (canaryLog.length > 100) canaryLog.shift();
 
-    // 1. Instantly quarantine the offending IP
+    // 1. Instantly quarantine the offending IP (Mandatory 24-hour quarantine)
     if (!quarantineEngine.isWhitelisted(clientIp)) {
-      quarantineEngine.quarantineIp(clientIp, 'CANARY_HONEYPOT_TRIPPED');
+      quarantineEngine.quarantineIp(clientIp, 'CANARY_HONEYPOT_TRIPPED', {
+        ttlMs: 86400000,
+        durationSec: 86400,
+        triggerPath: rawPath
+      });
     }
 
     // 2. Dispatch high-priority emergency SIEM alert
     try {
-      if (threatAlerter && typeof threatAlerter.alertEmergency === 'function') {
-        threatAlerter.alertEmergency(
-          'CANARY_HONEYPOT_TRIPPED',
+      if (threatAlerter && typeof threatAlerter.dispatchAlert === 'function') {
+        threatAlerter.dispatchAlert('CANARY_HONEYPOT_TRIPPED', {
           clientIp,
-          `Hostile path reconnaissance on canary lure: ${rawPath} [${req.method}]`
-        );
+          severity: 'CRITICAL',
+          details: {
+            path: rawPath,
+            method: req.method,
+            userAgent: req.headers ? (req.headers['user-agent'] || 'unknown') : 'unknown',
+            reason: 'Hostile path reconnaissance on canary lure'
+          }
+        });
       }
     } catch (_) {}
 
     // 3. Log security event
     try {
-      logSecurityEvent('CANARY_TRIPWIRE_TRIGGERED', {
-        req,
-        severity: 'CRITICAL',
-        status: 403,
-        clientIp,
-        details: incident
-      });
+      if (typeof logSecurityEvent === 'function') {
+        logSecurityEvent('CANARY_TRIPWIRE_TRIGGERED', {
+          req,
+          severity: 'CRITICAL',
+          status: 403,
+          clientIp,
+          details: incident
+        });
+      }
     } catch (_) {}
 
     // 4. Return standard honeyfile rejection without leaking real file presence

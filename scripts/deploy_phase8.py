@@ -41,7 +41,7 @@ exit;
     deploy_uuid = None
     for line in stdout.splitlines():
         clean_line = line.strip()
-        if clean_line.startswith("DEPLOY_UUID:"):
+        if "DEPLOY_UUID:" in clean_line and not clean_line.startswith(">"):
             deploy_uuid = clean_line.split("DEPLOY_UUID:")[1].strip()
             break
             
@@ -115,21 +115,38 @@ exit;
         print(f"❌ Failed to probe {health_url}: {e}")
         sys.exit(1)
         
-    # 2. Canary Tripwire Probe
-    canary_url = "https://brosangroup.com/muhasebe/.git/config"
-    try:
-        req = urllib.request.Request(canary_url, headers={"User-Agent": "Citadel-Verifier/1.0"})
-        urllib.request.urlopen(req, context=ctx, timeout=15)
-        print(f"❌ Canary probe unexpectedly returned 200 OK (should be 403)!")
-    except urllib.error.HTTPError as e:
-        if e.code == 403:
-            err_body = e.read().decode('utf-8')
-            print(f"✓ {canary_url} -> HTTP 403 CANARY_TRIGGERED (Tripwire active and functioning!)")
-            print(f"  Canary response: {err_body}")
-        else:
-            print(f"⚠️ Canary returned unexpected HTTP code: {e.code}")
-    except Exception as e:
-        print(f"⚠️ Canary probe check: {e}")
+    # 2. Canary Tripwire Probe (via container loopback or test request followed by auto-clear)
+    print("\n--- Testing Production Canary Tripwire Defense ---", flush=True)
+    canary_test_js = """
+const http = require('http');
+const req = http.request({
+  host: '127.0.0.1',
+  port: 3000,
+  path: '/muhasebe/.git/config',
+  method: 'GET',
+  headers: { 'X-Forwarded-For': '198.51.100.77' }
+}, (res) => {
+  let data = '';
+  res.on('data', chunk => data += chunk);
+  res.on('end', () => {
+    console.log('CANARY_PROBE_STATUS:' + res.statusCode);
+    console.log('CANARY_PROBE_BODY:' + data);
+    const { quarantineEngine } = require('./server/quarantine');
+    quarantineEngine.liftQuarantine('198.51.100.77');
+    quarantineEngine.cache.clear();
+    quarantineEngine.saveToDisk();
+    console.log('CANARY_QUARANTINE_CLEARED:OK');
+  });
+});
+req.on('error', (e) => { console.error('CANARY_ERR:' + e.message); });
+req.end();
+"""
+    canary_out, _, _ = run_ssh(f"docker exec {cname} node -e \"{canary_test_js.replace(chr(10), ' ')}\"")
+    print("Canary probe result inside container:\n", canary_out.strip(), flush=True)
+    if "CANARY_PROBE_STATUS:403" in canary_out and "CANARY_TRIGGERED" in canary_out:
+        print("✓ Canary lure successfully intercepted with HTTP 403 CANARY_TRIGGERED & test IP cleaned!")
+    else:
+        print("⚠️ Warning: Canary probe returned unexpected response:", canary_out)
 
     # 3. Sibling Landing Probe
     landing_url = "https://brosangroup.com/callcenter/landing"

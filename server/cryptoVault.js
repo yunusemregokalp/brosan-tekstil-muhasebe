@@ -32,6 +32,31 @@ class CryptographicIntegrityError extends Error {
 }
 
 /**
+ * Zeroize memory buffer in place (Phase 8 Zero-Knowledge Memory Cleansing)
+ * Overwrites buffer bytes with zeros to protect against heap dumps and cold-boot extraction.
+ * @param {Buffer|Uint8Array} buf
+ */
+function zeroizeBuffer(buf) {
+  if (Buffer.isBuffer(buf)) {
+    buf.fill(0);
+  } else if (buf && typeof buf.fill === 'function') {
+    buf.fill(0);
+  }
+}
+
+/**
+ * Zeroizes multiple buffers safely.
+ * @param {...(Buffer|Uint8Array|null|undefined)} buffers
+ */
+function zeroizeAll(...buffers) {
+  for (const buf of buffers) {
+    if (buf) {
+      zeroizeBuffer(buf);
+    }
+  }
+}
+
+/**
  * Derives a 256-bit key buffer from a secret using HKDF-SHA256 (RFC 5869)
  * @param {string|Buffer} secret 
  * @param {Buffer} [salt=HKDF_SALT] 
@@ -39,8 +64,15 @@ class CryptographicIntegrityError extends Error {
  * @returns {Buffer} 32-byte key buffer
  */
 function deriveKey(secret, salt = HKDF_SALT, info = HKDF_INFO) {
-  const secretBuf = Buffer.isBuffer(secret) ? secret : Buffer.from(String(secret), 'utf8');
-  return Buffer.from(crypto.hkdfSync('sha256', secretBuf, salt, info, 32));
+  const isTempBuf = !Buffer.isBuffer(secret);
+  const secretBuf = isTempBuf ? Buffer.from(String(secret), 'utf8') : secret;
+  try {
+    return Buffer.from(crypto.hkdfSync('sha256', secretBuf, salt, info, 32));
+  } finally {
+    if (isTempBuf) {
+      zeroizeBuffer(secretBuf);
+    }
+  }
 }
 
 /**
@@ -76,6 +108,7 @@ let activeKeyBuffer = resolveMasterKey();
 
 /**
  * Override active runtime key (primarily for unit tests and key rotation)
+ * Zeroizes the previous activeKeyBuffer before updating reference.
  * @param {Buffer|string} key
  */
 function setMasterKey(key) {
@@ -91,6 +124,9 @@ function setMasterKey(key) {
   if (!Buffer.isBuffer(buf) || buf.length !== 32) {
     throw new Error('Master encryption key must be or resolve to a 32-byte Buffer.');
   }
+  if (activeKeyBuffer && activeKeyBuffer !== buf) {
+    zeroizeBuffer(activeKeyBuffer);
+  }
   activeKeyBuffer = buf;
   return activeKeyBuffer;
 }
@@ -105,9 +141,14 @@ function getMasterKey() {
 
 /**
  * Reset master encryption key back to environment resolution
+ * Zeroizes previous activeKeyBuffer before re-resolving.
  */
 function resetMasterKey() {
-  activeKeyBuffer = resolveMasterKey();
+  const newKey = resolveMasterKey();
+  if (activeKeyBuffer && activeKeyBuffer !== newKey) {
+    zeroizeBuffer(activeKeyBuffer);
+  }
+  activeKeyBuffer = newKey;
   return activeKeyBuffer;
 }
 
@@ -179,15 +220,22 @@ function decrypt(ciphertext, aad = null) {
     return ciphertext;
   }
 
+  let iv = null;
+  let authTag = null;
+  let encryptedBuf = null;
+  let decPart1 = null;
+  let decPart2 = null;
+  let decryptedBuf = null;
+
   try {
     const parts = ciphertext.split(':');
     if (parts.length !== 5 || parts[0] !== 'enc' || parts[1] !== 'v1') {
       throw new CryptographicIntegrityError('Malformed ciphertext format: expected enc:v1:<iv>:<tag>:<ciphertext>.');
     }
 
-    const iv = Buffer.from(parts[2], 'base64');
-    const authTag = Buffer.from(parts[3], 'base64');
-    const encryptedBuf = Buffer.from(parts[4], 'base64');
+    iv = Buffer.from(parts[2], 'base64');
+    authTag = Buffer.from(parts[3], 'base64');
+    encryptedBuf = Buffer.from(parts[4], 'base64');
 
     if (iv.length !== IV_LENGTH_BYTES) {
       throw new CryptographicIntegrityError(`Invalid IV length: expected ${IV_LENGTH_BYTES} bytes, got ${iv.length}.`);
@@ -203,15 +251,10 @@ function decrypt(ciphertext, aad = null) {
       decipher.setAAD(Buffer.isBuffer(aad) ? aad : Buffer.from(String(aad), 'utf8'));
     }
 
-    const decPart1 = decipher.update(encryptedBuf);
-    const decPart2 = decipher.final();
-    const decryptedBuf = decPart2.length > 0 ? Buffer.concat([decPart1, decPart2]) : decPart1;
+    decPart1 = decipher.update(encryptedBuf);
+    decPart2 = decipher.final();
+    decryptedBuf = decPart2.length > 0 ? Buffer.concat([decPart1, decPart2]) : decPart1;
     const plaintext = decryptedBuf.toString('utf8');
-
-    // Phase 8 Zero-Knowledge Memory Scrubbing: Zeroize in-memory decrypted buffers
-    zeroizeBuffer(decryptedBuf);
-    if (decPart1 !== decryptedBuf) zeroizeBuffer(decPart1);
-    if (decPart2 && decPart2.length > 0) zeroizeBuffer(decPart2);
 
     return plaintext;
   } catch (err) {
@@ -221,6 +264,86 @@ function decrypt(ciphertext, aad = null) {
     throw new CryptographicIntegrityError(
       `Cryptographic integrity verification failed: ciphertext tampered, invalid authentication tag, or incorrect key (${err.message}).`
     );
+  } finally {
+    zeroizeAll(iv, authTag, encryptedBuf, decPart1, decPart2, decryptedBuf);
+  }
+}
+
+/**
+ * Zero-Knowledge Buffer Consumer (Phase 8 Ephemeral RAM Scrubbing)
+ * Decrypts ciphertext and invokes callback directly with decrypted Buffer.
+ * Guarantees zeroization of all intermediate buffers upon callback completion or failure,
+ * preventing plaintext strings from lingering in V8 garbage collection pages.
+ *
+ * @param {string|null|undefined} ciphertext
+ * @param {Function} callback (decryptedBuffer) => any
+ * @param {string|Buffer|null} [aad=null]
+ * @returns {any} Result of callback
+ */
+function withDecryptedBuffer(ciphertext, callback, aad = null) {
+  if (typeof callback !== 'function') {
+    throw new TypeError('withDecryptedBuffer requires a callback function.');
+  }
+  if (ciphertext === null || ciphertext === undefined) {
+    return callback(ciphertext);
+  }
+  if (typeof ciphertext !== 'string') {
+    return callback(ciphertext);
+  }
+  if (!isEncrypted(ciphertext)) {
+    const rawBuf = Buffer.from(ciphertext, 'utf8');
+    try {
+      return callback(rawBuf);
+    } finally {
+      zeroizeBuffer(rawBuf);
+    }
+  }
+
+  let iv = null;
+  let authTag = null;
+  let encryptedBuf = null;
+  let decPart1 = null;
+  let decPart2 = null;
+  let decryptedBuf = null;
+
+  try {
+    const parts = ciphertext.split(':');
+    if (parts.length !== 5 || parts[0] !== 'enc' || parts[1] !== 'v1') {
+      throw new CryptographicIntegrityError('Malformed ciphertext format: expected enc:v1:<iv>:<tag>:<ciphertext>.');
+    }
+
+    iv = Buffer.from(parts[2], 'base64');
+    authTag = Buffer.from(parts[3], 'base64');
+    encryptedBuf = Buffer.from(parts[4], 'base64');
+
+    if (iv.length !== IV_LENGTH_BYTES) {
+      throw new CryptographicIntegrityError(`Invalid IV length: expected ${IV_LENGTH_BYTES} bytes, got ${iv.length}.`);
+    }
+    if (authTag.length !== AUTH_TAG_LENGTH_BYTES) {
+      throw new CryptographicIntegrityError(`Invalid Authentication Tag length: expected ${AUTH_TAG_LENGTH_BYTES} bytes, got ${authTag.length}.`);
+    }
+
+    const decipher = crypto.createDecipheriv(ALGORITHM, activeKeyBuffer, iv);
+    decipher.setAuthTag(authTag);
+
+    if (aad != null) {
+      decipher.setAAD(Buffer.isBuffer(aad) ? aad : Buffer.from(String(aad), 'utf8'));
+    }
+
+    decPart1 = decipher.update(encryptedBuf);
+    decPart2 = decipher.final();
+    decryptedBuf = decPart2.length > 0 ? Buffer.concat([decPart1, decPart2]) : decPart1;
+
+    return callback(decryptedBuf);
+  } catch (err) {
+    if (err instanceof CryptographicIntegrityError) {
+      throw err;
+    }
+    throw new CryptographicIntegrityError(
+      `Cryptographic integrity verification failed: ciphertext tampered, invalid authentication tag, or incorrect key (${err.message}).`
+    );
+  } finally {
+    zeroizeAll(iv, authTag, encryptedBuf, decPart1, decPart2, decryptedBuf);
   }
 }
 
@@ -524,19 +647,6 @@ function withCryptoVault(prismaClient) {
 }
 
 /**
- * Zeroize memory buffer in place (Phase 8 Zero-Knowledge Memory Cleansing)
- * Overwrites buffer bytes with zeros to protect against heap dumps and cold-boot extraction.
- * @param {Buffer|Uint8Array} buf
- */
-function zeroizeBuffer(buf) {
-  if (Buffer.isBuffer(buf)) {
-    buf.fill(0);
-  } else if (buf && typeof buf.fill === 'function') {
-    buf.fill(0);
-  }
-}
-
-/**
  * Cryptographic Self-Test on Module Load
  */
 function selfTest() {
@@ -570,6 +680,8 @@ module.exports = {
   encrypt,
   decrypt,
   zeroizeBuffer,
+  zeroizeAll,
+  withDecryptedBuffer,
   maskIban,
   maskTaxNumber,
   encryptAccount,

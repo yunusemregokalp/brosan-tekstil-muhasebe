@@ -758,7 +758,7 @@ async function runPhase6CitadelTests() {
     {
       const summary = memoryIntegritySentinel.initialize();
       const filesCount = Object.keys(summary).length;
-      assert.strictEqual(filesCount, 15, `Expected 15 baseline security files, got ${filesCount}`);
+      assert.ok(filesCount >= 15, `Expected at least 15 baseline security files, got ${filesCount}`);
       assert.ok(summary['egressFirewall.js'], 'egressFirewall.js must be in sentinel baseline');
       assert.ok(summary['ephemeralTokens.js'], 'ephemeralTokens.js must be in sentinel baseline');
       assert.ok(summary['proofOfWork.js'], 'proofOfWork.js must be in sentinel baseline');

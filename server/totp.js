@@ -12,6 +12,18 @@
 
 const crypto = require('crypto');
 
+/**
+ * Zeroize memory buffer in place (Phase 8 Zero-Knowledge Memory Cleansing)
+ * @param {Buffer|Uint8Array} buf
+ */
+function zeroizeBuffer(buf) {
+  if (Buffer.isBuffer(buf)) {
+    buf.fill(0);
+  } else if (buf && typeof buf.fill === 'function') {
+    buf.fill(0);
+  }
+}
+
 // ==============================================================================
 // 1. BASE32 ENCODING & DECODING (RFC 4648)
 // ==============================================================================
@@ -122,6 +134,7 @@ function timingSafeCodeCheck(inputCode, expectedCode) {
 // 5. TOTP VERIFICATION WITH ANTI-REPLAY & WINDOW DRIFT DEFENSE
 // ==============================================================================
 function verifyTotp(secretBase32, inputCode, lastStep = null, window = 1) {
+  let secretBuffer = null;
   try {
     if (!secretBase32 || typeof secretBase32 !== 'string') {
       return { valid: false, code: 'INVALID_SECRET' };
@@ -135,7 +148,7 @@ function verifyTotp(secretBase32, inputCode, lastStep = null, window = 1) {
       return { valid: false, code: 'INVALID_CODE_FORMAT' };
     }
 
-    const secretBuffer = base32Decode(secretBase32);
+    secretBuffer = base32Decode(secretBase32);
     const digits = cleanCode.length;
     const currentStep = Math.floor(Date.now() / 1000 / 30);
 
@@ -171,6 +184,10 @@ function verifyTotp(secretBase32, inputCode, lastStep = null, window = 1) {
     return { valid: false, code: 'INVALID_CODE' };
   } catch (err) {
     return { valid: false, code: 'DECODE_ERROR', error: err.message };
+  } finally {
+    if (secretBuffer) {
+      zeroizeBuffer(secretBuffer);
+    }
   }
 }
 
@@ -584,6 +601,7 @@ module.exports = {
   generateOtpAtStep,
   timingSafeCodeCheck,
   verifyTotp,
+  zeroizeBuffer,
   getOtpauthUri,
   generateRecoveryCodes,
   verifyRecoveryCode,

@@ -215,6 +215,15 @@ class BoundedLruQuarantineEngine {
   }
 
   /**
+   * Alias: Explicitly lifts quarantine from an IP and immediately syncs to disk.
+   */
+  liftQuarantine(rawIp) {
+    const deleted = this.unquarantineIp(rawIp);
+    this.saveToDisk();
+    return deleted;
+  }
+
+  /**
    * Purges all expired entries from cache.
    */
   pruneExpired() {

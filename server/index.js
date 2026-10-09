@@ -565,9 +565,17 @@ app.post('/api/auth/login', authLoginLimiter, proofOfWorkGuard, validateBody(Log
       });
     }
 
-    // 3. Parola Doğrulama (Timing-Attack Koruması: Kullanıcı var veya yok fark etmeksizin her zaman bcrypt çalışır)
     const hashToCompare = user ? user.passwordHash : auth.DUMMY_HASH;
     const isValid = Boolean(user && auth.verifyPassword(password, hashToCompare));
+
+    // Phase 8 Zero-Knowledge Memory Scrubbing: Sever password and rawBody from memory
+    if (req.body) {
+      req.body.password = null;
+      if (typeof auth.scrubCredentials === 'function') {
+        auth.scrubCredentials(req.body);
+      }
+    }
+    req.rawBody = null;
 
     if (!isValid) {
       const ipRecord = auth.recordFailedAttempt(`ip:${clientIp}`);

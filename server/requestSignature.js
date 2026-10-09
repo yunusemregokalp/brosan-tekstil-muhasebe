@@ -199,26 +199,45 @@ function generateSignature({ method, url, nonce, timestamp, body, key = resolveS
 }
 
 /**
+ * Zeroize memory buffer in place (Phase 8 Zero-Knowledge Memory Cleansing)
+ */
+function zeroizeBuffer(buf) {
+  if (Buffer.isBuffer(buf)) {
+    buf.fill(0);
+  } else if (buf && typeof buf.fill === 'function') {
+    buf.fill(0);
+  }
+}
+
+/**
  * Verifies the HMAC-SHA256 signature using timingSafeEqual.
+ * Zeroizes internal cryptographic digest buffers in finally block.
  */
 function verifySignature({ method, url, nonce, timestamp, body, signature, key = resolveSigningKey() }) {
   if (!signature || typeof signature !== 'string') return false;
-  const canonicalPayload = buildCanonicalPayload({ method, url, nonce, timestamp, body });
-  const computedBuf = crypto.createHmac('sha256', key).update(canonicalPayload, 'utf8').digest();
+  let computedBuf = null;
+  let clientSigBuf = null;
 
-  let clientSigBuf;
   try {
-    clientSigBuf = Buffer.from(signature.trim(), 'hex');
-  } catch (_) {
-    clientSigBuf = Buffer.alloc(32);
-  }
+    const canonicalPayload = buildCanonicalPayload({ method, url, nonce, timestamp, body });
+    computedBuf = crypto.createHmac('sha256', key).update(canonicalPayload, 'utf8').digest();
 
-  if (clientSigBuf.length !== 32) {
-    crypto.timingSafeEqual(computedBuf, computedBuf); // mitigate timing attack
-    return false;
-  }
+    try {
+      clientSigBuf = Buffer.from(signature.trim(), 'hex');
+    } catch (_) {
+      clientSigBuf = Buffer.alloc(32);
+    }
 
-  return crypto.timingSafeEqual(computedBuf, clientSigBuf);
+    if (clientSigBuf.length !== 32) {
+      crypto.timingSafeEqual(computedBuf, computedBuf); // mitigate timing attack
+      return false;
+    }
+
+    return crypto.timingSafeEqual(computedBuf, clientSigBuf);
+  } finally {
+    if (computedBuf) zeroizeBuffer(computedBuf);
+    if (clientSigBuf) zeroizeBuffer(clientSigBuf);
+  }
 }
 
 /**

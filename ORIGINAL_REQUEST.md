@@ -34,3 +34,225 @@ Tüm veritabanı şeması ve seed güncellemeleri Git'e commit edilip GitHub'a a
 ### Dağıtım ve Çalışma Garantisi
 - [ ] `npm run build` veya `npx prisma db seed` komutları sıfır hata ile tamamlanmalı.
 - [ ] Coolify üzerinde üretim konteyneri `Status: Success` durumunda çalışmalı.
+
+
+## 2026-10-08T21:01:31Z
+
+Implement Phase 3 Ultimate Citadel security hardening for Brosan Tekstil ERP at https://brosangroup.com/muhasebe, incorporating real-time security threat alerting (Telegram/Webhook), application-layer AES-256-GCM field encryption for sensitive banking & contact credentials, and an administrative emergency panic lockdown killswitch.
+
+Working directory: c:\Users\YUNUS EMRE GÖKALP\OneDrive\Masaüstü\MUHASEBE BROSAN TEKSTİL\YÜKLEME EVRAKLARI ANTIGRAVITY
+Integrity mode: development
+
+## Requirements
+
+### R1. Real-Time Asynchronous Security Threat & Quarantine Alerter
+Implement an asynchronous, non-blocking notification dispatcher in `server/threatAlerter.js` that triggers on critical security events (IP_QUARANTINED, BRUTE_FORCE_LOCKOUT, REPLAY_ATTACK, SENSITIVE_PROBE). Support webhook and Telegram bot notification payloads without impeding request throughput or leaking sensitive payload data.
+
+### R2. Application-Layer AES-256-GCM Field-Level Cryptography
+Implement a robust AES-256-GCM cryptographic vault in `server/cryptoVault.js` with authenticated encryption (ciphertext + 96-bit IV + 128-bit auth tag). Apply field-level encryption for sensitive database attributes (bank IBANs, account numbers, and tax identification numbers) ensuring that raw database dumps are completely unreadable without the 256-bit runtime key.
+
+### R3. Administrative Emergency Panic Lockdown Switch
+Implement an emergency lockdown mechanism (`server/lockdown.js`) reachable via an authenticated master endpoint (`/api/auth/emergency-lockdown`) and CLI trigger. Upon activation, instantly revoke 100% of issued JWT tokens, activate read-only maintenance mode, drop all mutating API calls with HTTP 503 SYSTEM_IN_LOCKDOWN, and require an administrative master recovery phrase to restore normal operations.
+
+### R4. Automated Adversarial Red-Team Verification & Coolify Production Deployment
+Develop an automated test suite verifying threat alert dispatching, AES-256-GCM encryption/decryption roundtrips, and emergency lockdown enforcement. Deploy the build to Coolify production on VPS 173.249.23.10 and verify zero-regression on active services like https://brosangroup.com/callcenter/landing.
+
+## Acceptance Criteria
+
+### Real-Time Threat Alerter
+- [ ] Critical events (IP_QUARANTINED, REPLAY_ATTACK) automatically enqueue a structured alert payload.
+- [ ] Network dispatching is fully asynchronous and fails silently without disrupting incoming HTTP requests.
+- [ ] Alert messages contain event type, client IP, timestamp, and sanitized incident summary with zero credential leakage.
+
+### AES-256-GCM Field Cryptography
+- [ ] Plaintext IBANs and account numbers are encrypted using AES-256-GCM with unique random IVs per record.
+- [ ] Tampered ciphertexts or invalid authentication tags are rejected with cryptographic integrity errors.
+- [ ] Reading encrypted fields seamlessly decrypts them for authenticated administrative views.
+
+### Emergency Panic Lockdown Switch
+- [ ] Activating lockdown immediately invalidates all active sessions and sets system state to LOCKED.
+- [ ] During lockdown, all mutating requests (POST, PUT, DELETE, PATCH) are rejected with HTTP 503 SYSTEM_IN_LOCKDOWN.
+- [ ] Restoring system requires valid master recovery key, resetting security posture cleanly.
+
+### Deployment & Pipeline Health
+- [ ] All unit, red-team penetration, and E2E security test suites pass with 100% success rate.
+- [ ] Production deployment builds and runs healthy under non-root user `node` (UID 1000).
+- [ ] `https://brosangroup.com/callcenter/landing` remains fully operational (HTTP 200).
+
+
+## 2026-10-09T09:45:45Z
+
+Implement Phase 4 Ironclad Zero-Trust defense-in-depth security hardening for Brosan Tekstil ERP at https://brosangroup.com/muhasebe, incorporating in-flight heuristic WAF payload inspection (SQLi/XSS/NoSQLi/Prototype Pollution), cryptographic session fingerprint binding (anti-session hijacking), and a tamper-evident HMAC financial ledger audit chain.
+
+Working directory: c:\Users\YUNUS EMRE GÖKALP\OneDrive\Masaüstü\MUHASEBE BROSAN TEKSTİL\YÜKLEME EVRAKLARI ANTIGRAVITY
+Integrity mode: development
+
+## Requirements
+
+### R1. Deep In-Flight Heuristic WAF & Malicious Payload Sanitizer
+Implement an in-flight request inspection engine in `server/heuristicWaf.js` that recursively analyzes `req.body`, `req.query`, and `req.params`. Detect SQL injection patterns (`UNION SELECT`, `' OR '1'='1`, `SLEEP()`), NoSQL operators (`$gt`, `$ne`, `$regex`), XSS injection (`<script>`, event handlers, `javascript:`), Prototype Pollution (`__proto__`, `constructor`), and Path Traversal (`../`, `%2e%2e`). Reject violations immediately with HTTP 403 `MALICIOUS_PAYLOAD_DETECTED`, quarantine the offending IP in `quarantineEngine`, alert via `threatAlerter`, and record the incident in SIEM `security-audit.log`.
+
+### R2. Cryptographic Session Fingerprint Binding (Anti-Session Hijacking)
+Implement session fingerprinting in `server/sessionGuard.js` that binds every issued JWT to the client's network identity (HMAC-SHA256 of Client IP subnet + User-Agent + Accept-Language salt). On every authenticated request, verify the session fingerprint in constant time. If a stolen JWT is used from a different IP or device, reject immediately with HTTP 401 `SESSION_HIJACK_DETECTED`, revoke the token in `revoked_tokens.json`, quarantine the attacker IP, and alert administrators.
+
+### R3. Tamper-Evident Financial HMAC Audit Blockchain / Chained Ledger
+Implement a cryptographic hash chain in `server/ledgerIntegrity.js` for journal entries and financial transactions where each record computes `entry_hash = HMAC(prev_hash || record_id || amount || type || timestamp)`. Provide an authenticated verification endpoint (`/api/audit/verify-integrity`) that validates chain continuity from genesis to head, guaranteeing that direct database tampering or rogue modifications are immediately detected.
+
+### R4. Automated Adversarial Red-Team Verification & Coolify Production Deployment
+Develop a comprehensive unit and adversarial red-team penetration suite verifying Heuristic WAF payload interception, session fingerprint rejection on stolen tokens, and ledger chain tamper detection with a 100% pass threshold. Deploy the build to Coolify production on VPS 173.249.23.10 and verify zero regression on `https://brosangroup.com/callcenter/landing`.
+
+## Acceptance Criteria
+
+### Heuristic WAF & Payload Inspection
+- [ ] Payloads containing SQLi, NoSQLi, XSS, prototype pollution, or path traversal are rejected with HTTP 403 `MALICIOUS_PAYLOAD_DETECTED`.
+- [ ] Offending client IP is immediately quarantined in `quarantineEngine` and an incident alert is enqueued in `threatAlerter`.
+- [ ] Benign legitimate Turkish text and accounting inputs pass cleanly without false positives.
+
+### Anti-Session Hijacking (Fingerprint Binding)
+- [ ] JWT tokens contain an HMAC-SHA256 client fingerprint claim.
+- [ ] Requests using a valid JWT from a differing IP subnet or User-Agent are rejected with HTTP 401 `SESSION_HIJACK_DETECTED`.
+- [ ] Hijacked token is instantly revoked, and the incident is logged in `security-audit.log`.
+
+### Financial Ledger Integrity Chain
+- [ ] Every financial transaction record is linked to the previous record via cryptographic HMAC hash.
+- [ ] Direct database modification (tampering with an amount or date) fails chain verification.
+- [ ] `/api/audit/verify-integrity` returns `isValid: true` for unaltered records and reports exact tamper points if compromised.
+
+### Deployment & Stability
+- [ ] All unit, red-team penetration, and E2E security test suites pass with 100% success rate.
+- [ ] Production deployment on Coolify runs healthy under non-root user `node` (UID 1000).
+- [ ] `https://brosangroup.com/callcenter/landing` remains fully operational (HTTP 200 OK).
+
+
+## 2026-10-09T16:49:34Z
+
+Build and deploy an ultra-fast, parallelized Cari Transaction Engine and an undisputed world-class financial design (Haute Finance / Swiss Private Banking tier) for Brosan Tekstil's Faruk Aytin (and future counterparties) Cari Ekstre & Mutabakat dossier.
+
+Working directory: c:\Users\YUNUS EMRE GÖKALP\OneDrive\Masaüstü\MUHASEBE BROSAN TEKSTİL\YÜKLEME EVRAKLARI ANTIGRAVITY
+Integrity mode: development
+
+## Requirements
+
+### R1. Sub-2s Parallel Execution Engine
+Accelerate the single-command CLI engine (scripts/brosan_cari_engine.py) using concurrent multi-threading (ThreadPoolExecutor), optimized Chromium flags (--headless, zero-delay compositor, stripped network overhead), and pre-cached assets. The entire 5-deliverable compilation (Master Excel, 1-Page Executive PDF, 2-Page Audit Dossier PDF, Interactive Web Dashboard, and Desktop Batch Launcher) must complete in under 4.5 seconds end-to-end.
+
+### R2. Haute Finance / Swiss Executive Design Standard (World-Class Tier)
+Elevate the visual design across both vector PDFs (A4 Landscape) and the Interactive Web Dashboard (FARUK_AYTIN_EKSTRE_PANELI.html):
+- Typography & Geometry: Strict baseline grid with Plus Jakarta Sans and JetBrains Mono tabular lining figures (font-variant-numeric: tabular-nums). Hairline borders (0.5pt), calibrated padding, micro-metric indicators (▲, ▼, ✓), and security Guilloche / audit line accents.
+- Visual Palette: Deep executive obsidian (#0F172A), warm parchment background tinting (#F8FAFC, #F1F5F9), subtle emerald credit badges (#059669, #ECFDF5), and crisp borders (#CBD5E1).
+- Interactive QR & Security Seal: Embed a vector/SVG cryptographic audit QR code verifying the document hash and protocol reference, integrated with the high-resolution Brosan corporate seal and bilateral TTK m.94 acknowledgment.
+- Zero-Clipping Vertical Budgeting: Flawless, mathematically budgeted page heights ensuring zero table overflow, perfectly aligned signature bays, and balanced audit desks.
+
+### R3. Atomic Multi-Format Output
+Every execution must update and synchronize in one atomic pass:
+1. FARUK AYTİN CARİ.xlsx (Formula-driven, openpyxl, print-configured)
+2. FARUK AYTİN CARİ EKSTRE.pdf (1-page executive summary, vector PDF)
+3. FARUK AYTİN CARİ MUTABAKAT DOSYASI (TAM SET).pdf (2-page complete audit dossier, vector PDF)
+4. FARUK_AYTIN_EKSTRE_PANELI.html (Interactive web panel with search, filters, and WhatsApp copy)
+5. 1_TIKLA_AC_VE_WHATSAPP_KOPYALA.bat (1-click desktop batch launcher)
+
+## Acceptance Criteria
+
+### Performance & Speed
+- [ ] End-to-end compile CLI execution finishes in under 4.5 seconds (verified with benchmark timer).
+- [ ] Chromium PDF rendering runs in parallel with zero deadlocks or residual processes.
+
+### Visual & Typographic Quality
+- [ ] PDF pages pass visual raster audit: 0% text truncation, perfectly aligned decimal columns, authentic seal aspect ratio (620:390), and balanced white space.
+- [ ] Web dashboard includes instant search, status pills, dark/light executive theme, and 1-click clipboard synchronization.
+
+### Accounting & Mathematical Accuracy
+- [ ] USD & TL sums match Paraşüt and Garanti BBVA records to the exact cent (Net Bakiye: +$784,60 USD / +38.461,09 TL Brosan avansı).
+
+
+## 2026-10-09T17:12:26Z
+
+Implement Phase 6 Ultimate Sovereign Citadel hardening for Brosan Tekstil ERP at https://brosangroup.com/muhasebe to achieve absolute zero-trust hack-proof defense-in-depth, incorporating strict egress firewalling (anti-exfiltration/SSRF), ephemeral single-use sliding token rotation (anti-token theft), client-side cryptographic Proof-of-Work botnet shielding, and process runtime memory armor.
+
+Working directory: c:\Users\YUNUS EMRE GÖKALP\OneDrive\Masaüstü\MUHASEBE BROSAN TEKSTİL\YÜKLEME EVRAKLARI ANTIGRAVITY
+Integrity mode: development
+
+## Requirements
+
+### R1. Deep Egress Firewall & SSRF / Data Exfiltration Armor
+Implement an outbound connection control engine in `server/egressFirewall.js`. Intercept all outgoing HTTP/HTTPS/socket attempts from the Node.js application process. Block access to private IP ranges (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`), link-local/cloud metadata (`169.254.169.254`), loopbacks (`127.0.0.0/8`, `::1`), and non-whitelisted external destinations. Any prohibited outbound call must be aborted immediately with `EGRESS_PROHIBITED`, logged in `security-audit.log`, and dispatched as a high-severity alert via `threatAlerter`.
+
+### R2. Ephemeral Single-Use Sliding Token Rotation & Replay Trap
+Implement dynamic cryptographic token rotation in `server/ephemeralTokens.js`. For every state-mutating request (POST/PUT/DELETE), invalidate the incoming JWT upon verification and return a cryptographically linked, single-use successor token in the `X-Brosan-Next-Token` header. If an already-consumed or stale token is presented again (indicating token theft or replay), immediately revoke the entire user token family, activate emergency IP quarantine in `quarantineEngine`, and record `TOKEN_REPLAY_BREACH_DETECTED` in SIEM logs.
+
+### R3. Cryptographic Proof-of-Work (PoW) Anti-Botnet Shield
+Implement a dynamic Proof-of-Work challenge mechanism in `server/proofOfWork.js`. When burst traffic or brute-force activity is detected on `/api/auth/login`, issue a cryptographically signed SHA-256 collision challenge (dynamic difficulty `leadingZeros`, sliding 60s TTL). Require incoming authentication payloads to provide a valid nonce solution. Verified solutions consume the challenge; invalid or missing solutions are rejected with HTTP 403 `POW_CHALLENGE_FAILED`, burning attacker compute and rendering automated brute-force attacks economically and computationally impossible.
+
+### R4. Process Runtime Armor & Prototype Freezing
+Implement runtime defense hardening in `server/processArmor.js`. Recursively freeze `Object.prototype`, `Array.prototype`, and `Function.prototype` to eliminate prototype pollution at the VM level. Disable dynamic code evaluation (`eval`, `Function` constructor), protect environment secrets (`process.env`) against in-memory modification, and continuously monitor process heap memory to prevent memory exhaustion attacks.
+
+### R5. Comprehensive Adversarial Red-Team Penetration Suite & Production Deployment
+Develop a comprehensive red-team penetration test harness in `tests/test-phase6-citadel.js` verifying egress blocking of private/cloud metadata ranges, token rotation replay interception, Proof-of-Work solver verification, and prototype pollution immunity with 100% pass threshold. Deploy to Coolify production on VPS 173.249.23.10 and verify zero regression on `https://brosangroup.com/callcenter/landing`.
+
+## Acceptance Criteria
+
+### Egress Firewall & SSRF
+- [ ] Outbound requests to `169.254.169.254`, `127.0.0.1`, and private IP ranges are aborted with `EGRESS_PROHIBITED`.
+- [ ] Attempted exfiltration attempts trigger high-severity SIEM audit logs and threat alerts.
+- [ ] Whitelisted external integrations (e.g. TCMB exchange rates, external webhooks) pass cleanly without disruption.
+
+### Sliding Token Rotation
+- [ ] Mutating API operations issue a fresh `X-Brosan-Next-Token` header.
+- [ ] Replaying a retired token revokes all user sessions and quarantines the offending IP.
+- [ ] Legitimate sequential client requests maintain seamless authenticated continuity.
+
+### Proof-of-Work Bot Shield
+- [ ] `/api/auth/login` challenges automated burst attempts with cryptographically verifiable PoW puzzles.
+- [ ] Solved nonces pass cleanly; invalid, expired, or replayed solutions return HTTP 403 `POW_CHALLENGE_FAILED`.
+
+### Process Runtime Armor
+- [ ] Attempts to modify `Object.prototype` throw or fail silently without polluting prototypes.
+- [ ] Attempts to invoke dynamic evaluation (`eval`) are intercepted and blocked.
+
+### Deployment & Stability
+- [ ] All unit, red-team penetration, and E2E security test suites pass with 100% success rate across all 15 master suites.
+- [ ] Production deployment on Coolify runs healthy under non-root user `node` (UID 1000).
+- [ ] `https://brosangroup.com/muhasebe/api/health` and `https://brosangroup.com/callcenter/landing` remain fully operational (HTTP 200 OK).
+
+## 2026-10-09T22:58:28Z
+
+Brosan Tekstil ERP muhasebe sistemini (https://brosangroup.com/muhasebe) olası tüm APT (Gelişmiş Kalıcı Tehdit) ve sıfır gün (0-day) açıklarına karşı mutlak koruma altına alan Phase 8: Sovereign Quantum Vault & Zero-Knowledge Autonomous Immunity savunma mimarisinin uçtan uca devreye alınması ve Coolify prodüksiyon ortamında sıfır regresyonla canlıya alınması.
+
+Working directory: c:\Users\YUNUS EMRE GÖKALP\OneDrive\Masaüstü\MUHASEBE BROSAN TEKSTİL\YÜKLEME EVRAKLARI ANTIGRAVITY
+Integrity mode: development
+
+## Requirements
+
+### R1. Supply Chain & Process Execution Lockdown (`server/processSandboxing.js`)
+Uygulama çalışma zamanında (runtime) izinsiz `child_process.exec`, `child_process.spawn`, `fork` ve kabuk komut yürütme (RCE) girişimlerini tespit edip engelleyen, muhasebe API rotalarında alt süreç başlatmayı tamamen yasaklayan ve ihlal durumunda çağrıyı donduran süreç kum havuzu (process sandbox) motoru.
+
+### R2. Hostile Intrusion Deception Mesh & Dynamic Canary Lures (`server/honeyFiles.js`)
+Saldırgan tarama botlarını ve içeriden yetkisiz keşif girişimlerini derhal yakalamak üzere dosya sistemi seviyesinde yem dosyalar (`/.git/config`, `/.aws/credentials`, `id_rsa`, `dump.sql`, `backup.tar.gz`). Bu tuzak dosyalara erişim anında saldırgan IP'si derhal 24 saat karantinaya (`quarantineEngine`) alınır, oturumu feshedilir ve SIEM uyarısı tetiklenir.
+
+### R3. Ephemeral Zero-Knowledge Memory Scrubbing & Key Sanitization (`server/cryptoVault.js` & `server/auth.js`)
+Bellekte işlenen hassas verilerin (çözülmüş veritabanı alanları, geçici JWT imzalama anahtarları, parola karmaları ve dekont verileri) kullanım döngüsü tamamlanır tamamlanmaz `Buffer.fill(0)` ile RAM'de kalıcı olarak sıfırlanması; böylece olası bellek dökümü (core dump / heap inspection / cold boot) saldırılarında veri sızıntısının %100 önlenmesi.
+
+### R4. Phase 8 Master Penetration Test Suite (`tests/test-phase8-citadel.js`, `tests/run-all-tests.js`)
+Tüm Phase 8 savunma vektörlerini (süreç kum havuzu RCE engeli, dosya yemi tuzakları, bellek sıfırlama, sıfır hatalı pozitif) %100 başarı barajıyla test eden özel red-team paketi. Suite 17 olarak `tests/run-all-tests.js` ana test koşucusuna entegre edilerek tüm 17 test paketinin %100 başarıyla geçmesi.
+
+### R5. Coolify Prodüksiyon Dağıtımı & Canlı Doğrulama
+VPS 173.249.23.10 üzerinde non-root kullanıcı `node` (UID 1000) ile çalışan güvenli konteyner dağıtımı, `https://brosangroup.com/muhasebe/api/health` ve kardeş servis `https://brosangroup.com/callcenter/landing` üzerinde sıfır regresyonlu canlı prob doğrulaması.
+
+## Acceptance Criteria
+
+### Process Sandboxing
+- [ ] Yetkisiz `child_process` çalıştırma veya kabuk komutu enjeksiyonları anında engellenir ve `SECURITY_PROCESS_BLOCKED` döner.
+- [ ] Standart sistem komutları veya sunucu başlatma scriptleri meşru başlatma anında güvenle çalışır (0 false positive).
+
+### Honeyfile Deception Mesh
+- [ ] Hassas dosya yollarına (`/.git/config`, `/.aws/credentials`, `dump.sql`) yapılan GET/POST talepleri anında `403 CANARY_TRIGGERED` ile kesilir.
+- [ ] Tuzak dosyalara dokunan saldırgan IP'si anında dinamik karantinaya alınır ve SIEM uyarısı üretilir.
+
+### Zero-Knowledge Memory Scrubbing
+- [ ] Kriptografik işlemlerden sonra çözülen tampon bellekler `Buffer.fill(0)` ile silinir.
+- [ ] Çöp toplayıcı (GC) öncesinde heap üzerindeki hassas veriler temizlenir.
+
+### Test & Prodüksiyon
+- [ ] `tests/test-phase8-citadel.js` test paketi 15+ iddiayı %100 başarıyla geçer.
+- [ ] `tests/run-all-tests.js` içerisindeki tüm 17 test paketi (Phase 1-8) eksiksiz %100 geçer.
+- [ ] Coolify VPS 173.249.23.10 üzerinde UID 1000 (`node`) ile container ayağa kalkar, `https://brosangroup.com/muhasebe/api/health` ve kardeş servis `https://brosangroup.com/callcenter/landing` 200 OK döner.

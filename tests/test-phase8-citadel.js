@@ -11,6 +11,8 @@
 
 const assert = require('assert');
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
 const childProcess = require('child_process');
 const {
   processSandboxMiddleware,
@@ -29,6 +31,64 @@ const {
 } = require('../server/honeyFiles');
 const cryptoVault = require('../server/cryptoVault');
 const { quarantineEngine } = require('../server/quarantine');
+const { lockdownManager } = require('../server/lockdown');
+
+const QUARANTINE_FILE = path.resolve(__dirname, '..', 'data', 'quarantined_ips.json');
+const LOCKDOWN_STATE_FILE = path.resolve(__dirname, '..', 'data', 'lockdown_state.json');
+
+function cleanupTestFixtures() {
+  try {
+    const testIps = ['198.51.100.99', '198.51.100.44', '127.0.0.1'];
+    for (const ip of testIps) {
+      if (quarantineEngine) {
+        if (typeof quarantineEngine.liftQuarantine === 'function') {
+          quarantineEngine.liftQuarantine(ip);
+        } else if (typeof quarantineEngine.unquarantineIp === 'function') {
+          quarantineEngine.unquarantineIp(ip);
+        }
+      }
+    }
+    if (quarantineEngine && typeof quarantineEngine.saveToDisk === 'function') {
+      quarantineEngine.saveToDisk();
+    }
+    if (fs.existsSync(QUARANTINE_FILE)) {
+      try {
+        const raw = fs.readFileSync(QUARANTINE_FILE, 'utf8');
+        const list = JSON.parse(raw);
+        if (Array.isArray(list)) {
+          const filtered = list.filter((item) => {
+            const ip = item.ip || item;
+            return ip !== '198.51.100.99' && ip !== '198.51.100.44';
+          });
+          fs.writeFileSync(QUARANTINE_FILE, JSON.stringify(filtered, null, 2), 'utf8');
+        }
+      } catch (_) {}
+    }
+    if (lockdownManager && typeof lockdownManager.reset === 'function') {
+      lockdownManager.reset();
+    }
+    if (fs.existsSync(LOCKDOWN_STATE_FILE)) {
+      try {
+        const raw = fs.readFileSync(LOCKDOWN_STATE_FILE, 'utf8');
+        const state = JSON.parse(raw);
+        if (state.isLocked) {
+          state.isLocked = false;
+          state.lockedAt = null;
+          state.lockedBy = null;
+          state.reason = null;
+          state.tokenRevocationEpoch = 0;
+          state.recoverySalt = null;
+          state.recoveryHash = null;
+          fs.writeFileSync(LOCKDOWN_STATE_FILE, JSON.stringify(state, null, 2), 'utf8');
+        }
+      } catch (_) {}
+    }
+  } catch (_) {}
+}
+
+process.on('exit', () => {
+  cleanupTestFixtures();
+});
 
 const colors = {
   reset: '\x1b[0m',
@@ -48,7 +108,9 @@ function fail(msg, err) {
 }
 
 async function runPhase8CitadelTests() {
-  console.log(`\n${colors.bold}════════════════════════════════════════════════════════════════════════════════${colors.reset}`);
+  cleanupTestFixtures();
+  try {
+    console.log(`\n${colors.bold}════════════════════════════════════════════════════════════════════════════════${colors.reset}`);
   console.log(`${colors.cyan}${colors.bold}🛡️ BROSAN TEKSTİL ERP — PHASE 8 SOVEREIGN QUANTUM VAULT TEST SUITE${colors.reset}`);
   console.log(`Testing Process Sandboxing, Honeyfile Deception Mesh, and Memory Cleansing...`);
   console.log(`${colors.bold}════════════════════════════════════════════════════════════════════════════════${colors.reset}\n`);
@@ -387,6 +449,9 @@ async function runPhase8CitadelTests() {
   console.log(`${colors.bold}════════════════════════════════════════════════════════════════════════════════${colors.reset}\n`);
 
   console.log(`${colors.green}${colors.bold}🎉 ALL PHASE 8 SOVEREIGN QUANTUM VAULT DEFENSE VECTORS VERIFIED WITH 100% SUCCESS!${colors.reset}\n`);
+  } finally {
+    cleanupTestFixtures();
+  }
 }
 
 function makeRequest(url) {
@@ -410,4 +475,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { runPhase8CitadelTests };
+module.exports = { runPhase8CitadelTests, cleanupTestFixtures };

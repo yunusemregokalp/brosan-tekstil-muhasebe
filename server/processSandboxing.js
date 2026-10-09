@@ -11,6 +11,9 @@
 const childProcess = require('child_process');
 const { AsyncLocalStorage } = require('async_hooks');
 const crypto = require('crypto');
+const threatAlerter = require('./threatAlerter');
+const { logSecurityEvent } = require('./auditLogger');
+const { quarantineEngine } = require('./quarantine');
 
 // Async Context Storage for tracking HTTP request execution trees
 const asyncLocalStorage = new AsyncLocalStorage();
@@ -55,22 +58,45 @@ function checkExecutionPermission(methodName, commandOrFile, args) {
     violationLog.push(violation);
     if (violationLog.length > 100) violationLog.shift();
 
-    // Trigger threat alerter & SIEM log if available
+    // Trigger threat alerter & SIEM log
+    const offenderIp = store && store.clientIp ? store.clientIp : '127.0.0.1';
+
     try {
-      const { threatAlerter } = require('./threatAlerter');
-      if (threatAlerter && typeof threatAlerter.alertEmergency === 'function') {
-        threatAlerter.alertEmergency(
-          'RCE_PROCESS_SPAWN_ATTEMPT_BLOCKED',
-          store ? store.clientIp : '127.0.0.1',
-          `Method: ${methodName}, Target: ${violation.target}`
-        );
+      if (threatAlerter && typeof threatAlerter.dispatchAlert === 'function') {
+        threatAlerter.dispatchAlert('RCE_PROCESS_SPAWN_ATTEMPT_BLOCKED', {
+          clientIp: offenderIp,
+          severity: 'CRITICAL',
+          details: {
+            method: methodName,
+            target: violation.target,
+            inHttpRequest: inRequestContext,
+            requestId: store ? store.requestId : null
+          }
+        });
       }
     } catch (_) {}
 
     try {
-      const { quarantineEngine } = require('./quarantine');
+      if (typeof logSecurityEvent === 'function') {
+        logSecurityEvent('RCE_PROCESS_SPAWN_ATTEMPT_BLOCKED', {
+          severity: 'CRITICAL',
+          status: 403,
+          clientIp: offenderIp,
+          details: violation
+        });
+      }
+    } catch (_) {}
+
+    try {
       if (store && store.clientIp && quarantineEngine && typeof quarantineEngine.quarantineIp === 'function') {
-        quarantineEngine.quarantineIp(store.clientIp, 'RCE_PROCESS_SPAWN_VIOLATION');
+        if (!quarantineEngine.isWhitelisted(store.clientIp)) {
+          quarantineEngine.quarantineIp(store.clientIp, 'RCE_PROCESS_SPAWN_VIOLATION', {
+            ttlMs: 86400000,
+            durationSec: 86400,
+            triggerMethod: methodName,
+            target: violation.target
+          });
+        }
       }
     } catch (_) {}
 

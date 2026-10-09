@@ -26,7 +26,9 @@ const THREAT_EVENT_TYPES = {
   BURST_SUMMARY: { severity: 'HIGH', label: '📊 Coalesced Alert Burst Summary' },
   EGRESS_PROHIBITED: { severity: 'CRITICAL', label: '🛑 Yetkisiz Dış Bağlantı / SSRF Girişimi Engellendi' },
   TOKEN_REPLAY_BREACH_DETECTED: { severity: 'CRITICAL', label: '⚠️ Belirteç Yeniden Oynatma İhlali (Token Replay Breach)' },
-  POW_CHALLENGE_FAILED: { severity: 'HIGH', label: '🤖 Proof-of-Work Botnet Doğrulama Başarısızlığı' }
+  POW_CHALLENGE_FAILED: { severity: 'HIGH', label: '🤖 Proof-of-Work Botnet Doğrulama Başarısızlığı' },
+  RCE_PROCESS_SPAWN_ATTEMPT_BLOCKED: { severity: 'CRITICAL', label: '🛑 RCE Süreç Başlatma Engellendi (Process Sandboxing)' },
+  CANARY_HONEYPOT_TRIPPED: { severity: 'CRITICAL', label: '🪤 Kanarya Bal Küpü Tuzağı Tetiklendi (Honeyfiles Mesh)' }
 };
 
 const FORBIDDEN_KEYS = new Set([
@@ -693,6 +695,30 @@ class ThreatAlerter {
   }
 
   /**
+   * Emergency alert dispatch helper with CRITICAL severity.
+   */
+  alertEmergency(eventType, clientIpOrData = {}, detailsStrOrObj = {}) {
+    let clientIp = '127.0.0.1';
+    let details = {};
+    if (typeof clientIpOrData === 'string') {
+      clientIp = clientIpOrData;
+      if (typeof detailsStrOrObj === 'string') {
+        details = { message: detailsStrOrObj };
+      } else if (typeof detailsStrOrObj === 'object' && detailsStrOrObj !== null) {
+        details = detailsStrOrObj;
+      }
+    } else if (typeof clientIpOrData === 'object' && clientIpOrData !== null) {
+      clientIp = clientIpOrData.clientIp || clientIpOrData.ip || '127.0.0.1';
+      details = clientIpOrData.details || clientIpOrData;
+    }
+    return this.dispatchAlert(eventType, {
+      clientIp,
+      severity: 'CRITICAL',
+      details
+    });
+  }
+
+  /**
    * Closes and stops all timers.
    */
   close() {
@@ -704,5 +730,6 @@ class ThreatAlerter {
 const defaultInstance = new ThreatAlerter();
 
 module.exports = defaultInstance;
+module.exports.threatAlerter = defaultInstance;
 module.exports.ThreatAlerter = ThreatAlerter;
 module.exports.THREAT_EVENT_TYPES = THREAT_EVENT_TYPES;

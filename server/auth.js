@@ -510,6 +510,44 @@ function requireAuth(req, res, next) {
   next();
 }
 
+/**
+ * Zero-Knowledge Credential Sanitizer (Phase 8 Ephemeral RAM Scrubbing)
+ * Nullifies or zeroizes sensitive fields in user objects, request payloads, or credentials.
+ * @param {object} target
+ * @returns {object}
+ */
+function scrubCredentials(target) {
+  if (!target || typeof target !== 'object') return target;
+  const sensitiveKeys = [
+    'password',
+    'passwordHash',
+    'twoFactorSecret',
+    'twoFactorTempSecret',
+    'twoFactorRecoveryCodes',
+    'secret',
+    'tempSecret',
+    'recoveryCodes',
+    'token',
+    'jwt',
+    'otp',
+    'code',
+    'totpCode',
+    'apiKey',
+    'privateKey'
+  ];
+
+  for (const key of sensitiveKeys) {
+    if (key in target) {
+      if (Buffer.isBuffer(target[key])) {
+        target[key].fill(0);
+      }
+      target[key] = null;
+    }
+  }
+
+  return target;
+}
+
 module.exports = {
   hashPassword,
   verifyPassword,
@@ -528,5 +566,6 @@ module.exports = {
   PASSWORD_COMPLEXITY_REGEX,
   BoundedLruMemoryStore,
   sessionGuard,
+  scrubCredentials,
   JWT_SECRET
 };
