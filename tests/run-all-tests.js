@@ -84,6 +84,11 @@ const suites = [
     name: 'Phase 4 Master Red-Team Adversarial Penetration Suite',
     file: 'test-phase4-redteam-adversarial.js',
     type: 'Security'
+  },
+  {
+    name: 'Phase 5 Apex Citadel Active Defense Suite',
+    file: 'test-phase5-active-defense.js',
+    type: 'Security'
   }
 ];
 

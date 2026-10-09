@@ -19,6 +19,9 @@ const cryptoVault = require('./cryptoVault');
 const { lockdownManager, lockdownGuard } = require('./lockdown');
 const { heuristicWafGuard } = require('./heuristicWaf');
 const ledgerIntegrity = require('./ledgerIntegrity');
+const { honeytokenRouteGuard, honeytokenParamGuard } = require('./honeytoken');
+const { requestSignatureGuard } = require('./requestSignature');
+const { memoryIntegritySentinel } = require('./memoryIntegritySentinel');
 const {
   LoginSchema,
   ChangePasswordSchema,
@@ -76,6 +79,14 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// ==============================================================================
+// 0.045 APEX CITADEL AKTİF BAL KÜPÜ ROTA TUZAKLARI (HONEYTOKEN ROUTE TRAPS)
+// ==============================================================================
+// Mount BEFORE quarantineGuard: decoy routes must always trigger 24h honeypot
+// escalation, critical threat alerting, and SIEM audit logging even if the IP
+// was previously quarantined for a lesser violation.
+app.use(honeytokenRouteGuard);
 
 // ==============================================================================
 // 0.05 DİNAMİK IP KARANTİNA KALKANI (FAIL2BAN SHIELD - 403 IP_QUARANTINED)
@@ -238,14 +249,30 @@ app.use(cors({
     return callback(new Error('CORS Güvenlik Engeli: Bu kökene erişim izni verilmemiştir.'));
   },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Brosan-Signature',
+    'X-Brosan-Timestamp',
+    'X-Brosan-Nonce'
+  ],
   credentials: true,
   maxAge: 86400
 }));
 
-// Güvenlik: DoS ve Bellek Tükenmesi Korumalı Yük Sınırları (100KB tavan)
-app.use(express.json({ limit: '100kb' }));
+// Güvenlik: DoS ve Bellek Tükenmesi Korumalı Yük Sınırları (100KB tavan) ve Ham Gövde Doğrulaması
+app.use(express.json({
+  limit: '100kb',
+  verify: (req, res, buf) => {
+    req.rawBody = buf.toString('utf8');
+  }
+}));
 app.use(express.urlencoded({ extended: true, limit: '100kb' }));
+
+// ==============================================================================
+// 0.24 APEX CITADEL AKTİF BAL KÜPÜ PARAMETRE TUZAKLARI (HONEYTOKEN PARAM TRAPS)
+// ==============================================================================
+app.use(honeytokenParamGuard);
 
 // Güvenlik: Derin Uçuş-İçi Sezgisel WAF ve Yük Denetçisi (Heuristic WAF Payload Guard)
 // SQLi, NoSQLi, XSS, Prototype Pollution ve Dizin Atlama (Path Traversal) engelleme
@@ -265,6 +292,11 @@ const globalApiLimiter = rateLimit({
   }
 });
 app.use(['/api', '/muhasebe/api'], globalApiLimiter);
+
+// ==============================================================================
+// 0.35 APEX CITADEL KRİPTOGRAFİK İSTEK İMZA VE REPLAY GUARD (REQUEST SIGNATURE)
+// ==============================================================================
+app.use(requestSignatureGuard);
 
 // Güvenlik: Giriş Kapısı Hız Sınırı (Bounded LRU Store: 15 dakikada 10 deneme / IP)
 const authLoginLimiter = rateLimit({
@@ -1950,6 +1982,7 @@ app.use((err, req, res, next) => {
 
 // Start Server
 if (require.main === module) {
+  memoryIntegritySentinel.initialize();
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`====================================================`);
     console.log(`🏭 BROSAN TEKSTİL ERP SUNUCUSU AKTİF`);
@@ -1958,6 +1991,9 @@ if (require.main === module) {
     console.log(`📊 Ortam: ${process.env.NODE_ENV || 'production'}`);
     console.log(`====================================================`);
   });
+} else {
+  // Initialize integrity sentinel on startup
+  memoryIntegritySentinel.initialize();
 }
 
 app.quarantineEngine = quarantineEngine;
@@ -1969,5 +2005,9 @@ app.lockdownGuard = lockdownGuard;
 app.heuristicWafGuard = heuristicWafGuard;
 app.heuristicWaf = heuristicWafGuard;
 app.ledgerIntegrity = ledgerIntegrity;
+app.honeytokenRouteGuard = honeytokenRouteGuard;
+app.honeytokenParamGuard = honeytokenParamGuard;
+app.requestSignatureGuard = requestSignatureGuard;
+app.memoryIntegritySentinel = memoryIntegritySentinel;
 
 module.exports = app;
