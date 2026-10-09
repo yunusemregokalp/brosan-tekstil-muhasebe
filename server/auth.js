@@ -18,6 +18,7 @@ const path = require('path');
 const { MemoryStore } = require('express-rate-limit');
 const auditLogger = require('./auditLogger');
 const { lockdownManager } = require('./lockdown');
+const sessionGuard = require('./sessionGuard');
 
 // Bounded LRU Cache Rate Limit Store (Max 5000 Entries to prevent OOM DoS)
 class BoundedLruMemoryStore extends MemoryStore {
@@ -173,11 +174,31 @@ function verifyPassword(password, hash) {
 // ==============================================================================
 // 3. JWT TOKEN İŞLEMLERİ
 // ==============================================================================
-function generateToken(user, options = {}) {
+function generateToken(user, optionsOrReq = {}, maybeReq = null) {
+  let options = {};
+  let req = null;
+
+  // Support signatures: generateToken(user, req), generateToken(user, options), generateToken(user, options, req)
+  if (optionsOrReq && (optionsOrReq.headers || optionsOrReq.socket || optionsOrReq.ip || optionsOrReq.method)) {
+    req = optionsOrReq;
+    options = maybeReq || {};
+  } else {
+    options = optionsOrReq || {};
+    req = maybeReq || options.req || null;
+  }
+
   const is2FA = Boolean(user && user.twoFactorEnabled);
   const isVerified = options.is2FAVerified !== undefined
     ? options.is2FAVerified
     : (is2FA ? false : true);
+
+  // Compute session fingerprint if req is provided, or inherit from options
+  let fgp = options.fgp;
+  if (!fgp && req) {
+    try {
+      fgp = sessionGuard.generateFingerprint(req);
+    } catch (_) {}
+  }
 
   const payload = {
     id: user ? user.id : undefined,
@@ -186,15 +207,28 @@ function generateToken(user, options = {}) {
     role: (options.role !== undefined) ? options.role : (user ? (user.role || 'ADMIN') : 'ADMIN'),
     twoFactorEnabled: is2FA,
     is2FAVerified: isVerified,
-    type: options.type || 'ACCESS'
+    type: options.type || 'ACCESS',
+    jti: crypto.randomUUID()
   };
+
+  if (fgp) {
+    payload.fgp = fgp;
+  }
+
   return jwt.sign(payload, JWT_SECRET, {
     expiresIn: options.expiresIn || JWT_EXPIRES_IN,
     algorithm: 'HS256'
   });
 }
 
-function generatePreAuthToken(user) {
+function generatePreAuthToken(user, req = null) {
+  let fgp = null;
+  if (req) {
+    try {
+      fgp = sessionGuard.generateFingerprint(req);
+    } catch (_) {}
+  }
+
   const payload = {
     id: user ? user.id : undefined,
     username: user ? user.username : undefined,
@@ -202,8 +236,14 @@ function generatePreAuthToken(user) {
     role: 'PRE_AUTH_2FA',
     twoFactorEnabled: true,
     is2FAVerified: false,
-    type: 'PRE_AUTH_2FA'
+    type: 'PRE_AUTH_2FA',
+    jti: crypto.randomUUID()
   };
+
+  if (fgp) {
+    payload.fgp = fgp;
+  }
+
   // 5 dakikalık kısıtlı ve kısa ömürlü pre-auth token
   return jwt.sign(payload, JWT_SECRET, {
     expiresIn: '5m',
@@ -417,6 +457,14 @@ function requireAuth(req, res, next) {
     });
   }
 
+  // Layer 2: Cryptographic Session Fingerprint Verification (Anti-Session Hijacking)
+  if (decoded.fgp) {
+    const isValidFgp = sessionGuard.verifyFingerprint(decoded.fgp, req);
+    if (!isValidFgp) {
+      return sessionGuard.handleSessionHijack(req, res, token, decoded);
+    }
+  }
+
   // Dual-Tier 2FA Enforcement:
   // Pre-auth tokens or unverified tokens can ONLY access the 2FA verify endpoint.
   // All business endpoints (/api/accounts, /api/contacts, etc.) are blocked with 401 UNAUTHORIZED_2FA_REQUIRED.
@@ -468,5 +516,6 @@ module.exports = {
   getClientIp,
   validatePasswordStrength,
   PASSWORD_COMPLEXITY_REGEX,
-  BoundedLruMemoryStore
+  BoundedLruMemoryStore,
+  sessionGuard
 };

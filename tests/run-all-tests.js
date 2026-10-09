@@ -64,6 +64,26 @@ const suites = [
     name: '4-Tier Accounting Domain & Reconciliation E2E Suite',
     file: path.join('e2e', 'run-all-tests.js'),
     type: 'E2E'
+  },
+  {
+    name: 'Heuristic WAF & Payload Sanitizer Adversarial Suite',
+    file: 'test-heuristic-waf-adversarial.js',
+    type: 'Security'
+  },
+  {
+    name: 'Session Guard & Fingerprint Binding Adversarial Suite',
+    file: 'test-session-guard-adversarial.js',
+    type: 'Security'
+  },
+  {
+    name: 'Financial Ledger HMAC Blockchain Adversarial Suite',
+    file: 'test-ledger-integrity-adversarial.js',
+    type: 'Security'
+  },
+  {
+    name: 'Phase 4 Master Red-Team Adversarial Penetration Suite',
+    file: 'test-phase4-redteam-adversarial.js',
+    type: 'Security'
   }
 ];
 

@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "totalBlocks": 1,
+  "genesisHash": "22eb7f24d783cebaedd27c107226680660197be6cf01699ece994a684f372501",
+  "headHash": "22eb7f24d783cebaedd27c107226680660197be6cf01699ece994a684f372501",
+  "updatedAt": "2026-10-09T12:13:33.808Z",
+  "blocks": [
+    {
+      "index": 0,
+      "sequence": 0,
+      "recordId": "GENESIS",
+      "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "entryHash": "22eb7f24d783cebaedd27c107226680660197be6cf01699ece994a684f372501",
+      "amount": "0.00",
+      "type": "GENESIS",
+      "timestamp": "2026-01-01T00:00:00.000Z",
+      "recordedAt": "2026-01-01T00:00:00.000Z",
+      "metadata": {
+        "note": "Brosan Tekstil ERP Genesis Audit Root"
+      }
+    }
+  ]
+}

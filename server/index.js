@@ -17,6 +17,8 @@ const { quarantineEngine, quarantineGuard } = require('./quarantine');
 const threatAlerter = require('./threatAlerter');
 const cryptoVault = require('./cryptoVault');
 const { lockdownManager, lockdownGuard } = require('./lockdown');
+const { heuristicWafGuard } = require('./heuristicWaf');
+const ledgerIntegrity = require('./ledgerIntegrity');
 const {
   LoginSchema,
   ChangePasswordSchema,
@@ -244,6 +246,10 @@ app.use(cors({
 // Güvenlik: DoS ve Bellek Tükenmesi Korumalı Yük Sınırları (100KB tavan)
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: true, limit: '100kb' }));
+
+// Güvenlik: Derin Uçuş-İçi Sezgisel WAF ve Yük Denetçisi (Heuristic WAF Payload Guard)
+// SQLi, NoSQLi, XSS, Prototype Pollution ve Dizin Atlama (Path Traversal) engelleme
+app.use(heuristicWafGuard);
 
 // Güvenlik: Global API Hız Sınırı (Bounded LRU Store: Max 5000 Anahtar, Dakikada 120 İstek / IP)
 const globalApiLimiter = rateLimit({
@@ -536,7 +542,7 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
       : Boolean(user.twoFactorEnabled);
 
     if (is2faActive) {
-      const preAuthToken = auth.generatePreAuthToken(user);
+      const preAuthToken = auth.generatePreAuthToken(user, req);
       logSecurityEvent('LOGIN_SUCCESS', {
         req,
         severity: 'INFO',
@@ -566,7 +572,7 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
       });
     }
 
-    const token = auth.generateToken(user, { is2FAVerified: true });
+    const token = auth.generateToken(user, { is2FAVerified: true }, req);
 
     logSecurityEvent('LOGIN_SUCCESS', {
       req,
@@ -801,7 +807,7 @@ app.post('/api/auth/2fa/verify', auth2FaLimiter, auth.requireAuth, async (req, r
     }
 
     // Yüksek yetkili ve 2FA onaylı kalıcı oturum token'ı üret
-    const fullToken = auth.generateToken(user, { is2FAVerified: true });
+    const fullToken = auth.generateToken(user, { is2FAVerified: true }, req);
 
     logSecurityEvent('2FA_VERIFY_SUCCESS', {
       req,
@@ -961,7 +967,7 @@ app.post('/api/auth/2fa/verify-setup', auth.requireAuth, async (req, res) => {
       ...user,
       twoFactorEnabled: true
     };
-    const newToken = auth.generateToken(updatedUser, { is2FAVerified: true });
+    const newToken = auth.generateToken(updatedUser, { is2FAVerified: true }, req);
 
     res.status(200).json({
       success: true,
@@ -1078,7 +1084,7 @@ app.post('/api/auth/2fa/disable', auth.requireAuth, async (req, res) => {
       ...user,
       twoFactorEnabled: false
     };
-    const newToken = auth.generateToken(updatedUser, { is2FAVerified: true });
+    const newToken = auth.generateToken(updatedUser, { is2FAVerified: true }, req);
 
     res.status(200).json({
       success: true,
@@ -1137,6 +1143,122 @@ app.post('/api/auth/emergency-lockdown/restore', async (req, res) => {
   }
   res.status(200).json(result);
 });
+
+// ==============================================================================
+// 1.16 FİNANSAL BLOKZİNCİR DENETİM KAPISI (CRYPTOGRAPHIC LEDGER INTEGRITY AUDIT)
+// ==============================================================================
+function requireAuditRole(req, res, next) {
+  const allowedRoles = ['ADMIN', 'AUDITOR'];
+  if (!req.user || !allowedRoles.includes(req.user.role)) {
+    logSecurityEvent('UNAUTHORIZED_ACCESS', {
+      req,
+      severity: 'WARN',
+      status: 403,
+      details: {
+        path: req.path,
+        reason: 'FORBIDDEN_AUDIT_ACCESS',
+        userRole: req.user ? req.user.role : 'ANONYMOUS'
+      }
+    });
+    return res.status(403).json({
+      success: false,
+      error: 'Bu denetim uç noktasına yalnızca ADMIN veya AUDITOR rolü erişebilir.',
+      code: 'FORBIDDEN_AUDIT_ACCESS'
+    });
+  }
+  next();
+}
+
+async function verifyLedgerIntegrityHandler(req, res) {
+  try {
+    const crossCheckDb = req.query.crossCheckDb === 'true';
+    const allowStatus200 = req.query.allowStatus200 === 'true';
+
+    // Execute cryptographic verification over chain blocks
+    const result = await ledgerIntegrity.verifyChainContinuity({
+      crossCheckDb,
+      prisma: crossCheckDb ? prisma : null
+    });
+
+    if (result.isValid) {
+      logSecurityEvent('LEDGER_INTEGRITY_VERIFIED', {
+        req,
+        severity: 'INFO',
+        status: 200,
+        details: {
+          totalEntries: result.totalEntries,
+          genesisHash: result.genesisHash,
+          headHash: result.headHash
+        }
+      });
+
+      return res.status(200).json({
+        success: true,
+        isValid: true,
+        totalEntries: result.totalEntries,
+        genesisHash: result.genesisHash,
+        headHash: result.headHash,
+        verifiedAt: result.verifiedAt || new Date().toISOString()
+      });
+    }
+
+    // Tamper Detected!
+    const clientIp = auth.getClientIp(req);
+    logSecurityEvent('LEDGER_TAMPER_DETECTED', {
+      req,
+      severity: 'CRITICAL',
+      status: 409,
+      clientIp,
+      details: {
+        corruptedIndex: result.corruptedIndex,
+        corruptedRecordId: result.corruptedRecordId,
+        tamperPoint: result.tamperPoint
+      }
+    });
+
+    try {
+      threatAlerter.dispatchAlert('CRITICAL_SECURITY_ALERT', {
+        eventType: 'LEDGER_TAMPER_DETECTED',
+        clientIp,
+        corruptedIndex: result.corruptedIndex,
+        corruptedRecordId: result.corruptedRecordId,
+        tamperPoint: result.tamperPoint,
+        detectedAt: new Date().toISOString()
+      });
+    } catch (_) {}
+
+    const statusCode = allowStatus200 ? 200 : 409;
+    return res.status(statusCode).json({
+      success: false,
+      isValid: false,
+      corruptedIndex: result.corruptedIndex,
+      corruptedRecordId: result.corruptedRecordId,
+      expectedHash: result.expectedHash,
+      actualHash: result.actualHash,
+      tamperPoint: result.tamperPoint || {
+        field: result.breachCode || 'unknown',
+        expected: result.expectedHash,
+        actual: result.actualHash
+      },
+      error: 'LEDGER_TAMPER_DETECTED'
+    });
+
+  } catch (error) {
+    console.error('⚠️ [LEDGER VERIFICATION ERROR]:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Finansal defter doğrulama işlemi sırasında sunucu hatası oluştu.',
+      code: 'LEDGER_VERIFICATION_ERROR'
+    });
+  }
+}
+
+app.get(
+  ['/api/audit/verify-integrity', '/muhasebe/api/audit/verify-integrity'],
+  auth.requireAuth,
+  requireAuditRole,
+  verifyLedgerIntegrityHandler
+);
 
 // ==============================================================================
 // 1.2 FAIL-CLOSED REST API GÜVENLİK KALKANI
@@ -1330,6 +1452,29 @@ app.post('/api/journal', validateBody(JournalEntrySchema), async (req, res) => {
       },
       include: { items: true }
     });
+
+    // M3 Hook: Append journal entry to cryptographic HMAC ledger
+    try {
+      ledgerIntegrity.appendTransaction({
+        id: entry.id,
+        amount: entry.totalDebit,
+        type: entry.documentType || 'MAHSUP',
+        date: entry.date,
+        createdAt: entry.createdAt,
+        description: entry.description,
+        referenceNo: entry.documentNo
+      });
+    } catch (ledgerErr) {
+      logSecurityEvent('LEDGER_APPEND_FAILED', {
+        req,
+        severity: 'CRITICAL',
+        status: 500,
+        details: {
+          journalId: entry.id,
+          error: ledgerErr.message
+        }
+      });
+    }
 
     res.status(201).json({ success: true, data: entry });
   } catch (error) {
@@ -1571,6 +1716,21 @@ app.post('/api/transactions', validateBody(TransactionSchema), async (req, res) 
       });
     }
 
+    // M3 Hook: Append transaction to cryptographic HMAC ledger
+    try {
+      ledgerIntegrity.appendTransaction(transaction);
+    } catch (ledgerErr) {
+      logSecurityEvent('LEDGER_APPEND_FAILED', {
+        req,
+        severity: 'CRITICAL',
+        status: 500,
+        details: {
+          transactionId: transaction.id,
+          error: ledgerErr.message
+        }
+      });
+    }
+
     res.status(201).json({ success: true, data: transaction });
   } catch (error) {
     return sendSafeError(res, 400, 'Finansal işlem kaydedilemedi. Girdi verilerini kontrol ediniz.', error);
@@ -1806,5 +1966,8 @@ app.cryptoVault = cryptoVault;
 app.prisma = prisma;
 app.lockdownManager = lockdownManager;
 app.lockdownGuard = lockdownGuard;
+app.heuristicWafGuard = heuristicWafGuard;
+app.heuristicWaf = heuristicWafGuard;
+app.ledgerIntegrity = ledgerIntegrity;
 
 module.exports = app;
