@@ -44,7 +44,9 @@ const DEFAULT_TARGET_FILES = [
   'processArmor.js',
   'behavioralShield.js',
   'dbGuard.js',
-  'responseArmor.js'
+  'responseArmor.js',
+  'processSandboxing.js',
+  'honeyFiles.js'
 ];
 
 class MemoryIntegritySentinel {

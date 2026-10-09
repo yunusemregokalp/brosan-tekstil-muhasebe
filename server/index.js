@@ -29,6 +29,8 @@ const { processArmor } = require('./processArmor');
 const { behavioralShieldGuard, behavioralShieldEngine } = require('./behavioralShield');
 const dbGuard = require('./dbGuard');
 const { responseArmorGuard, responseArmor } = require('./responseArmor');
+const { processSandboxMiddleware, ...processSandboxing } = require('./processSandboxing');
+const { honeyFilesGuard, ...honeyFiles } = require('./honeyFiles');
 const {
   LoginSchema,
   ChangePasswordSchema,
@@ -53,6 +55,8 @@ app.processArmor = processArmor;
 app.behavioralShield = behavioralShieldEngine;
 app.dbGuard = dbGuard;
 app.responseArmor = responseArmor;
+app.processSandboxing = processSandboxing;
+app.honeyFiles = honeyFiles;
 
 const PORT = process.env.PORT || 3000;
 const basePrisma = new PrismaClient({
@@ -74,6 +78,12 @@ app.disable('x-powered-by');
 
 // Güvenlik: SIEM Güvenlik Denetim Günlüğü Middleware'i
 app.use(auditMiddleware);
+
+// Güvenlik: Süreç Kum Havuzu ve Yürütme Kilidi (Phase 8 Process Sandboxing)
+app.use(processSandboxMiddleware);
+
+// Güvenlik: Düşmanca Sızma Aldatma Ağı ve Dinamik Yem Dosyaları (Phase 8 Honeyfiles Deception Mesh)
+app.use(honeyFilesGuard);
 
 // ==============================================================================
 // 0. HOST HEADER GÜVENLİK KALKANI (REVERSE PROXY ORIGIN BINDING - 403 FORBIDDEN)

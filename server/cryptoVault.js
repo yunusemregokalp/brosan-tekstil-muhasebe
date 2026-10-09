@@ -206,8 +206,14 @@ function decrypt(ciphertext, aad = null) {
     const decPart1 = decipher.update(encryptedBuf);
     const decPart2 = decipher.final();
     const decryptedBuf = decPart2.length > 0 ? Buffer.concat([decPart1, decPart2]) : decPart1;
+    const plaintext = decryptedBuf.toString('utf8');
 
-    return decryptedBuf.toString('utf8');
+    // Phase 8 Zero-Knowledge Memory Scrubbing: Zeroize in-memory decrypted buffers
+    zeroizeBuffer(decryptedBuf);
+    if (decPart1 !== decryptedBuf) zeroizeBuffer(decPart1);
+    if (decPart2 && decPart2.length > 0) zeroizeBuffer(decPart2);
+
+    return plaintext;
   } catch (err) {
     if (err instanceof CryptographicIntegrityError) {
       throw err;
@@ -518,6 +524,19 @@ function withCryptoVault(prismaClient) {
 }
 
 /**
+ * Zeroize memory buffer in place (Phase 8 Zero-Knowledge Memory Cleansing)
+ * Overwrites buffer bytes with zeros to protect against heap dumps and cold-boot extraction.
+ * @param {Buffer|Uint8Array} buf
+ */
+function zeroizeBuffer(buf) {
+  if (Buffer.isBuffer(buf)) {
+    buf.fill(0);
+  } else if (buf && typeof buf.fill === 'function') {
+    buf.fill(0);
+  }
+}
+
+/**
  * Cryptographic Self-Test on Module Load
  */
 function selfTest() {
@@ -550,6 +569,7 @@ module.exports = {
   isEncrypted,
   encrypt,
   decrypt,
+  zeroizeBuffer,
   maskIban,
   maskTaxNumber,
   encryptAccount,

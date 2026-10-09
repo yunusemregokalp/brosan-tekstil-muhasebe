@@ -99,6 +99,11 @@ const suites = [
     name: 'Phase 7 Sovereign Apex Citadel Suite',
     file: 'test-phase7-citadel.js',
     type: 'Security'
+  },
+  {
+    name: 'Phase 8 Sovereign Quantum Vault Suite',
+    file: 'test-phase8-citadel.js',
+    type: 'Security'
   }
 ];
 
