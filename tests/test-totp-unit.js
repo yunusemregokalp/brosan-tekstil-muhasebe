@@ -268,6 +268,12 @@ async function runTotpUnitTests() {
 
     const iterations = 10000;
 
+    // V8 JIT warmup to eliminate compilation skew
+    for (let i = 0; i < 2000; i++) {
+      totp.timingSafeCodeCheck(target, match);
+      totp.timingSafeCodeCheck(target, mismatchFirstChar);
+    }
+
     const t0 = process.hrtime.bigint();
     for (let i = 0; i < iterations; i++) {
       totp.timingSafeCodeCheck(target, match);

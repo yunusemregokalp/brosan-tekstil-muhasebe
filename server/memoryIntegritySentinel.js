@@ -37,7 +37,11 @@ const DEFAULT_TARGET_FILES = [
   'requestSignature.js',
   'lockdown.js',
   'auditLogger.js',
-  'memoryIntegritySentinel.js'
+  'memoryIntegritySentinel.js',
+  'egressFirewall.js',
+  'ephemeralTokens.js',
+  'proofOfWork.js',
+  'processArmor.js'
 ];
 
 class MemoryIntegritySentinel {

@@ -22,6 +22,10 @@ const ledgerIntegrity = require('./ledgerIntegrity');
 const { honeytokenRouteGuard, honeytokenParamGuard } = require('./honeytoken');
 const { requestSignatureGuard } = require('./requestSignature');
 const { memoryIntegritySentinel } = require('./memoryIntegritySentinel');
+const { egressFirewall } = require('./egressFirewall');
+const { ephemeralTokenGuard, ephemeralTokenEngine } = require('./ephemeralTokens');
+const { proofOfWorkGuard, proofOfWorkEngine } = require('./proofOfWork');
+const { processArmor } = require('./processArmor');
 const {
   LoginSchema,
   ChangePasswordSchema,
@@ -39,11 +43,22 @@ const {
 const { auditMiddleware, logSecurityEvent } = require('./auditLogger');
 
 const app = express();
+app.egressFirewall = egressFirewall;
+app.ephemeralTokenEngine = ephemeralTokenEngine;
+app.proofOfWorkEngine = proofOfWorkEngine;
+app.processArmor = processArmor;
+
 const PORT = process.env.PORT || 3000;
 const basePrisma = new PrismaClient({
   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
 });
 const prisma = cryptoVault.withCryptoVault(basePrisma);
+
+// ==============================================================================
+// SOVEREIGN CITADEL DEFENSE INITIALIZATION (PHASE 6)
+// ==============================================================================
+processArmor.activate();
+egressFirewall.install();
 
 // Güvenlik: Ters Vekil (Traefik / Coolify) İstemci IP Doğrulaması (Anti-IP-Spoofing)
 app.set('trust proxy', 1);
@@ -254,7 +269,19 @@ app.use(cors({
     'Authorization',
     'X-Brosan-Signature',
     'X-Brosan-Timestamp',
-    'X-Brosan-Nonce'
+    'X-Brosan-Nonce',
+    'X-Brosan-PoW-Challenge',
+    'X-Brosan-PoW-Seed',
+    'X-Brosan-PoW-Difficulty',
+    'X-Brosan-PoW-Expires',
+    'X-Brosan-PoW-Signature',
+    'X-Brosan-PoW-Nonce'
+  ],
+  exposedHeaders: [
+    'X-Brosan-Next-Token',
+    'X-Brosan-PoW-Challenge',
+    'X-Brosan-PoW-Difficulty',
+    'X-Brosan-PoW-Expires'
   ],
   credentials: true,
   maxAge: 86400
@@ -294,7 +321,12 @@ const globalApiLimiter = rateLimit({
 app.use(['/api', '/muhasebe/api'], globalApiLimiter);
 
 // ==============================================================================
-// 0.35 APEX CITADEL KRİPTOGRAFİK İSTEK İMZA VE REPLAY GUARD (REQUEST SIGNATURE)
+// 0.35 SOVEREIGN CITADEL EPHEMERAL SLIDING TOKEN ROTATION & REPLAY TRAP (PHASE 6)
+// ==============================================================================
+app.use(['/api', '/muhasebe/api'], ephemeralTokenGuard);
+
+// ==============================================================================
+// 0.36 APEX CITADEL KRİPTOGRAFİK İSTEK İMZA VE REPLAY GUARD (REQUEST SIGNATURE)
 // ==============================================================================
 app.use(requestSignatureGuard);
 
@@ -416,7 +448,7 @@ const localAdmin2FA = {
   recoveryCodes: null
 };
 
-app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (req, res) => {
+app.post('/api/auth/login', authLoginLimiter, proofOfWorkGuard, validateBody(LoginSchema), async (req, res) => {
   try {
     const { username, password } = req.body;
     const clientIp = auth.getClientIp(req);
@@ -604,7 +636,10 @@ app.post('/api/auth/login', authLoginLimiter, validateBody(LoginSchema), async (
       });
     }
 
-    const token = auth.generateToken(user, { is2FAVerified: true }, req);
+    const wantsEphemeral = (req.headers && req.headers['x-brosan-ephemeral'] === 'true') || (req.body && req.body.ephemeral === true);
+    const token = wantsEphemeral
+      ? ephemeralTokenEngine.createInitialToken(user, req)
+      : auth.generateToken(user, req);
 
     logSecurityEvent('LOGIN_SUCCESS', {
       req,

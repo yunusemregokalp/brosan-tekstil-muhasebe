@@ -23,7 +23,10 @@ const THREAT_EVENT_TYPES = {
   BRUTE_FORCE_LOCKOUT: { severity: 'HIGH', label: '🔒 Brute-Force Hesap/IP Kilidi' },
   REPLAY_ATTACK: { severity: 'CRITICAL', label: '⚠️ TOTP/2FA Replay Saldırısı Tespit Edildi' },
   SENSITIVE_PROBE: { severity: 'CRITICAL', label: '🚨 Hassas Dosya / Dizin Atlama Taraması' },
-  BURST_SUMMARY: { severity: 'HIGH', label: '📊 Coalesced Alert Burst Summary' }
+  BURST_SUMMARY: { severity: 'HIGH', label: '📊 Coalesced Alert Burst Summary' },
+  EGRESS_PROHIBITED: { severity: 'CRITICAL', label: '🛑 Yetkisiz Dış Bağlantı / SSRF Girişimi Engellendi' },
+  TOKEN_REPLAY_BREACH_DETECTED: { severity: 'CRITICAL', label: '⚠️ Belirteç Yeniden Oynatma İhlali (Token Replay Breach)' },
+  POW_CHALLENGE_FAILED: { severity: 'HIGH', label: '🤖 Proof-of-Work Botnet Doğrulama Başarısızlığı' }
 };
 
 const FORBIDDEN_KEYS = new Set([

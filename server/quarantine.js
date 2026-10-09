@@ -328,6 +328,10 @@ class BoundedLruQuarantineEngine {
     this.saveToDisk();
   }
 
+  reset() {
+    this.clear();
+  }
+
   /**
    * Stops background sweep interval and flushes disk persistence.
    */

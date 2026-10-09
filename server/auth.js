@@ -208,8 +208,18 @@ function generateToken(user, optionsOrReq = {}, maybeReq = null) {
     twoFactorEnabled: is2FA,
     is2FAVerified: isVerified,
     type: options.type || 'ACCESS',
-    jti: crypto.randomUUID()
+    jti: options.jti || (user && user.jti) || crypto.randomUUID()
   };
+
+  if (options.fam || (user && user.fam)) {
+    payload.fam = options.fam || user.fam;
+  }
+  if (options.seq !== undefined || (user && user.seq !== undefined)) {
+    payload.seq = options.seq !== undefined ? options.seq : user.seq;
+  }
+  if (options.parentJti || (user && user.parentJti)) {
+    payload.parentJti = options.parentJti || user.parentJti;
+  }
 
   if (fgp) {
     payload.fgp = fgp;
@@ -517,5 +527,6 @@ module.exports = {
   validatePasswordStrength,
   PASSWORD_COMPLEXITY_REGEX,
   BoundedLruMemoryStore,
-  sessionGuard
+  sessionGuard,
+  JWT_SECRET
 };
