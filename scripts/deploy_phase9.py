@@ -222,7 +222,7 @@ const req = http.request({{
 req.on('error', (e) => {{ console.error('DECOY_ERR:' + e.message); }});
 req.end();
 """
-    decoy_out, _, _ = run_ssh(f"docker exec {cname} node -e \"{decoy_test_js.replace(chr(10), ' ')}\"")
+    decoy_out, _, _ = run_ssh(f"docker exec -i {cname} node", stdin_data=decoy_test_js)
     print("  Decoy Probe Result (Container Loopback):\n", decoy_out.strip(), flush=True)
     if "DECOY_PROBE_STATUS:403" in decoy_out and "DECOY_TRAP_TRIGGERED" in decoy_out:
         print(f"  ✓ Decoy trap intercepted probe with HTTP 403 DECOY_TRAP_TRIGGERED & test IP {test_probe_ip} sanitized!")
