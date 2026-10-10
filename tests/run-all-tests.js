@@ -104,6 +104,11 @@ const suites = [
     name: 'Phase 8 Sovereign Quantum Vault Suite',
     file: 'test-phase8-citadel.js',
     type: 'Security'
+  },
+  {
+    name: 'Phase 9: Sovereign Zenith Citadel & Cyber Immunity',
+    file: 'test-phase9-citadel.js',
+    type: 'Security'
   }
 ];
 

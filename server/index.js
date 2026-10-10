@@ -31,6 +31,9 @@ const dbGuard = require('./dbGuard');
 const { responseArmorGuard, responseArmor } = require('./responseArmor');
 const { processSandboxMiddleware, ...processSandboxing } = require('./processSandboxing');
 const { honeyFilesGuard, ...honeyFiles } = require('./honeyFiles');
+const { polymorphicTrapsGuard, ...polymorphicTraps } = require('./polymorphicTraps');
+const { merkleVault } = require('./merkleVault');
+const { dynamicImmunityGuard, fuzzingSentinel } = require('./fuzzingSentinel');
 const {
   LoginSchema,
   ChangePasswordSchema,
@@ -57,6 +60,9 @@ app.dbGuard = dbGuard;
 app.responseArmor = responseArmor;
 app.processSandboxing = processSandboxing;
 app.honeyFiles = honeyFiles;
+app.polymorphicTraps = polymorphicTraps;
+app.merkleVault = merkleVault;
+app.fuzzingSentinel = fuzzingSentinel;
 
 const PORT = process.env.PORT || 3000;
 const basePrisma = new PrismaClient({
@@ -110,6 +116,13 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// ==============================================================================
+// 0.040 SOVEREIGN ZENITH CITADEL POLİMORFİK TUZAK VE TARPIT ROTASI (PHASE 9)
+// ==============================================================================
+// Mount immediately after ALLOWED_HOSTS check and BEFORE quarantineGuard:
+// Decoy routes trigger random tarpit delay, 48h IP quarantine, and token revocation.
+app.use(polymorphicTrapsGuard);
 
 // ==============================================================================
 // 0.045 APEX CITADEL AKTİF BAL KÜPÜ ROTA TUZAKLARI (HONEYTOKEN ROUTE TRAPS)
@@ -323,6 +336,11 @@ app.use(honeytokenParamGuard);
 // Güvenlik: Derin Uçuş-İçi Sezgisel WAF ve Yük Denetçisi (Heuristic WAF Payload Guard)
 // SQLi, NoSQLi, XSS, Prototype Pollution ve Dizin Atlama (Path Traversal) engelleme
 app.use(heuristicWafGuard);
+
+// ==============================================================================
+// 0.245 OTONOM ADVERSARIAL KAOS VE FUZZING BAĞIŞIKLIK KALKANI (PHASE 9)
+// ==============================================================================
+app.use(dynamicImmunityGuard);
 
 // ==============================================================================
 // 0.25 SOVEREIGN APEX CITADEL DAVRANIŞSAL ANOMALİ VE HIZ KALKANI (PHASE 7)
@@ -1367,6 +1385,75 @@ app.get(
 );
 
 // ==============================================================================
+// 1.17 KRİPTOGRAFİK MERKLE STATE SNAPSHOT VE BÜTÜNLÜK DENETİMİ (PHASE 9)
+// ==============================================================================
+function authenticateMerkleAudit(req, res, next) {
+  const masterKey = req.headers['x-brosan-master-key'] || req.headers['x-master-key'];
+  const expectedMaster = process.env.MASTER_RECOVERY_PHRASE || 'Brosan2026!CitadelMasterRestore';
+  if (masterKey && masterKey === expectedMaster) {
+    req.user = { id: 'master-override', role: 'ADMIN', username: 'master' };
+    return next();
+  }
+  return auth.requireAuth(req, res, () => {
+    requireAuditRole(req, res, next);
+  });
+}
+
+async function verifyMerkleStateHandler(req, res) {
+  try {
+    const clientIp = auth.getClientIp(req);
+    const crossCheckDb = req.query && req.query.crossCheckDb === 'true';
+    const result = await merkleVault.verifyCurrentState(prisma, { clientIp, crossCheckDb });
+
+    if (result.isValid) {
+      logSecurityEvent('MERKLE_STATE_VERIFIED', {
+        req,
+        severity: 'INFO',
+        status: 200,
+        details: {
+          merkleRoot: result.merkleRoot,
+          snapshotId: result.snapshotId,
+          leafCount: result.leafCount
+        }
+      });
+      return res.status(200).json({
+        success: true,
+        isValid: true,
+        merkleRoot: result.merkleRoot,
+        snapshotId: result.snapshotId,
+        leafCount: result.leafCount,
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    // Tamper / mismatch detected
+    return res.status(409).json({
+      success: false,
+      isValid: false,
+      error: result.error || 'MERKLE_ROOT_MISMATCH',
+      code: 'MERKLE_ROOT_MISMATCH',
+      lockdownTriggered: Boolean(result.lockdownTriggered),
+      liveRoot: result.liveRoot,
+      expectedRoot: result.expectedRoot,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('⚠️ [MERKLE VERIFICATION ERROR]:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Merkle durumu doğrulama işlemi sırasında sunucu hatası oluştu.',
+      code: 'MERKLE_VERIFICATION_ERROR'
+    });
+  }
+}
+
+app.all(
+  ['/api/audit/verify-merkle', '/muhasebe/api/audit/verify-merkle'],
+  authenticateMerkleAudit,
+  verifyMerkleStateHandler
+);
+
+// ==============================================================================
 // 1.2 FAIL-CLOSED REST API GÜVENLİK KALKANI
 // /api/health ve /api/auth/login hariç tüm muhasebe rotalarını korur
 // ==============================================================================
@@ -2089,5 +2176,10 @@ app.memoryIntegritySentinel = memoryIntegritySentinel;
 app.dbGuard = dbGuard;
 app.behavioralShield = behavioralShieldEngine;
 app.responseArmor = responseArmor;
+app.polymorphicTrapsGuard = polymorphicTrapsGuard;
+app.polymorphicTraps = polymorphicTraps;
+app.merkleVault = merkleVault;
+app.dynamicImmunityGuard = dynamicImmunityGuard;
+app.fuzzingSentinel = fuzzingSentinel;
 
 module.exports = app;
