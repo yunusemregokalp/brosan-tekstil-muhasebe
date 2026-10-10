@@ -34,6 +34,9 @@ const { honeyFilesGuard, ...honeyFiles } = require('./honeyFiles');
 const { polymorphicTrapsGuard, ...polymorphicTraps } = require('./polymorphicTraps');
 const { merkleVault } = require('./merkleVault');
 const { dynamicImmunityGuard, fuzzingSentinel } = require('./fuzzingSentinel');
+const { postQuantumSigner, verifyHybridSignature } = require('./postQuantumSigner');
+const { heapCanary } = require('./heapCanary');
+const { peerAttestation, attestationMiddleware, handleAttestationRequest } = require('./peerAttestation');
 const {
   LoginSchema,
   ChangePasswordSchema,
@@ -63,6 +66,9 @@ app.honeyFiles = honeyFiles;
 app.polymorphicTraps = polymorphicTraps;
 app.merkleVault = merkleVault;
 app.fuzzingSentinel = fuzzingSentinel;
+app.postQuantumSigner = postQuantumSigner;
+app.heapCanary = heapCanary;
+app.peerAttestation = peerAttestation;
 
 const PORT = process.env.PORT || 3000;
 const basePrisma = new PrismaClient({
@@ -307,13 +313,15 @@ app.use(cors({
     'X-Brosan-PoW-Difficulty',
     'X-Brosan-PoW-Expires',
     'X-Brosan-PoW-Signature',
-    'X-Brosan-PoW-Nonce'
+    'X-Brosan-PoW-Nonce',
+    'X-Brosan-Attestation-Proof'
   ],
   exposedHeaders: [
     'X-Brosan-Next-Token',
     'X-Brosan-PoW-Challenge',
     'X-Brosan-PoW-Difficulty',
-    'X-Brosan-PoW-Expires'
+    'X-Brosan-PoW-Expires',
+    'X-Brosan-Attestation-Proof'
   ],
   credentials: true,
   maxAge: 86400
@@ -341,6 +349,11 @@ app.use(heuristicWafGuard);
 // 0.245 OTONOM ADVERSARIAL KAOS VE FUZZING BAĞIŞIKLIK KALKANI (PHASE 9)
 // ==============================================================================
 app.use(dynamicImmunityGuard);
+
+// ==============================================================================
+// 0.246 OTONOM OUT-OF-BAND ATTESTATION VE DEĞİŞTİRİLEMEZ TELEMETRİ (PHASE 10)
+// ==============================================================================
+app.use(attestationMiddleware);
 
 // ==============================================================================
 // 0.25 SOVEREIGN APEX CITADEL DAVRANIŞSAL ANOMALİ VE HIZ KALKANI (PHASE 7)
@@ -1454,6 +1467,53 @@ app.all(
 );
 
 // ==============================================================================
+// 1.18 OTONOM OUT-OF-BAND ATTESTATION & POST-QUANTUM İMZA DOĞRULAMA (PHASE 10)
+// ==============================================================================
+app.get(
+  ['/api/audit/attestation', '/muhasebe/api/audit/attestation'],
+  handleAttestationRequest
+);
+
+app.post(
+  ['/api/audit/verify-hybrid-signature', '/muhasebe/api/audit/verify-hybrid-signature'],
+  (req, res) => {
+    try {
+      const { payload, signature } = req.body || {};
+      if (!payload || !signature) {
+        return res.status(400).json({
+          success: false,
+          isValid: false,
+          error: 'PAYLOAD_OR_SIGNATURE_MISSING',
+          code: 'INVALID_HYBRID_SIGNATURE'
+        });
+      }
+      const isValid = verifyHybridSignature(payload, signature, { throwOnError: false });
+      if (isValid === true || (isValid && isValid.isValid === true)) {
+        return res.status(200).json({
+          success: true,
+          isValid: true,
+          verifiedAt: new Date().toISOString(),
+          algorithms: ['Ed25519', 'NIST-FIPS-204-ML-DSA-44']
+        });
+      }
+      return res.status(400).json({
+        success: false,
+        isValid: false,
+        error: (isValid && isValid.reason) || 'INVALID_HYBRID_SIGNATURE',
+        code: 'INVALID_HYBRID_SIGNATURE'
+      });
+    } catch (err) {
+      return res.status(400).json({
+        success: false,
+        isValid: false,
+        error: err.message,
+        code: err.code || 'INVALID_HYBRID_SIGNATURE'
+      });
+    }
+  }
+);
+
+// ==============================================================================
 // 1.2 FAIL-CLOSED REST API GÜVENLİK KALKANI
 // /api/health ve /api/auth/login hariç tüm muhasebe rotalarını korur
 // ==============================================================================
@@ -1669,7 +1729,16 @@ app.post('/api/journal', validateBody(JournalEntrySchema), async (req, res) => {
       });
     }
 
-    res.status(201).json({ success: true, data: entry });
+    // Phase 10: Sign journal ledger mutation with Post-Quantum Hybrid Signer
+    let pqcEnvelope = null;
+    try {
+      pqcEnvelope = postQuantumSigner.signHybrid(entry, {
+        declarationType: 'LEDGER_MUTATION',
+        documentNo: String(entry.entryNo)
+      });
+    } catch (_) {}
+
+    res.status(201).json({ success: true, data: entry, pqcSignature: pqcEnvelope });
   } catch (error) {
     return sendSafeError(res, 400, 'Yevmiye kaydı oluşturulamadı. Girdi verilerini kontrol ediniz.', error);
   }
@@ -2104,7 +2173,13 @@ app.get('/api/mutabakat/faruk-aytin', (req, res) => {
     const dataPath = path.join(__dirname, '..', 'data', 'faruk_aytin_excel_data.json');
     if (fs.existsSync(dataPath)) {
       const raw = fs.readFileSync(dataPath, 'utf-8');
-      return res.json({ success: true, data: JSON.parse(raw) });
+      const parsed = JSON.parse(raw);
+      const pqcSignature = postQuantumSigner.signHybrid(parsed, {
+        declarationType: 'TTK_94_MUTABAKAT',
+        documentNo: 'BR-MUT-2026/10-FA',
+        metadata: { counterparty: 'FARUK AYTIN', ttkArticle: 'TTK-94' }
+      });
+      return res.json({ success: true, data: parsed, pqcSignature });
     }
     res.status(404).json({ success: false, error: 'Mutabakat verisi bulunamadı' });
   } catch (err) {

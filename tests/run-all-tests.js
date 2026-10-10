@@ -109,6 +109,11 @@ const suites = [
     name: 'Phase 9: Sovereign Zenith Citadel & Cyber Immunity',
     file: 'test-phase9-citadel.js',
     type: 'Security'
+  },
+  {
+    name: 'Phase 10: Sovereign Omega Citadel & Post-Quantum Anti-Tamper Immutable Telemetry',
+    file: 'test-phase10-citadel.js',
+    type: 'Security'
   }
 ];
 

@@ -412,7 +412,13 @@ function requireAuth(req, res, next) {
     path === '/api/auth/emergency-lockdown/restore' ||
     path.endsWith('/auth/emergency-lockdown/restore') ||
     path === '/robots.txt' ||
-    path.endsWith('/robots.txt');
+    path.endsWith('/robots.txt') ||
+    path === '/api/audit/attestation' ||
+    path === '/audit/attestation' ||
+    path.endsWith('/audit/attestation') ||
+    path === '/api/audit/verify-hybrid-signature' ||
+    path === '/audit/verify-hybrid-signature' ||
+    path.endsWith('/audit/verify-hybrid-signature');
 
   if (isPublic) {
     return next();

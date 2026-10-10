@@ -256,3 +256,92 @@ VPS 173.249.23.10 üzerinde non-root kullanıcı `node` (UID 1000) ile çalışa
 - [ ] `tests/test-phase8-citadel.js` test paketi 15+ iddiayı %100 başarıyla geçer.
 - [ ] `tests/run-all-tests.js` içerisindeki tüm 17 test paketi (Phase 1-8) eksiksiz %100 geçer.
 - [ ] Coolify VPS 173.249.23.10 üzerinde UID 1000 (`node`) ile container ayağa kalkar, `https://brosangroup.com/muhasebe/api/health` ve kardeş servis `https://brosangroup.com/callcenter/landing` 200 OK döner.
+
+## 2026-10-09T23:39:22Z
+
+Brosan Tekstil ERP muhasebe sistemini (https://brosangroup.com/muhasebe) olası tüm APT, otomatik tarama (automated reconnaissance), bellek manipülasyonu ve sıfır gün açıklarına karşı mutlak koruma altına alan Phase 9: Sovereign Zenith Citadel & Autonomous Cyber Immunity Engine savunma mimarisinin devreye alınması ve Coolify prodüksiyon ortamında sıfır regresyonla canlıya alınması.
+
+Working directory: c:\Users\YUNUS EMRE GÖKALP\OneDrive\Masaüstü\MUHASEBE BROSAN TEKSTİL\YÜKLEME EVRAKLARI ANTIGRAVITY
+Integrity mode: development
+
+## Requirements
+
+### R1. Polymorphic Decoy Routes & Anti-Reconnaissance Tarpit (`server/polymorphicTraps.js`)
+Otomatik zafiyet tarama araçlarını (Nuclei, Gobuster, Nikto, WPScan, Burp Suite vb.) ve botları tespit eden dinamik tuzak rotalar (`/wp-login.php`, `/.well-known/security.txt`, `/actuator/health`, `/api/v1/swagger.json`, `/solr/admin`, `/phpmyadmin`, `/api/v2/debug`). Bu sahte tuzak rotalar saldırgana rastgele HTTP tarpit gecikmesi (1.5s - 3.5s) yaşatır, anında saldırgan IP'sini 48 saat karantinaya (`quarantineEngine`) alır, oturumunu düşürür ve yüksek öncelikli SIEM uyarısı tetikler.
+
+### R2. Cryptographic Merkle State Snapshot & Tamper-Proof Audit Vault (`server/merkleVault.js`)
+Muhasebe ve mali kayıtların (hesap bakiyeleri, fatura hareketleri, dekont kayıtları) bütünlüğünü kriptografik SHA-256 Merkle Ağacı ve HMAC defter mühürleme ile garanti altına alan mekanizma. Her kritik mutasyonda Merkle Kökü hesaplanır, diskteki değiştirilemez (append-only) adli denetim günlüğüne kaydedilir. Bellekte veya veritabanında tek bir baytlık oynama tespit edildiğinde sistem derhal acil durum kilitlenmesine (`lockdownManager`) geçer.
+
+### R3. Autonomous Adversarial Chaos & Fuzzing Immune Sentinel (`server/fuzzingSentinel.js`)
+Sistem dahili API uç noktalarını bellek içinde mutasyona uğramış payload'larla (Unicode homograph, null byte injection, prototype pollution, oversized buffer bombs, polyglot SQL/XSS) düzenli olarak test eden ve çalışma zamanında kırılganlık tespiti yapıp anında kalkan üreten otonom bağışıklık motoru.
+
+### R4. Phase 9 Master Penetration Test Suite (`tests/test-phase9-citadel.js`, `tests/run-all-tests.js`)
+Tüm Phase 9 savunma vektörlerini (polimorfik tuzaklar, tarpit gecikmesi, Merkle ağacı bütünlük denetimi, fuzzing bağışıklığı) %100 başarı barajıyla test eden özel red-team paketi. Suite 18 olarak `tests/run-all-tests.js` ana test koşucusuna entegre edilerek tüm 18 test paketinin %100 başarıyla geçmesi.
+
+### R5. Coolify Prodüksiyon Dağıtımı & Canlı Doğrulama
+VPS 173.249.23.10 üzerinde non-root kullanıcı `node` (UID 1000) ile çalışan güvenli konteyner dağıtımı, `https://brosangroup.com/muhasebe/api/health`, tarpit tuzağı ve kardeş servis `https://brosangroup.com/callcenter/landing` üzerinde sıfır regresyonlu canlı prob doğrulaması.
+
+## Acceptance Criteria
+
+### Polymorphic Traps & Tarpit
+- [ ] Bilinen tarama rotalarına (`/wp-login.php`, `/phpmyadmin`, `/actuator/health`) gelen istekler HTTP 403 `DECOY_TRAP_TRIGGERED` ile yakalanır.
+- [ ] İhlal yapan IP anında karantinaya alınır ve SIEM uyarısı üretilir.
+- [ ] Meşru ERP API rotaları (örneğin `/muhasebe/api/*`) gecikmesiz çalışır (0 false positive).
+
+### Merkle State Vault
+- [ ] Hesap hareketleri ve bakiye mutasyonları SHA-256 Merkle Ağacı ile kriptografik olarak mühürlenir.
+- [ ] Defterde yetkisiz bir kayıt veya bakiye tutarsızlığı simüle edildiğinde `MERKLE_ROOT_MISMATCH` tespit edilerek acil kilitlenme tetiklenir.
+
+### Fuzzing Immune Sentinel
+- [ ] Null-byte, Unicode homograph ve prototype pollution fuzzer yükleri WAF ve validator katmanları tarafından %100 filtrelenir.
+- [ ] Fuzzing motoru meşru üretim verilerine zarar vermeden sanal koruma sağlar.
+
+### Test & Prodüksiyon
+- [ ] `tests/test-phase9-citadel.js` test paketi 15+ iddiayı %100 başarıyla geçer.
+- [ ] `tests/run-all-tests.js` içerisindeki tüm 18 test paketini (Phase 1-9) eksiksiz %100 geçer.
+- [ ] Coolify VPS 173.249.23.10 üzerinde UID 1000 (`node`) ile container ayağa kalkar, `https://brosangroup.com/muhasebe/api/health` ve kardeş servis `https://brosangroup.com/callcenter/landing` 200 OK döner.
+
+
+## 2026-10-10T01:04:31Z
+
+Brosan Tekstil ERP muhasebe sistemini (https://brosangroup.com/muhasebe) kuantum bilgisayar tehditlerine (Shor algoritması), bellek dökümü ve yığın taşması (heap buffer overflow/inspection) girişimlerine ve gelişmiş devlet destekli APT saldırılarına karşı mutlak koruma altına alan Phase 10: Sovereign Omega Citadel & Post-Quantum Anti-Tamper Immutable Telemetry savunma mimarisinin devreye alınması ve Coolify prodüksiyon ortamında sıfır regresyonla canlıya alınması.
+
+Working directory: c:\Users\YUNUS EMRE GÖKALP\OneDrive\Masaüstü\MUHASEBE BROSAN TEKSTİL\YÜKLEME EVRAKLARI ANTIGRAVITY
+Integrity mode: development
+
+## Requirements
+
+### R1. Post-Quantum Resistant Hybrid Cryptographic Signer (`server/postQuantumSigner.js`)
+NIST FIPS 204 ML-DSA/Dilithium uyumlu kafes tabanlı (lattice-based) kuantum sonrası imzalama mantığı ile klasik Ed25519 anahtarını birleştiren çift hibrit kriptografik zarf (hybrid envelope). Resmi mali beyannameler (ETGB, İBKB, TTK 94 Cari Mutabakat) ve kritik defter mutasyonları için kuantum dirençli ileriye dönük gizlilik (forward secrecy). Doğrulama fonksiyonu: `verifyHybridSignature(payload, hybridEnvelope)`.
+
+### R2. Kernel-Style Heap Canary & Memory Corruption Tripwire (`server/heapCanary.js`)
+Hassas V8 tampon belleklerinde (master anahtarlar, JWT sırları, çözülen dekont tamponları) bitişik olarak tahsis edilen 64 baytlık yüksek entropili, HMAC kimlik doğrulamalı "canary guard words" (ölümcül tuzak etiketleri). Her kritik kriptografik işlem öncesinde ve periyodik arka plan taramasında (her 5 sn) bu koruma etiketleri denetlenir. Yığın taşması, bellek kazıma veya bayt manipülasyonu tespit edildiği mikrosaniyede bellek anında sıfırlanır (`Buffer.fill(0)`), sistem acil panik kilitlenmesine (`lockdownManager`) geçer ve SIEM uyarısı tetiklenir.
+
+### R3. Autonomous Out-of-Band Attestation & Immutable Telemetry (`server/peerAttestation.js`)
+Uygulama çalışma zamanının (kod hash'leri, bellek sentinelleri, Merkle durum kökü, aktif güvenlik politikaları) değiştirilemez kriptografik durum özetini (attestation proof) üreten otonom telemetri motoru. API yanıtlarına `X-Brosan-Attestation-Proof` başlığını enjekte eder ve `/api/audit/attestation` uç noktasında üçüncü taraf denetçilere doğrulanabilir kriptografik kanıt sunar.
+
+### R4. Phase 10 Master Penetration Test Suite (`tests/test-phase10-citadel.js`, `tests/run-all-tests.js`)
+Tüm Phase 10 savunma vektörlerini (Post-Quantum hibrit imza, heap canary yığın bütünlüğü ve sıfırlama, attestation telemetrisi) %100 başarı barajıyla test eden özel red-team paketi. Suite 19 olarak `tests/run-all-tests.js` ana test koşucusuna entegre edilerek tüm 19 test paketinin %100 başarıyla geçmesi.
+
+### R5. Coolify Prodüksiyon Dağıtımı & Canlı Doğrulama
+VPS 173.249.23.10 üzerinde non-root kullanıcı `node` (UID 1000) ile çalışan güvenli konteyner dağıtımı, `https://brosangroup.com/muhasebe/api/health`, `/api/audit/attestation`, tarpit tuzağı ve kardeş servis `https://brosangroup.com/callcenter/landing` üzerinde sıfır regresyonlu canlı prob doğrulaması.
+
+## Acceptance Criteria
+
+### Post-Quantum Hybrid Signer
+- [ ] Klasik Ed25519 ve kuantum sonrası kafes karmalarını birleştiren hibrit imzalama ve doğrulama çalışır.
+- [ ] Geçersiz veya tahrif edilmiş imzalarda `INVALID_HYBRID_SIGNATURE` ile işlem reddedilir.
+
+### Heap Canary Tripwire
+- [ ] Bellek koruma etiketleri (canary guard words) hasar aldığında (simüle edilmiş taşma) sistem bunu 0ms gecikmeyle tespit eder.
+- [ ] Hasar tespitinde bellek sıfırlanır ve `lockdownManager.activateLockdown` tetiklenir.
+- [ ] Normal işlemler sırasında 0 false positive ile çalışır.
+
+### Out-of-Band Attestation
+- [ ] API yanıtlarında geçerli `X-Brosan-Attestation-Proof` başlığı döner.
+- [ ] `/api/audit/attestation` uç noktasında runtime bütünlük kanıtını doğrular.
+
+### Test & Prodüksiyon
+- [ ] `tests/test-phase10-citadel.js` test paketi 15+ iddiayı %100 başarıyla geçer.
+- [ ] `tests/run-all-tests.js` içerisindeki tüm 19 test paketi (Phase 1-10) eksiksiz %100 geçer.
+- [ ] Coolify VPS 173.249.23.10 üzerinde UID 1000 (`node`) ile container ayağa kalkar, `https://brosangroup.com/muhasebe/api/health` ve kardeş servis `https://brosangroup.com/callcenter/landing` 200 OK döner.
