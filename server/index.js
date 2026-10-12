@@ -327,14 +327,16 @@ app.use(cors({
   maxAge: 86400
 }));
 
-// Güvenlik: DoS ve Bellek Tükenmesi Korumalı Yük Sınırları (100KB tavan) ve Ham Gövde Doğrulaması
+// DoS ve Bellek Tükenmesi Korumalı Yük Sınırları (50MB Evrak Yükleme Kapasitesi) ve Ham Gövde Doğrulaması
 app.use(express.json({
-  limit: '100kb',
+  limit: '50mb',
   verify: (req, res, buf) => {
-    req.rawBody = buf.toString('utf8');
+    if (buf.length < 500000) {
+      req.rawBody = buf.toString('utf8');
+    }
   }
 }));
-app.use(express.urlencoded({ extended: true, limit: '100kb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // ==============================================================================
 // 0.24 APEX CITADEL AKTİF BAL KÜPÜ PARAMETRE TUZAKLARI (HONEYTOKEN PARAM TRAPS)
@@ -2222,6 +2224,70 @@ const documentsStorageDir = process.env.DOCUMENTS_STORAGE_PATH || path.join(__di
 app.get(['/api/documents', '/api/documents/list'], (req, res) => {
   const catalog = getDocsCatalog();
   return res.json({ success: true, count: catalog.length, documents: catalog });
+});
+
+// Evrak & Dosya Sunucuya Yükleme Kapısı (50MB base64 desteği ve yerel disk kalıcılığı)
+app.post(['/api/documents/upload', '/muhasebe/api/documents/upload'], auth.requireAuth, async (req, res) => {
+  try {
+    const { title, category, subType, customer, period, filename, fileBase64 } = req.body || {};
+    if (!title || !fileBase64) {
+      return res.status(400).json({ success: false, error: 'Evrak başlığı ve dosya içeriği zorunludur.' });
+    }
+
+    const fs = require('fs');
+    const docId = Date.now();
+    const cleanOrigName = (filename || title || 'belge.pdf').replace(/[^a-zA-Z0-9._\-çğıöşüÇĞİÖŞÜ\s]/g, '_');
+    const safeFilename = cleanOrigName.endsWith('.pdf') || cleanOrigName.includes('.') ? cleanOrigName : cleanOrigName + '.pdf';
+    const docDir = path.join(documentsStorageDir, String(docId));
+    
+    if (!fs.existsSync(docDir)) {
+      fs.mkdirSync(docDir, { recursive: true });
+    }
+
+    const base64Data = fileBase64.replace(/^data:[^;]+;base64,/, '');
+    const buffer = Buffer.from(base64Data, 'base64');
+    const filePath = path.join(docDir, safeFilename);
+    fs.writeFileSync(filePath, buffer);
+
+    const ext = path.extname(safeFilename).replace('.', '').toUpperCase() || 'PDF';
+    const sizeBytes = buffer.length;
+    const sizeFmt = sizeBytes < 1024 * 1024 
+      ? (sizeBytes / 1024).toFixed(1) + ' KB' 
+      : (sizeBytes / (1024 * 1024)).toFixed(2) + ' MB';
+
+    const newDoc = {
+      id: docId,
+      title: title,
+      category: category || 'Genel Şirket Evrakları',
+      subType: subType || 'Evrak',
+      customer: customer || 'Brosan Tekstil (Kurumsal)',
+      period: period || '2026 / Ekim',
+      size: sizeFmt,
+      size_bytes: sizeBytes,
+      ext: ext,
+      rel_path: '../../YÜKLEME EVRAKLARI/' + safeFilename,
+      full_path: filePath,
+      file_url: `/muhasebe/api/documents/${docId}/download`,
+      preview_url: `/muhasebe/api/documents/${docId}/preview`,
+      folder: 'YÜKLEME EVRAKLARI',
+      date: new Date().toLocaleDateString('tr-TR')
+    };
+
+    const catalog = getDocsCatalog();
+    catalog.unshift(newDoc);
+    docsCatalogCache = catalog;
+
+    try {
+      fs.writeFileSync(docsCatalogPath, JSON.stringify(catalog, null, 2), 'utf-8');
+    } catch (writeErr) {
+      console.warn('[DOCS-UPLOAD] Catalog persistence warning:', writeErr.message);
+    }
+
+    return res.status(201).json({ success: true, document: newDoc });
+  } catch (err) {
+    console.error('[DOCS-UPLOAD] Error:', err);
+    return res.status(500).json({ success: false, error: 'Dosya sunucuya kaydedilemedi: ' + err.message });
+  }
 });
 
 app.get(['/api/documents/:id/download', '/api/documents/:id/preview'], (req, res) => {

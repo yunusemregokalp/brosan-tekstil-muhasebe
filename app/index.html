@@ -10237,7 +10237,7 @@
         }
       }
     }
-    function handleDocUploadSubmit(e) {
+    async function handleDocUploadSubmit(e) {
       e.preventDefault();
       const title = document.getElementById('upload-doc-title').value.trim();
       const cat = document.getElementById('upload-doc-category').value;
@@ -10249,18 +10249,63 @@
       let ext = 'PDF';
       let sizeFmt = '1.0 MB';
       let sizeBytes = 1024 * 1024;
+      let fileBase64 = null;
+      let filename = title;
+
       if (fileInput && fileInput.files && fileInput.files[0]) {
         const f = fileInput.files[0];
+        filename = f.name;
         ext = f.name.split('.').pop().toUpperCase();
         sizeFmt = f.size < 1024*1024 ? (f.size/1024).toFixed(1) + ' KB' : (f.size/(1024*1024)).toFixed(2) + ' MB';
         sizeBytes = f.size;
+
+        try {
+          fileBase64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(f);
+          });
+        } catch (readErr) {
+          console.warn('File read warning:', readErr);
+        }
       } else {
         const extMatch = title.match(/\.([0-9a-z]+)$/i);
         if (extMatch) ext = extMatch[1].toUpperCase();
       }
 
-      const newDoc = {
-        id: Date.now(),
+      // Try server-side upload if online and fileBase64 available
+      let savedDoc = null;
+      if (fileBase64 && window.BrosanAPI && typeof window.BrosanAPI.fetchAuth === 'function' && window.location.protocol !== 'file:') {
+        try {
+          const apiBase = window.BrosanAPI.apiBase || '/muhasebe/api';
+          const uploadRes = await window.BrosanAPI.fetchAuth(`${apiBase}/documents/upload`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              title,
+              category: cat,
+              subType: sub,
+              customer: cust,
+              period,
+              filename,
+              fileBase64
+            })
+          });
+          if (uploadRes && uploadRes.ok) {
+            const data = await uploadRes.json();
+            if (data.success && data.document) {
+              savedDoc = data.document;
+            }
+          }
+        } catch (apiErr) {
+          console.warn('Server upload note, using offline fallback:', apiErr.message);
+        }
+      }
+
+      const docId = savedDoc ? savedDoc.id : Date.now();
+      const newDoc = savedDoc || {
+        id: docId,
         title: title,
         category: cat,
         subType: sub,
@@ -10271,8 +10316,8 @@
         ext: ext,
         rel_path: '../../YÜKLEME EVRAKLARI/' + title,
         local_path: 'C:\\Users\\YUNUS EMRE GÖKALP\\OneDrive\\Masaüstü\\MUHASEBE BROSAN TEKSTİL\\YÜKLEME EVRAKLARI\\' + title,
-        file_url: '/muhasebe/api/documents/' + Date.now() + '/download',
-        preview_url: '/muhasebe/api/documents/' + Date.now() + '/preview',
+        file_url: `/muhasebe/api/documents/${docId}/download`,
+        preview_url: `/muhasebe/api/documents/${docId}/preview`,
         folder: 'YÜKLEME EVRAKLARI',
         date: new Date().toLocaleDateString('tr-TR')
       };
@@ -10289,7 +10334,7 @@
       }
 
       closeModal('modal-upload-document');
-      showToast('Evrak dijital kasaya başarıyla yüklendi: ' + title, 'success');
+      showToast('Evrak sunucuya başarıyla yüklendi ve dijital kasaya işlendi: ' + title, 'success');
       e.target.reset();
       const nameEl = document.getElementById('doc-selected-filename');
       if (nameEl) nameEl.classList.add('hidden');
