@@ -437,8 +437,18 @@ const staticOptions = {
 app.use(express.static(appStaticDir, staticOptions));
 app.use('/muhasebe', express.static(appStaticDir, staticOptions));
 
+// Canonical trailing-slash redirection for /muhasebe SPA root
+app.get('/muhasebe', (req, res, next) => {
+  const host = req.headers.host || 'localhost';
+  const parsed = new URL(req.originalUrl, `http://${host}`);
+  if (parsed.pathname === '/muhasebe') {
+    return res.redirect(301, '/muhasebe/' + (parsed.search || ''));
+  }
+  next();
+});
+
 // Route handlers for /muhasebe subpath SPA navigation
-app.get(['/muhasebe', '/muhasebe/*'], (req, res, next) => {
+app.get(['/muhasebe/', '/muhasebe/*'], (req, res, next) => {
   if (req.path.startsWith('/api') || req.path.startsWith('/muhasebe/api')) {
     return next();
   }

@@ -406,7 +406,7 @@
             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
             <span class="font-bold text-slate-800 tracking-tight">BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.</span>
             <span class="text-slate-400">•</span>
-            <span class="text-slate-500 font-mono text-[11px]">VKN: 1870492109</span>
+            <span class="text-slate-500 font-mono text-[11px]">VKN: 1871741946</span>
           </div>
         </div>
 
@@ -2174,11 +2174,11 @@
               </div>
               <div>
                 <label class="block text-slate-500 font-semibold mb-1">Vergi Dairesi &amp; Vergi No</label>
-                <input id="set-tax-office" class="w-full p-2 border border-slate-300 rounded font-mono text-slate-900" value="İkitelli Vergi Dairesi • 1870492109"/>
+                <input id="set-tax-office" class="w-full p-2 border border-slate-300 rounded font-mono text-slate-900" value="İkitelli Vergi Dairesi • 1871741946"/>
               </div>
               <div>
                 <label class="block text-slate-500 font-semibold mb-1">Garanti BBVA GBP IBAN</label>
-                <input id="set-gbp-iban" class="w-full p-2 border border-slate-300 rounded font-mono text-slate-900" value="TR32 0006 2000 1827 0009 2381 01"/>
+                <input id="set-gbp-iban" class="w-full p-2 border border-slate-300 rounded font-mono text-slate-900" value="TR86 0006 2000 4170 0009 0345 78"/>
               </div>
               <div>
                 <label class="block text-slate-500 font-semibold mb-1">GİB Özel Entegratör</label>
@@ -2748,8 +2748,8 @@
           <div>
             <label class="block text-slate-600 font-semibold mb-1">Tahsil Edilen Hesap</label>
             <select class="w-full p-2 border border-slate-300 rounded font-semibold text-slate-800">
-              <option>Garanti BBVA GBP (TR32...8101)</option>
-              <option>Garanti BBVA TRY (TR45...8102)</option>
+              <option>Garanti BBVA GBP (TR86...4578)</option>
+              <option>Garanti BBVA TRY (TR16...9477)</option>
               <option>Akbank Döviz</option>
             </select>
           </div>
@@ -3081,7 +3081,7 @@
 
       <div class="bg-slate-900 text-emerald-400 p-4 rounded-lg font-mono text-[11px] space-y-1.5 overflow-x-auto">
         <div>&lt;edefter:berat xmlns:edefter="http://www.edefter.gov.tr" version="1.0"&gt;</div>
-        <div class="pl-4">&lt;mukellef vkn="1870492109" unvan="BROSAN TEKSTIL SAN. VE DIS TIC. LTD. STI." /&gt;</div>
+        <div class="pl-4">&lt;mukellef vkn="1871741946" unvan="BROSAN TEKSTIL SAN. VE DIS TIC. LTD. STI." /&gt;</div>
         <div class="pl-4">&lt;defterTuru&gt;YEVMİYE_DEFTERİ&lt;/defterTuru&gt;</div>
         <div class="pl-4">&lt;donem baslangic="2026-10-01" bitis="2026-10-31" /&gt;</div>
         <div class="pl-4">&lt;yevmiyeSayac baslangicNo="1" bitisNo="482" /&gt;</div>
@@ -3118,6 +3118,8 @@
       </div>
 
       <form id="change-password-form" onsubmit="window.BrosanAuth.submitChangePassword(event)" class="p-5 space-y-4">
+        <!-- Hidden username field for browser password manager compliance -->
+        <input type="text" name="username" value="admin" autocomplete="username" class="hidden" aria-hidden="true" tabindex="-1" />
         <!-- Error Banner -->
         <div id="pw-modal-error" class="hidden p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
           <span class="material-symbols-outlined text-[16px]">error</span>
@@ -3355,6 +3357,7 @@
         : 'http://localhost:3000/api';
 
       window.BrosanAPI = {
+        API_BASE,
         isOnline: false,
 
         getToken() {
@@ -3620,6 +3623,20 @@
             if (res && res.ok) return await res.json();
           } catch (e) {}
           return null;
+        },
+
+        async createInvoice(invoiceData) {
+          try {
+            const res = await this.fetchAuth(`${API_BASE}/invoices`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(invoiceData)
+            });
+            if (res && res.ok) return await res.json();
+          } catch (e) {
+            console.warn('Backend invoice sync note:', e.message);
+          }
+          return null;
         }
       };
 
@@ -3639,7 +3656,7 @@
   <!-- ========================================== -->
   <script>
     // CORE SYSTEM DATA MODEL - 100% AUTHENTIC PARASUT LIVE DATA (COMPANY ID: 794187)
-    const BROSAN_ERP = {
+    const BROSAN_ERP = window.BROSAN_ERP = {
       company: {
         name: "BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.",
         vkn: "1871741946",
@@ -7257,9 +7274,22 @@
       ]
     };
 
-    // FORMAT CURRENCY HELPER
+    // FORMAT CURRENCY HELPER (DEFENSIVE NaN GUARDS)
     function fmtTRY(n) {
-      return '₺' + Number(n).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const num = (n === null || n === undefined || isNaN(Number(n))) ? 0 : Number(n);
+      return '₺' + num.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function fmtGBP(n) {
+      const num = (n === null || n === undefined || isNaN(Number(n))) ? 0 : Number(n);
+      return '£' + num.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function fmtUSD(n) {
+      const num = (n === null || n === undefined || isNaN(Number(n))) ? 0 : Number(n);
+      return '$' + num.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function fmtEUR(n) {
+      const num = (n === null || n === undefined || isNaN(Number(n))) ? 0 : Number(n);
+      return '€' + num.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
     // INITIAL RENDER
@@ -8405,15 +8435,26 @@
       BROSAN_ERP.bankAccounts.garantiGbp -= 4855.69;
       BROSAN_ERP.bankAccounts.garantiTry += 219088.73;
 
-      document.getElementById('bank-card-gbp').innerText = '£' + BROSAN_ERP.bankAccounts.garantiGbp.toLocaleString('tr-TR', {minimumFractionDigits:2});
-      document.getElementById('bank-card-try').innerText = '₺' + BROSAN_ERP.bankAccounts.garantiTry.toLocaleString('tr-TR', {minimumFractionDigits:2});
-      document.getElementById('hero-kpi-bank-try').innerText = '₺' + BROSAN_ERP.bankAccounts.garantiTry.toLocaleString('tr-TR', {minimumFractionDigits:2});
-      document.getElementById('hero-kpi-receivable-gbp').innerText = '£0,00';
-      document.getElementById('hero-ibkb-badge').innerText = 'KAPATILDI ✓';
-      document.getElementById('hero-ibkb-badge').className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-emerald-200 text-emerald-900 font-mono';
-      document.getElementById('hero-ibkb-title').innerText = "Tüm ETGB'ler Kapatıldı";
-      document.getElementById('hero-ibkb-sub').innerText = 'Ben Ellis İBKB terkin işlemi tamamlandı';
-      document.getElementById('ben-ellis-balance-highlight').innerText = '£0,00 (Kapatıldı)';
+      const elGbp = document.getElementById('hero-kpi-bank-gbp');
+      if (elGbp) elGbp.innerText = '£' + BROSAN_ERP.bankAccounts.garantiGbp.toLocaleString('tr-TR', {minimumFractionDigits:2});
+      
+      const elTry = document.getElementById('hero-kpi-bank-try');
+      if (elTry) elTry.innerText = '₺' + BROSAN_ERP.bankAccounts.garantiTry.toLocaleString('tr-TR', {minimumFractionDigits:2});
+      
+      const elRecGbp = document.getElementById('hero-kpi-receivable-gbp');
+      if (elRecGbp) elRecGbp.innerText = '£0,00';
+      
+      const elBadge = document.getElementById('hero-ibkb-badge');
+      if (elBadge) {
+        elBadge.innerText = 'KAPATILDI ✓';
+        elBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-emerald-200 text-emerald-900 font-mono';
+      }
+      
+      const elTitle = document.getElementById('hero-ibkb-title');
+      if (elTitle) elTitle.innerText = "Tüm ETGB'ler Kapatıldı";
+      
+      const elSub = document.getElementById('hero-ibkb-sub');
+      if (elSub) elSub.innerText = 'Ben Ellis İBKB terkin işlemi tamamlandı';
 
       renderSalesTable();
       renderExportsTable();
@@ -8487,12 +8528,10 @@
       const newId = (type.includes('İhracat') || curr !== 'TRY' ? 'BS02026' : 'BR02026') + String(BROSAN_ERP.invoices.length + 105).padStart(7, '0');
       const amountTry = grandTotal * fxRate;
 
-      // Persistence to Backend API (POST /api/invoices)
+      // Persistence to Backend API via BrosanAPI (with Auth Token & subpath handling)
       try {
-        fetch('/api/invoices', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+        if (window.BrosanAPI && typeof window.BrosanAPI.createInvoice === 'function') {
+          window.BrosanAPI.createInvoice({
             invoiceNo: newId,
             type: (type.includes('İhracat') || curr !== 'TRY') ? 'EXPORT' : 'SALES',
             scenario: scenario,
@@ -8502,9 +8541,11 @@
             exchangeRate: fxRate,
             notes: notes,
             items: formattedItems
-          })
-        }).catch(err => console.warn('Backend sync note:', err.message));
-      } catch (e) {}
+          });
+        }
+      } catch (e) {
+        console.warn('Backend sync note:', e.message);
+      }
 
       // Add to local reactive memory
       const totalUnits = formattedItems.reduce((acc, it) => acc + it.quantity, 0);
@@ -8578,8 +8619,8 @@
         exp.isPaid = true;
         exp.status = 'Ödendi ✓';
         BROSAN_ERP.bankAccounts.garantiTry -= exp.total;
-        document.getElementById('bank-card-try').innerText = fmtTRY(BROSAN_ERP.bankAccounts.garantiTry);
-        document.getElementById('hero-kpi-bank-try').innerText = fmtTRY(BROSAN_ERP.bankAccounts.garantiTry);
+        const elTry = document.getElementById('hero-kpi-bank-try');
+        if (elTry) elTry.innerText = fmtTRY(BROSAN_ERP.bankAccounts.garantiTry);
         renderExpensesTable();
         showToast(`${exp.supplier} faturası Garanti BBVA hesabından ödendi.`, 'success');
       }
@@ -8744,7 +8785,7 @@
               </div>
               <p class="text-[11px] text-slate-600 mt-1">
                 İkitelli OSB Mah. Marmara San. Sit. O Blok No: 21 Küçükçekmece / İSTANBUL<br/>
-                VKN: <strong>1870492109</strong> • İkitelli V.D. • Tic. Sicil: 981240-5 • Mersis: 0187049210900001<br/>
+                VKN: <strong>1871741946</strong> • İkitelli V.D. • Tic. Sicil: 981240-5 • Mersis: 0187174194600001<br/>
                 Web: www.brosan.com.tr • E-Posta: export@brosan.com.tr
               </p>
             </div>
@@ -8761,13 +8802,13 @@
               <span class="text-slate-500 font-bold block text-[10px] uppercase tracking-wider mb-1">SAYIN (ALICI BİLGİLERİ):</span>
               <span class="font-bold text-slate-900 block text-xs">${inv.customer}</span>
               <span class="text-[11px] text-slate-600 block mt-0.5">${inv.customer.includes('BEN') ? '23 Elan Rd, Cardiff CF14 0NR, United Kingdom' : (inv.customer.includes('FARUK') ? 'Sultangazi Eski Edirne Asfaltı No:574/4 İstanbul' : (inv.customer.includes('LAVI') ? 'Los Angeles, California, USA' : (inv.isExport ? 'Yurtdışı Müşterisi' : 'İstanbul / Türkiye')))}</span>
-              <span class="text-[10px] text-slate-500 block mt-1">Vergi / TCKN: <strong>${inv.customer.includes('FARUK') ? '46849262292' : (inv.isExport ? '11111111111' : '1870492109')}</strong></span>
+              <span class="text-[10px] text-slate-500 block mt-1">Vergi / TCKN: <strong>${inv.customer.includes('FARUK') ? '46849262292' : (inv.isExport ? '11111111111' : '1871741946')}</strong></span>
             </div>
             <div class="space-y-1 text-[11px]">
               <div class="flex justify-between"><span class="text-slate-500">Belge / Fatura Tipi:</span><span class="font-bold text-slate-800">${inv.docType || (inv.isExport ? 'e-İhracat Faturası' : 'GİB e-Fatura')}</span></div>
               <div class="flex justify-between"><span class="text-slate-500">GİB Senaryosu:</span><span class="font-mono font-bold text-blue-800">${inv.scenario || (inv.isExport ? 'IHRACAT' : 'TICARIFATURA')}</span></div>
               <div class="flex justify-between"><span class="text-slate-500">${inv.isExport ? 'Gümrük Beyanname / ETGB:' : 'Belge No / İrsaliye:'}</span><span class="font-mono font-bold text-slate-900">${inv.isExport ? (inv.etgb || '26340200EX...') : 'Yurtiçi Sevkiyat (ETGB Muaf)'}</span></div>
-              <div class="flex justify-between"><span class="text-slate-500">Garanti BBVA IBAN:</span><span class="font-mono font-bold text-emerald-800">TR160006200041700006289477</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Garanti BBVA IBAN:</span><span class="font-mono font-bold text-emerald-800">${(curr === 'GBP' ? BROSAN_ERP.company.garantiGbpIban : (curr === 'EUR' ? BROSAN_ERP.company.garantiEurIban : (curr === 'USD' ? BROSAN_ERP.company.garantiUsdIban : BROSAN_ERP.company.garantiTryIban))).replace(/\s+/g, '')}</span></div>
             </div>
           </div>
 
@@ -9339,12 +9380,12 @@
     // DOWNLOAD SALARY TXT
     function downloadBankSalaryTxt() {
       let txt = "GARANTI_BBVA_MAAS_ODEME_DOSYASI\n";
-      txt += "SIRKET: BROSAN TEKSTIL LTD STI (VKN: 1870492109)\n";
+      txt += `SIRKET: ${BROSAN_ERP.company.name} (VKN: ${BROSAN_ERP.company.vkn})\n`;
       txt += "TARIH: 2026-10-31\n\n";
       BROSAN_ERP.employees.forEach(e => {
-        txt += `${e.id};${e.name};${e.net.toFixed(2)};TR320006200018270009238101\n`;
+        txt += `${e.id};${e.name};${e.net.toFixed(2)};${BROSAN_ERP.company.garantiTryIban.replace(/\s+/g, '')}\n`;
       });
-      const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+      const blob = new Blob(['\uFEFF' + txt], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -9359,7 +9400,7 @@
       BROSAN_ERP.accounts.forEach(a => {
         csv += `${a.code};${a.sub};${a.debit};${a.credit};${a.bDebit};${a.bCredit}\n`;
       });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -9372,14 +9413,14 @@
     function downloadDabDilekce() {
       let doc = "T. GARANTİ BANKASI A.Ş. BAHÇEŞEHİR ŞUBESİ MÜDÜRLÜĞÜ'NE\n\n";
       doc += "KONU: İBKB ve %40 TCMB Döviz Bozum Talimatı\n\n";
-      doc += "Şirketimiz BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ. (VKN: 1870492109) adına kayıtlı ";
-      doc += "TR32 0006 2000 1827 0009 2381 01 IBAN no'lu hesabımıza Ben Ellis firmasından gelen ";
+      doc += `Şirketimiz ${BROSAN_ERP.company.name} (VKN: ${BROSAN_ERP.company.vkn}) adına kayıtlı `;
+      doc += `${BROSAN_ERP.company.garantiGbpIban} IBAN no'lu hesabımıza Ben Ellis firmasından gelen `;
       doc += "£12.139,22 GBP ihracat bedelinin TCMB İhracat Genelgesi uyarınca %40'lık kısmı olan £4.855,69 GBP'nin ";
       doc += "TCMB güncel kuru üzerinden bozdurularak TL hesabımıza aktarılmasını ve İBKB (İhracat Bedeli Kabul Belgesi) ";
       doc += "düzenlenmesini arz ederiz.\n\n";
       doc += "Kaşe / İmza\nBROSAN TEKSTİL LTD. ŞTİ.";
       
-      const blob = new Blob([doc], { type: 'text/plain;charset=utf-8' });
+      const blob = new Blob(['\uFEFF' + doc], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -9404,9 +9445,16 @@
       if (val.includes('102') || val.includes('mizan') || val.includes('tdhp') || val.includes('hesap')) {
         switchView('ledger');
         filterLedgerTable(val);
-      } else if (val.includes('fatura') || val.includes('ben ellis') || val.includes('etgb') || val.includes('eft')) {
+      } else if (val.includes('etgb') || val.includes('ihracat') || val.includes('export')) {
+        switchView('exports');
+        const inp = document.getElementById('exports-search-input');
+        if (inp) inp.value = q;
+        filterExportsTable(q);
+      } else if (val.includes('fatura') || val.includes('ben ellis') || val.includes('eft') || val.includes('satış')) {
         switchView('sales');
-        renderSalesTable(val);
+        const inp = document.getElementById('sales-search-input');
+        if (inp) inp.value = q;
+        filterSalesTable(q);
       } else if (val.includes('çek') || val.includes('senet') || val.includes('zirve')) {
         switchView('checks');
       } else if (val.includes('bordro') || val.includes('personel') || val.includes('maaş')) {
@@ -9418,11 +9466,6 @@
 
     function filterLedgerTable(val) {
       renderLedgerTable(val);
-    }
-
-    function filterSalesTable(val) {
-      currentSalesSearch = val || '';
-      renderSalesTable(currentSalesSearch);
     }
 
     function refreshDashboard() {
