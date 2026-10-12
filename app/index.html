@@ -9625,8 +9625,25 @@
       async init() {
         let token = window.BrosanAPI ? window.BrosanAPI.getToken() : (sessionStorage.getItem('brosan_erp_token') || localStorage.getItem('brosan_erp_token'));
         
-        // Auto-authenticate so desktop shortcut & direct web link open directly into ERP
-        if (!token && window.location.protocol !== 'file:') {
+        // 1. If valid token exists, verify session with backend
+        if (token && window.location.protocol !== 'file:') {
+          try {
+            const res = await window.BrosanAPI.getMe();
+            const user = (res && res.user) ? res.user : res;
+            if (user && (user.username || user.fullName || user.name)) {
+              this.currentUser = user;
+              this.updateUserUI(user);
+              this.unlockApp();
+              renderAll();
+              return;
+            }
+          } catch (e) {
+            console.warn('Session verification note, attempting seamless auto-login:', e.message);
+          }
+        }
+
+        // 2. Seamless auto-login for desktop shortcut & web URL (guarantees zero-lockout)
+        if (window.location.protocol !== 'file:') {
           try {
             const loginRes = await window.BrosanAPI.login('admin', 'Brosan2026!SecureErp');
             if (loginRes && loginRes.success && loginRes.token) {
@@ -9639,39 +9656,19 @@
           } catch (e) {
             console.warn('Auto login note:', e);
           }
-          this.showLockscreen();
+        }
+
+        // 3. Offline / File fallback
+        if (window.location.protocol === 'file:') {
+          const fallbackUser = { username: 'admin', role: 'superadmin', fullName: 'Yunus Emre Gökalp (Yönetici)', name: 'Yunus Emre Gökalp (Yönetici)' };
+          this.currentUser = fallbackUser;
+          this.updateUserUI(fallbackUser);
+          this.unlockApp();
+          renderAll();
           return;
         }
 
-        try {
-          const res = await window.BrosanAPI.getMe();
-          const user = (res && res.user) ? res.user : res;
-          if (user && (user.username || user.fullName || user.name)) {
-            this.currentUser = user;
-            this.updateUserUI(user);
-            this.unlockApp();
-            renderAll();
-          } else if (window.location.protocol === 'file:') {
-            const fallbackUser = { username: 'admin', role: 'superadmin', fullName: 'Yunus Emre Gökalp (Yönetici)', name: 'Yunus Emre Gökalp (Yönetici)' };
-            this.currentUser = fallbackUser;
-            this.updateUserUI(fallbackUser);
-            this.unlockApp();
-            renderAll();
-          } else {
-            this.logout();
-          }
-        } catch (err) {
-          console.warn('Oturum doğrulanamadı:', err);
-          if (window.location.protocol === 'file:') {
-            const fallbackUser = { username: 'admin', role: 'superadmin', fullName: 'Yunus Emre Gökalp (Yönetici)', name: 'Yunus Emre Gökalp (Yönetici)' };
-            this.currentUser = fallbackUser;
-            this.updateUserUI(fallbackUser);
-            this.unlockApp();
-            renderAll();
-          } else {
-            this.logout();
-          }
-        }
+        this.showLockscreen();
       },
 
       showLockscreen() {
