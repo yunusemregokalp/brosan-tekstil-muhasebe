@@ -38,6 +38,8 @@ services:
       DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-BrosanTekstil2026SecurePass!}@postgres:5432/${POSTGRES_DB:-brosan_accounting_db}?schema=public"
       CORS_ORIGIN: "*"
       RUN_SEED: ${RUN_SEED:-true}
+    volumes:
+      - /var/brosan/documents:/app/storage/documents
     depends_on:
       - postgres
     labels:

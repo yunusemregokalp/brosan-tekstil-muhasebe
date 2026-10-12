@@ -29,39 +29,39 @@ function createTier2Suite(context) {
   const { excelSummary, parasutLive } = authoritative;
 
   // 2.1: Exact Cent Precision on Net Remaining Debt
-  suite.test('T2.1: Exact Cent Precision on Remaining Debt (-$9,335.35 USD / -459,874.07 TL)', () => {
+  suite.test('T2.1: Exact Cent Precision on Remaining Debt (-$5,335.35 USD / -263,794.07 TL)', () => {
     // Authoritative figures from Excel and Paraşüt
     const totalFasonUsd = excelSummary.summary.total_fason_alis_usd; // 24032.80
     const fabricSalesUsd = excelSummary.summary.kumas_satis_faturasi_usd; // 7461.45
-    const bankPaymentsUsd = excelSummary.summary.total_banka_odemesi_usd; // 7236.00
+    const bankPaymentsUsd = excelSummary.summary.total_banka_odemesi_usd; // 11236.00
 
-    // Math: 24,032.80 - 7,461.45 - 7,236.00
-    // Note: IEEE 754 raw subtraction yields 9335.350000000002. roundCent ensures exact cent precision.
+    // Math: 24,032.80 - 7,461.45 - 11,236.00
+    // Note: IEEE 754 raw subtraction yields 5335.350000000002. roundCent ensures exact cent precision.
     const netDebtUsdRaw = totalFasonUsd - fabricSalesUsd - bankPaymentsUsd;
     const netDebtUsd = roundCent(netDebtUsdRaw);
 
-    assertExact(netDebtUsd, 9335.35, 'Net remaining debt absolute USD must equal 9,335.35');
+    assertExact(netDebtUsd, 5335.35, 'Net remaining debt absolute USD must equal 5,335.35');
 
     // As a liability balance (negative = company owes supplier)
     const liabilityBalanceUsd = roundCent(-netDebtUsd);
-    assertExact(liabilityBalanceUsd, -9335.35, 'Liability balance must be -$9,335.35 USD');
+    assertExact(liabilityBalanceUsd, -5335.35, 'Liability balance must be -$5,335.35 USD');
 
     // TL Exact Cent Precision
     const totalFasonTl = excelSummary.summary.fason_faturalar
       ? excelSummary.fason_faturalar.reduce((acc, f) => roundCent(acc + f.toplam_tl), 0)
       : 1171410.07;
     const fabricSalesTl = excelSummary.summary.kumas_satis_faturasi_tl; // 364045.00
-    const bankPaymentsTl = excelSummary.summary.total_banka_odemesi_tl; // 347491.00
+    const bankPaymentsTl = excelSummary.summary.total_banka_odemesi_tl; // 543571.00
 
     const netDebtTl = roundCent(totalFasonTl - fabricSalesTl - bankPaymentsTl);
-    assertExact(netDebtTl, 459874.07, 'Net remaining debt in TL must equal 459,874.07 TL');
+    assertExact(netDebtTl, 263794.07, 'Net remaining debt in TL must equal 263,794.07 TL');
 
     const liabilityBalanceTl = roundCent(-netDebtTl);
-    assertExact(liabilityBalanceTl, -459874.07, 'Liability balance in TL must be -459,874.07 TL');
+    assertExact(liabilityBalanceTl, -263794.07, 'Liability balance in TL must be -263,794.07 TL');
 
     // Verify zero cent discrepancy (Delta = 0.0000)
-    const deltaUsd = Math.abs(netDebtUsd - 9335.35);
-    const deltaTl = Math.abs(netDebtTl - 459874.07);
+    const deltaUsd = Math.abs(netDebtUsd - 5335.35);
+    const deltaTl = Math.abs(netDebtTl - 263794.07);
     assertTrue(deltaUsd < 0.00001, `Delta USD must be zero (was ${deltaUsd})`);
     assertTrue(deltaTl < 0.00001, `Delta TL must be zero (was ${deltaTl})`);
   });

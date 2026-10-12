@@ -237,7 +237,7 @@ function loadFrontendData() {
   const html = fs.readFileSync(indexPath, 'utf8');
   let erpCache = null;
 
-  const match = html.match(/const BROSAN_ERP\s*=\s*(\{[\s\S]*?\n\s*\};)/);
+  const match = html.match(/const BROSAN_ERP\s*=\s*(?:window\.BROSAN_ERP\s*=\s*)?(\{[\s\S]*?\n\s*\};)/);
   if (match) {
     try {
       const cleanJs = match[1].trim().replace(/;$/, '');

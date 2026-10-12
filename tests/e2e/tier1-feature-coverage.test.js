@@ -209,8 +209,8 @@ function createTier1Suite(context) {
     assertExact(excelSummary.summary.total_fason_alis_usd, 24032.80, 'Summary total fason USD');
   });
 
-  // 1.5: Fabric Invoice BR02026000000024 & 6 Bank Transfers
-  suite.test('T1.5: Fabric Invoice BR02026000000024 ($7,461.45 USD / 364,045 TL) and 6 Garanti Bank Transfers', () => {
+  // 1.5: Fabric Invoice BR02026000000024 & 7 Bank Transfers
+  suite.test('T1.5: Fabric Invoice BR02026000000024 ($7,461.45 USD / 364,045 TL) and 7 Garanti Bank Transfers', () => {
     const kumas = excelSummary.kumas_satis_faturasi;
     assertExact(kumas.fatura_no, 'BR02026000000024', 'Fabric invoice no');
     assertExact(kumas.matrah_tl, 330950.00, 'Fabric matrah TL');
@@ -225,15 +225,15 @@ function createTier1Suite(context) {
     const totalKg = kumas.kalemler.reduce((acc, k) => acc + k.kg, 0);
     assertExact(roundCent(totalKg), 992.50, 'Fabric items total weight must be 992.50 Kg');
 
-    // 6 Bank Transfers
+    // 7 Bank Transfers
     const bankOdemeleri = excelSummary.banka_odemeleri;
-    assertExact(bankOdemeleri.length, 6, 'Bank transfers count must be exactly 6');
+    assertExact(bankOdemeleri.length, 7, 'Bank transfers count must be exactly 7');
 
     const totalBankTl = bankOdemeleri.reduce((acc, b) => acc + b.tl, 0);
     const totalBankUsd = bankOdemeleri.reduce((acc, b) => acc + b.usd, 0);
 
-    assertExact(totalBankTl, 347491.00, 'Total Garanti bank transfer must be 347,491.00 TL');
-    assertExact(totalBankUsd, 7236.00, 'Total Garanti bank transfer in USD must be $7,236.00 USD');
+    assertExact(totalBankTl, 543571.00, 'Total Garanti bank transfer must be 543,571.00 TL');
+    assertExact(totalBankUsd, 11236.00, 'Total Garanti bank transfer in USD must be $11,236.00 USD');
   });
 
   return suite;

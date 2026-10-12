@@ -2203,24 +2203,39 @@ app.get('/api/mutabakat/faruk-aytin', (req, res) => {
 // ==============================================================================
 // 13. DİJİTAL ARŞİV & YÜKLEME EVRAKLARI KASASI (509 RESMİ BELGE)
 // ==============================================================================
+const documentsStorageDir = process.env.DOCUMENTS_STORAGE_PATH || path.join(__dirname, '..', 'storage', 'documents');
 const docsCatalogPath = path.join(__dirname, '..', 'data', 'documents-catalog.json');
+const customCatalogPath = path.join(documentsStorageDir, 'custom-catalog.json');
 let docsCatalogCache = null;
 
 function getDocsCatalog() {
   if (docsCatalogCache) return docsCatalogCache;
   try {
     const fs = require('fs');
+    let base = [];
     if (fs.existsSync(docsCatalogPath)) {
-      docsCatalogCache = JSON.parse(fs.readFileSync(docsCatalogPath, 'utf-8'));
-      return docsCatalogCache;
+      base = JSON.parse(fs.readFileSync(docsCatalogPath, 'utf-8'));
     }
+    if (fs.existsSync(customCatalogPath)) {
+      try {
+        const custom = JSON.parse(fs.readFileSync(customCatalogPath, 'utf-8'));
+        if (Array.isArray(custom)) {
+          const baseIds = new Set(base.map(d => d.id));
+          const newCustom = custom.filter(c => !baseIds.has(c.id));
+          docsCatalogCache = [...newCustom, ...base];
+          return docsCatalogCache;
+        }
+      } catch (ce) {
+        console.warn('[DOCS-CATALOG] Custom catalog parse note:', ce.message);
+      }
+    }
+    docsCatalogCache = base;
+    return docsCatalogCache;
   } catch (e) {
     console.error('[CITADEL-DOCS] Catalog load error:', e.message);
   }
   return [];
 }
-
-const documentsStorageDir = process.env.DOCUMENTS_STORAGE_PATH || path.join(__dirname, '..', 'storage', 'documents');
 
 app.get(['/api/documents', '/api/documents/list'], (req, res) => {
   const catalog = getDocsCatalog();
@@ -2277,6 +2292,19 @@ app.post(['/api/documents/upload', '/muhasebe/api/documents/upload'], auth.requi
     const catalog = getDocsCatalog();
     catalog.unshift(newDoc);
     docsCatalogCache = catalog;
+
+    try {
+      let custom = [];
+      if (fs.existsSync(customCatalogPath)) {
+        try {
+          custom = JSON.parse(fs.readFileSync(customCatalogPath, 'utf-8'));
+        } catch (_) { custom = []; }
+      }
+      custom.unshift(newDoc);
+      fs.writeFileSync(customCatalogPath, JSON.stringify(custom, null, 2), 'utf-8');
+    } catch (customErr) {
+      console.warn('[DOCS-UPLOAD] Custom catalog storage write warning:', customErr.message);
+    }
 
     try {
       fs.writeFileSync(docsCatalogPath, JSON.stringify(catalog, null, 2), 'utf-8');

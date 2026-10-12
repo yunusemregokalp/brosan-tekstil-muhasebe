@@ -39,7 +39,8 @@ COPY data ./data
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
 
 # Çalıştırma izinleri ve Root Yetkisi Kaldırma (Non-Root User Execution)
-RUN chmod +x ./docker-entrypoint.sh && \
+RUN mkdir -p /app/storage/documents && \
+    chmod +x ./docker-entrypoint.sh && \
     chown -R node:node /app
 
 USER node

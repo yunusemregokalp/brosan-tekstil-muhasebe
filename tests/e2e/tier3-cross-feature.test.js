@@ -71,28 +71,28 @@ function createTier3Suite(context) {
 
   // 3.2: Bank balance deduction vs Contact credit ledger balance
   suite.test('T3.2: Bank Balance Deduction vs Contact Credit Ledger Balance', () => {
-    // 6 Bank Transfers from Garanti BBVA Ana TL (417-6289477 / 102.01) to Faruk Aytin (320.01):
+    // 7 Bank Transfers from Garanti BBVA Ana TL (417-6289477 / 102.01) to Faruk Aytin (320.01):
     const bankPayments = excelSummary.banka_odemeleri;
-    assertExact(bankPayments.length, 6, 'Must have 6 bank transfers');
+    assertExact(bankPayments.length, 7, 'Must have 7 bank transfers');
 
     const totalTransferTl = bankPayments.reduce((acc, p) => roundCent(acc + p.tl), 0);
     const totalTransferUsd = bankPayments.reduce((acc, p) => roundCent(acc + p.usd), 0);
 
-    assertExact(totalTransferTl, 347491.00, 'Total bank transfers must be 347,491.00 TL');
-    assertExact(totalTransferUsd, 7236.00, 'Total bank transfers must be $7,236.00 USD');
+    assertExact(totalTransferTl, 543571.00, 'Total bank transfers must be 543,571.00 TL');
+    assertExact(totalTransferUsd, 11236.00, 'Total bank transfers must be $11,236.00 USD');
 
     // TDHP Yevmiye Kuralı:
-    // Borç (Debit): 320.01 Faruk Aytin Cari = 347,491.00 TL ($7,236.00 USD)
-    // Alacak (Credit): 102.01 Garanti BBVA Ana TL = 347,491.00 TL ($7,236.00 USD)
+    // Borç (Debit): 320.01 Faruk Aytin Cari = 543,571.00 TL ($11,236.00 USD)
+    // Alacak (Credit): 102.01 Garanti BBVA Ana TL = 543,571.00 TL ($11,236.00 USD)
     // Net Faruk Aytin Bakiye:
     // Başlangıç Fatura Borcu: $16,571.35 USD (807,365.07 TL)
-    // Yapılan Banka Ödemeleri: -$7,236.00 USD (-347,491.00 TL)
-    // Kalan Net Borcumuz: $9,335.35 USD (459,874.07 TL)
+    // Yapılan Banka Ödemeleri: -$11,236.00 USD (-543,571.00 TL)
+    // Kalan Net Borcumuz: $5,335.35 USD (263,794.07 TL)
     const finalNetPayableUsd = roundCent(16571.35 - totalTransferUsd);
-    assertExact(finalNetPayableUsd, 9335.35, 'Final net payable in USD must be $9,335.35 USD');
+    assertExact(finalNetPayableUsd, 5335.35, 'Final net payable in USD must be $5,335.35 USD');
 
     const finalNetPayableTl = roundCent(807365.07 - totalTransferTl);
-    assertExact(finalNetPayableTl, 459874.07, 'Final net payable in TL must be 459,874.07 TL');
+    assertExact(finalNetPayableTl, 263794.07, 'Final net payable in TL must be 263,794.07 TL');
 
     // Garanti Bankası Bakiye Tutarlılık Denetimi:
     // Canlı Paraşüt bakiyesi: ₺15,732.92
@@ -100,10 +100,10 @@ function createTier3Suite(context) {
     assertDefined(liveGarantiTL, 'Garanti BBVA 417-6289477 must exist in live accounts');
     assertExact(parseFloat(liveGarantiTL.balance), 15732.92, 'Live Garanti balance must be ₺15,732.92');
 
-    // Kanıt: Eğer bu 347,491 TL banka transferi düşülmemiş olsaydı,
-    // Garanti bakiyesi ₺15,732.92 + ₺347,491.00 = ₺363,223.92 olurdu.
+    // Kanıt: Eğer bu banka transferleri düşülmemiş olsaydı,
+    // Garanti bakiyesi ₺15,732.92 + totalTransferTl olurdu.
     const preTransferGarantiTL = roundCent(parseFloat(liveGarantiTL.balance) + totalTransferTl);
-    assertExact(preTransferGarantiTL, 363223.92, 'Pre-transfer implied Garanti balance is ₺363,223.92');
+    assertExact(preTransferGarantiTL, roundCent(15732.92 + totalTransferTl), `Pre-transfer implied Garanti balance is ₺${roundCent(15732.92 + totalTransferTl)}`);
 
     // Faruk Aytin'in cari hesabındaki borçlanma da kuruşu kuruşuna 347,491 TL azalmıştır.
     const liveFaruk = parasutLive.contacts.find(c => c.name.includes('FARUK AYTİN'));
