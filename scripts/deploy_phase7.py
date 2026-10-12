@@ -5,6 +5,13 @@ import json
 import urllib.request
 import ssl
 
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 SSH_KEY = r"C:\Users\YUNUS EMRE GÖKALP\.ssh\brosan_staging_antigravity"
 VPS_HOST = "root@173.249.23.10"
 APP_UUID = "3rqmxkcjbkfp1mzp3raiyok8"
@@ -33,8 +40,9 @@ exit;
         
     deploy_uuid = None
     for line in stdout.splitlines():
-        if "DEPLOY_UUID:" in line:
-            deploy_uuid = line.split("DEPLOY_UUID:")[1].strip()
+        clean_line = line.strip()
+        if clean_line.startswith("DEPLOY_UUID:"):
+            deploy_uuid = clean_line.split("DEPLOY_UUID:")[1].strip()
             break
             
     if not deploy_uuid:

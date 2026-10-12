@@ -197,8 +197,8 @@ async function main() {
     // TDHP Defter-i Kebir Hesapları
     { code: '101.01', name: 'Portföydeki Vadeli Çekler', type: 'ASSET', category: 'KASA', currency: 'TRY', balance: 221511.13 },
     { code: '120.01', name: 'Alıcılar - Yurtdışı İhracat (Ben Ellis & Lavi La)', type: 'ASSET', category: 'CARI', currency: 'TRY', balance: 2795854.47 },
-    { code: '191.01', name: 'İndirilecek KDV %10 (Fason & Malzeme)', type: 'ASSET', category: 'KDV', currency: 'TRY', balance: 106489.83 },
-    { code: '320.01', name: 'Satıcılar - Faruk Aytin & Nisa Tekstil (-$9.335,35 USD)', type: 'LIABILITY', category: 'CARI', currency: 'USD', balance: -9335.35 },
+    { code: '159.01', name: 'Verilen Sipariş Avansları - Faruk Aytin (+$784,60 USD)', type: 'ASSET', category: 'CARI', currency: 'USD', balance: 784.60 },
+    { code: '320.01', name: 'Satıcılar - Faruk Aytin & Nisa Tekstil (KAPANDI - 0 USD)', type: 'LIABILITY', category: 'CARI', currency: 'USD', balance: 0.00 },
     { code: '320.02', name: 'Satıcılar - Tinteks Tekstil ve Kumaşçılık', type: 'LIABILITY', category: 'CARI', currency: 'TRY', balance: -1099047.50 },
     { code: '331.01', name: 'Ortaklara Borçlar - Yunus Emre Gökalp', type: 'LIABILITY', category: 'CARI', currency: 'TRY', balance: -109418.80 },
     { code: '391.01', name: 'Hesaplanan KDV %10 (Kumaş Satış & Fason)', type: 'LIABILITY', category: 'KDV', currency: 'TRY', balance: 33095.00 },
@@ -1054,6 +1054,7 @@ async function main() {
       { date: new Date('2026-09-22'), amount: 5000.00, desc: 'FARUK AYTİN-100 usd karşılığı , kur 50,00 , cari hesaba istinaden-HVL-CEP ŞUBE', ref: '2026-09-22-18.03.45' },
       { date: new Date('2026-09-30'), amount: 5000.00, desc: 'FARUK AYTİN-usd cari ödeme 100 usd karşılığı , kur 50,00 TL-HVL-CEP ŞUBE', ref: '2026-09-30-18.20.49' },
       { date: new Date('2026-10-07'), amount: 49020.00, desc: 'FARUK AYTİN-1.000 USD karşılığı, kur 49,02 cari ödeme 49.020 TL-HVL-GARANTİ BBVA', ref: '2026-10-07-17.14.25' },
+      { date: new Date('2026-10-09'), amount: 196080.00, desc: 'FARUK AYTİN-4.000 USD karşılığı cari ödeme 196.080 TL, kur 49,02-HVL-GARANTİ BBVA', ref: '2026-10-09-17.06.49' }
     ];
 
     for (const bp of bankPayments) {
@@ -1102,16 +1103,16 @@ async function main() {
       tckn: '46849262292',
       totalFasonUsd: 24032.80,
       totalFasonKdvUsd: 2184.80,
-      totalBankPaymentUsd: 7236.00,
-      totalBankPaymentTl: 347491.00,
+      totalBankPaymentUsd: 11236.00,
+      totalBankPaymentTl: 543571.00,
       fabricInvoiceUsd: 7461.45,
       fabricInvoiceTl: 364045.00,
-      netRemainingDebtUsd: -9335.35,
-      netRemainingDebtTl: -459874.07,
-      netVatPayableUsd: 1230.49,
-      netVatPayableTl: 60355.83,
+      netRemainingDebtUsd: 784.60,
+      netRemainingDebtTl: 38461.09,
+      netVatPayableUsd: 0.00,
+      netVatPayableTl: 0.00,
       status: 'RECONCILED',
-      notes: 'Faruk Aytin & Nisa Tekstil Fason Üretim ve Kumaş Mahsubu Tam Çift Yönlü Mutabakatı (NSA-70, NSA-84, NSA-87, BR02026000000024, 6 Garanti BBVA Havalesi)'
+      notes: 'Faruk Aytin & Nisa Tekstil Fason Üretim ve Kumaş Mahsubu Tam Çift Yönlü Mutabakatı (NSA-70, NSA-84, NSA-87, BR02026000000024, 7 Garanti BBVA Havalesi ve 300.000 TL Garanti Ticari Çeki No: 8031377 ile Tamamı Kapatıldı, Hesap +784,60 USD Avansta)'
     },
     create: {
       id: 'FARUK-AYTIN-2026-RECON',
@@ -1120,24 +1121,37 @@ async function main() {
       tckn: '46849262292',
       totalFasonUsd: 24032.80,
       totalFasonKdvUsd: 2184.80,
-      totalBankPaymentUsd: 7236.00,
-      totalBankPaymentTl: 347491.00,
+      totalBankPaymentUsd: 11236.00,
+      totalBankPaymentTl: 543571.00,
       fabricInvoiceUsd: 7461.45,
       fabricInvoiceTl: 364045.00,
-      netRemainingDebtUsd: -9335.35,
-      netRemainingDebtTl: -459874.07,
-      netVatPayableUsd: 1230.49,
-      netVatPayableTl: 60355.83,
+      netRemainingDebtUsd: 784.60,
+      netRemainingDebtTl: 38461.09,
+      netVatPayableUsd: 0.00,
+      netVatPayableTl: 0.00,
       status: 'RECONCILED',
-      notes: 'Faruk Aytin & Nisa Tekstil Fason Üretim ve Kumaş Mahsubu Tam Çift Yönlü Mutabakatı (NSA-70, NSA-84, NSA-87, BR02026000000024, 6 Garanti BBVA Havalesi)'
+      notes: 'Faruk Aytin & Nisa Tekstil Fason Üretim ve Kumaş Mahsubu Tam Çift Yönlü Mutabakatı (NSA-70, NSA-84, NSA-87, BR02026000000024, 7 Garanti BBVA Havalesi ve 300.000 TL Garanti Ticari Çeki No: 8031377 ile Tamamı Kapatıldı, Hesap +784,60 USD Avansta)'
     }
   });
   console.log('✅ Faruk Aytin SubcontractReconciliation çift yönlü mutabakat kaydı işlendi.');
 
   // ==========================================
-  // 7. PORTFÖYDEKİ VADELİ ÇEKLER (3 ADET GERÇEK PARASÜT ÇEKİ)
+  // 7. PORTFÖYDEKİ VADELİ ÇEKLER (GARANTİ VE DİĞER ÇEKLER)
   // ==========================================
   const checksData = [
+    {
+      serialNo: '8031377',
+      bankName: 'Garanti BBVA',
+      drawer: 'Brosan Tekstil San. ve Dış Tic. Ltd. Şti.',
+      issueDate: new Date('2026-10-09'),
+      dueDate: new Date('2026-10-31'),
+      amount: 300000.00,
+      currency: 'TRY',
+      status: 'ISSUED',
+      contactId: farukContactId,
+      parasutId: 1000887270,
+      notes: 'Faruk Aytin Fason Dikim ve Kumaş Mahsubu Kapanış Çeki (TTK m.94 / Çek No: 8031377 / 300.000 TL @ 49,02 - 6.119,95 USD)'
+    },
     {
       serialNo: '8031371',
       bankName: 'Garanti BBVA',

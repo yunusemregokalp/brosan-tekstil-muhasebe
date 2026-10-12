@@ -1,3747 +1,1444 @@
 {
   "Resmi Cari Ekstre (A4)": [
-    {
-      "row": 1,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ.",
-          "val": "BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ."
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": "🖨️ EKSTRE YAZDIR (PDF AÇ)",
-          "val": "🖨️ EKSTRE YAZDIR (PDF AÇ)"
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 2,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "RESMİ CARİ HESAP VE KDV MUTABAKAT EKSTRESİ (USD ESASLI)",
-          "val": "RESMİ CARİ HESAP VE KDV MUTABAKAT EKSTRESİ (USD ESASLI)"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 3,
-      "cells": [
-        {
-          "col": 1,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": "💡 Excel'den yazdırmak için CTRL + P yapın",
-          "val": "💡 Excel'den yazdırmak için CTRL + P yapın"
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 4,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Cari Ünvan:",
-          "val": "Cari Ünvan:"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": "FARUK AYTİN (NİSA TEKSTİL)",
-          "val": "FARUK AYTİN (NİSA TEKSTİL)"
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": "Hesap Para Birimi:",
-          "val": "Hesap Para Birimi:"
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": "USD ($) — Tüm Hesaplaşma Dolar Üzerinden",
-          "val": "USD ($) — Tüm Hesaplaşma Dolar Üzerinden"
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 5,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Vergi / TC No:",
-          "val": "Vergi / TC No:"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": "46849262292 (Küçükköy V.D. / Sultangazi)",
-          "val": "46849262292 (Küçükköy V.D. / Sultangazi)"
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": "Kumaş Faturası Kuru:",
-          "val": "Kumaş Faturası Kuru:"
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": "48,7901 TL (27.09.2026 TCMB Döviz Alış Kuru)",
-          "val": "48,7901 TL (27.09.2026 TCMB Döviz Alış Kuru)"
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 6,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Banka & IBAN:",
-          "val": "Banka & IBAN:"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": "Vakıfbank — TR93 0006 4000 0011 0920 2978 63",
-          "val": "Vakıfbank — TR93 0006 4000 0011 0920 2978 63"
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": "Paraşüt Cari Kodu:",
-          "val": "Paraşüt Cari Kodu:"
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": "1071694008 (Tedarikçi / Müşteri)",
-          "val": "1071694008 (Tedarikçi / Müşteri)"
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 7,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "İletişim / E-posta:",
-          "val": "İletişim / E-posta:"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": "nisatekstil34@hotmail.com",
-          "val": "nisatekstil34@hotmail.com"
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": "Ekstre Tarihi & Durum:",
-          "val": "Ekstre Tarihi & Durum:"
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": "06.10.2026 (Paraşüt & Banka Mutabakatlı)",
-          "val": "06.10.2026 (Paraşüt & Banka Mutabakatlı)"
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 9,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "TOPLAM FASON ALIŞ (USD)",
-          "val": "TOPLAM FASON ALIŞ (USD)"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": "YAPILAN ÖDEMELER (USD)",
-          "val": "YAPILAN ÖDEMELER (USD)"
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": "KUMAŞ MAHSUBU (USD)",
-          "val": "KUMAŞ MAHSUBU (USD)"
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": "GÜNCEL NET CARİ BORCUMUZ (USD)",
-          "val": "GÜNCEL NET CARİ BORCUMUZ (USD)"
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 10,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "24032.8",
-          "val": "24032.8"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": "6236",
-          "val": "6236"
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": "7461.45",
-          "val": "7461.45"
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": "-10335.35",
-          "val": "-10335.35"
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 12,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Tarih",
-          "val": "Tarih"
-        },
-        {
-          "col": 2,
-          "formula": "İşlem Türü",
-          "val": "İşlem Türü"
-        },
-        {
-          "col": 3,
-          "formula": "Evrak / Fatura No",
-          "val": "Evrak / Fatura No"
-        },
-        {
-          "col": 4,
-          "formula": "Açıklama & Sipariş Kalem Detayı",
-          "val": "Açıklama & Sipariş Kalem Detayı"
-        },
-        {
-          "col": 5,
-          "formula": "İşlem Kuru",
-          "val": "İşlem Kuru"
-        },
-        {
-          "col": 6,
-          "formula": "Fatura Matrahı ($)",
-          "val": "Fatura Matrahı ($)"
-        },
-        {
-          "col": 7,
-          "formula": "KDV (%10) ($)",
-          "val": "KDV (%10) ($)"
-        },
-        {
-          "col": 8,
-          "formula": "Borç ($)\n(Ödeme / Satış)",
-          "val": "Borç ($)\n(Ödeme / Satış)"
-        },
-        {
-          "col": 9,
-          "formula": "Alacak ($)\n(Alış Faturası)",
-          "val": "Alacak ($)\n(Alış Faturası)"
-        },
-        {
-          "col": 10,
-          "formula": "Bakiye ($)\n(Faruk Borcu)",
-          "val": "Bakiye ($)\n(Faruk Borcu)"
-        }
-      ]
-    },
-    {
-      "row": 13,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "30.07.2026",
-          "val": "30.07.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Alış Faturası",
-          "val": "Alış Faturası"
-        },
-        {
-          "col": 3,
-          "formula": "NSA2026000000070",
-          "val": "NSA2026000000070"
-        },
-        {
-          "col": 4,
-          "formula": "EMK Oversized Tişört (276 Adet)",
-          "val": "EMK Oversized Tişört (276 Adet)"
-        },
-        {
-          "col": 5,
-          "formula": "47.25",
-          "val": "47.25"
-        },
-        {
-          "col": 6,
-          "formula": "2760",
-          "val": "2760"
-        },
-        {
-          "col": 7,
-          "formula": "276",
-          "val": "276"
-        },
-        {
-          "col": 8,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 9,
-          "formula": "3036",
-          "val": "3036"
-        },
-        {
-          "col": 10,
-          "formula": "=H13-I13",
-          "val": "-3036"
-        }
-      ]
-    },
-    {
-      "row": 14,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "31.07.2026",
-          "val": "31.07.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Tedarikçiye Ödeme",
-          "val": "Tedarikçiye Ödeme"
-        },
-        {
-          "col": 3,
-          "formula": "2026-07-31-17.07.43",
-          "val": "2026-07-31-17.07.43"
-        },
-        {
-          "col": 4,
-          "formula": "NSA-70 Fatura Ödemesi (143.451 TL)",
-          "val": "NSA-70 Fatura Ödemesi (143.451 TL)"
-        },
-        {
-          "col": 5,
-          "formula": "47.25",
-          "val": "47.25"
-        },
-        {
-          "col": 6,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 7,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 8,
-          "formula": "3036",
-          "val": "3036"
-        },
-        {
-          "col": 9,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 10,
-          "formula": "=J13+H14-I14",
-          "val": "0"
-        }
-      ]
-    },
-    {
-      "row": 15,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "07.09.2026",
-          "val": "07.09.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Tedarikçiye Ödeme",
-          "val": "Tedarikçiye Ödeme"
-        },
-        {
-          "col": 3,
-          "formula": "2026-09-07-16.25.27",
-          "val": "2026-09-07-16.25.27"
-        },
-        {
-          "col": 4,
-          "formula": "Siparişe İstinaden Avans (96.600 TL)",
-          "val": "Siparişe İstinaden Avans (96.600 TL)"
-        },
-        {
-          "col": 5,
-          "formula": "48.3",
-          "val": "48.3"
-        },
-        {
-          "col": 6,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 7,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 8,
-          "formula": "2000",
-          "val": "2000"
-        },
-        {
-          "col": 9,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 10,
-          "formula": "=J14+H15-I15",
-          "val": "2000"
-        }
-      ]
-    },
-    {
-      "row": 16,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "14.09.2026",
-          "val": "14.09.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Tedarikçiye Ödeme",
-          "val": "Tedarikçiye Ödeme"
-        },
-        {
-          "col": 3,
-          "formula": "2026-09-14-14.19.11",
-          "val": "2026-09-14-14.19.11"
-        },
-        {
-          "col": 4,
-          "formula": "Cari Hesaba Avans (48.420 TL)",
-          "val": "Cari Hesaba Avans (48.420 TL)"
-        },
-        {
-          "col": 5,
-          "formula": "48.42",
-          "val": "48.42"
-        },
-        {
-          "col": 6,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 7,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 8,
-          "formula": "1000",
-          "val": "1000"
-        },
-        {
-          "col": 9,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 10,
-          "formula": "=J15+H16-I16",
-          "val": "3000"
-        }
-      ]
-    },
-    {
-      "row": 17,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "22.09.2026",
-          "val": "22.09.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Tedarikçiye Ödeme",
-          "val": "Tedarikçiye Ödeme"
-        },
-        {
-          "col": 3,
-          "formula": "2026-09-22-18.03.45",
-          "val": "2026-09-22-18.03.45"
-        },
-        {
-          "col": 4,
-          "formula": "Cari Hesaba Ödeme (5.000 TL)",
-          "val": "Cari Hesaba Ödeme (5.000 TL)"
-        },
-        {
-          "col": 5,
-          "formula": "50",
-          "val": "50"
-        },
-        {
-          "col": 6,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 7,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 8,
-          "formula": "100",
-          "val": "100"
-        },
-        {
-          "col": 9,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 10,
-          "formula": "=J16+H17-I17",
-          "val": "3100"
-        }
-      ]
-    },
-    {
-      "row": 18,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "27.09.2026",
-          "val": "27.09.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Kumaş Satış Faturası",
-          "val": "Kumaş Satış Faturası"
-        },
-        {
-          "col": 3,
-          "formula": "BR02026000000024",
-          "val": "BR02026000000024"
-        },
-        {
-          "col": 4,
-          "formula": "Kumaş Satışı (4 Kalem, 992.5 Kg)",
-          "val": "Kumaş Satışı (4 Kalem, 992.5 Kg)"
-        },
-        {
-          "col": 5,
-          "formula": "48.7901",
-          "val": "48.7901"
-        },
-        {
-          "col": 6,
-          "formula": "6783.14",
-          "val": "6783.14"
-        },
-        {
-          "col": 7,
-          "formula": "678.31",
-          "val": "678.31"
-        },
-        {
-          "col": 8,
-          "formula": "7461.45",
-          "val": "7461.45"
-        },
-        {
-          "col": 9,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 10,
-          "formula": "=J17+H18-I18",
-          "val": "10561.45"
-        }
-      ]
-    },
-    {
-      "row": 19,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "30.09.2026",
-          "val": "30.09.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Tedarikçiye Ödeme",
-          "val": "Tedarikçiye Ödeme"
-        },
-        {
-          "col": 3,
-          "formula": "2026-09-30-18.20.49",
-          "val": "2026-09-30-18.20.49"
-        },
-        {
-          "col": 4,
-          "formula": "Cari Hesaba Ödeme (5.000 TL)",
-          "val": "Cari Hesaba Ödeme (5.000 TL)"
-        },
-        {
-          "col": 5,
-          "formula": "50",
-          "val": "50"
-        },
-        {
-          "col": 6,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 7,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 8,
-          "formula": "100",
-          "val": "100"
-        },
-        {
-          "col": 9,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 10,
-          "formula": "=J18+H19-I19",
-          "val": "10661.45"
-        }
-      ]
-    },
-    {
-      "row": 20,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "01.10.2026",
-          "val": "01.10.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Alış Faturası",
-          "val": "Alış Faturası"
-        },
-        {
-          "col": 3,
-          "formula": "NSA2026000000084",
-          "val": "NSA2026000000084"
-        },
-        {
-          "col": 4,
-          "formula": "Ben Ellis (140 Tişört + 180 Hoodie)",
-          "val": "Ben Ellis (140 Tişört + 180 Hoodie)"
-        },
-        {
-          "col": 5,
-          "formula": "48.9303",
-          "val": "48.9303"
-        },
-        {
-          "col": 6,
-          "formula": "5788",
-          "val": "5788"
-        },
-        {
-          "col": 7,
-          "formula": "578.8",
-          "val": "578.8"
-        },
-        {
-          "col": 8,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 9,
-          "formula": "6366.8",
-          "val": "6366.8"
-        },
-        {
-          "col": 10,
-          "formula": "=J19+H20-I20",
-          "val": "4294.650000000001"
-        }
-      ]
-    },
-    {
-      "row": 21,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "05.10.2026",
-          "val": "05.10.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Alış Faturası",
-          "val": "Alış Faturası"
-        },
-        {
-          "col": 3,
-          "formula": "NSA2026000000087",
-          "val": "NSA2026000000087"
-        },
-        {
-          "col": 4,
-          "formula": "Ben Ellis (375 Tişört + 394 Hoodie)",
-          "val": "Ben Ellis (375 Tişört + 394 Hoodie)"
-        },
-        {
-          "col": 5,
-          "formula": "48.9699",
-          "val": "48.9699"
-        },
-        {
-          "col": 6,
-          "formula": "13300",
-          "val": "13300"
-        },
-        {
-          "col": 7,
-          "formula": "1330",
-          "val": "1330"
-        },
-        {
-          "col": 8,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 9,
-          "formula": "14630",
-          "val": "14630"
-        },
-        {
-          "col": 10,
-          "formula": "=J20+H21-I21",
-          "val": "-10335.349999999999"
-        }
-      ]
-    },
-    {
-      "row": 22,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "GENEL TOPLAM",
-          "val": "GENEL TOPLAM"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": "=F13+F20+F21",
-          "val": "21848"
-        },
-        {
-          "col": 7,
-          "formula": "=G13+G20+G21",
-          "val": "2184.8"
-        },
-        {
-          "col": 8,
-          "formula": "=SUM(H13:H21)",
-          "val": "13697.45"
-        },
-        {
-          "col": 9,
-          "formula": "=SUM(I13:I21)",
-          "val": "24032.8"
-        },
-        {
-          "col": 10,
-          "formula": "=H22-I22",
-          "val": "-10335.349999999999"
-        }
-      ]
-    },
-    {
-      "row": 24,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "📌 KDV DAĞILIMI VE NET ÖDENECEK KDV MUTABAKATI",
-          "val": "📌 KDV DAĞILIMI VE NET ÖDENECEK KDV MUTABAKATI"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": "✍️ CARİ MUTABAKAT VE ONAY ALANI",
-          "val": "✍️ CARİ MUTABAKAT VE ONAY ALANI"
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 25,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Toplam Fason Alış KDV'si (%10):",
-          "val": "Toplam Fason Alış KDV'si (%10):"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": "2.184,80 USD  (106.491,83 TL)",
-          "val": "2.184,80 USD  (106.491,83 TL)"
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": "İşbu ekstre 06.10.2026 tarihi itibariyle net 10.335,35 USD cari borç bakiyesi üzerinden mutabıktır.",
-          "val": "İşbu ekstre 06.10.2026 tarihi itibariyle net 10.335,35 USD cari borç bakiyesi üzerinden mutabıktır."
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 26,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Ödenmiş KDV (30.07.2026 NSA-70):",
-          "val": "Ödenmiş KDV (30.07.2026 NSA-70):"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": "-276,00 USD  (-13.041,00 TL)",
-          "val": "-276,00 USD  (-13.041,00 TL)"
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": "BROSAN TEKSTİL LTD. ŞTİ.\n(Kaşe / İmza)",
-          "val": "BROSAN TEKSTİL LTD. ŞTİ.\n(Kaşe / İmza)"
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": "FARUK AYTİN (NİSA TEKSTİL)\n(Kaşe / İmza)",
-          "val": "FARUK AYTİN (NİSA TEKSTİL)\n(Kaşe / İmza)"
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 27,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Açık Kalan KDV (Ben Ellis Faturaları):",
-          "val": "Açık Kalan KDV (Ben Ellis Faturaları):"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": "1.908,80 USD  (93.450,83 TL)",
-          "val": "1.908,80 USD  (93.450,83 TL)"
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 28,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Kumaş Satış Faturası KDV Mahsubu:",
-          "val": "Kumaş Satış Faturası KDV Mahsubu:"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": "-678,31 USD  (-33.095,00 TL)",
-          "val": "-678,31 USD  (-33.095,00 TL)"
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 29,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "FARUK AYTİN'E ÖDENECEK NET KDV:",
-          "val": "FARUK AYTİN'E ÖDENECEK NET KDV:"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": "1.230,49 USD  (60.355,83 TL)",
-          "val": "1.230,49 USD  (60.355,83 TL)"
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        }
-      ]
-    }
+    [
+      "BROSAN TEKSTİL SANAYİ VE DIŞ TİCARET LTD. ŞTİ.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "RESMÎ MUTABAKAT PROTOKOLÜ\nRef No: BR-MUT-2026/10\nTanzim: 09.10.2026 | 19:00\nDurum: ÇEK VERİLDİ & HESAP KAPANDI",
+      null
+    ],
+    [
+      "RESMÎ CARİ MUTABAKAT VE HESAP EKSTRESİ (USD ESASLI)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Garanti BBVA Çek & Havale İşlemleri ile Birebir Mutabık Resmî Hesap Özeti",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Cari Ünvan:",
+      null,
+      "FARUK AYTİN (NİSA TEKSTİL / NİSA KONF.)",
+      null,
+      null,
+      "Hesap Para Birimi:",
+      "USD ($) — Tüm Hesaplaşma Dolar Üzerinden",
+      null
+    ],
+    [
+      "Vergi / TC No:",
+      null,
+      "46849262292 (Küçükköy V.D. / Sultangazi)",
+      null,
+      null,
+      "Kumaş Faturası Kuru:",
+      "48,7901 TL (27.09.2026 TCMB Alış Kuru)",
+      null
+    ],
+    [
+      "Banka & IBAN:",
+      null,
+      "Vakıfbank — TR93 0006 4000 0011 0920 2978 63",
+      null,
+      null,
+      "Son Verilen Çek:",
+      "300.000 TL (Vade: 31.10.2026 / Kur: 49,02)",
+      null
+    ],
+    [
+      "İletişim / E-posta:",
+      null,
+      "nisatekstil34@hotmail.com",
+      null,
+      null,
+      "Ekstre Durumu:",
+      "09.10.2026 (Garanti BBVA 300.000 TL Çek İşlendi)",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "BİZİM ÖDEMELER & SATIŞLARIMIZ",
+      null,
+      "FARUK'UN BİZE SATIŞLARI (FASON)",
+      null,
+      "VERİLEN ÇEK TUTARI (31.10 VADE)",
+      null,
+      "GÜNCEL NET CARİ BAKİYEMİZ",
+      null
+    ],
+    [
+      24817.4,
+      null,
+      24032.8,
+      null,
+      6119.95,
+      null,
+      784.6000000000022,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Tarih",
+      "İşlem Türü",
+      "Evrak / Dekont No",
+      "İşlem Açıklaması & Sipariş Detayı",
+      "Kur (TL)",
+      "BİZİM ÖDEMELER & ÇIKIŞLAR ($)\n(Havale + Kumaş + Çek)",
+      "ONUN BİZE SATIŞLARI ($)\n(Fason İmalat Hak Edişi)",
+      "NET CARİ BAKİYE ($)\n(Brosan: + / Faruk: -)"
+    ],
+    [
+      "30.07.2026",
+      "Alış Faturası",
+      "NSA2026000000070",
+      "EMK Oversized Tişört (276 Adet) [Matrah: 2.760 $ | KDV: 276 $]",
+      47.25,
+      0,
+      3036,
+      -3036
+    ],
+    [
+      "31.07.2026",
+      "Tedarikçiye Ödeme",
+      "2026-07-31-17.07.43",
+      "NSA-70 Fatura Ödemesi (Garanti BBVA 143.451 TL)",
+      47.25,
+      3036,
+      0,
+      0
+    ],
+    [
+      "07.09.2026",
+      "Tedarikçiye Ödeme",
+      "2026-09-07-16.25.27",
+      "Verilen Siparişe Avans Ödemesi (Garanti BBVA 96.600 TL)",
+      48.3,
+      2000,
+      0,
+      2000
+    ],
+    [
+      "14.09.2026",
+      "Tedarikçiye Ödeme",
+      "2026-09-14-14.19.11",
+      "Cari Hesaba İstinaden Avans (Garanti BBVA 48.420 TL)",
+      48.42,
+      1000,
+      0,
+      3000
+    ],
+    [
+      "22.09.2026",
+      "Tedarikçiye Ödeme",
+      "2026-09-22-18.03.45",
+      "Cari Hesaba Ödeme 100 USD Karşılığı (Garanti BBVA 5.000 TL)",
+      50,
+      100,
+      0,
+      3100
+    ],
+    [
+      "27.09.2026",
+      "Satış Faturası",
+      "BR02026000000024",
+      "Faruk'a Kumaş Satışı (4 Kalem, 992.5 Kg) [Matrah: 6.783,14 $ | KDV: 678,31 $]",
+      48.7901,
+      7461.45,
+      0,
+      10561.45
+    ],
+    [
+      "30.09.2026",
+      "Tedarikçiye Ödeme",
+      "2026-09-30-18.20.49",
+      "Cari Hesaba Ödeme 100 USD Karşılığı (Garanti BBVA 5.000 TL)",
+      50,
+      100,
+      0,
+      10661.45
+    ],
+    [
+      "01.10.2026",
+      "Alış Faturası",
+      "NSA2026000000084",
+      "Ben Ellis (140 T-shirt + 180 Hoodie) [Matrah: 5.788 $ | KDV: 578,80 $]",
+      48.9303,
+      0,
+      6366.8,
+      4294.650000000001
+    ],
+    [
+      "05.10.2026",
+      "Alış Faturası",
+      "NSA2026000000087",
+      "Ben Ellis (375 T-shirt + 394 Hoodie) [Matrah: 13.300 $ | KDV: 1.330 $]",
+      48.9699,
+      0,
+      14630,
+      -10335.349999999999
+    ],
+    [
+      "07.10.2026",
+      "Tedarikçiye Ödeme",
+      "2026-10-07-17.14.25",
+      "Cari Hesaba Ödeme 1.000 USD Karşılığı (Garanti BBVA 49.020 TL)",
+      49.02,
+      1000,
+      0,
+      -9335.349999999999
+    ],
+    [
+      "09.10.2026",
+      "Tedarikçiye Ödeme",
+      "2026-10-09-15.19.14",
+      "Cari Hesaba Ödeme 4.000 USD Karşılığı (Garanti BBVA 196.080 TL)",
+      49.02,
+      4000,
+      0,
+      -5335.3499999999985
+    ],
+    [
+      "09.10.2026",
+      "Verilen Çek",
+      "ÇEK-8031377",
+      "Garanti BBVA Çek (Vade: 31.10.2026, 300.000 TL, Kur: 49,02) — Faruk Aytin",
+      49.02,
+      6119.95,
+      0,
+      784.6000000000013
+    ],
+    [
+      "GENEL TOPLAM VE MUTABAKAT BAKİYESİ",
+      null,
+      null,
+      null,
+      null,
+      24817.4,
+      24032.8,
+      784.6000000000022
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "📌 KDV VE VERGİ MUTABAKAT MASASI (FASON İMALAT)",
+      null,
+      null,
+      null,
+      "📦 HAMMADDE & SİPARİŞ MAHSUP ANALİZİ",
+      null,
+      null,
+      null
+    ],
+    [
+      "Toplam Fason Alış KDV'si (%10):",
+      null,
+      null,
+      "2.184,80 USD  (106.491,83 TL)",
+      "Teslim Alınan Toplam Mamul:",
+      null,
+      "1.365 Adet (EMK & Ben Ellis)",
+      null
+    ],
+    [
+      "Ödenmiş KDV (30.07.2026 NSA-70):",
+      null,
+      null,
+      "-276,00 USD  (-13.041,00 TL)",
+      "Verilen Hammadde Kumaş:",
+      null,
+      "992,50 Kg (4 Kalem Penye/İplik)",
+      null
+    ],
+    [
+      "Açık Fason KDV (Ben Ellis Faturaları):",
+      null,
+      null,
+      "1.908,80 USD  (93.450,83 TL)",
+      "Garanti BBVA Havaleleri (7 Adet):",
+      null,
+      "543.571,00 TL  (11.236,00 USD)",
+      null
+    ],
+    [
+      "Kumaş Satış Faturası KDV Mahsubu:",
+      null,
+      null,
+      "-678,31 USD  (-33.095,00 TL)",
+      "Garanti BBVA Verilen Çek (31.10 Vade):",
+      null,
+      "300.000,00 TL  (6.119,95 USD)",
+      null
+    ],
+    [
+      "ÖDENECEK TÜM KDV & MATRAH DURUMU:",
+      null,
+      null,
+      "TAMAMI KAPANDI & ÖDENDİ (0,00 $)",
+      "Brosan Toplam Çıkışı (Kumaş+Havale+Çek):",
+      null,
+      "1.207.616,00 TL  (24.817,40 USD)",
+      null
+    ],
+    [
+      "FARUK AYTİN'DEKİ BROSAN AVANS BAKİYESİ:",
+      null,
+      null,
+      "+784,60 USD  (+38.461,09 TL)",
+      "GÜNCEL NET CARİ BAKİYEMİZ:",
+      null,
+      "+38.461,09 TL  (+784,60 USD AVANS)",
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "✍️ ÇİFT TARAFLI RESMÎ MUTABAKAT VE ONAY PROTOKOLÜ",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "İşbu mutabakat ekstresi 09.10.2026 tarihi itibariyle verilen 300.000,00 TL tutarlı Garanti BBVA çeki (Çek No: 8031377, Vade: 31.10.2026, Kur: 49,02 TL / 6.119,95 USD) sonrasında Faruk Aytin'e olan tüm cari hesap borçları tamamen tasfiye edilmiş olup, firmamız Brosan Tekstil lehine +784,60 USD (38.461,09 TL) yeni sipariş avans alacağı teşekkül etmiştir. TTK m.94 uyarınca tam mutabık kalınmıştır.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "BROSAN TEKSTİL SANAYİ VE DIŞ TİCARET LTD. ŞTİ. (Yetkili Kaşe / İmza)",
+      null,
+      null,
+      null,
+      "FARUK AYTİN — NİSA TEKSTİL (Yetkili Kaşe / İmza)",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      "Yetkili Adı Soyadı: ........................................................................\n\nİmza & Kaşe:                                                       Tarih: ..... / ..... / 2026",
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Brosan Tekstil San. ve Dış Tic. Ltd. Şti. Finans & Denetim Sistemi | Ref: BR-MUT-2026/10-FA | Güvenlik Kodu: BR-8947-SEC | Sayfa 1 / 2",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  ],
+  "Denetim Ekleri (A4)": [
+    [
+      "BROSAN TEKSTİL SANAYİ VE DIŞ TİCARET LTD. ŞTİ.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      "RESMÎ MUTABAKAT EKİ (EK-1)\nSayfa: 2 / 2 | Ref: BR-MUT-2026/10",
+      null
+    ],
+    [
+      "MUTABAKAT DENETİM EKLERİ: FATURA, KUMAŞ VE BANKA/ÇEK DETAY CETVELLERİ",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "📄 1. FARUK AYTİN GELEN E-FATURALAR SATIR BAZLI İMALAT DÖKÜMÜ (TOPLAM: 24.032,80 USD / 1.365 ADET)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Fatura No",
+      "Tarih",
+      "İrsaliye No",
+      "Kalem / Ürün Tanımı",
+      "Miktar / Adet",
+      "Birim Fiyat ($)",
+      "KDV (%10) ($)",
+      "Toplam Fatura ($)"
+    ],
+    [
+      "NSA2026000000070",
+      "30.07.2026",
+      "—",
+      "EMK SYSTEM OVERSIZED T-SHIRT",
+      "276 Adet",
+      "$10,00",
+      "$276,00",
+      "$3.036,00"
+    ],
+    [
+      "NSA2026000000084",
+      "01.10.2026",
+      "IRS2026000000078",
+      "BEN ELLIS T-SHIRTS",
+      "140 Adet",
+      "$9,20",
+      "$128,80",
+      "$1.416,80"
+    ],
+    [
+      "NSA2026000000084",
+      "01.10.2026",
+      "IRS2026000000078",
+      "BEN ELLIS HOODIES",
+      "180 Adet",
+      "$25,00",
+      "$450,00",
+      "$4.950,00"
+    ],
+    [
+      "NSA2026000000087",
+      "05.10.2026",
+      "IRS2026000000080",
+      "BEN ELLIS T-SHIRTS BLUE",
+      "375 Adet",
+      "$9,20",
+      "$345,00",
+      "$3.795,00"
+    ],
+    [
+      "NSA2026000000087",
+      "05.10.2026",
+      "IRS2026000000080",
+      "BEN ELLIS HOODIES PINK",
+      "394 Adet",
+      "$25,00",
+      "$985,00",
+      "$10.835,00"
+    ],
+    [
+      "FASON İMALAT TOPLAMI:",
+      null,
+      null,
+      null,
+      "1.365 Adet",
+      "Matrah: $21.848,00",
+      "$2.184,80",
+      "$24.032,80"
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "🧵 2. BROSAN'IN KESTİĞİ KUMAŞ SATIŞ FATURASI DÖKÜMÜ (BR02026000000024 | 992,50 KG / 7.461,45 USD)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Sıra",
+      "Tarih & Fatura",
+      "TCMB Kuru",
+      "Kumaş Cinsi ve Teknik Tanımı",
+      "Miktar (Kg)",
+      "Birim Fiyat (TL)",
+      "KDV Dahil (TL)",
+      "USD Toplam Tutar"
+    ],
+    [
+      1,
+      "27.09.2026 - BR-24",
+      "48,7901 TL",
+      "B.KUMAŞ 30/2 PENYE SÜPREM",
+      "227,00 Kg",
+      "340,00 TL",
+      "84.898,00 TL",
+      "$1.740,07"
+    ],
+    [
+      2,
+      "27.09.2026 - BR-24",
+      "48,7901 TL",
+      "B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA",
+      "14,50 Kg",
+      "340,00 TL",
+      "5.423,00 TL",
+      "$111,15"
+    ],
+    [
+      3,
+      "27.09.2026 - BR-24",
+      "48,7901 TL",
+      "B.KUMAŞ 30/20/10 PENYE 3 İPLİK (ŞARDONLU)",
+      "650,00 Kg",
+      "330,00 TL",
+      "235.950,00 TL",
+      "$4.836,02"
+    ],
+    [
+      4,
+      "27.09.2026 - BR-24",
+      "48,7901 TL",
+      "B.KUMAŞ 30/2 PENYE 70 DNY LYC KAŞKORSE",
+      "101,00 Kg",
+      "340,00 TL",
+      "37.774,00 TL",
+      "$774,21"
+    ],
+    [
+      "KUMAŞ SATIŞ FATURASI TOPLAMI:",
+      null,
+      null,
+      null,
+      "992,50 Kg",
+      "KDV: 33.095 TL",
+      "364.045,00 TL",
+      "$7.461,45"
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "🏦 3. GARANTİ BBVA BANKA TRANSFERLERİ & VERİLEN ÇEK DÖKÜMÜ (TOPLAM: 17.355,95 USD / 843.571,00 TL)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Sıra",
+      "Tarih",
+      "Banka Dekont / Çek No",
+      "Banka İşlem Açıklaması",
+      "Kanal",
+      "İşlem Kuru",
+      "Ödenen TL Tutar",
+      "USD Karşılığı"
+    ],
+    [
+      1,
+      "31.07.2026",
+      "2026-07-31-17.07.43",
+      "NSA-70 Fatura Ödemesi (KDV Dahil)",
+      "Garanti Cep",
+      "47,2500 TL",
+      "143.451,00 TL",
+      "$3.036,00"
+    ],
+    [
+      2,
+      "07.09.2026",
+      "2026-09-07-16.25.27",
+      "Verilen Siparişe İstinaden Ön Ödeme (Avans)",
+      "Garanti Cep",
+      "48,3000 TL",
+      "96.600,00 TL",
+      "$2.000,00"
+    ],
+    [
+      3,
+      "14.09.2026",
+      "2026-09-14-14.19.11",
+      "Cari Hesaba İstinaden Ön Ödeme (Avans)",
+      "Garanti Cep",
+      "48,4200 TL",
+      "48.420,00 TL",
+      "$1.000,00"
+    ],
+    [
+      4,
+      "22.09.2026",
+      "2026-09-22-18.03.45",
+      "Cari Hesaba Ödeme 100 USD Karşılığı",
+      "Garanti Cep",
+      "50,0000 TL",
+      "5.000,00 TL",
+      "$100,00"
+    ],
+    [
+      5,
+      "30.09.2026",
+      "2026-09-30-18.20.49",
+      "Cari Hesaba Ödeme 100 USD Karşılığı",
+      "Garanti Cep",
+      "50,0000 TL",
+      "5.000,00 TL",
+      "$100,00"
+    ],
+    [
+      6,
+      "07.10.2026",
+      "2026-10-07-17.14.25",
+      "Cari Hesaba Ödeme 1.000 USD Karşılığı",
+      "Garanti Web",
+      "49,0200 TL",
+      "49.020,00 TL",
+      "$1.000,00"
+    ],
+    [
+      7,
+      "09.10.2026",
+      "2026-10-09-15.19.14",
+      "Cari Hesaba İstinaden Ödeme 4.000 USD Karşılığı",
+      "Garanti Cep",
+      "49,0200 TL",
+      "196.080,00 TL",
+      "$4.000,00"
+    ],
+    [
+      8,
+      "09.10.2026",
+      "ÇEK-8031377",
+      "Garanti BBVA Çek (Vade: 31.10.2026) — Faruk Aytin",
+      "Bahçeşehir Şb",
+      "49,0200 TL",
+      "300.000,00 TL",
+      "$6.119,95"
+    ],
+    [
+      "GARANTİ BBVA BANKA & ÇEK TOPLAMI:",
+      null,
+      null,
+      null,
+      null,
+      "7 Havale + 1 Çek",
+      "843.571,00 TL",
+      "$17.355,95"
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "⚖️ 4. DENETİM VE MUTABAKAT KONSOLİDE İCMALİ (ÇEK SONRASI NİHAİ DENGE)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "A. FARUK AYTİN TOPLAM ALACAĞI (3 Adet e-Fatura / 1.365 Adet Mamul):",
+      null,
+      null,
+      null,
+      null,
+      "1.171.410,07 TL",
+      null,
+      "24.032,80 USD"
+    ],
+    [
+      "B. BROSAN TEKSTİL KUMAŞ SATIŞ MAHSUBU (992,50 Kg Hammadde):",
+      null,
+      null,
+      null,
+      null,
+      "-364.045,00 TL",
+      null,
+      "-7.461,45 USD"
+    ],
+    [
+      "C. BROSAN TEKSTİL GARANTİ BBVA HAVALELERİ (7 Adet Banka Transferi):",
+      null,
+      null,
+      null,
+      null,
+      "-543.571,00 TL",
+      null,
+      "-11.236,00 USD"
+    ],
+    [
+      "D. BROSAN TEKSTİL VERİLEN ÇEK (Çek No: 8031377, Vade: 31.10.2026):",
+      null,
+      null,
+      null,
+      null,
+      "-300.000,00 TL",
+      null,
+      "-6.119,95 USD"
+    ],
+    [
+      "E. BROSAN TEKSTİL TOPLAM FİİLİ ÇIKIŞI (Kumaş + Banka Havalesi + Çek):",
+      null,
+      null,
+      null,
+      null,
+      "-1.207.616,00 TL",
+      null,
+      "-24.817,40 USD"
+    ],
+    [
+      "NET CARİ BAKİYE (BROSAN TEKSTİL LEHİNE AVANS ALACAĞI):",
+      null,
+      null,
+      null,
+      null,
+      "+38.461,09 TL",
+      null,
+      "+784,60 USD"
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "İşbu denetim cetveli resmî mutabakat belgesinin ayrılmaz eki olup, Garanti BBVA Çek Kaydı ve Paraşüt e-arşiv verileriyle tanzim edilmiştir. | Sayfa: 2 / 2",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   ],
   "Cari Ekstre (Detaylı TL-USD)": [
-    {
-      "row": 1,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ. — FARUK AYTİN DETAYLI CARİ VE BANKA HAREKETLERİ",
-          "val": "BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ. — FARUK AYTİN DETAYLI CARİ VE BANKA HAREKETLERİ"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 11,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 12,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 3,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Tarih",
-          "val": "Tarih"
-        },
-        {
-          "col": 2,
-          "formula": "İşlem Türü",
-          "val": "İşlem Türü"
-        },
-        {
-          "col": 3,
-          "formula": "Evrak / Dekont No",
-          "val": "Evrak / Dekont No"
-        },
-        {
-          "col": 4,
-          "formula": "Açıklama / İşlem & Sipariş Detayı",
-          "val": "Açıklama / İşlem & Sipariş Detayı"
-        },
-        {
-          "col": 5,
-          "formula": "Kur (TL)",
-          "val": "Kur (TL)"
-        },
-        {
-          "col": 6,
-          "formula": "Borç (USD)",
-          "val": "Borç (USD)"
-        },
-        {
-          "col": 7,
-          "formula": "Alacak (USD)",
-          "val": "Alacak (USD)"
-        },
-        {
-          "col": 8,
-          "formula": "Bakiye (USD)",
-          "val": "Bakiye (USD)"
-        },
-        {
-          "col": 9,
-          "formula": "Borç (TL)",
-          "val": "Borç (TL)"
-        },
-        {
-          "col": 10,
-          "formula": "Alacak (TL)",
-          "val": "Alacak (TL)"
-        },
-        {
-          "col": 11,
-          "formula": "Bakiye (TL)",
-          "val": "Bakiye (TL)"
-        },
-        {
-          "col": 12,
-          "formula": "Paraşüt Durumu & Fiş No",
-          "val": "Paraşüt Durumu & Fiş No"
-        }
-      ]
-    },
-    {
-      "row": 4,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "30.07.2026",
-          "val": "30.07.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Alış Faturası",
-          "val": "Alış Faturası"
-        },
-        {
-          "col": 3,
-          "formula": "NSA2026000000070",
-          "val": "NSA2026000000070"
-        },
-        {
-          "col": 4,
-          "formula": "EMK Oversized Tişört (276 Adet) [Matrah: 2.760 $ | KDV: 276 $]",
-          "val": "EMK Oversized Tişört (276 Adet) [Matrah: 2.760 $ | KDV: 276 $]"
-        },
-        {
-          "col": 5,
-          "formula": "47.25",
-          "val": "47.25"
-        },
-        {
-          "col": 6,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 7,
-          "formula": "3036",
-          "val": "3036"
-        },
-        {
-          "col": 8,
-          "formula": "=F4-G4",
-          "val": "-3036"
-        },
-        {
-          "col": 9,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 10,
-          "formula": "143451",
-          "val": "143451"
-        },
-        {
-          "col": 11,
-          "formula": "=I4-J4",
-          "val": "-143451"
-        },
-        {
-          "col": 12,
-          "formula": "İşlendi (Ödendi/Kapandı)",
-          "val": "İşlendi (Ödendi/Kapandı)"
-        }
-      ]
-    },
-    {
-      "row": 5,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "31.07.2026",
-          "val": "31.07.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Tedarikçiye Ödeme",
-          "val": "Tedarikçiye Ödeme"
-        },
-        {
-          "col": 3,
-          "formula": "2026-07-31-17.07.43",
-          "val": "2026-07-31-17.07.43"
-        },
-        {
-          "col": 4,
-          "formula": "NSA-70 Fatura Ödemesi (Banka Havalesi)",
-          "val": "NSA-70 Fatura Ödemesi (Banka Havalesi)"
-        },
-        {
-          "col": 5,
-          "formula": "47.25",
-          "val": "47.25"
-        },
-        {
-          "col": 6,
-          "formula": "3036",
-          "val": "3036"
-        },
-        {
-          "col": 7,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 8,
-          "formula": "=H4+F5-G5",
-          "val": "0"
-        },
-        {
-          "col": 9,
-          "formula": "143451",
-          "val": "143451"
-        },
-        {
-          "col": 10,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 11,
-          "formula": "=K4+I5-J5",
-          "val": "0"
-        },
-        {
-          "col": 12,
-          "formula": "Garanti BBVA + Paraşüt",
-          "val": "Garanti BBVA + Paraşüt"
-        }
-      ]
-    },
-    {
-      "row": 6,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "07.09.2026",
-          "val": "07.09.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Tedarikçiye Ödeme",
-          "val": "Tedarikçiye Ödeme"
-        },
-        {
-          "col": 3,
-          "formula": "2026-09-07-16.25.27",
-          "val": "2026-09-07-16.25.27"
-        },
-        {
-          "col": 4,
-          "formula": "Verilen siparişe istinaden avans (2.000 USD)",
-          "val": "Verilen siparişe istinaden avans (2.000 USD)"
-        },
-        {
-          "col": 5,
-          "formula": "48.3",
-          "val": "48.3"
-        },
-        {
-          "col": 6,
-          "formula": "2000",
-          "val": "2000"
-        },
-        {
-          "col": 7,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 8,
-          "formula": "=H5+F6-G6",
-          "val": "2000"
-        },
-        {
-          "col": 9,
-          "formula": "96600",
-          "val": "96600"
-        },
-        {
-          "col": 10,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 11,
-          "formula": "=K5+I6-J6",
-          "val": "96600"
-        },
-        {
-          "col": 12,
-          "formula": "Garanti BBVA + Paraşüt",
-          "val": "Garanti BBVA + Paraşüt"
-        }
-      ]
-    },
-    {
-      "row": 7,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "14.09.2026",
-          "val": "14.09.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Tedarikçiye Ödeme",
-          "val": "Tedarikçiye Ödeme"
-        },
-        {
-          "col": 3,
-          "formula": "2026-09-14-14.19.11",
-          "val": "2026-09-14-14.19.11"
-        },
-        {
-          "col": 4,
-          "formula": "Cari hesaba istinaden avans (1.000 USD)",
-          "val": "Cari hesaba istinaden avans (1.000 USD)"
-        },
-        {
-          "col": 5,
-          "formula": "48.42",
-          "val": "48.42"
-        },
-        {
-          "col": 6,
-          "formula": "1000",
-          "val": "1000"
-        },
-        {
-          "col": 7,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 8,
-          "formula": "=H6+F7-G7",
-          "val": "3000"
-        },
-        {
-          "col": 9,
-          "formula": "48420",
-          "val": "48420"
-        },
-        {
-          "col": 10,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 11,
-          "formula": "=K6+I7-J7",
-          "val": "145020"
-        },
-        {
-          "col": 12,
-          "formula": "Garanti BBVA + Paraşüt",
-          "val": "Garanti BBVA + Paraşüt"
-        }
-      ]
-    },
-    {
-      "row": 8,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "22.09.2026",
-          "val": "22.09.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Tedarikçiye Ödeme",
-          "val": "Tedarikçiye Ödeme"
-        },
-        {
-          "col": 3,
-          "formula": "2026-09-22-18.03.45",
-          "val": "2026-09-22-18.03.45"
-        },
-        {
-          "col": 4,
-          "formula": "100 USD karşılığı cari ödeme (5.000 TL, Kur: 50,00)",
-          "val": "100 USD karşılığı cari ödeme (5.000 TL, Kur: 50,00)"
-        },
-        {
-          "col": 5,
-          "formula": "50",
-          "val": "50"
-        },
-        {
-          "col": 6,
-          "formula": "100",
-          "val": "100"
-        },
-        {
-          "col": 7,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 8,
-          "formula": "=H7+F8-G8",
-          "val": "3100"
-        },
-        {
-          "col": 9,
-          "formula": "5000",
-          "val": "5000"
-        },
-        {
-          "col": 10,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 11,
-          "formula": "=K7+I8-J8",
-          "val": "150020"
-        },
-        {
-          "col": 12,
-          "formula": "Eşleşti (Garanti BBVA + Paraşüt)",
-          "val": "Eşleşti (Garanti BBVA + Paraşüt)"
-        }
-      ]
-    },
-    {
-      "row": 9,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "27.09.2026",
-          "val": "27.09.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Satış Faturası",
-          "val": "Satış Faturası"
-        },
-        {
-          "col": 3,
-          "formula": "BR02026000000024",
-          "val": "BR02026000000024"
-        },
-        {
-          "col": 4,
-          "formula": "KUMAŞ SATIŞ FATURASI (4 Kalem, 992.5 Kg)",
-          "val": "KUMAŞ SATIŞ FATURASI (4 Kalem, 992.5 Kg)"
-        },
-        {
-          "col": 5,
-          "formula": "48.7901",
-          "val": "48.7901"
-        },
-        {
-          "col": 6,
-          "formula": "7461.45",
-          "val": "7461.45"
-        },
-        {
-          "col": 7,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 8,
-          "formula": "=H8+F9-G9",
-          "val": "10561.45"
-        },
-        {
-          "col": 9,
-          "formula": "364045",
-          "val": "364045"
-        },
-        {
-          "col": 10,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 11,
-          "formula": "=K8+I9-J9",
-          "val": "514065"
-        },
-        {
-          "col": 12,
-          "formula": "Paraşüt (TCMB Alış: 48,7901)",
-          "val": "Paraşüt (TCMB Alış: 48,7901)"
-        }
-      ]
-    },
-    {
-      "row": 10,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "30.09.2026",
-          "val": "30.09.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Tedarikçiye Ödeme",
-          "val": "Tedarikçiye Ödeme"
-        },
-        {
-          "col": 3,
-          "formula": "2026-09-30-18.20.49",
-          "val": "2026-09-30-18.20.49"
-        },
-        {
-          "col": 4,
-          "formula": "USD cari ödeme 100 USD karşılığı (5.000 TL, Kur: 50,00)",
-          "val": "USD cari ödeme 100 USD karşılığı (5.000 TL, Kur: 50,00)"
-        },
-        {
-          "col": 5,
-          "formula": "50",
-          "val": "50"
-        },
-        {
-          "col": 6,
-          "formula": "100",
-          "val": "100"
-        },
-        {
-          "col": 7,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 8,
-          "formula": "=H9+F10-G10",
-          "val": "10661.45"
-        },
-        {
-          "col": 9,
-          "formula": "5000",
-          "val": "5000"
-        },
-        {
-          "col": 10,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 11,
-          "formula": "=K9+I10-J10",
-          "val": "519065"
-        },
-        {
-          "col": 12,
-          "formula": "Garanti BBVA + Paraşüt",
-          "val": "Garanti BBVA + Paraşüt"
-        }
-      ]
-    },
-    {
-      "row": 11,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "01.10.2026",
-          "val": "01.10.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Alış Faturası",
-          "val": "Alış Faturası"
-        },
-        {
-          "col": 3,
-          "formula": "NSA2026000000084",
-          "val": "NSA2026000000084"
-        },
-        {
-          "col": 4,
-          "formula": "Ben Ellis (140 T-shirt + 180 Hoodie) [Matrah: 5.788 $ | KDV: 578,80 $]",
-          "val": "Ben Ellis (140 T-shirt + 180 Hoodie) [Matrah: 5.788 $ | KDV: 578,80 $]"
-        },
-        {
-          "col": 5,
-          "formula": "48.9303",
-          "val": "48.9303"
-        },
-        {
-          "col": 6,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 7,
-          "formula": "6366.8",
-          "val": "6366.8"
-        },
-        {
-          "col": 8,
-          "formula": "=H10+F11-G11",
-          "val": "4294.650000000001"
-        },
-        {
-          "col": 9,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 10,
-          "formula": "311529.43",
-          "val": "311529.43"
-        },
-        {
-          "col": 11,
-          "formula": "=K10+I11-J11",
-          "val": "207535.57"
-        },
-        {
-          "col": 12,
-          "formula": "Paraşüt'e İşlendi (Fiş: 1044145905)",
-          "val": "Paraşüt'e İşlendi (Fiş: 1044145905)"
-        }
-      ]
-    },
-    {
-      "row": 12,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "05.10.2026",
-          "val": "05.10.2026"
-        },
-        {
-          "col": 2,
-          "formula": "Alış Faturası",
-          "val": "Alış Faturası"
-        },
-        {
-          "col": 3,
-          "formula": "NSA2026000000087",
-          "val": "NSA2026000000087"
-        },
-        {
-          "col": 4,
-          "formula": "Ben Ellis (375 T-shirt + 394 Hoodie) [Matrah: 13.300 $ | KDV: 1.330 $]",
-          "val": "Ben Ellis (375 T-shirt + 394 Hoodie) [Matrah: 13.300 $ | KDV: 1.330 $]"
-        },
-        {
-          "col": 5,
-          "formula": "48.9699",
-          "val": "48.9699"
-        },
-        {
-          "col": 6,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 7,
-          "formula": "14630",
-          "val": "14630"
-        },
-        {
-          "col": 8,
-          "formula": "=H11+F12-G12",
-          "val": "-10335.349999999999"
-        },
-        {
-          "col": 9,
-          "formula": "0",
-          "val": "0"
-        },
-        {
-          "col": 10,
-          "formula": "716429.64",
-          "val": "716429.64"
-        },
-        {
-          "col": 11,
-          "formula": "=K11+I12-J12",
-          "val": "-508894.07"
-        },
-        {
-          "col": 12,
-          "formula": "Paraşüt'e İşlendi (Fiş: 1044145920)",
-          "val": "Paraşüt'e İşlendi (Fiş: 1044145920)"
-        }
-      ]
-    },
-    {
-      "row": 13,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "TOPLAM",
-          "val": "TOPLAM"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": "=SUM(F4:F12)",
-          "val": "13697.45"
-        },
-        {
-          "col": 7,
-          "formula": "=SUM(G4:G12)",
-          "val": "24032.8"
-        },
-        {
-          "col": 8,
-          "formula": "=F13-G13",
-          "val": "-10335.349999999999"
-        },
-        {
-          "col": 9,
-          "formula": "=SUM(I4:I12)",
-          "val": "662516"
-        },
-        {
-          "col": 10,
-          "formula": "=SUM(J4:J12)",
-          "val": "1171410.07"
-        },
-        {
-          "col": 11,
-          "formula": "=I13-J13",
-          "val": "-508894.07000000007"
-        },
-        {
-          "col": 12,
-          "formula": "NET CARİ BAKİYE (BROSAN BORÇLU)",
-          "val": "NET CARİ BAKİYE (BROSAN BORÇLU)"
-        }
-      ]
-    }
+    [
+      "BROSAN TEKSTİL SAN. VE DIŞ TİC. LTD. ŞTİ. — FARUK AYTİN DETAYLI CARİ VE BANKA HAREKETLERİ",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Tarih",
+      "İşlem Türü",
+      "Evrak / Dekont No",
+      "Açıklama / İşlem & Sipariş Detayı",
+      "Kur (TL)",
+      "Borç (USD)",
+      "Alacak (USD)",
+      "Bakiye (USD)",
+      "Borç (TL)",
+      "Alacak (TL)",
+      "Bakiye (TL)",
+      "Paraşüt Durumu & Fiş No"
+    ],
+    [
+      "30.07.2026",
+      "Alış Faturası",
+      "NSA2026000000070",
+      "EMK Oversized Tişört (276 Adet) [Matrah: 2.760 $ | KDV: 276 $]",
+      47.25,
+      0,
+      3036,
+      -3036,
+      0,
+      143451,
+      -143451,
+      "İşlendi (Ödendi/Kapandı)"
+    ],
+    [
+      "31.07.2026",
+      "Tedarikçiye Ödeme",
+      "2026-07-31-17.07.43",
+      "NSA-70 Fatura Ödemesi (Banka Havalesi)",
+      47.25,
+      3036,
+      0,
+      0,
+      143451,
+      0,
+      0,
+      "Garanti BBVA + Paraşüt"
+    ],
+    [
+      "07.09.2026",
+      "Tedarikçiye Ödeme",
+      "2026-09-07-16.25.27",
+      "Verilen siparişe istinaden avans (2.000 USD)",
+      48.3,
+      2000,
+      0,
+      2000,
+      96600,
+      0,
+      96600,
+      "Garanti BBVA + Paraşüt"
+    ],
+    [
+      "14.09.2026",
+      "Tedarikçiye Ödeme",
+      "2026-09-14-14.19.11",
+      "Cari hesaba istinaden avans (1.000 USD)",
+      48.42,
+      1000,
+      0,
+      3000,
+      48420,
+      0,
+      145020,
+      "Garanti BBVA + Paraşüt"
+    ],
+    [
+      "22.09.2026",
+      "Tedarikçiye Ödeme",
+      "2026-09-22-18.03.45",
+      "100 USD karşılığı cari ödeme (5.000 TL, Kur: 50,00)",
+      50,
+      100,
+      0,
+      3100,
+      5000,
+      0,
+      150020,
+      "Eşleşti (Garanti BBVA + Paraşüt)"
+    ],
+    [
+      "27.09.2026",
+      "Satış Faturası",
+      "BR02026000000024",
+      "KUMAŞ SATIŞ FATURASI (4 Kalem, 992.5 Kg)",
+      48.7901,
+      7461.45,
+      0,
+      10561.45,
+      364045,
+      0,
+      514065,
+      "Paraşüt (TCMB Alış: 48,7901)"
+    ],
+    [
+      "30.09.2026",
+      "Tedarikçiye Ödeme",
+      "2026-09-30-18.20.49",
+      "USD cari ödeme 100 USD karşılığı (5.000 TL, Kur: 50,00)",
+      50,
+      100,
+      0,
+      10661.45,
+      5000,
+      0,
+      519065,
+      "Garanti BBVA + Paraşüt"
+    ],
+    [
+      "01.10.2026",
+      "Alış Faturası",
+      "NSA2026000000084",
+      "Ben Ellis (140 T-shirt + 180 Hoodie) [Matrah: 5.788 $ | KDV: 578,80 $]",
+      48.9303,
+      0,
+      6366.8,
+      4294.650000000001,
+      0,
+      311529.43,
+      207535.57,
+      "Paraşüt'e İşlendi (Fiş: 1044145905)"
+    ],
+    [
+      "05.10.2026",
+      "Alış Faturası",
+      "NSA2026000000087",
+      "Ben Ellis (375 T-shirt + 394 Hoodie) [Matrah: 13.300 $ | KDV: 1.330 $]",
+      48.9699,
+      0,
+      14630,
+      -10335.349999999999,
+      0,
+      716429.64,
+      -508894.07,
+      "Paraşüt'e İşlendi (Fiş: 1044145920)"
+    ],
+    [
+      "07.10.2026",
+      "Tedarikçiye Ödeme",
+      "2026-10-07-17.14.25",
+      "1.000 USD karşılığı cari ödeme (49.020 TL, Kur: 49,02)",
+      49.02,
+      1000,
+      0,
+      -9335.349999999999,
+      49020,
+      0,
+      -459874.07,
+      "Garanti BBVA + Paraşüt"
+    ],
+    [
+      "09.10.2026",
+      "Tedarikçiye Ödeme",
+      "2026-10-09-15.19.14.212004",
+      "4.000 USD karşılığı cari ödeme (196.080 TL, Kur: 49,02)",
+      49.02,
+      4000,
+      0,
+      -5335.3499999999985,
+      196080,
+      0,
+      -263794.07,
+      "Garanti BBVA + Paraşüt"
+    ],
+    [
+      "TOPLAM",
+      null,
+      null,
+      null,
+      null,
+      18697.45,
+      24032.8,
+      -5335.3499999999985,
+      907616,
+      1171410.07,
+      -263794.07000000007,
+      "NET CARİ BAKİYE (BROSAN BORÇLU)"
+    ]
   ],
   "Gelen e-Faturalar": [
-    {
-      "row": 1,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "PARAŞÜT GELEN E-FATURALAR — FARUK AYTİN (FASON ÜRETİM - KDV DETAYLI DÖKÜM)",
-          "val": "PARAŞÜT GELEN E-FATURALAR — FARUK AYTİN (FASON ÜRETİM - KDV DETAYLI DÖKÜM)"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 11,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 12,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 13,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 14,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 3,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Fatura No",
-          "val": "Fatura No"
-        },
-        {
-          "col": 2,
-          "formula": "Tarih",
-          "val": "Tarih"
-        },
-        {
-          "col": 3,
-          "formula": "İrsaliye No",
-          "val": "İrsaliye No"
-        },
-        {
-          "col": 4,
-          "formula": "Ürün / Kalem Tanımı",
-          "val": "Ürün / Kalem Tanımı"
-        },
-        {
-          "col": 5,
-          "formula": "Miktar",
-          "val": "Miktar"
-        },
-        {
-          "col": 6,
-          "formula": "Birim",
-          "val": "Birim"
-        },
-        {
-          "col": 7,
-          "formula": "Birim Fiyat ($)",
-          "val": "Birim Fiyat ($)"
-        },
-        {
-          "col": 8,
-          "formula": "Matrah ($)",
-          "val": "Matrah ($)"
-        },
-        {
-          "col": 9,
-          "formula": "KDV (%10) ($)",
-          "val": "KDV (%10) ($)"
-        },
-        {
-          "col": 10,
-          "formula": "Toplam ($)",
-          "val": "Toplam ($)"
-        },
-        {
-          "col": 11,
-          "formula": "Fatura Kuru",
-          "val": "Fatura Kuru"
-        },
-        {
-          "col": 12,
-          "formula": "Matrah (TL)",
-          "val": "Matrah (TL)"
-        },
-        {
-          "col": 13,
-          "formula": "KDV Tutarı (TL)",
-          "val": "KDV Tutarı (TL)"
-        },
-        {
-          "col": 14,
-          "formula": "Paraşüt Durumu & Fiş No",
-          "val": "Paraşüt Durumu & Fiş No"
-        }
-      ]
-    },
-    {
-      "row": 4,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "NSA2026000000070",
-          "val": "NSA2026000000070"
-        },
-        {
-          "col": 2,
-          "formula": "30.07.2026",
-          "val": "30.07.2026"
-        },
-        {
-          "col": 3,
-          "formula": "—",
-          "val": "—"
-        },
-        {
-          "col": 4,
-          "formula": "EMK SYSTEM OVERSİZED TŞÖRT",
-          "val": "EMK SYSTEM OVERSİZED TŞÖRT"
-        },
-        {
-          "col": 5,
-          "formula": "276",
-          "val": "276"
-        },
-        {
-          "col": 6,
-          "formula": "Adet",
-          "val": "Adet"
-        },
-        {
-          "col": 7,
-          "formula": "10",
-          "val": "10"
-        },
-        {
-          "col": 8,
-          "formula": "2760",
-          "val": "2760"
-        },
-        {
-          "col": 9,
-          "formula": "276",
-          "val": "276"
-        },
-        {
-          "col": 10,
-          "formula": "3036",
-          "val": "3036"
-        },
-        {
-          "col": 11,
-          "formula": "47.25",
-          "val": "47.25"
-        },
-        {
-          "col": 12,
-          "formula": "=H4*K4",
-          "val": "130410"
-        },
-        {
-          "col": 13,
-          "formula": "=I4*K4",
-          "val": "13041"
-        },
-        {
-          "col": 14,
-          "formula": "İşlendi (Ödendi/Kapandı)",
-          "val": "İşlendi (Ödendi/Kapandı)"
-        }
-      ]
-    },
-    {
-      "row": 5,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "NSA2026000000084",
-          "val": "NSA2026000000084"
-        },
-        {
-          "col": 2,
-          "formula": "01.10.2026",
-          "val": "01.10.2026"
-        },
-        {
-          "col": 3,
-          "formula": "IRS2026000000078",
-          "val": "IRS2026000000078"
-        },
-        {
-          "col": 4,
-          "formula": "BEN ELLIS T-SHİRTS",
-          "val": "BEN ELLIS T-SHİRTS"
-        },
-        {
-          "col": 5,
-          "formula": "140",
-          "val": "140"
-        },
-        {
-          "col": 6,
-          "formula": "Adet",
-          "val": "Adet"
-        },
-        {
-          "col": 7,
-          "formula": "9.2",
-          "val": "9.2"
-        },
-        {
-          "col": 8,
-          "formula": "1288",
-          "val": "1288"
-        },
-        {
-          "col": 9,
-          "formula": "128.8",
-          "val": "128.8"
-        },
-        {
-          "col": 10,
-          "formula": "1416.8",
-          "val": "1416.8"
-        },
-        {
-          "col": 11,
-          "formula": "48.9303",
-          "val": "48.9303"
-        },
-        {
-          "col": 12,
-          "formula": "=H5*K5",
-          "val": "63022.22640000001"
-        },
-        {
-          "col": 13,
-          "formula": "=I5*K5",
-          "val": "6302.222640000001"
-        },
-        {
-          "col": 14,
-          "formula": "İşlendi (Fiş: 1044145905)",
-          "val": "İşlendi (Fiş: 1044145905)"
-        }
-      ]
-    },
-    {
-      "row": 6,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "NSA2026000000084",
-          "val": "NSA2026000000084"
-        },
-        {
-          "col": 2,
-          "formula": "01.10.2026",
-          "val": "01.10.2026"
-        },
-        {
-          "col": 3,
-          "formula": "IRS2026000000078",
-          "val": "IRS2026000000078"
-        },
-        {
-          "col": 4,
-          "formula": "BEN ELLIS HOODİES",
-          "val": "BEN ELLIS HOODİES"
-        },
-        {
-          "col": 5,
-          "formula": "180",
-          "val": "180"
-        },
-        {
-          "col": 6,
-          "formula": "Adet",
-          "val": "Adet"
-        },
-        {
-          "col": 7,
-          "formula": "25",
-          "val": "25"
-        },
-        {
-          "col": 8,
-          "formula": "4500",
-          "val": "4500"
-        },
-        {
-          "col": 9,
-          "formula": "450",
-          "val": "450"
-        },
-        {
-          "col": 10,
-          "formula": "4950",
-          "val": "4950"
-        },
-        {
-          "col": 11,
-          "formula": "48.9303",
-          "val": "48.9303"
-        },
-        {
-          "col": 12,
-          "formula": "=H6*K6",
-          "val": "220186.35"
-        },
-        {
-          "col": 13,
-          "formula": "=I6*K6",
-          "val": "22018.635000000002"
-        },
-        {
-          "col": 14,
-          "formula": "İşlendi (Fiş: 1044145905)",
-          "val": "İşlendi (Fiş: 1044145905)"
-        }
-      ]
-    },
-    {
-      "row": 7,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "NSA2026000000087",
-          "val": "NSA2026000000087"
-        },
-        {
-          "col": 2,
-          "formula": "05.10.2026",
-          "val": "05.10.2026"
-        },
-        {
-          "col": 3,
-          "formula": "IRS2026000000080",
-          "val": "IRS2026000000080"
-        },
-        {
-          "col": 4,
-          "formula": "BEN ELLIS T-SHIRTS BLUE",
-          "val": "BEN ELLIS T-SHIRTS BLUE"
-        },
-        {
-          "col": 5,
-          "formula": "375",
-          "val": "375"
-        },
-        {
-          "col": 6,
-          "formula": "Adet",
-          "val": "Adet"
-        },
-        {
-          "col": 7,
-          "formula": "9.2",
-          "val": "9.2"
-        },
-        {
-          "col": 8,
-          "formula": "3450",
-          "val": "3450"
-        },
-        {
-          "col": 9,
-          "formula": "345",
-          "val": "345"
-        },
-        {
-          "col": 10,
-          "formula": "3795",
-          "val": "3795"
-        },
-        {
-          "col": 11,
-          "formula": "48.9699",
-          "val": "48.9699"
-        },
-        {
-          "col": 12,
-          "formula": "=H7*K7",
-          "val": "168946.155"
-        },
-        {
-          "col": 13,
-          "formula": "=I7*K7",
-          "val": "16894.6155"
-        },
-        {
-          "col": 14,
-          "formula": "İşlendi (Fiş: 1044145920)",
-          "val": "İşlendi (Fiş: 1044145920)"
-        }
-      ]
-    },
-    {
-      "row": 8,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "NSA2026000000087",
-          "val": "NSA2026000000087"
-        },
-        {
-          "col": 2,
-          "formula": "05.10.2026",
-          "val": "05.10.2026"
-        },
-        {
-          "col": 3,
-          "formula": "IRS2026000000080",
-          "val": "IRS2026000000080"
-        },
-        {
-          "col": 4,
-          "formula": "BEN ELLIS HOODİES PINK",
-          "val": "BEN ELLIS HOODİES PINK"
-        },
-        {
-          "col": 5,
-          "formula": "394",
-          "val": "394"
-        },
-        {
-          "col": 6,
-          "formula": "Adet",
-          "val": "Adet"
-        },
-        {
-          "col": 7,
-          "formula": "25",
-          "val": "25"
-        },
-        {
-          "col": 8,
-          "formula": "9850",
-          "val": "9850"
-        },
-        {
-          "col": 9,
-          "formula": "985",
-          "val": "985"
-        },
-        {
-          "col": 10,
-          "formula": "10835",
-          "val": "10835"
-        },
-        {
-          "col": 11,
-          "formula": "48.9699",
-          "val": "48.9699"
-        },
-        {
-          "col": 12,
-          "formula": "=H8*K8",
-          "val": "482353.515"
-        },
-        {
-          "col": 13,
-          "formula": "=I8*K8",
-          "val": "48235.351500000004"
-        },
-        {
-          "col": 14,
-          "formula": "İşlendi (Fiş: 1044145920)",
-          "val": "İşlendi (Fiş: 1044145920)"
-        }
-      ]
-    },
-    {
-      "row": 9,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "TOPLAM",
-          "val": "TOPLAM"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": "=SUM(E4:E8)",
-          "val": "1365"
-        },
-        {
-          "col": 6,
-          "formula": "Adet",
-          "val": "Adet"
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": "=SUM(H4:H8)",
-          "val": "21848"
-        },
-        {
-          "col": 9,
-          "formula": "=SUM(I4:I8)",
-          "val": "2184.8"
-        },
-        {
-          "col": 10,
-          "formula": "=SUM(J4:J8)",
-          "val": "24032.8"
-        },
-        {
-          "col": 11,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 12,
-          "formula": "=SUM(L4:L8)",
-          "val": "1064918.2464"
-        },
-        {
-          "col": 13,
-          "formula": "=SUM(M4:M8)",
-          "val": "106491.82464"
-        },
-        {
-          "col": 14,
-          "formula": "3 Adet Fatura (Tümü Paraşüt'te)",
-          "val": "3 Adet Fatura (Tümü Paraşüt'te)"
-        }
-      ]
-    }
+    [
+      "PARAŞÜT GELEN E-FATURALAR — FARUK AYTİN (FASON ÜRETİM - KDV DETAYLI DÖKÜM)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Fatura No",
+      "Tarih",
+      "İrsaliye No",
+      "Ürün / Kalem Tanımı",
+      "Miktar",
+      "Birim",
+      "Birim Fiyat ($)",
+      "Matrah ($)",
+      "KDV (%10) ($)",
+      "Toplam ($)",
+      "Fatura Kuru",
+      "Matrah (TL)",
+      "KDV Tutarı (TL)",
+      "Paraşüt Durumu & Fiş No"
+    ],
+    [
+      "NSA2026000000070",
+      "30.07.2026",
+      "—",
+      "EMK SYSTEM OVERSİZED TŞÖRT",
+      276,
+      "Adet",
+      10,
+      2760,
+      276,
+      3036,
+      47.25,
+      130410,
+      13041,
+      "İşlendi (Ödendi/Kapandı)"
+    ],
+    [
+      "NSA2026000000084",
+      "01.10.2026",
+      "IRS2026000000078",
+      "BEN ELLIS T-SHİRTS",
+      140,
+      "Adet",
+      9.2,
+      1288,
+      128.8,
+      1416.8,
+      48.9303,
+      63022.22640000001,
+      6302.222640000001,
+      "İşlendi (Fiş: 1044145905)"
+    ],
+    [
+      "NSA2026000000084",
+      "01.10.2026",
+      "IRS2026000000078",
+      "BEN ELLIS HOODİES",
+      180,
+      "Adet",
+      25,
+      4500,
+      450,
+      4950,
+      48.9303,
+      220186.35,
+      22018.635000000002,
+      "İşlendi (Fiş: 1044145905)"
+    ],
+    [
+      "NSA2026000000087",
+      "05.10.2026",
+      "IRS2026000000080",
+      "BEN ELLIS T-SHIRTS BLUE",
+      375,
+      "Adet",
+      9.2,
+      3450,
+      345,
+      3795,
+      48.9699,
+      168946.155,
+      16894.6155,
+      "İşlendi (Fiş: 1044145920)"
+    ],
+    [
+      "NSA2026000000087",
+      "05.10.2026",
+      "IRS2026000000080",
+      "BEN ELLIS HOODİES PINK",
+      394,
+      "Adet",
+      25,
+      9850,
+      985,
+      10835,
+      48.9699,
+      482353.515,
+      48235.351500000004,
+      "İşlendi (Fiş: 1044145920)"
+    ],
+    [
+      "TOPLAM",
+      null,
+      null,
+      null,
+      1365,
+      "Adet",
+      null,
+      21848,
+      2184.8,
+      24032.8,
+      null,
+      1064918.2464,
+      106491.82464,
+      "3 Adet Fatura (Tümü Paraşüt'te)"
+    ]
   ],
   "Kumaş Satış Faturası": [
-    {
-      "row": 1,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "BROSAN TEKSTİL — FARUK AYTİN'E KESİLEN KUMAŞ SATIŞ FATURASI",
-          "val": "BROSAN TEKSTİL — FARUK AYTİN'E KESİLEN KUMAŞ SATIŞ FATURASI"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 11,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 12,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 2,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Fatura No: BR02026000000024 | Tarih: 27.09.2026 | 27.09.2026 TCMB Döviz Alış Kuru: 48,7901 TL",
-          "val": "Fatura No: BR02026000000024 | Tarih: 27.09.2026 | 27.09.2026 TCMB Döviz Alış Kuru: 48,7901 TL"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 9,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 10,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 11,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 12,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 4,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Sıra",
-          "val": "Sıra"
-        },
-        {
-          "col": 2,
-          "formula": "Kumaş Cinsi / Ürün Tanımı",
-          "val": "Kumaş Cinsi / Ürün Tanımı"
-        },
-        {
-          "col": 3,
-          "formula": "Miktar (Kg)",
-          "val": "Miktar (Kg)"
-        },
-        {
-          "col": 4,
-          "formula": "Birim Fiyat (TL)",
-          "val": "Birim Fiyat (TL)"
-        },
-        {
-          "col": 5,
-          "formula": "KDV Oranı",
-          "val": "KDV Oranı"
-        },
-        {
-          "col": 6,
-          "formula": "Matrah (TL)",
-          "val": "Matrah (TL)"
-        },
-        {
-          "col": 7,
-          "formula": "KDV Tutarı (TL)",
-          "val": "KDV Tutarı (TL)"
-        },
-        {
-          "col": 8,
-          "formula": "Toplam Tutar (TL)",
-          "val": "Toplam Tutar (TL)"
-        },
-        {
-          "col": 9,
-          "formula": "TCMB Alış Kuru",
-          "val": "TCMB Alış Kuru"
-        },
-        {
-          "col": 10,
-          "formula": "USD Matrah",
-          "val": "USD Matrah"
-        },
-        {
-          "col": 11,
-          "formula": "USD KDV Tutarı",
-          "val": "USD KDV Tutarı"
-        },
-        {
-          "col": 12,
-          "formula": "USD Toplam Tutar",
-          "val": "USD Toplam Tutar"
-        }
-      ]
-    },
-    {
-      "row": 5,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "1",
-          "val": "1"
-        },
-        {
-          "col": 2,
-          "formula": "B.KUMAŞ 30/2 PENYE SÜPREM",
-          "val": "B.KUMAŞ 30/2 PENYE SÜPREM"
-        },
-        {
-          "col": 3,
-          "formula": "227",
-          "val": "227"
-        },
-        {
-          "col": 4,
-          "formula": "340",
-          "val": "340"
-        },
-        {
-          "col": 5,
-          "formula": "%10",
-          "val": "%10"
-        },
-        {
-          "col": 6,
-          "formula": "77180",
-          "val": "77180"
-        },
-        {
-          "col": 7,
-          "formula": "7718",
-          "val": "7718"
-        },
-        {
-          "col": 8,
-          "formula": "84898",
-          "val": "84898"
-        },
-        {
-          "col": 9,
-          "formula": "48.7901",
-          "val": "48.7901"
-        },
-        {
-          "col": 10,
-          "formula": "=F5/I5",
-          "val": "1581.8782908827814"
-        },
-        {
-          "col": 11,
-          "formula": "=G5/I5",
-          "val": "158.18782908827814"
-        },
-        {
-          "col": 12,
-          "formula": "=H5/I5",
-          "val": "1740.0661199710596"
-        }
-      ]
-    },
-    {
-      "row": 6,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "2",
-          "val": "2"
-        },
-        {
-          "col": 2,
-          "formula": "B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA",
-          "val": "B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA"
-        },
-        {
-          "col": 3,
-          "formula": "14.5",
-          "val": "14.5"
-        },
-        {
-          "col": 4,
-          "formula": "340",
-          "val": "340"
-        },
-        {
-          "col": 5,
-          "formula": "%10",
-          "val": "%10"
-        },
-        {
-          "col": 6,
-          "formula": "4930",
-          "val": "4930"
-        },
-        {
-          "col": 7,
-          "formula": "493",
-          "val": "493"
-        },
-        {
-          "col": 8,
-          "formula": "5423",
-          "val": "5423"
-        },
-        {
-          "col": 9,
-          "formula": "48.7901",
-          "val": "48.7901"
-        },
-        {
-          "col": 10,
-          "formula": "=F6/I6",
-          "val": "101.0450890651997"
-        },
-        {
-          "col": 11,
-          "formula": "=G6/I6",
-          "val": "10.10450890651997"
-        },
-        {
-          "col": 12,
-          "formula": "=H6/I6",
-          "val": "111.14959797171967"
-        }
-      ]
-    },
-    {
-      "row": 7,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "3",
-          "val": "3"
-        },
-        {
-          "col": 2,
-          "formula": "B.KUMAŞ 30/20/10 PENYE ÜÇ İPLİK",
-          "val": "B.KUMAŞ 30/20/10 PENYE ÜÇ İPLİK"
-        },
-        {
-          "col": 3,
-          "formula": "650",
-          "val": "650"
-        },
-        {
-          "col": 4,
-          "formula": "330",
-          "val": "330"
-        },
-        {
-          "col": 5,
-          "formula": "%10",
-          "val": "%10"
-        },
-        {
-          "col": 6,
-          "formula": "214500",
-          "val": "214500"
-        },
-        {
-          "col": 7,
-          "formula": "21450",
-          "val": "21450"
-        },
-        {
-          "col": 8,
-          "formula": "235950",
-          "val": "235950"
-        },
-        {
-          "col": 9,
-          "formula": "48.7901",
-          "val": "48.7901"
-        },
-        {
-          "col": 10,
-          "formula": "=F7/I7",
-          "val": "4396.383692593375"
-        },
-        {
-          "col": 11,
-          "formula": "=G7/I7",
-          "val": "439.6383692593374"
-        },
-        {
-          "col": 12,
-          "formula": "=H7/I7",
-          "val": "4836.022061852712"
-        }
-      ]
-    },
-    {
-      "row": 8,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "4",
-          "val": "4"
-        },
-        {
-          "col": 2,
-          "formula": "B.KUMAŞ 30/2 PENYE 70 DNY LYC K.KORSE",
-          "val": "B.KUMAŞ 30/2 PENYE 70 DNY LYC K.KORSE"
-        },
-        {
-          "col": 3,
-          "formula": "101",
-          "val": "101"
-        },
-        {
-          "col": 4,
-          "formula": "340",
-          "val": "340"
-        },
-        {
-          "col": 5,
-          "formula": "%10",
-          "val": "%10"
-        },
-        {
-          "col": 6,
-          "formula": "34340",
-          "val": "34340"
-        },
-        {
-          "col": 7,
-          "formula": "3434",
-          "val": "3434"
-        },
-        {
-          "col": 8,
-          "formula": "37774",
-          "val": "37774"
-        },
-        {
-          "col": 9,
-          "formula": "48.7901",
-          "val": "48.7901"
-        },
-        {
-          "col": 10,
-          "formula": "=F8/I8",
-          "val": "703.8313100403565"
-        },
-        {
-          "col": 11,
-          "formula": "=G8/I8",
-          "val": "70.38313100403565"
-        },
-        {
-          "col": 12,
-          "formula": "=H8/I8",
-          "val": "774.2144410443922"
-        }
-      ]
-    },
-    {
-      "row": 9,
-      "cells": [
-        {
-          "col": 1,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 2,
-          "formula": "TOPLAM KUMAŞ",
-          "val": "TOPLAM KUMAŞ"
-        },
-        {
-          "col": 3,
-          "formula": "=SUM(C5:C8)",
-          "val": "992.5"
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": "=SUM(F5:F8)",
-          "val": "330950"
-        },
-        {
-          "col": 7,
-          "formula": "=SUM(G5:G8)",
-          "val": "33095"
-        },
-        {
-          "col": 8,
-          "formula": "=SUM(H5:H8)",
-          "val": "364045"
-        },
-        {
-          "col": 9,
-          "formula": "48.7901",
-          "val": "48.7901"
-        },
-        {
-          "col": 10,
-          "formula": "=SUM(J5:J8)",
-          "val": "6783.138382581713"
-        },
-        {
-          "col": 11,
-          "formula": "=SUM(K5:K8)",
-          "val": "678.3138382581712"
-        },
-        {
-          "col": 12,
-          "formula": "=SUM(L5:L8)",
-          "val": "7461.452220839884"
-        }
-      ]
-    }
+    [
+      "BROSAN TEKSTİL — FARUK AYTİN'E KESİLEN KUMAŞ SATIŞ FATURASI",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Fatura No: BR02026000000024 | Tarih: 27.09.2026 | 27.09.2026 TCMB Döviz Alış Kuru: 48,7901 TL",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Sıra",
+      "Kumaş Cinsi / Ürün Tanımı",
+      "Miktar (Kg)",
+      "Birim Fiyat (TL)",
+      "KDV Oranı",
+      "Matrah (TL)",
+      "KDV Tutarı (TL)",
+      "Toplam Tutar (TL)",
+      "TCMB Alış Kuru",
+      "USD Matrah",
+      "USD KDV Tutarı",
+      "USD Toplam Tutar"
+    ],
+    [
+      1,
+      "B.KUMAŞ 30/2 PENYE SÜPREM",
+      227,
+      340,
+      "%10",
+      77180,
+      7718,
+      84898,
+      48.7901,
+      1581.8782908827814,
+      158.18782908827814,
+      1740.0661199710596
+    ],
+    [
+      2,
+      "B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA",
+      14.5,
+      340,
+      "%10",
+      4930,
+      493,
+      5423,
+      48.7901,
+      101.0450890651997,
+      10.10450890651997,
+      111.14959797171967
+    ],
+    [
+      3,
+      "B.KUMAŞ 30/20/10 PENYE ÜÇ İPLİK",
+      650,
+      330,
+      "%10",
+      214500,
+      21450,
+      235950,
+      48.7901,
+      4396.383692593375,
+      439.6383692593374,
+      4836.022061852712
+    ],
+    [
+      4,
+      "B.KUMAŞ 30/2 PENYE 70 DNY LYC K.KORSE",
+      101,
+      340,
+      "%10",
+      34340,
+      3434,
+      37774,
+      48.7901,
+      703.8313100403565,
+      70.38313100403565,
+      774.2144410443922
+    ],
+    [
+      null,
+      "TOPLAM KUMAŞ",
+      992.5,
+      null,
+      null,
+      330950,
+      33095,
+      364045,
+      48.7901,
+      6783.138382581713,
+      678.3138382581712,
+      7461.452220839884
+    ]
   ],
   "Banka Ödemeleri": [
-    {
-      "row": 1,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "GARANTİ BBVA — FARUK AYTİN ÖDEMELERİ DETAY DÖKÜMÜ",
-          "val": "GARANTİ BBVA — FARUK AYTİN ÖDEMELERİ DETAY DÖKÜMÜ"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 2,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Hesap No: 417 - 6289477 (TL Ana Hesap) | IBAN: TR16 0006 2000 4170 0006 2894 77",
-          "val": "Hesap No: 417 - 6289477 (TL Ana Hesap) | IBAN: TR16 0006 2000 4170 0006 2894 77"
-        },
-        {
-          "col": 2,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 3,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 4,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 5,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        }
-      ]
-    },
-    {
-      "row": 4,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "Sıra",
-          "val": "Sıra"
-        },
-        {
-          "col": 2,
-          "formula": "Tarih",
-          "val": "Tarih"
-        },
-        {
-          "col": 3,
-          "formula": "Tutar (TL)",
-          "val": "Tutar (TL)"
-        },
-        {
-          "col": 4,
-          "formula": "USD Karşılığı",
-          "val": "USD Karşılığı"
-        },
-        {
-          "col": 5,
-          "formula": "İşlem Kuru",
-          "val": "İşlem Kuru"
-        },
-        {
-          "col": 6,
-          "formula": "Banka Açıklaması",
-          "val": "Banka Açıklaması"
-        },
-        {
-          "col": 7,
-          "formula": "Dekont Referans No",
-          "val": "Dekont Referans No"
-        },
-        {
-          "col": 8,
-          "formula": "Paraşüt Eşleşme Durumu",
-          "val": "Paraşüt Eşleşme Durumu"
-        }
-      ]
-    },
-    {
-      "row": 5,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "1",
-          "val": "1"
-        },
-        {
-          "col": 2,
-          "formula": "31.07.2026",
-          "val": "31.07.2026"
-        },
-        {
-          "col": 3,
-          "formula": "143451",
-          "val": "143451"
-        },
-        {
-          "col": 4,
-          "formula": "3036",
-          "val": "3036"
-        },
-        {
-          "col": 5,
-          "formula": "47.25",
-          "val": "47.25"
-        },
-        {
-          "col": 6,
-          "formula": "FARUK AYTİN-NSA2026000000070 nolu fatura ödemesi 3.036 usd karşılığı 143.451 TL (KDV Dahil), kur -47,25-HVL-CEP ŞUBE",
-          "val": "FARUK AYTİN-NSA2026000000070 nolu fatura ödemesi 3.036 usd karşılığı 143.451 TL (KDV Dahil), kur -47,25-HVL-CEP ŞUBE"
-        },
-        {
-          "col": 7,
-          "formula": "2026-07-31-17.07.43.301713",
-          "val": "2026-07-31-17.07.43.301713"
-        },
-        {
-          "col": 8,
-          "formula": "Eşleşti (NSA Faturası Kapandı)",
-          "val": "Eşleşti (NSA Faturası Kapandı)"
-        }
-      ]
-    },
-    {
-      "row": 6,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "2",
-          "val": "2"
-        },
-        {
-          "col": 2,
-          "formula": "07.09.2026",
-          "val": "07.09.2026"
-        },
-        {
-          "col": 3,
-          "formula": "96600",
-          "val": "96600"
-        },
-        {
-          "col": 4,
-          "formula": "2000",
-          "val": "2000"
-        },
-        {
-          "col": 5,
-          "formula": "48.3",
-          "val": "48.3"
-        },
-        {
-          "col": 6,
-          "formula": "FARUK AYTİN-VERİLEN SİPARİŞE İSTİNADEN ÖN ÖDEME 2.000 USD KARŞILIĞI - KUR 48,30-HVL-CEP ŞUBE",
-          "val": "FARUK AYTİN-VERİLEN SİPARİŞE İSTİNADEN ÖN ÖDEME 2.000 USD KARŞILIĞI - KUR 48,30-HVL-CEP ŞUBE"
-        },
-        {
-          "col": 7,
-          "formula": "2026-09-07-16.25.27.271156",
-          "val": "2026-09-07-16.25.27.271156"
-        },
-        {
-          "col": 8,
-          "formula": "Eşleşti (Verilen Avans)",
-          "val": "Eşleşti (Verilen Avans)"
-        }
-      ]
-    },
-    {
-      "row": 7,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "3",
-          "val": "3"
-        },
-        {
-          "col": 2,
-          "formula": "14.09.2026",
-          "val": "14.09.2026"
-        },
-        {
-          "col": 3,
-          "formula": "48420",
-          "val": "48420"
-        },
-        {
-          "col": 4,
-          "formula": "1000",
-          "val": "1000"
-        },
-        {
-          "col": 5,
-          "formula": "48.42",
-          "val": "48.42"
-        },
-        {
-          "col": 6,
-          "formula": "FARUK AYTİN-CARİ HESABA İSTİNADEN ÖN ÖDEME 1.000 usd karşılığı kur 48,42-HVL-CEP ŞUBE",
-          "val": "FARUK AYTİN-CARİ HESABA İSTİNADEN ÖN ÖDEME 1.000 usd karşılığı kur 48,42-HVL-CEP ŞUBE"
-        },
-        {
-          "col": 7,
-          "formula": "2026-09-14-14.19.11.736838",
-          "val": "2026-09-14-14.19.11.736838"
-        },
-        {
-          "col": 8,
-          "formula": "Eşleşti (Verilen Avans)",
-          "val": "Eşleşti (Verilen Avans)"
-        }
-      ]
-    },
-    {
-      "row": 8,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "4",
-          "val": "4"
-        },
-        {
-          "col": 2,
-          "formula": "22.09.2026",
-          "val": "22.09.2026"
-        },
-        {
-          "col": 3,
-          "formula": "5000",
-          "val": "5000"
-        },
-        {
-          "col": 4,
-          "formula": "100",
-          "val": "100"
-        },
-        {
-          "col": 5,
-          "formula": "50",
-          "val": "50"
-        },
-        {
-          "col": 6,
-          "formula": "FARUK AYTİN-100 usd karşılığı , kur 50,00 , cari hesaba istinaden-HVL-CEP ŞUBE",
-          "val": "FARUK AYTİN-100 usd karşılığı , kur 50,00 , cari hesaba istinaden-HVL-CEP ŞUBE"
-        },
-        {
-          "col": 7,
-          "formula": "2026-09-22-18.03.45.611646",
-          "val": "2026-09-22-18.03.45.611646"
-        },
-        {
-          "col": 8,
-          "formula": "Eşleşti (Garanti BBVA + Paraşüt)",
-          "val": "Eşleşti (Garanti BBVA + Paraşüt)"
-        }
-      ]
-    },
-    {
-      "row": 9,
-      "cells": [
-        {
-          "col": 1,
-          "formula": "5",
-          "val": "5"
-        },
-        {
-          "col": 2,
-          "formula": "30.09.2026",
-          "val": "30.09.2026"
-        },
-        {
-          "col": 3,
-          "formula": "5000",
-          "val": "5000"
-        },
-        {
-          "col": 4,
-          "formula": "100",
-          "val": "100"
-        },
-        {
-          "col": 5,
-          "formula": "50",
-          "val": "50"
-        },
-        {
-          "col": 6,
-          "formula": "FARUK AYTİN-usd cari ödeme 100 usd karşılığı , kur 50,00 TL-HVL-CEP ŞUBE",
-          "val": "FARUK AYTİN-usd cari ödeme 100 usd karşılığı , kur 50,00 TL-HVL-CEP ŞUBE"
-        },
-        {
-          "col": 7,
-          "formula": "2026-09-30-18.20.49.158917",
-          "val": "2026-09-30-18.20.49.158917"
-        },
-        {
-          "col": 8,
-          "formula": "Eşleşti (Verilen Avans)",
-          "val": "Eşleşti (Verilen Avans)"
-        }
-      ]
-    },
-    {
-      "row": 10,
-      "cells": [
-        {
-          "col": 1,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 2,
-          "formula": "TOPLAM",
-          "val": "TOPLAM"
-        },
-        {
-          "col": 3,
-          "formula": "=SUM(C5:C9)",
-          "val": "298471"
-        },
-        {
-          "col": 4,
-          "formula": "=SUM(D5:D9)",
-          "val": "6236"
-        },
-        {
-          "col": 5,
-          "formula": "=C10/D10",
-          "val": "47.86257216164208"
-        },
-        {
-          "col": 6,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 7,
-          "formula": null,
-          "val": null
-        },
-        {
-          "col": 8,
-          "formula": null,
-          "val": null
-        }
-      ]
-    }
+    [
+      "GARANTİ BBVA — FARUK AYTİN ÖDEMELERİ DETAY DÖKÜMÜ",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Hesap No: 417 - 6289477 (TL Ana Hesap) | IBAN: TR16 0006 2000 4170 0006 2894 77",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Sıra",
+      "Tarih",
+      "Tutar (TL)",
+      "USD Karşılığı",
+      "İşlem Kuru",
+      "Banka Açıklaması",
+      "Dekont Referans No",
+      "Paraşüt Eşleşme Durumu"
+    ],
+    [
+      1,
+      "31.07.2026",
+      143451,
+      3036,
+      47.25,
+      "FARUK AYTİN-NSA2026000000070 nolu fatura ödemesi 3.036 usd karşılığı 143.451 TL (KDV Dahil), kur -47,25-HVL-CEP ŞUBE",
+      "2026-07-31-17.07.43.301713",
+      "Eşleşti (NSA Faturası Kapandı)"
+    ],
+    [
+      2,
+      "07.09.2026",
+      96600,
+      2000,
+      48.3,
+      "FARUK AYTİN-VERİLEN SİPARİŞE İSTİNADEN ÖN ÖDEME 2.000 USD KARŞILIĞI - KUR 48,30-HVL-CEP ŞUBE",
+      "2026-09-07-16.25.27.271156",
+      "Eşleşti (Verilen Avans)"
+    ],
+    [
+      3,
+      "14.09.2026",
+      48420,
+      1000,
+      48.42,
+      "FARUK AYTİN-CARİ HESABA İSTİNADEN ÖN ÖDEME 1.000 usd karşılığı kur 48,42-HVL-CEP ŞUBE",
+      "2026-09-14-14.19.11.736838",
+      "Eşleşti (Verilen Avans)"
+    ],
+    [
+      4,
+      "22.09.2026",
+      5000,
+      100,
+      50,
+      "FARUK AYTİN-100 usd karşılığı , kur 50,00 , cari hesaba istinaden-HVL-CEP ŞUBE",
+      "2026-09-22-18.03.45.611646",
+      "Eşleşti (Garanti BBVA + Paraşüt)"
+    ],
+    [
+      5,
+      "30.09.2026",
+      5000,
+      100,
+      50,
+      "FARUK AYTİN-usd cari ödeme 100 usd karşılığı , kur 50,00 TL-HVL-CEP ŞUBE",
+      "2026-09-30-18.20.49.158917",
+      "Eşleşti (Verilen Avans)"
+    ],
+    [
+      6,
+      "07.10.2026",
+      49020,
+      1000,
+      49.02,
+      "FARUK AYTİN-1.000 USD karşılığı, kur 49,02 TL cari ödeme 49.020 TL-HVL-GARANTİ BBVA",
+      "2026-10-07-17.14.25",
+      "Eşleşti (Verilen Avans / Cari Ödeme)"
+    ],
+    [
+      7,
+      "09.10.2026",
+      196080,
+      4000,
+      49.02,
+      "FARUK AYTİN-CARİ HESABA İSTİNADEN ÖDEME 4.000 USD KARŞILIĞI , KUR 49,02-HVL-GARANTİ BBVA",
+      "2026-10-09-15.19.14.212004",
+      "Eşleşti (Verilen Avans / Cari Ödeme)"
+    ],
+    [
+      null,
+      "TOPLAM",
+      543571,
+      11236,
+      48.377625489498044,
+      null,
+      null,
+      null
+    ]
   ]
 }

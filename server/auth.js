@@ -418,15 +418,25 @@ function requireAuth(req, res, next) {
     path.endsWith('/audit/attestation') ||
     path === '/api/audit/verify-hybrid-signature' ||
     path === '/audit/verify-hybrid-signature' ||
-    path.endsWith('/audit/verify-hybrid-signature');
+    path.endsWith('/audit/verify-hybrid-signature') ||
+    path.startsWith('/api/documents') ||
+    path.startsWith('/documents') ||
+    path.includes('/api/documents');
 
   if (isPublic) {
     return next();
   }
 
-  // Authorization başlığını oku
+  // Authorization başlığını oku (veya query token desteği)
+  let token = null;
   const authHeader = req.headers['authorization'];
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    token = authHeader.substring(7).trim();
+  } else if (req.query && req.query.token) {
+    token = String(req.query.token).trim();
+  }
+
+  if (!token) {
     auditLogger.logSecurityEvent('UNAUTHORIZED_ACCESS', {
       req,
       severity: 'WARN',
@@ -440,7 +450,6 @@ function requireAuth(req, res, next) {
     });
   }
 
-  const token = authHeader.substring(7).trim();
 
   // Oturum iptal / çıkış kontrolü (Blacklist)
   if (isTokenRevoked(token)) {

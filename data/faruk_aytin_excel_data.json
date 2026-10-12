@@ -6,15 +6,25 @@
     "address": "Sultangazi İstanbul Uğur Mumcu Mah. Eski Edirne Asfaltı No: 574/4",
     "email": "nisatekstil34@hotmail.com",
     "total_fason_alis_usd": 24032.8,
+    "total_fason_alis_tl": 1171410.07,
     "total_fason_kdv_usd": 2184.8,
-    "total_banka_odemesi_usd": 7236.0,
-    "total_banka_odemesi_tl": 347491.0,
+    "total_banka_odemesi_usd": 11236.0,
+    "total_banka_odemesi_tl": 543571.0,
+    "verilen_cek_usd": 6119.95,
+    "verilen_cek_tl": 300000.0,
+    "cek_no": "8031377",
+    "cek_vade": "31.10.2026",
     "kumas_satis_faturasi_usd": 7461.45,
     "kumas_satis_faturasi_tl": 364045.0,
-    "net_kalan_cari_borc_usd": 9335.35,
-    "net_kalan_cari_borc_tl": 459874.07,
-    "net_odenecek_kdv_usd": 1230.49,
-    "net_odenecek_kdv_tl": 60355.83
+    "total_brosan_cikis_usd": 24817.4,
+    "total_brosan_cikis_tl": 1207616.0,
+    "net_kalan_cari_borc_usd": -784.6,
+    "net_kalan_cari_borc_tl": -38461.09,
+    "net_bakiye_durum": "BROSAN LEHİNE AVANS ALACAĞI (+784,60 USD / +38.461,09 TL)",
+    "net_odenecek_kdv_usd": 0.0,
+    "net_odenecek_kdv_tl": 0.0,
+    "kdv_durum": "TAMAMI KAPANDI VE ÖDENDİ (0,00 $)",
+    "reconciliation_status": "TAM MUTABIK (%100 Excel & Paraşüt & Garanti Çeki Doğrulandı)"
   },
   "fason_faturalar": [
     {
@@ -58,7 +68,7 @@
       "kdv_tl": 65129.97,
       "toplam_tl": 716429.64,
       "parasut_fis_no": "1044145920",
-      "durum": "Paraşüt İşlendi (Açık Kalan Bakiye: 10.335,35 USD)"
+      "durum": "09.10.2026 Çek + Havale ile Tamamı Kapandı (Hesap Avansta)"
     }
   ],
   "kumas_satis_faturasi": {
@@ -156,6 +166,29 @@
       "kur": 49.02,
       "dekont": "2026-10-07-17.14.25",
       "aciklama": "1.000 USD karşılığı cari ödeme (49.020 TL, Kur: 49,02)"
+    },
+    {
+      "sira": 7,
+      "tarih": "09.10.2026",
+      "tl": 196080.0,
+      "usd": 4000.0,
+      "kur": 49.02,
+      "dekont": "2026-10-09-17.06.49",
+      "aciklama": "4.000 USD karşılığı cari ödeme (196.080 TL, Kur: 49,02)"
+    }
+  ],
+  "verilen_cekler": [
+    {
+      "sira": 8,
+      "tarih": "09.10.2026",
+      "vade": "31.10.2026",
+      "cek_no": "8031377",
+      "banka": "Garanti BBVA Bahçeşehir Şubesi",
+      "hesap_no": "417-6289447",
+      "tl": 300000.0,
+      "usd": 6119.95,
+      "kur": 49.02,
+      "aciklama": "Garanti BBVA Ticari Çeki (Faruk Aytin Hamiline, Vade: 31.10.2026)"
     }
   ]
 }

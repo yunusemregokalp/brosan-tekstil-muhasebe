@@ -2185,6 +2185,95 @@ app.get('/api/mutabakat/faruk-aytin', (req, res) => {
   } catch (err) {
     return sendSafeError(res, 500, 'Mutabakat verisi işlenirken hata oluştu.', err);
   }
+// ==============================================================================
+// 13. DİJİTAL ARŞİV & YÜKLEME EVRAKLARI KASASI (509 RESMİ BELGE)
+// ==============================================================================
+const docsCatalogPath = path.join(__dirname, '..', 'data', 'documents-catalog.json');
+let docsCatalogCache = null;
+
+function getDocsCatalog() {
+  if (docsCatalogCache) return docsCatalogCache;
+  try {
+    const fs = require('fs');
+    if (fs.existsSync(docsCatalogPath)) {
+      docsCatalogCache = JSON.parse(fs.readFileSync(docsCatalogPath, 'utf-8'));
+      return docsCatalogCache;
+    }
+  } catch (e) {
+    console.error('[CITADEL-DOCS] Catalog load error:', e.message);
+  }
+  return [];
+}
+
+const documentsStorageDir = process.env.DOCUMENTS_STORAGE_PATH || path.join(__dirname, '..', 'storage', 'documents');
+
+app.get(['/api/documents', '/api/documents/list'], (req, res) => {
+  const catalog = getDocsCatalog();
+  return res.json({ success: true, count: catalog.length, documents: catalog });
+});
+
+app.get(['/api/documents/:id/download', '/api/documents/:id/preview'], (req, res) => {
+  const isPreview = req.path.endsWith('/preview');
+  const docId = parseInt(req.params.id, 10);
+  const catalog = getDocsCatalog();
+  const doc = catalog.find(d => d.id === docId);
+
+  if (!doc) {
+    return res.status(404).json({ success: false, error: 'Evrak kaydı bulunamadı (Geçersiz ID)' });
+  }
+
+  const fs = require('fs');
+  // Check primary storage path: storage/documents/{id}/{filename}
+  const idDir = path.join(documentsStorageDir, String(docId));
+  let targetFile = null;
+
+  if (fs.existsSync(idDir)) {
+    const files = fs.readdirSync(idDir);
+    if (files.length > 0) {
+      targetFile = path.join(idDir, files[0]);
+    }
+  }
+
+  // Fallback 1: check direct filename in documentsStorageDir
+  if (!targetFile && fs.existsSync(path.join(documentsStorageDir, doc.title))) {
+    targetFile = path.join(documentsStorageDir, doc.title);
+  }
+
+  // Fallback 2: check full_path or rel_path if running on local environment
+  if (!targetFile && doc.full_path && fs.existsSync(doc.full_path)) {
+    targetFile = doc.full_path;
+  }
+
+  if (!targetFile || !fs.existsSync(targetFile)) {
+    return res.status(404).json({ 
+      success: false, 
+      error: 'Evrak fiziksel dosyası sunucuda henüz hazır değil.',
+      docId: doc.id,
+      title: doc.title 
+    });
+  }
+
+  const ext = path.extname(targetFile).toLowerCase();
+  const mimeTypes = {
+    '.pdf': 'application/pdf',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    '.xls': 'application/vnd.ms-excel',
+    '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    '.doc': 'application/msword',
+    '.txt': 'text/plain; charset=utf-8'
+  };
+
+  const contentType = mimeTypes[ext] || 'application/octet-stream';
+  res.setHeader('Content-Type', contentType);
+
+  const safeFilename = encodeURIComponent(doc.title);
+  const dispositionType = isPreview ? 'inline' : 'attachment';
+  res.setHeader('Content-Disposition', `${dispositionType}; filename="${safeFilename}"; filename*=UTF-8''${safeFilename}`);
+
+  return res.sendFile(targetFile);
 });
 
 // Catch-all for SPA Navigation
