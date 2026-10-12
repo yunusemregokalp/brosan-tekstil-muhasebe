@@ -2185,6 +2185,8 @@ app.get('/api/mutabakat/faruk-aytin', (req, res) => {
   } catch (err) {
     return sendSafeError(res, 500, 'Mutabakat verisi işlenirken hata oluştu.', err);
   }
+});
+
 // ==============================================================================
 // 13. DİJİTAL ARŞİV & YÜKLEME EVRAKLARI KASASI (509 RESMİ BELGE)
 // ==============================================================================
