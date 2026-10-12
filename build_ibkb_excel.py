@@ -89,19 +89,19 @@ for curr, row_idx in currencies:
     c1.alignment = align_center
     c1.border = border_cell
     
-    c2 = ws_dash.cell(row_idx, 2, f"=SUMIFS('GELEN PARALAR'!$B$3:$B$54, 'GELEN PARALAR'!$C$3:$C$54, \"{curr}\")")
+    c2 = ws_dash.cell(row_idx, 2, f"=SUMIFS('GELEN PARALAR'!$B$3:$B$55, 'GELEN PARALAR'!$C$3:$C$55, \"{curr}\")")
     c2.font = font_data_bold
     c2.number_format = "#,##0.00"
     c2.alignment = align_right
     c2.border = border_cell
     
-    c3 = ws_dash.cell(row_idx, 3, f"=SUMIFS('GELEN PARALAR'!$I$3:$I$54, 'GELEN PARALAR'!$C$3:$C$54, \"{curr}\")")
+    c3 = ws_dash.cell(row_idx, 3, f"=SUMIFS('GELEN PARALAR'!$I$3:$I$55, 'GELEN PARALAR'!$C$3:$C$55, \"{curr}\")")
     c3.font = font_yapildi
     c3.number_format = "#,##0.00"
     c3.alignment = align_right
     c3.border = border_cell
     
-    c4 = ws_dash.cell(row_idx, 4, f"=SUMIFS('GELEN PARALAR'!$J$3:$J$54, 'GELEN PARALAR'!$C$3:$C$54, \"{curr}\")")
+    c4 = ws_dash.cell(row_idx, 4, f"=SUMIFS('GELEN PARALAR'!$J$3:$J$55, 'GELEN PARALAR'!$C$3:$C$55, \"{curr}\")")
     c4.font = font_yapilacak
     c4.number_format = "#,##0.00"
     c4.alignment = align_right
@@ -119,9 +119,9 @@ ws_dash["A11"] = "2. İŞLEM VE BELGE İSTATİSTİKLERİ"
 ws_dash["A11"].font = font_section
 
 stat_rows = [
-    ("Toplam Gelen Transfer Sayısı", "=COUNTA('GELEN PARALAR'!$A$3:$A$54)", "adet"),
-    ("İBKB'si Tamamlanan / Talimat Verilen Transferler", "=COUNTIF('GELEN PARALAR'!$H$3:$H$54, \"YAPILDI\")", "adet"),
-    ("İBKB Bekleyen Transferler", "=COUNTIF('GELEN PARALAR'!$H$3:$H$54, \"YAPILACAK\")", "adet"),
+    ("Toplam Gelen Transfer Sayısı", "=COUNTA('GELEN PARALAR'!$A$3:$A$55)", "adet"),
+    ("İBKB'si Tamamlanan / Talimat Verilen Transferler", "=COUNTIF('GELEN PARALAR'!$H$3:$H$55, \"YAPILDI\")", "adet"),
+    ("İBKB Bekleyen Transferler", "=COUNTIF('GELEN PARALAR'!$H$3:$H$55, \"YAPILACAK\")", "adet"),
     ("Sistemde Kayıtlı İhracat Dosyaları (GB/ETGB)", "=COUNTA('BEYANNAME VE ETGB LER'!$A$2:$A$12)", "dosya"),
     ("Kapanan Beyannameler", "=COUNTIF('BEYANNAME VE ETGB LER'!$K$2:$K$12, \"KAPANDI\")", "dosya"),
     ("Açık / İşlem Bekleyen Beyannameler", "=COUNTIF('BEYANNAME VE ETGB LER'!$K$2:$K$12, \"AÇIK\")", "dosya")
@@ -184,7 +184,7 @@ for col_idx, h in enumerate(action_headers, start=1):
 ws_dash.row_dimensions[21].height = 24
 
 action_items = [
-    (1, "BEN ELLİS (1. YÜKLEME)", "26341453EX017052 (FEDEX)", "01.10.2026", "5.638,10 GBP", "GARANTİ BBVA", "01.09.2026 tarihli 8.525 GBP peşin dövizden 5.638,10 GBP bu ETGB için İBKB yapılacak (Tam Kapatacak)."),
+    (1, "BEN ELLİS (1. YÜKLEME)", "26341453EX017052 (FEDEX)", "01.10.2026", "5.638,10 GBP", "GARANTİ BBVA", "07.10.2026 İBKB TALİMATI VE MAHSUP DİLEKÇESİ DÜZENLENDİ (TAM KAPANDI)."),
     (2, "BEN ELLİS (2. YÜKLEME)", "26341453EX00267850 (H26-03604)", "05.10.2026", "2.886,90 GBP", "GARANTİ BBVA", "01.09.2026 peşin dövizden arta kalan 2.886,90 GBP bu GB'ye bağlanacak (Kalan 12.139,22 GBP vadeli tahsil edilecek)."),
     (3, "LONG TERM HVAC (EMK)", "26341453EX013808", "06.08.2026", "4.360,50 USD", "GARANTİ BBVA", "3 parça gelen peşin transfer (2.722,50 + 1.300 + 338 $) ETGB tutarını tam kapatıyor. İBKB talimatı verilecek."),
     (4, "Armin Muhamedagic", "26341453EX011110", "26.06.2026", "2.131,92 EUR", "GARANTİ BBVA", "2 parça gelen transfer (976 + 1.166 €) hazır. 2.131,92 EUR ETGB için İBKB talimatı verilecek."),
@@ -270,7 +270,7 @@ log_data = [
     (4, datetime.date(2026, 9, 8), "MARQUE APS", "26341453EX010071", datetime.date(2026, 5, 22), "07.04 / 20.05.2026", 3090.00, "EUR", "2 Havaleden Kısmi Bozum (Kapandı)", "YAPILDI (KAPANDI)", "08.09.2026 13:04'te Ebru Kul'a mail atıldı. ETGB ve faturalar iletildi. 1.830 EUR ve 1.260 EUR İBKB tamamlandı."),
     (5, datetime.date(2026, 9, 14), "PEŞİN İBKB PROSEDÜRÜ", "-", None, "-", 0.0, "-", "Mevzuat / Form Temini", "BİLGİ / EVRAK ALINDI", "Peşin İBKB ön avans evrakları talep edildi. Ebru Hanım Prim Destekli Taahhütname ve KKDF formlarını iletti."),
     (6, datetime.date(2026, 10, 2), "SMEETS GERT", "26341453EX012346", datetime.date(2026, 7, 8), "29.12.2025 / 04.05.2026", 3160.00, "EUR", "1. Parça Bozum (Kalan: 185,60 €)", "YAPILDI (HESABA GEÇTİ)", "02.10.2026 talimatı işleme alındı, banka işlemi tamamlandı ve hesaba geçti. 29.12.2025 (100 €) ve 04.05.2026 (3.060 €) havalelerinden 3.160 EUR İBKB yapıldı."),
-    (7, datetime.date(2026, 10, 6), "BEN ELLİS (1. YÜKLEME)", "26341453EX017052", datetime.date(2026, 10, 1), "01.09.2026 (Peşin)", 5638.10, "GBP", "Peşinden 1. Bozum (ETGB Tam Kapar)", "TALİMAT VERİLECEK (HAZIR)", "01.10.2026 tarihli FedEx ETGB'si bugün geldi. 01.09.2026 tarihli 8.525 GBP'den 5.638,10 GBP için İBKB talimatı hazırlanacak."),
+    (7, datetime.date(2026, 10, 7), "BEN ELLİS (1. YÜKLEME)", "26341453EX017052", datetime.date(2026, 10, 1), "01.09.2026 (Peşin)", 5638.10, "GBP", "Peşinden 1. Bozum (ETGB Tam Kapandı)", "YAPILDI (KAPANDI)", "01.10.2026 tarihli FedEx ETGB'si için 01.09.2026 peşin havaleden 5.638,10 GBP İBKB talimatı ve mahsup dilekçesi 07.10.2026'da hazırlandı. Dosya %100 kapatıldı."),
     (8, datetime.date(2026, 10, 6), "BEN ELLİS (2. YÜKLEME)", "26341453EX00267850", datetime.date(2026, 10, 5), "01.09.2026 (Peşin)", 2886.90, "GBP", "Peşinden 2. Bozum / GB Mahsubu", "TALİMAT VERİLECEK (HAZIR)", "05.10.2026 tarihli H26-03604 nolu GB'ye mahsuben peşinden kalan 2.886,90 GBP için İBKB talimatı hazırlanacak (GB'nin kalan 12.139,22 GBP'si vadeli tahsil edilecek)."),
     (9, datetime.date(2026, 10, 6), "LONG TERM HVAC (EMK)", "26341453EX013808", datetime.date(2026, 8, 6), "25.06 / 21.07 / 03.08.2026", 4360.50, "USD", "3 Havale Birleşti / Tek Sefer", "TALİMAT VERİLECEK (HAZIR)", "06.08.2026 tarihli ETGB (4.360,50 USD) hazır. Gelen 3 parça ödeme (2.722,50 + 1.300 + 338 $) tam tutuyor. İBKB talimatı verilecek.")
 ]
@@ -391,7 +391,7 @@ ws_gp["A1"].alignment = align_right
 ws_gp["A1"].fill = fill_subtotal
 ws_gp["A1"].border = border_cell
 
-ws_gp["B1"] = "=SUBTOTAL(9, B3:B54)"
+ws_gp["B1"] = "=SUBTOTAL(9, B3:B55)"
 ws_gp["B1"].font = font_data_bold
 ws_gp["B1"].number_format = "#,##0.00"
 ws_gp["B1"].alignment = align_right
@@ -403,14 +403,14 @@ for c_letter in ["C", "D", "E", "F", "G", "H"]:
     cell.fill = fill_subtotal
     cell.border = border_cell
 
-ws_gp["I1"] = "=SUBTOTAL(9, I3:I54)"
+ws_gp["I1"] = "=SUBTOTAL(9, I3:I55)"
 ws_gp["I1"].font = font_yapildi
 ws_gp["I1"].number_format = "#,##0.00"
 ws_gp["I1"].alignment = align_right
 ws_gp["I1"].fill = fill_subtotal
 ws_gp["I1"].border = border_cell
 
-ws_gp["J1"] = "=SUBTOTAL(9, J3:J54)"
+ws_gp["J1"] = "=SUBTOTAL(9, J3:J55)"
 ws_gp["J1"].font = font_yapilacak
 ws_gp["J1"].number_format = "#,##0.00"
 ws_gp["J1"].alignment = align_right
@@ -432,7 +432,8 @@ for col_idx, h in enumerate(gp_headers, start=1):
 ws_gp.row_dimensions[2].height = 28
 
 raw_gp_data = [
-    ("Ben Ellis", 8525.0, "GBP", datetime.date(2026, 9, 1), "26341453EX017052 & H26-03604", "BS02026-13 / BR02026-25", "GARANTİ BBVA", "YAPILACAK", 0.0, None, "01.10.2026 FedEx ETGB (5.638,10 GBP) ve 05.10.2026 GB (kalan 2.886,90 GBP) için İBKB talimatı verilecek."),
+    ("Ben Ellis (1. Yükleme FedEx İBKB)", 5638.10, "GBP", datetime.date(2026, 9, 1), "26341453EX017052", "BS02026000000013", "GARANTİ BBVA", "YAPILDI", 5638.10, datetime.date(2026, 10, 7), "01.10.2026 FedEx ETGB (5.638,10 GBP) için İBKB talimatı ve mahsup dilekçesi 07.10.2026'da hazırlandı, dosya %100 kapandı."),
+    ("Ben Ellis (2. Yükleme Peşin Mahsup)", 2886.90, "GBP", datetime.date(2026, 9, 1), "26341453EX00267850", "BR02026000000025", "GARANTİ BBVA", "YAPILACAK", 0.0, None, "05.10.2026 tescilli 15.026,12 GBP GB'ye mahsup edilecek peşin bakiye (Kalan 12.139,22 GBP vadeli tahsil edilecek)."),
     ("ASSANI HAMADA Z", 500.0, "EUR", datetime.date(2026, 8, 26), "26341453EX015433", "BS02026000000010", "GARANTİ BBVA", "YAPILACAK", 0.0, None, "02.09.2026 tescilli 500 EUR ETGB için İBKB talimatı verilecek."),
     ("AXLE ARTHUR PAUL FALKINGHAM", 1162.36, "USD", datetime.date(2026, 8, 18), None, None, "GARANTİ BBVA", "YAPILACAK", 0.0, None, "İBKB yapılacak (Eşleşecek beyanname/fatura bekleniyor)."),
     ("UAB MARIOLA", 220.0, "EUR", datetime.date(2026, 8, 14), None, None, "GARANTİ BBVA", "YAPILACAK", 0.0, None, "İBKB yapılacak."),
@@ -614,7 +615,7 @@ declarations_data = [
     ("LAVI LA LLC", datetime.date(2025, 11, 13), "25341453EX026501", "BS02025-3 / BS02025-4", 20000.00, "USD", 20000.00, "ETGB", "14.10.2025 peşin 20.000 $ bedelden 28.11.2025 (9.884,48 $) ve 08.12.2025 (10.115,52 $) İBKB yapıldı, tamamı kapandı."),
     ("MARQUE APS", datetime.date(2026, 5, 22), "26341453EX010071", "BS02026000000004", 3392.40, "EUR", 3090.00, "ETGB", "07.04.2026 (2.135 €'dan 1.830 €) ve 20.05.2026 (1.260 €) paralarından 08.09.2026 İBKB yapıldı. Tam kapandı."),
     ("SMEETS GERT", datetime.date(2026, 7, 8), "26341453EX012346", "BS02026000000006", 3345.60, "EUR", 3160.00, "ETGB", "29.12.2025 (100 €) ve 04.05.2026 (3.060 €) paralarından 3.160 EUR İBKB yapıldı ve hesaba geçti. Kalan açık: 185,60 € (180 gün yasal süresi: 04.01.2027)."),
-    ("BEN ELLİS (1. YÜKLEME)", datetime.date(2026, 10, 1), "26341453EX017052", "BS02026000000013", 5638.10, "GBP", 0.0, "ETGB (FEDEX)", "01.09.2026 tarihli 8.525 GBP peşin bedelden 5.638,10 GBP bu ETGB için İBKB yapılacak (Tam Kapatacak)."),
+    ("BEN ELLİS (1. YÜKLEME)", datetime.date(2026, 10, 1), "26341453EX017052", "BS02026000000013", 5638.10, "GBP", 5638.10, "ETGB (FEDEX)", "01.09.2026 tarihli 8.525 GBP peşin bedelden 5.638,10 GBP İBKB talimatı 07.10.2026'da düzenlendi (Tam Kapandı)."),
     ("BEN ELLİS (2. YÜKLEME)", datetime.date(2026, 10, 5), "26341453EX00267850", "BR02026000000025", 15026.12, "GBP", 0.0, "GÜMRÜK BEYANNAMESİ", "01.09.2026 gelen paradan kalan 2.886,90 GBP peşin bedel mahsup edilecek. Kalan 12.139,22 GBP vadeli tahsil edilecek."),
     ("LONG TERM HVAC (EMK SYSTEM)", datetime.date(2026, 8, 6), "26341453EX013808", "BS02026000000007", 4360.50, "USD", 0.0, "ETGB", "Gelen paralar: 25.06.2026 (2.722,50 $), 21.07.2026 (1.300 $), 03.08.2026 (338 $). İBKB talimatı verilecek!"),
     ("Armin Muhamedagic", datetime.date(2026, 6, 26), "26341453EX011110", "BS02026000000005", 2131.92, "EUR", 0.0, "ETGB", "Gelen paralar: 14.04.2026 (976 €) ve 11.06.2026 (1.166 €) hazır. İBKB talimatı verilecek!"),

@@ -38,14 +38,11 @@ exit;
         print("Tinker execution failed:", stderr)
         sys.exit(1)
         
-    deploy_uuid = None
-    for line in stdout.splitlines():
-        clean_line = line.strip()
-        if clean_line.startswith("DEPLOY_UUID:"):
-            deploy_uuid = clean_line.split("DEPLOY_UUID:")[1].strip()
-            break
-            
-    if not deploy_uuid:
+    import re
+    match = re.search(r'DEPLOY_UUID:\s*([a-fA-F0-9-]+)', stdout)
+    if match:
+        deploy_uuid = match.group(1).strip()
+    else:
         print("Could not find deploy UUID in stdout:", stdout)
         sys.exit(1)
         
