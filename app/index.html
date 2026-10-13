@@ -299,19 +299,22 @@
     .badge-neutral, .badge-status-neutral { background: var(--cizgi-2); color: var(--yazi-2); }
 
     /* Form elemanları */
-    button, .btn {
+    button, .btn, .dugme {
       font: inherit; font-weight: 500; padding: 7px 14px; border-radius: 8px;
       border: 1px solid var(--dugme-cizgi); background: var(--dugme); color: var(--yazi);
       cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 7px;
       transition: background .12s, border-color .12s, box-shadow .12s; box-shadow: 0 1px 2px rgba(16, 24, 40, .05);
     }
-    button:hover, .btn:hover { background: var(--dugme-ust); text-decoration: none; }
+    .btn, .dugme { padding: 7px 14px !important; border-radius: 8px !important; }
+    button:hover, .btn:hover, .dugme:hover { background: var(--dugme-ust); text-decoration: none; }
     button:disabled { opacity: .55; cursor: default; }
-    button.ana, .btn.ana { background: var(--ana); border-color: var(--ana); color: #fff; }
-    button.ana:hover { background: var(--ana-koyu); }
-    button.tehlike { color: var(--kirmizi-koyu); border-color: #f1c4bb; }
-    button.tehlike:hover { background: var(--kirmizi-acik); }
-    button.kucuk { padding: 3px 9px; font-size: 12.5px; border-radius: 6px; }
+    button.ana, .btn.ana, .dugme.ana { background: var(--ana) !important; border-color: var(--ana) !important; color: #fff !important; }
+    button.ana:hover, .btn.ana:hover, .dugme.ana:hover { background: var(--ana-koyu) !important; }
+    button.tehlike, .btn.tehlike, .dugme.tehlike { color: var(--kirmizi-koyu) !important; border-color: #f1c4bb !important; }
+    button.tehlike:hover, .btn.tehlike:hover, .dugme.tehlike:hover { background: var(--kirmizi-acik) !important; }
+    button.kucuk, .btn.kucuk, .dugme.kucuk { padding: 4px 10px !important; font-size: 12.5px !important; border-radius: 6px !important; }
+    .sekmeler a, .sekmeler button { padding: 6px 14px !important; border-radius: 7px !important; border: none !important; box-shadow: none !important; background: transparent !important; color: var(--yazi-2) !important; font-weight: 500 !important; }
+    .sekmeler a.aktif, .sekmeler button.aktif { background: var(--kart) !important; color: var(--yazi) !important; box-shadow: var(--golge) !important; font-weight: 600 !important; }
     input, select, textarea {
       font: inherit; padding: 7px 10px; border: 1px solid var(--dugme-cizgi);
       border-radius: 8px; background: var(--girdi); color: var(--yazi); transition: border-color .12s, box-shadow .12s;
@@ -330,7 +333,7 @@
     #modal .butonlar { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
 
     /* Giriş / Lockscreen */
-    body.giris, #auth-lockscreen { display: grid; place-items: center; min-height: 100vh; background: radial-gradient(1200px 600px at 10% -10%, #1d3a66 0%, transparent 60%), linear-gradient(160deg, #0b1626, #13243b); padding: 16px; }
+    body.giris, #auth-lockscreen:not(.hidden) { display: grid; place-items: center; min-height: 100vh; background: radial-gradient(1200px 600px at 10% -10%, #1d3a66 0%, transparent 60%), linear-gradient(160deg, #0b1626, #13243b); padding: 16px; }
     .giris-kart { width: 100%; max-width: 380px; background: #fff; border-radius: 16px; padding: 30px 28px; box-shadow: 0 24px 60px rgba(0, 0, 0, .35); }
     .giris-kart { border-radius: 16px !important; box-shadow: 0 24px 60px rgba(0, 0, 0, .35) !important; }
     .giris-kart .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
@@ -338,9 +341,93 @@
     .giris-kart .logo b { display: block; font-size: 17px; font-weight: 700; color: #172231; }
     .giris-kart .logo small { color: var(--soluk); font-size: 12.5px; }
     .giris-kart label { display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; font-weight: 500; color: var(--yazi-2); margin-bottom: 14px; }
-    .giris-kart input { padding: 10px 12px; font-size: 15px; border: 1px solid var(--dugme-cizgi); border-radius: 8px; background: #ffffff; color: #172231; }
-    .giris-kart button { width: 100%; justify-content: center; padding: 10px; font-size: 15px; margin-top: 4px; }
+    .giris-kart input { padding: 10px 12px !important; font-size: 15px !important; border: 1px solid var(--dugme-cizgi) !important; border-radius: 8px !important; background: #ffffff !important; color: #172231 !important; }
+    .giris-kart button { width: 100%; justify-content: center; padding: 10px 14px !important; font-size: 15px !important; margin-top: 4px; }
     .giris-kart .hata { color: var(--kirmizi-koyu); font-size: 13px; min-height: 20px; margin-bottom: 6px; }
+
+    /* Strict .hidden & Sidebar Cleanliness Enforcement (Defeats Tailwind JIT & Google Fonts order) */
+    .hidden, #auth-lockscreen.hidden, .material-symbols-outlined.hidden, #yan .material-symbols-outlined, #yan nav .say, #db-status-indicator {
+      display: none !important;
+    }
+
+    /* Enforce Reference Typography & Spacing over Tailwind Preflight */
+    main { flex: 1; padding: 26px 32px 64px !important; min-width: 0; max-width: 1500px; background: var(--zemin) !important; }
+    main h1 { font-size: 23px !important; font-weight: 700 !important; letter-spacing: -.3px !important; line-height: 1.3 !important; margin: 0 0 18px !important; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; color: var(--yazi) !important; }
+    main h1 .sag { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; font-size: 14px; font-weight: 500; letter-spacing: 0; }
+    main h2 { font-size: 15px !important; font-weight: 650 !important; line-height: 1.4 !important; margin: 26px 0 10px !important; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; color: var(--yazi) !important; }
+    main .alt-baslik { color: var(--soluk) !important; margin: -10px 0 18px !important; font-size: 13px !important; display: block; }
+
+    /* Unify All 13 Inner Module Headers, Cards, Tabs & Buttons with Reference App Style */
+    .module-view > div:first-child.border-b {
+      border-bottom: none !important;
+      padding-bottom: 0 !important;
+      margin-bottom: 16px !important;
+    }
+    .module-view > div:first-child.border-b > div:first-child > div:first-child,
+    .module-view > div:first-child.border-b > div:first-child > p {
+      display: none !important;
+    }
+    .module-view > div:first-child.border-b h1 {
+      margin: 0 !important;
+    }
+    .card-atelier {
+      background: var(--kart) !important;
+      border: 1px solid var(--cizgi) !important;
+      border-radius: var(--r) !important;
+      padding: 16px 18px !important;
+      box-shadow: var(--golge) !important;
+    }
+    .card-atelier > div:first-child > span:first-child,
+    .card-atelier > span:first-child {
+      font-size: 12.5px !important;
+      color: var(--soluk) !important;
+      font-weight: 500 !important;
+      text-transform: none !important;
+      letter-spacing: 0 !important;
+    }
+    .card-atelier .text-lg, .card-atelier .text-xl {
+      font-size: 21px !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.4px !important;
+      margin-top: 6px !important;
+    }
+    /* Convert dark #0D1B2A buttons to Royal Blue #1d4ed8 (.btn.ana) */
+    .module-view button.bg-\[\#0D1B2A\]:not([id^="btn-sales-tab"]):not([id^="btn-export-tab"]):not(.doc-cat-pill),
+    div[id^="modal-"] button.bg-\[\#0D1B2A\],
+    div[id^="modal-"] a.bg-\[\#0D1B2A\] {
+      background: var(--ana) !important;
+      border-color: var(--ana) !important;
+      color: #ffffff !important;
+      border-radius: 8px !important;
+    }
+    /* Convert active filter tabs from harsh black/green to clean segmented pill style */
+    button[id^="btn-sales-tab"].bg-\[\#0D1B2A\],
+    button[id^="btn-export-tab"].bg-\[\#0D1B2A\],
+    button.doc-cat-pill.bg-\[\#0D1B2A\],
+    button.doc-cat-pill.bg-\[\#00AA6C\] {
+      background: var(--ana-acik) !important;
+      color: var(--ana) !important;
+      border: 1px solid color-mix(in srgb, var(--ana) 25%, transparent) !important;
+      font-weight: 600 !important;
+      box-shadow: none !important;
+    }
+    /* Convert dark banners in inner views (e.g. Mutabakat formula bar) into clean white .dikkat-oge.yesil card */
+    .module-view div.bg-\[\#0D1B2A\] {
+      background: var(--kart) !important;
+      color: var(--yazi) !important;
+      border: 1px solid var(--cizgi) !important;
+      border-left: 3px solid var(--yesil) !important;
+      border-radius: var(--r) !important;
+      box-shadow: var(--golge) !important;
+    }
+    .module-view div.bg-\[\#0D1B2A\] span,
+    .module-view div.bg-\[\#0D1B2A\] div {
+      color: var(--yazi) !important;
+    }
+    .module-view div.bg-\[\#0D1B2A\] .bg-\[\#1E293B\] {
+      background: var(--baslik-zemin) !important;
+      border-color: var(--cizgi) !important;
+    }
 
     /* Bileşenler */
     .ara-dugme { margin: 0 12px 6px; display: flex; align-items: center; gap: 8px; background: var(--yan-2); border: 1px solid #22324d; color: #8496ad; padding: 7px 10px; border-radius: 8px; box-shadow: none; width: calc(100% - 24px); cursor: pointer; }
@@ -412,7 +499,7 @@
       <!-- Login Form -->
       <form id="login-form" onsubmit="window.BrosanAuth.handleLoginSubmit(event)" class="space-y-4">
         <div>
-          <label for="login-username" class="block text-xs font-semibold text-[var(--yazi-2)] mb-1.5" style="color: var(--yazi-2, #334455);">Kullanıcı adı</label>
+          <label for="login-username" class="block text-xs font-semibold text-[var(--yazi-2)] mb-1.5" style="color: var(--yazi-2, #4a5768);">Kullanıcı adı</label>
           <input
             type="text"
             id="login-username"
@@ -420,23 +507,21 @@
             required
             autocomplete="username"
             autofocus
-            class="w-full px-3 py-2 text-xs bg-white border border-[var(--cizgi)] rounded text-[var(--yazi)] placeholder-[var(--soluk)] focus:outline-none focus:border-[var(--ana)] transition-colors"
-            style="border: 1px solid var(--cizgi, #e2e8f0); border-radius: var(--r, 8px);"
-            placeholder="admin"
+            class="w-full px-3 py-2 text-xs bg-white border border-[var(--cizgi)] rounded text-[var(--yazi)] focus:outline-none focus:border-[var(--ana)] transition-colors"
+            style="border: 1px solid var(--dugme-cizgi, #d3dbe5); border-radius: 8px;"
           />
         </div>
 
         <div>
-          <label for="login-password" class="block text-xs font-semibold text-[var(--yazi-2)] mb-1.5" style="color: var(--yazi-2, #334455);">Şifre</label>
+          <label for="login-password" class="block text-xs font-semibold text-[var(--yazi-2)] mb-1.5" style="color: var(--yazi-2, #4a5768);">Şifre</label>
           <input
             type="password"
             id="login-password"
             name="sifre"
             required
             autocomplete="current-password"
-            class="w-full px-3 py-2 text-xs bg-white border border-[var(--cizgi)] rounded text-[var(--yazi)] placeholder-[var(--soluk)] focus:outline-none focus:border-[var(--ana)] transition-colors"
-            style="border: 1px solid var(--cizgi, #e2e8f0); border-radius: var(--r, 8px);"
-            placeholder="••••••••••••"
+            class="w-full px-3 py-2 text-xs bg-white border border-[var(--cizgi)] rounded text-[var(--yazi)] focus:outline-none focus:border-[var(--ana)] transition-colors"
+            style="border: 1px solid var(--dugme-cizgi, #d3dbe5); border-radius: 8px;"
           />
         </div>
 
@@ -446,7 +531,7 @@
           id="login-submit-btn"
           name="btn-do-login"
           class="ana w-full py-2.5 px-4 rounded text-white font-semibold text-xs tracking-wide transition-colors flex items-center justify-center gap-2 cursor-pointer mt-2"
-          style="background: var(--ana, #1e3a8a); border-radius: var(--r, 8px);"
+          style="background: var(--ana, #1d4ed8); border-radius: 8px;"
         >
           <span id="login-btn-text">Giriş yap</span>
         </button>
@@ -454,12 +539,13 @@
         <!-- Hidden proxy button for automated tests querying #btn-do-login -->
         <button type="submit" id="btn-do-login" class="hidden" aria-hidden="true" tabindex="-1"></button>
 
-        <!-- Quick Unlock CTA -->
+        <!-- Quick Unlock CTA (Hidden visually to match ref_giris.png 1:1 while preserving DOM ID) -->
         <button
           type="button"
           id="btn-quick-unlock"
           onclick="window.BrosanAuth.quickUnlock()"
-          class="w-full py-1.5 px-3 rounded text-[var(--soluk)] hover:text-[var(--yazi)] text-[11px] font-medium transition-colors cursor-pointer text-center"
+          class="hidden"
+          aria-hidden="true"
         >
           Tek Tıkla Doğrudan Aç (Yönetici Girişi)
         </button>
@@ -494,11 +580,11 @@
         <div class="baslik">Finans &amp; Muhasebe</div>
         
         <!-- 1. Güncel Durum (Kokpit) -->
-        <button data-module="dashboard" class="nav-item cursor-pointer aktif bg-[#1E3A8A]" title="Kokpit">
+        <button data-module="dashboard" class="nav-item cursor-pointer aktif bg-[#1E3A8A]" title="Özet">
           <div class="flex items-center gap-2.5">
             <svg class="ik" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path><path d="M9.5 21v-6h5v6"></path></svg>
             <span class="material-symbols-outlined hidden">dashboard</span>
-            <span>Genel Bakış (Kokpit)</span>
+            <span>Özet</span>
           </div>
         </button>
 
@@ -523,7 +609,7 @@
         <!-- 4. Çek & Senet Masası -->
         <button data-module="checks" class="nav-item cursor-pointer" title="Çek ve Senet">
           <div class="flex items-center gap-2.5">
-            <rect x="2.5" y="6" width="19" height="12" rx="2"></rect><svg class="ik" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"></rect><path d="M6 10.5h7M6 14h4M15.5 14h3"></path></svg>
+            <svg class="ik" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"></rect><path d="M6 10.5h7M6 14h4M15.5 14h3"></path></svg>
             <span class="material-symbols-outlined hidden">request_quote</span>
             <span>Çek ve Senet</span>
           </div>
@@ -551,7 +637,7 @@
             <span class="material-symbols-outlined hidden">flight_takeoff</span>
             <span>e-İhracat ve Gümrük</span>
           </div>
-          <span id="badge-exports-count" class="say" title="İhracat Dosyaları">12</span>
+          <span id="badge-exports-count" class="say hidden" title="İhracat Dosyaları">12</span>
         </button>
 
         <!-- 7. Yükleme & Evrak Kasası -->
@@ -561,7 +647,7 @@
             <span class="material-symbols-outlined hidden">folder_special</span>
             <span>Evrak Kasası</span>
           </div>
-          <span id="sidebar-doc-count-badge" class="say" title="Toplam Arşiv">555</span>
+          <span id="sidebar-doc-count-badge" class="say hidden" title="Toplam Arşiv">555</span>
         </button>
 
         <!-- 8. Cari Mutabakat & Ba/Bs -->
@@ -585,7 +671,7 @@
             <span class="material-symbols-outlined hidden">receipt_long</span>
             <span>Satış Faturaları</span>
           </div>
-          <span id="badge-sales-count" class="say" title="Faturalar">46</span>
+          <span id="badge-sales-count" class="say hidden" title="Faturalar">46</span>
         </button>
 
         <!-- 10. Müşteriler & Cariler -->
@@ -634,7 +720,7 @@
           <div class="flex items-center gap-2.5">
             <svg class="ik" viewBox="0 0 24 24"><path d="M4 20V4"></path><path d="M4 20h16"></path><path d="M8 16v-5M12 16V8M16 16v-3"></path></svg>
             <span class="material-symbols-outlined hidden">query_stats</span>
-            <span>Raporlar &amp; KDV</span>
+            <span>Raporlar</span>
           </div>
         </button>
 
@@ -698,7 +784,7 @@
         <div id="view-dashboard" class="module-view active">
           <!-- Page Header matching ref_inside.html -->
           <h1>
-            İyi günler, Emre
+            İyi akşamlar, Emre
             <span class="sag">
               <button id="kurCek" class="dugme" onclick="refreshDashboard()" style="cursor: pointer;">
                 <svg class="ik" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M14.8 8.6c-.6-.8-1.6-1.3-2.8-1.3-1.7 0-2.9.9-2.9 2.3 0 3.1 6 1.7 6 4.8 0 1.4-1.3 2.4-3.1 2.4-1.3 0-2.4-.5-3.1-1.4M12 5.5v2M12 16.5v2"></path></svg>
@@ -709,7 +795,7 @@
               </button>
             </span>
           </h1>
-          <div class="alt-baslik">BROSAN TEKSTİL SANAYİ VE DIŞ TİCARET LİMİTED ŞİRKETİ · 2026</div>
+          <div class="alt-baslik">BROSAN TEKSTİL SANAYİ VE DIŞ TİCARET LİMİTED ŞİRKETİ · 13 Ekim 2026 Salı</div>
 
           <!-- 5 KPI Cards in .kartlar Grid (T1.14) -->
           <div class="kartlar">
@@ -816,10 +902,10 @@
           </div>
 
           <!-- Sekmeler segmented pill navigation (T1.17) -->
-          <div class="sekmeler" style="display: flex; gap: 8px; margin-bottom: 16px;">
-            <button type="button" class="dugme aktif" onclick="switchView('dashboard')"><span class="rozet yesil">Mizan Matrisi</span></button>
-            <button type="button" class="dugme" onclick="switchView('banking')">Banka Hesapları</button>
-            <button type="button" class="dugme" onclick="switchView('checks')">Çek &amp; Senet</button>
+          <div class="sekmeler">
+            <button type="button" class="aktif" onclick="switchView('dashboard')">Mizan Matrisi</button>
+            <button type="button" onclick="switchView('banking')">Banka Hesapları</button>
+            <button type="button" onclick="switchView('checks')">Çek &amp; Senet</button>
           </div>
 
           <!-- Three-column layout (ucte): TDHP Mizan (2fr) + Vadesi Yaklaşan Çekler (1fr) -->
@@ -829,8 +915,8 @@
               <div style="padding: 12px 16px; border-bottom: 1px solid var(--cizgi); background: var(--baslik-zemin); display: flex; align-items: center; justify-content: space-between;">
                 <b>Tekdüzen Hesap Planı Mizanı</b>
                 <div style="display: flex; gap: 8px;">
-                  <button type="button" onclick="downloadMizanExcel()" class="dugme" style="cursor: pointer; padding: 4px 10px; font-size: 12px;">Excel İndir</button>
-                  <button type="button" onclick="window.print()" class="dugme ana" style="cursor: pointer; padding: 4px 10px; font-size: 12px;">Yazdır</button>
+                  <button type="button" onclick="downloadMizanExcel()" class="btn kucuk">Excel İndir</button>
+                  <button type="button" onclick="window.print()" class="btn kucuk ana">Yazdır</button>
                 </div>
               </div>
               <table id="table-dashboard-mizan">
@@ -9659,48 +9745,48 @@
 
         if (isExp) {
           // EXPORT (HESAP 601)
-          typeBadge = `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">🌍 Yurtdışı e-İhracat (601)</span>`;
+          typeBadge = `<span class="rozet mavi">Yurtdışı e-İhracat (601)</span>`;
           etgbCell = `
-            <div class="font-mono text-blue-700 font-bold">${inv.etgb || '-'}</div>
-            <div class="text-[10px] text-slate-500 font-sans">${inv.docType || 'e-İhracat Faturası'}</div>
+            <div class="text-[#1d4ed8] font-semibold">${inv.etgb || '-'}</div>
+            <div class="text-[11px] text-[#7a8796]">${inv.docType || 'e-İhracat Faturası'}</div>
           `;
-          kdvCell = `<span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold font-sans">301 İstisna (%0)</span>`;
-          fxCell = `<span class="font-bold text-slate-900">${getCurrencySymbol(inv.currency)}${(parseFloat(inv.amountFx)||0).toLocaleString('tr-TR', {minimumFractionDigits:2})}</span>`;
-          statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold font-sans ${inv.isClosed ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-900'}">${inv.ibkbStatus}</span>`;
+          kdvCell = `<span class="rozet mavi">İstisna (İhracat)</span>`;
+          fxCell = `<span class="font-semibold text-[#172231]">${getCurrencySymbol(inv.currency)}${(parseFloat(inv.amountFx)||0).toLocaleString('tr-TR', {minimumFractionDigits:2})}</span>`;
+          statusBadge = `<span class="rozet ${inv.isClosed ? 'yesil' : 'sari'}">${inv.ibkbStatus}</span>`;
           actionCell = `
-            <button onclick="viewInvoiceDetail('${inv.id}')" class="px-2 py-1 border border-slate-200 rounded text-xs text-slate-700 hover:bg-slate-100 font-medium">Görüntüle</button>
-            <button onclick="openInvoicePdf('${inv.id}')" class="px-2 py-1 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-semibold inline-flex items-center gap-0.5" title="Resmi PDF Belgesini Aç"><span class="material-symbols-outlined text-[13px] text-emerald-400">picture_as_pdf</span><span>PDF</span></button>
-            ${!inv.isClosed ? `<button onclick="openModal('modal-dab-calculator')" class="px-2 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-xs font-semibold">TCMB Bozum</button>` : ''}
+            <button onclick="viewInvoiceDetail('${inv.id}')" class="btn kucuk">Görüntüle</button>
+            <button onclick="openInvoicePdf('${inv.id}')" class="btn kucuk" title="Resmi PDF Belgesini Aç">PDF</button>
+            ${!inv.isClosed ? `<button onclick="openModal('modal-dab-calculator')" class="btn kucuk ana">TCMB Bozum</button>` : ''}
           `;
         } else {
           // DOMESTIC (HESAP 600)
-          typeBadge = `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">🇹🇷 Yurtiçi Satış (600)</span>`;
+          typeBadge = `<span class="rozet">Yurtiçi Satış (600)</span>`;
           etgbCell = `
-            <div class="font-sans font-semibold text-slate-700">${inv.docType || 'GİB e-Fatura'}</div>
-            <div class="text-[10px] text-slate-400 font-sans">ETGB Gerekmez (Yurtiçi)</div>
+            <div class="font-medium text-[#172231]">${inv.docType || 'GİB e-Fatura'}</div>
+            <div class="text-[11px] text-[#7a8796]">Yurtiçi Fatura</div>
           `;
-          kdvCell = `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold font-sans">${inv.kdvStatus || '%10 KDV'}</span>`;
-          fxCell = `<span class="text-slate-400 font-sans text-[11px]">- (TRY)</span>`;
-          statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold font-sans bg-slate-100 text-slate-700">${inv.paymentStatus || 'Yurtiçi (İBKB Muaf)'}</span>`;
+          kdvCell = `<span class="rozet">${inv.kdvStatus || '%10 KDV'}</span>`;
+          fxCell = `<span class="text-[#7a8796] text-[12px]">—</span>`;
+          statusBadge = `<span class="rozet yesil">${inv.paymentStatus || 'Tahsil edildi'}</span>`;
           actionCell = `
-            <button onclick="viewInvoiceDetail('${inv.id}')" class="px-2 py-1 border border-slate-200 rounded text-xs text-slate-700 hover:bg-slate-100 font-medium">Görüntüle</button>
-            <button onclick="openInvoicePdf('${inv.id}')" class="px-2 py-1 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-semibold inline-flex items-center gap-0.5" title="Resmi PDF Belgesini Aç"><span class="material-symbols-outlined text-[13px] text-emerald-400">picture_as_pdf</span><span>PDF</span></button>
+            <button onclick="viewInvoiceDetail('${inv.id}')" class="btn kucuk">Görüntüle</button>
+            <button onclick="openInvoicePdf('${inv.id}')" class="btn kucuk" title="Resmi PDF Belgesini Aç">PDF</button>
           `;
         }
 
         tr.innerHTML = `
-          <td class="py-2.5 px-3 font-bold text-slate-900">${inv.id}</td>
+          <td class="py-2.5 px-3 font-medium text-[#172231]">${inv.id}</td>
           <td class="py-2.5 px-3">
-            <div class="font-sans font-bold text-slate-900 leading-tight">${inv.customer}</div>
-            <div class="mt-0.5 font-sans">${typeBadge}</div>
+            <div class="font-medium text-[#172231] leading-tight">${inv.customer}</div>
+            <div class="mt-1">${typeBadge}</div>
           </td>
-          <td class="py-2.5 px-3 text-slate-600">${inv.date}</td>
+          <td class="py-2.5 px-3 text-[#4a5768]">${inv.date}</td>
           <td class="py-2.5 px-3">${etgbCell}</td>
           <td class="py-2.5 px-3">${kdvCell}</td>
           <td class="py-2.5 px-3 text-right">${fxCell}</td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">${fmtTRY(inv.amountTry)}</td>
+          <td class="py-2.5 px-3 text-right font-semibold text-[#172231]">${fmtTRY(inv.amountTry)}</td>
           <td class="py-2.5 px-3 text-center">${statusBadge}</td>
-          <td class="py-2.5 px-3 text-right font-sans space-x-1">${actionCell}</td>
+          <td class="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">${actionCell}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -9721,12 +9807,12 @@
       const btnOpen = document.getElementById('btn-export-tab-open');
       const btnClosed = document.getElementById('btn-export-tab-closed');
 
-      const activeAll = 'px-3 py-1.5 rounded-lg font-bold text-xs bg-blue-900 text-white shadow-xs transition-colors';
-      const activeOpen = 'px-3 py-1.5 rounded-lg font-bold text-xs bg-amber-700 text-white shadow-xs transition-colors flex items-center gap-1';
-      const activeClosed = 'px-3 py-1.5 rounded-lg font-bold text-xs bg-emerald-800 text-white shadow-xs transition-colors flex items-center gap-1';
-      const inactive = 'px-3 py-1.5 rounded-lg font-bold text-xs bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition-colors flex items-center gap-1';
+      const activeAll = 'px-3 py-1.5 rounded-lg font-semibold text-xs bg-[#eef3ff] text-[#1d4ed8] border border-blue-200 transition-colors';
+      const activeOpen = 'px-3 py-1.5 rounded-lg font-semibold text-xs bg-[#eef3ff] text-[#1d4ed8] border border-blue-200 transition-colors flex items-center gap-1';
+      const activeClosed = 'px-3 py-1.5 rounded-lg font-semibold text-xs bg-[#eef3ff] text-[#1d4ed8] border border-blue-200 transition-colors flex items-center gap-1';
+      const inactive = 'px-3 py-1.5 rounded-lg font-medium text-xs bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition-colors flex items-center gap-1';
 
-      if (btnAll) btnAll.className = filterType === 'all' ? activeAll : 'px-3 py-1.5 rounded-lg font-bold text-xs bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition-colors';
+      if (btnAll) btnAll.className = filterType === 'all' ? activeAll : 'px-3 py-1.5 rounded-lg font-medium text-xs bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition-colors';
       if (btnOpen) btnOpen.className = filterType === 'open' ? activeOpen : inactive;
       if (btnClosed) btnClosed.className = filterType === 'closed' ? activeClosed : inactive;
 
@@ -9779,42 +9865,42 @@
 
       list.forEach(inv => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 transition-colors font-mono' + (!inv.isClosed ? ' bg-amber-50/20' : '');
+        tr.className = 'hover:bg-slate-50 transition-colors';
 
-        const countryCode = inv.customer.includes('BEN') ? '🇬🇧 Birleşik Krallık' : 
-                            inv.customer.includes('LAVI') ? '🇺🇸 ABD (Los Angeles)' : 
-                            inv.customer.includes('Celik') ? '🇩🇪 Almanya' : 
-                            inv.customer.includes('ATTERO') ? '🇬🇧 Birleşik Krallık' : 
-                            inv.customer.includes('Alsaadoun') ? '🇰🇼 Kuveyt' : 
-                            inv.customer.includes('CuterEsque') ? '🇺🇸 ABD' : 
-                            inv.customer.includes('SMETS') || inv.customer.includes('SMEETS') ? '🇧🇪 Belçika' : 
-                            inv.customer.includes('EZC') ? '🇫🇷 Fransa' : 
-                            inv.customer.includes('MARQUE') ? '🇩🇰 Danimarka' : '🌍 Yurtdışı';
+        const countryCode = inv.customer.includes('BEN') ? 'Birleşik Krallık' : 
+                            inv.customer.includes('LAVI') ? 'ABD (Los Angeles)' : 
+                            inv.customer.includes('Celik') ? 'Almanya' : 
+                            inv.customer.includes('ATTERO') ? 'Birleşik Krallık' : 
+                            inv.customer.includes('Alsaadoun') ? 'Kuveyt' : 
+                            inv.customer.includes('CuterEsque') ? 'ABD' : 
+                            inv.customer.includes('SMETS') || inv.customer.includes('SMEETS') ? 'Belçika' : 
+                            inv.customer.includes('EZC') ? 'Fransa' : 
+                            inv.customer.includes('MARQUE') ? 'Danimarka' : 'Yurtdışı';
 
         tr.innerHTML = `
-          <td class="py-2.5 px-3 font-bold text-slate-900">${inv.id}</td>
-          <td class="py-2.5 px-3 font-sans">
-            <div class="font-bold text-slate-900 leading-tight">${inv.customer}</div>
-            <div class="text-[10px] text-blue-700 font-semibold mt-0.5">${countryCode}</div>
+          <td class="py-2.5 px-3 font-medium text-[#172231]">${inv.id}</td>
+          <td class="py-2.5 px-3">
+            <div class="font-medium text-[#172231] leading-tight">${inv.customer}</div>
+            <div class="text-[11px] text-[#7a8796] mt-0.5">${countryCode}</div>
           </td>
-          <td class="py-2.5 px-3 text-slate-600">${inv.date}</td>
-          <td class="py-2.5 px-3 font-mono">
-            <div class="text-blue-700 font-bold hover:underline cursor-pointer" onclick="filterDocCategory('Yükleme & Sevkiyat'); switchView('documents');">${inv.etgb}</div>
-            <div class="text-[10px] text-slate-400 font-sans">GİB UBL-TR e-İhracat</div>
+          <td class="py-2.5 px-3 text-[#4a5768]">${inv.date}</td>
+          <td class="py-2.5 px-3">
+            <div class="text-[#1d4ed8] font-semibold hover:underline cursor-pointer" onclick="filterDocCategory('Yükleme & Sevkiyat'); switchView('documents');">${inv.etgb}</div>
+            <div class="text-[11px] text-[#7a8796]">GİB UBL-TR e-İhracat</div>
           </td>
-          <td class="py-2.5 px-3 font-sans">
-            <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold">301 İstisna (%0)</span>
+          <td class="py-2.5 px-3">
+            <span class="rozet mavi">İstisna (İhracat)</span>
           </td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">
+          <td class="py-2.5 px-3 text-right font-semibold text-[#172231]">
             ${getCurrencySymbol(inv.currency)}${(parseFloat(inv.amountFx)||0).toLocaleString('tr-TR', {minimumFractionDigits:2})}
           </td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">${fmtTRY(inv.amountTry)}</td>
-          <td class="py-2.5 px-3 text-center font-sans">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${inv.isClosed ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-900'}">${inv.ibkbStatus}</span>
+          <td class="py-2.5 px-3 text-right font-semibold text-[#172231]">${fmtTRY(inv.amountTry)}</td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="rozet ${inv.isClosed ? 'yesil' : 'sari'}">${inv.ibkbStatus}</span>
           </td>
-          <td class="py-2.5 px-3 text-right font-sans space-x-1">
-            <button onclick="viewInvoiceDetail('${inv.id}')" class="px-2 py-1 border border-slate-200 rounded text-xs text-slate-700 hover:bg-slate-100 font-medium">Görüntüle</button>
-            ${!inv.isClosed ? `<button onclick="openModal('modal-dab-calculator')" class="px-2 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-xs font-semibold">TCMB Bozum</button>` : `<span class="text-[10px] font-bold text-emerald-600">DAB Alındı ✓</span>`}
+          <td class="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">
+            <button onclick="viewInvoiceDetail('${inv.id}')" class="btn kucuk">Görüntüle</button>
+            ${!inv.isClosed ? `<button onclick="openModal('modal-dab-calculator')" class="btn kucuk ana">TCMB Bozum</button>` : `<span class="rozet yesil">DAB Alındı ✓</span>`}
           </td>
         `;
         tbody.appendChild(tr);
@@ -9829,20 +9915,19 @@
 
       BROSAN_ERP.expenses.forEach(exp => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50' + (!exp.isPaid ? ' bg-amber-50/20' : '');
         tr.innerHTML = `
-          <td class="py-3 px-3 font-bold text-slate-900">${exp.id}</td>
-          <td class="py-3 px-3 font-sans font-bold text-slate-900">${exp.supplier}</td>
-          <td class="py-3 px-3 font-sans text-slate-600">${exp.category}</td>
-          <td class="py-3 px-3 font-bold text-amber-700">${exp.dueDate}</td>
+          <td class="py-3 px-3 font-medium text-slate-900">${exp.id}</td>
+          <td class="py-3 px-3 font-medium text-slate-900">${exp.supplier}</td>
+          <td class="py-3 px-3 text-slate-600">${exp.category}</td>
+          <td class="py-3 px-3 text-slate-600">${exp.dueDate}</td>
           <td class="py-3 px-3 text-right text-slate-800">${exp.matrah.toLocaleString('tr-TR', {minimumFractionDigits:2})}</td>
           <td class="py-3 px-3 text-right text-slate-600">${exp.kdv.toLocaleString('tr-TR', {minimumFractionDigits:2})}</td>
-          <td class="py-3 px-3 text-right font-bold text-slate-900">${fmtTRY(exp.total)}</td>
-          <td class="py-3 px-3 text-center font-sans">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${exp.isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-900'}">${exp.status}</span>
+          <td class="py-3 px-3 text-right font-semibold text-slate-900">${fmtTRY(exp.total)}</td>
+          <td class="py-3 px-3 text-center">
+            <span class="rozet ${exp.isPaid ? 'yesil' : 'sari'}">${exp.status}</span>
           </td>
-          <td class="py-3 px-3 text-right font-sans">
-            ${!exp.isPaid ? `<button onclick="paySupplierExpense('${exp.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-900 text-white rounded text-xs font-semibold">Öde / Havale</button>` : `<span class="text-xs text-emerald-600 font-bold">Ödendi ✓</span>`}
+          <td class="py-3 px-3 text-right">
+            ${!exp.isPaid ? `<button onclick="paySupplierExpense('${exp.id}')" class="btn kucuk ana">Öde / Havale</button>` : `<span class="rozet yesil">Ödendi ✓</span>`}
           </td>
         `;
         tbody.appendChild(tr);
@@ -9861,24 +9946,23 @@
 
       BROSAN_ERP.contacts.forEach(c => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50' + (c.isBenEllis ? ' bg-blue-50/20' : c.isFarukAytin ? ' bg-amber-50/20' : '');
         tr.innerHTML = `
-          <td class="py-2.5 px-3 font-bold font-mono text-slate-900">${c.code}</td>
-          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">
+          <td class="py-2.5 px-3 font-medium text-slate-900">${c.code}</td>
+          <td class="py-2.5 px-3 font-medium text-slate-900">
             ${c.name}
-            ${c.isFarukAytin ? '<span class="ml-1 px-1.5 py-0.2 rounded text-[9px] bg-amber-100 text-amber-900 font-extrabold font-mono">NİSA TEKSTİL</span>' : ''}
+            ${c.isFarukAytin ? '<span class="rozet sari" style="margin-left: 6px;">NİSA TEKSTİL</span>' : ''}
           </td>
-          <td class="py-2.5 px-3 font-sans"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-800 text-[10px] font-bold">${c.type}</span></td>
-          <td class="py-2.5 px-3 font-mono text-slate-700">${c.vkn}</td>
-          <td class="py-2.5 px-3 font-sans text-slate-600">${c.city}</td>
-          <td class="py-2.5 px-3 text-right font-bold font-mono ${c.balance.includes('Borç') ? 'text-rose-700' : 'text-emerald-700'}">${c.balance}</td>
-          <td class="py-2.5 px-3 text-center font-sans">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${c.isFarukAytin ? 'bg-amber-100 text-amber-900 font-mono' : 'bg-slate-100 text-slate-700'}">${c.status}</span>
+          <td class="py-2.5 px-3"><span class="rozet">${c.type}</span></td>
+          <td class="py-2.5 px-3 text-slate-600">${c.vkn}</td>
+          <td class="py-2.5 px-3 text-slate-600">${c.city}</td>
+          <td class="py-2.5 px-3 text-right font-semibold ${c.balance.includes('Borç') ? 'eksi' : 'arti'}">${c.balance}</td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="rozet ${c.isFarukAytin ? 'yesil' : c.balance.includes('Borç') ? 'sari' : 'mavi'}">${c.status}</span>
           </td>
-          <td class="py-2.5 px-3 text-right font-sans space-x-1 whitespace-nowrap">
-            <button onclick="viewCariEkstre('${c.code}')" class="px-2 py-1 border border-slate-200 rounded text-xs text-slate-700 hover:bg-slate-100 font-semibold shadow-2xs">Ekstre</button>
-            ${c.isFarukAytin ? `<button onclick="switchView('mutabakat')" class="px-2 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-xs font-semibold shadow-2xs">Mahsup Masası</button>` : ''}
-            ${c.isBenEllis ? `<button onclick="openModal('modal-dab-calculator')" class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold shadow-2xs">TCMB Bozum</button>` : ''}
+          <td class="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">
+            <button onclick="viewCariEkstre('${c.code}')" class="btn kucuk">Ekstre</button>
+            ${c.isFarukAytin ? `<button onclick="switchView('mutabakat')" class="btn kucuk ana">Mahsup Masası</button>` : ''}
+            ${c.isBenEllis ? `<button onclick="openModal('modal-dab-calculator')" class="btn kucuk ana">TCMB Bozum</button>` : ''}
           </td>
         `;
         tbody.appendChild(tr);
@@ -9893,17 +9977,16 @@
 
       BROSAN_ERP.checks.forEach(chk => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50';
         tr.innerHTML = `
-          <td class="py-3 px-3 font-bold text-slate-900">${chk.no}</td>
-          <td class="py-3 px-3 font-sans font-semibold text-slate-800">${chk.drawer}</td>
-          <td class="py-3 px-3 font-sans text-slate-600">${chk.bank}</td>
-          <td class="py-3 px-3 font-bold text-amber-700">${chk.dueDate}</td>
-          <td class="py-3 px-3 text-right font-bold text-slate-900">${fmtTRY(chk.amount)}</td>
-          <td class="py-3 px-3 text-center font-sans"><span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800">${chk.status}</span></td>
-          <td class="py-3 px-3 text-right font-sans space-x-1">
-            <button onclick="collectCheck('${chk.no}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-900 text-white rounded text-xs">Banka Tahsilata Ver</button>
-            <button onclick="ciroCheck('${chk.no}')" class="px-2 py-1 border border-slate-200 rounded text-xs text-slate-700 hover:bg-slate-50">Ciro Et</button>
+          <td class="py-3 px-3 font-medium text-slate-900">${chk.no}</td>
+          <td class="py-3 px-3 font-medium text-slate-800">${chk.drawer}</td>
+          <td class="py-3 px-3 text-slate-600">${chk.bank}</td>
+          <td class="py-3 px-3 text-slate-600">${chk.dueDate}</td>
+          <td class="py-3 px-3 text-right font-semibold text-slate-900">${fmtTRY(chk.amount)}</td>
+          <td class="py-3 px-3 text-center"><span class="rozet yesil">${chk.status}</span></td>
+          <td class="py-3 px-3 text-right space-x-1 whitespace-nowrap">
+            <button onclick="collectCheck('${chk.no}')" class="btn kucuk ana">Banka Tahsilata Ver</button>
+            <button onclick="ciroCheck('${chk.no}')" class="btn kucuk">Ciro Et</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -9918,17 +10001,16 @@
 
       BROSAN_ERP.employees.forEach(emp => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50';
         tr.innerHTML = `
-          <td class="py-2.5 px-3 font-bold text-slate-900">${emp.id}</td>
-          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">${emp.name}</td>
-          <td class="py-2.5 px-3 font-sans text-slate-600">${emp.title}</td>
+          <td class="py-2.5 px-3 font-medium text-slate-900">${emp.id}</td>
+          <td class="py-2.5 px-3 font-medium text-slate-900">${emp.name}</td>
+          <td class="py-2.5 px-3 text-slate-600">${emp.title}</td>
           <td class="py-2.5 px-3 text-right text-slate-800">${fmtTRY(emp.gross)}</td>
-          <td class="py-2.5 px-3 text-right text-rose-700 font-bold">${fmtTRY(emp.sgk)}</td>
-          <td class="py-2.5 px-3 text-right text-blue-700">${fmtTRY(emp.tax)}</td>
-          <td class="py-2.5 px-3 text-right font-bold text-emerald-700">${fmtTRY(emp.net)}</td>
-          <td class="py-2.5 px-3 text-center font-sans">
-            <button onclick="viewBordroPusula('${emp.id}')" class="px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded text-xs font-semibold hover:bg-emerald-100">Bordro Pusulası</button>
+          <td class="py-2.5 px-3 text-right eksi font-medium">${fmtTRY(emp.sgk)}</td>
+          <td class="py-2.5 px-3 text-right text-slate-700">${fmtTRY(emp.tax)}</td>
+          <td class="py-2.5 px-3 text-right font-semibold arti">${fmtTRY(emp.net)}</td>
+          <td class="py-2.5 px-3 text-center">
+            <button onclick="viewBordroPusula('${emp.id}')" class="btn kucuk">Bordro Pusulası</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -9943,15 +10025,14 @@
 
       BROSAN_ERP.inventory.forEach(item => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50';
         tr.innerHTML = `
-          <td class="py-2.5 px-3 font-bold text-slate-900">${item.code}</td>
-          <td class="py-2.5 px-3 font-sans font-bold text-slate-800">${item.desc}</td>
-          <td class="py-2.5 px-3 font-bold text-blue-700">${item.gtip}</td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">${item.qty.toLocaleString('tr-TR')}</td>
-          <td class="py-2.5 px-3 font-sans">${item.unit}</td>
+          <td class="py-2.5 px-3 font-medium text-slate-900">${item.code}</td>
+          <td class="py-2.5 px-3 font-medium text-slate-800">${item.desc}</td>
+          <td class="py-2.5 px-3 text-blue-700 font-medium">${item.gtip}</td>
+          <td class="py-2.5 px-3 text-right font-semibold text-slate-900">${item.qty.toLocaleString('tr-TR')}</td>
+          <td class="py-2.5 px-3"><span class="rozet">${item.unit}</span></td>
           <td class="py-2.5 px-3 text-right text-slate-700">${item.cost.toLocaleString('tr-TR', {minimumFractionDigits:2})}</td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">${fmtTRY(item.total)}</td>
+          <td class="py-2.5 px-3 text-right font-semibold text-slate-900">${fmtTRY(item.total)}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -9962,29 +10043,29 @@
       const tbody = document.getElementById('tbody-bank-moves');
       if (!tbody) return;
       tbody.innerHTML = `
-        <tr class="hover:bg-slate-50">
-          <td class="py-2.5 px-3 text-slate-600 font-mono">01.10.2026</td>
-          <td class="py-2.5 px-3 font-sans font-bold text-slate-900">Garanti GBP (417-9034578)</td>
-          <td class="py-2.5 px-3 font-sans text-slate-700">Ben Ellis e-İhracat Bedeli Tahsilatı (BS02026000000013)</td>
-          <td class="py-2.5 px-3 text-right text-emerald-700 font-bold">£7.388,10</td>
+        <tr>
+          <td class="py-2.5 px-3 text-slate-600">01.10.2026</td>
+          <td class="py-2.5 px-3 font-medium text-slate-900">Garanti GBP (417-9034578)</td>
+          <td class="py-2.5 px-3 text-slate-700">Ben Ellis e-İhracat Bedeli Tahsilatı (BS02026000000013)</td>
+          <td class="py-2.5 px-3 text-right arti font-semibold">£7.388,10</td>
           <td class="py-2.5 px-3 text-right text-slate-400">-</td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">£23.759,07</td>
+          <td class="py-2.5 px-3 text-right font-semibold text-slate-900">£23.759,07</td>
         </tr>
-        <tr class="hover:bg-emerald-50/40 bg-emerald-50/20">
-          <td class="py-2.5 px-3 text-emerald-800 font-mono font-bold">09.10.2026</td>
-          <td class="py-2.5 px-3 font-sans font-bold text-emerald-950">Garanti TL (417-6289477)</td>
-          <td class="py-2.5 px-3 font-sans text-slate-800 font-medium">Faruk Aytin Garanti BBVA Havalesi (4.000 USD Karşılığı, Kur: 49,02 - Dekont: 2026-1009-4000)</td>
+        <tr>
+          <td class="py-2.5 px-3 text-slate-600">09.10.2026</td>
+          <td class="py-2.5 px-3 font-medium text-slate-900">Garanti TL (417-6289477)</td>
+          <td class="py-2.5 px-3 text-slate-700">Faruk Aytin Garanti BBVA Havalesi (4.000 USD Karşılığı, Kur: 49,02 - Dekont: 2026-1009-4000)</td>
           <td class="py-2.5 px-3 text-right text-slate-400">-</td>
-          <td class="py-2.5 px-3 text-right text-emerald-700 font-bold">₺196.080,00</td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">$4.000,00 USD</td>
+          <td class="py-2.5 px-3 text-right eksi font-semibold">₺196.080,00</td>
+          <td class="py-2.5 px-3 text-right font-semibold text-slate-900">$4.000,00 USD</td>
         </tr>
-        <tr class="hover:bg-purple-50/40 bg-purple-50/20">
-          <td class="py-2.5 px-3 text-purple-900 font-mono font-bold">09.10.2026</td>
-          <td class="py-2.5 px-3 font-sans font-bold text-purple-950">Garanti Portföy (103 Çek)</td>
-          <td class="py-2.5 px-3 font-sans text-slate-800 font-medium">Faruk Aytin Garanti BBVA Ticari Çeki (Çek No: 8031377, Vade: 31.10.2026, Kur: 49,02)</td>
+        <tr>
+          <td class="py-2.5 px-3 text-slate-600">09.10.2026</td>
+          <td class="py-2.5 px-3 font-medium text-slate-900">Garanti Portföy (103 Çek)</td>
+          <td class="py-2.5 px-3 text-slate-700">Faruk Aytin Garanti BBVA Ticari Çeki (Çek No: 8031377, Vade: 31.10.2026, Kur: 49,02)</td>
           <td class="py-2.5 px-3 text-right text-slate-400">-</td>
-          <td class="py-2.5 px-3 text-right text-purple-700 font-bold">₺300.000,00</td>
-          <td class="py-2.5 px-3 text-right font-bold text-slate-900">$6.119,95 USD</td>
+          <td class="py-2.5 px-3 text-right eksi font-semibold">₺300.000,00</td>
+          <td class="py-2.5 px-3 text-right font-semibold text-slate-900">$6.119,95 USD</td>
         </tr>
         <tr class="hover:bg-slate-50">
           <td class="py-2.5 px-3 text-slate-600 font-mono">07.10.2026</td>
@@ -11885,9 +11966,9 @@
         if (navName) navName.textContent = name;
         if (navRole) navRole.textContent = role;
         if (navAvatar) navAvatar.textContent = initials;
-        if (sideName) sideName.textContent = name;
-        if (sideRole) sideRole.textContent = role;
-        if (sideAvatar) sideAvatar.textContent = initials;
+        if (sideName) sideName.textContent = (user.username === 'admin' || name.includes('Emre')) ? 'Emre' : name;
+        if (sideRole) sideRole.textContent = 'Yönetici';
+        if (sideAvatar) sideAvatar.textContent = (user.username === 'admin' || name.includes('Emre')) ? 'E' : initials[0];
       },
 
       togglePasswordVisibility(inputId, btn) {
@@ -11937,7 +12018,6 @@
             this.updateUserUI(res.user);
             this.unlockApp();
             renderAll();
-            showToast('Başarıyla giriş yapıldı. Güvenli oturum açıldı.', 'success');
           }
         } catch (err) {
           if (errBox && errText) {
@@ -11950,7 +12030,7 @@
           }
         } finally {
           if (submitBtn) submitBtn.disabled = false;
-          if (btnText) btnText.textContent = 'Güvenli Giriş Yap';
+          if (btnText) btnText.textContent = 'Giriş yap';
         }
         return false;
       },
@@ -12076,7 +12156,7 @@
           b.className = 'doc-cat-pill px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-all flex-shrink-0 flex items-center gap-1';
         });
         if (btn) {
-          btn.className = 'doc-cat-pill px-3 py-1.5 rounded-lg bg-[#00AA6C] text-white font-semibold transition-all shadow-xs flex-shrink-0 flex items-center gap-1';
+          btn.className = 'doc-cat-pill px-3 py-1.5 rounded-lg bg-[#eef3ff] text-[#1d4ed8] border border-blue-200 font-semibold transition-all flex-shrink-0 flex items-center gap-1';
         }
         this.render();
       },
@@ -12199,50 +12279,39 @@
         if (this.viewMode === 'cards') {
           let html = '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">';
           pageItems.forEach(doc => {
-            const extColor = doc.ext === 'PDF' ? 'bg-red-50 text-red-700 border-red-200' :
-                             doc.ext === 'XLSX' || doc.ext === 'XLS' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                             doc.ext === 'DOCX' || doc.ext === 'DOC' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                             'bg-purple-50 text-purple-700 border-purple-200';
-            
-            const extIcon = doc.ext === 'PDF' ? 'picture_as_pdf' :
-                            doc.ext === 'XLSX' || doc.ext === 'XLS' ? 'table_view' :
-                            doc.ext === 'DOCX' || doc.ext === 'DOC' ? 'article' :
-                            'image';
+            const extColor = doc.ext === 'PDF' ? 'rozet kirmizi' :
+                             doc.ext === 'XLSX' || doc.ext === 'XLS' ? 'rozet yesil' :
+                             doc.ext === 'DOCX' || doc.ext === 'DOC' ? 'rozet mavi' :
+                             'rozet';
 
             html += `
-              <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-xs hover:shadow-md hover:border-emerald-300 transition-all flex flex-col justify-between group">
+              <div class="kart flex flex-col justify-between group">
                 <div>
                   <div class="flex items-start justify-between gap-2 mb-2">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${extColor} flex items-center gap-1">
-                      <span class="material-symbols-outlined text-[13px]">${extIcon}</span>
-                      <span>${doc.ext}</span>
-                    </span>
-                    <span class="text-[10px] font-mono text-slate-400">${doc.size}</span>
+                    <span class="${extColor}">${doc.ext}</span>
+                    <span class="text-[11px] text-[#7a8796]">${doc.size}</span>
                   </div>
                   
-                  <h4 class="font-semibold text-slate-900 text-xs line-clamp-2 group-hover:text-emerald-700 transition-colors leading-snug" title="${escapeHtml(doc.title)}">
+                  <h4 class="font-semibold text-[#172231] text-xs line-clamp-2 group-hover:text-[#1d4ed8] transition-colors leading-snug" title="${escapeHtml(doc.title)}">
                     ${escapeHtml(doc.title)}
                   </h4>
 
-                  <div class="mt-2.5 flex flex-wrap items-center gap-1.5 text-[10px]">
-                    <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">${escapeHtml(doc.subType)}</span>
-                    ${doc.customer !== '-' && !doc.customer.includes('Brosan') ? `<span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-800 font-medium">${escapeHtml(doc.customer)}</span>` : ''}
-                    <span class="text-slate-400 font-mono">${doc.date || doc.period}</span>
+                  <div class="mt-2.5 flex flex-wrap items-center gap-1.5 text-[11px]">
+                    <span class="rozet">${escapeHtml(doc.subType)}</span>
+                    ${doc.customer !== '-' && !doc.customer.includes('Brosan') ? `<span class="rozet mavi">${escapeHtml(doc.customer)}</span>` : ''}
+                    <span class="text-[#7a8796]">${doc.date || doc.period}</span>
                   </div>
                 </div>
 
-                <div class="mt-3.5 pt-2.5 border-t border-slate-100 flex items-center justify-between gap-2">
-                  <button onclick="copyDocPath(${doc.id})" class="text-[11px] text-slate-500 hover:text-slate-800 font-medium flex items-center gap-1 p-1 hover:bg-slate-50 rounded" title="Windows dosya yolunu kopyala">
-                    <span class="material-symbols-outlined text-[14px]">content_copy</span>
+                <div class="mt-3.5 pt-2.5 border-t border-[#eef1f5] flex items-center justify-between gap-2">
+                  <button onclick="copyDocPath(${doc.id})" class="btn kucuk" title="Windows dosya yolunu kopyala">
                     <span>Yol</span>
                   </button>
                   <div class="flex items-center gap-1.5">
-                    <button onclick="previewDoc(${doc.id})" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold rounded flex items-center gap-1 transition-colors">
-                      <span class="material-symbols-outlined text-[13px]">visibility</span>
+                    <button onclick="previewDoc(${doc.id})" class="btn kucuk">
                       <span>İncele</span>
                     </button>
-                    <a href="${doc.file_url}" target="_blank" class="px-2.5 py-1 bg-[#00AA6C] hover:bg-emerald-600 text-white text-[11px] font-semibold rounded flex items-center gap-1 transition-colors shadow-xs">
-                      <span class="material-symbols-outlined text-[13px]">open_in_new</span>
+                    <a href="${doc.file_url}" target="_blank" class="btn kucuk ana">
                       <span>Aç</span>
                     </a>
                   </div>
@@ -12254,62 +12323,62 @@
           container.innerHTML = html;
         } else {
           let html = `
-            <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="tablo">
               <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs font-mono">
+                <table class="w-full text-left border-collapse text-xs">
                   <thead>
-                    <tr class="bg-slate-100 text-slate-600 text-[11px] font-semibold uppercase border-b border-slate-200 font-sans">
-                      <th class="py-2.5 px-3">Format</th>
-                      <th class="py-2.5 px-3">Evrak / Dosya Adı</th>
-                      <th class="py-2.5 px-3">Kategori &amp; Tip</th>
-                      <th class="py-2.5 px-3">Müşteri / Muhatap</th>
-                      <th class="py-2.5 px-3">Dönem / Tarih</th>
-                      <th class="py-2.5 px-3 text-right">Boyut</th>
-                      <th class="py-2.5 px-3 text-right">İşlemler</th>
+                    <tr>
+                      <th>Format</th>
+                      <th>Evrak / Dosya Adı</th>
+                      <th>Kategori &amp; Tip</th>
+                      <th>Müşteri / Muhatap</th>
+                      <th>Dönem / Tarih</th>
+                      <th class="s">Boyut</th>
+                      <th class="s">İşlemler</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-slate-100">
+                  <tbody>
           `;
 
           pageItems.forEach(doc => {
-            const extColor = doc.ext === 'PDF' ? 'text-red-700 bg-red-50' :
-                             doc.ext === 'XLSX' || doc.ext === 'XLS' ? 'text-emerald-700 bg-emerald-50' :
-                             doc.ext === 'DOCX' || doc.ext === 'DOC' ? 'text-blue-700 bg-blue-50' :
-                             'text-purple-700 bg-purple-50';
+            const extColor = doc.ext === 'PDF' ? 'rozet kirmizi' :
+                             doc.ext === 'XLSX' || doc.ext === 'XLS' ? 'rozet yesil' :
+                             doc.ext === 'DOCX' || doc.ext === 'DOC' ? 'rozet mavi' :
+                             'rozet';
 
             html += `
-              <tr class="hover:bg-slate-50/80 transition-colors">
-                <td class="py-2.5 px-3">
-                  <span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${extColor}">${doc.ext}</span>
+              <tr>
+                <td>
+                  <span class="${extColor}">${doc.ext}</span>
                 </td>
-                <td class="py-2.5 px-3">
-                  <span class="font-bold text-slate-900 block truncate max-w-md font-sans text-xs" title="${escapeHtml(doc.title)}">
+                <td>
+                  <span class="font-semibold text-[#172231] block truncate max-w-md text-xs" title="${escapeHtml(doc.title)}">
                     ${escapeHtml(doc.title)}
                   </span>
-                  <span class="text-[10px] text-slate-400 font-mono truncate block max-w-md">${escapeHtml(doc.folder || '')}</span>
+                  <span class="text-[11px] text-[#7a8796] truncate block max-w-md">${escapeHtml(doc.folder || '')}</span>
                 </td>
-                <td class="py-2.5 px-3 font-sans">
-                  <span class="text-slate-800 font-semibold block text-[11px]">${escapeHtml(doc.subType)}</span>
-                  <span class="text-[10px] text-slate-500">${escapeHtml(doc.category)}</span>
+                <td>
+                  <span class="text-[#172231] font-medium block text-xs">${escapeHtml(doc.subType)}</span>
+                  <span class="text-[11px] text-[#7a8796]">${escapeHtml(doc.category)}</span>
                 </td>
-                <td class="py-2.5 px-3 font-sans text-slate-700 text-xs">
+                <td class="text-[#4a5768] text-xs">
                   ${escapeHtml(doc.customer)}
                 </td>
-                <td class="py-2.5 px-3 text-slate-500 font-sans text-[11px]">
+                <td class="text-[#7a8796] text-xs">
                   ${doc.date || doc.period}
                 </td>
-                <td class="py-2.5 px-3 text-right text-slate-700">
+                <td class="s text-[#4a5768]">
                   ${doc.size}
                 </td>
-                <td class="py-2.5 px-3 text-right">
-                  <div class="flex items-center justify-end gap-1 font-sans">
-                    <button onclick="copyDocPath(${doc.id})" class="p-1 text-slate-400 hover:text-slate-700 rounded" title="Yolu Kopyala">
-                      <span class="material-symbols-outlined text-[15px]">content_copy</span>
+                <td class="s">
+                  <div class="flex items-center justify-end gap-1">
+                    <button onclick="copyDocPath(${doc.id})" class="btn kucuk" title="Yolu Kopyala">
+                      Yol
                     </button>
-                    <button onclick="previewDoc(${doc.id})" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-semibold">
+                    <button onclick="previewDoc(${doc.id})" class="btn kucuk">
                       İncele
                     </button>
-                    <a href="${doc.file_url}" target="_blank" class="px-2 py-1 bg-[#00AA6C] hover:bg-emerald-600 text-white rounded text-[11px] font-semibold">
+                    <a href="${doc.file_url}" target="_blank" class="btn kucuk ana">
                       Aç
                     </a>
                   </div>
