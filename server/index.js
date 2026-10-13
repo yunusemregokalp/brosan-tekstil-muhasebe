@@ -264,8 +264,9 @@ app.use(helmet({
       fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
       imgSrc: ["'self'", "data:", "blob:", "https:"],
       connectSrc: ["'self'", "https://brosangroup.com", "https://www.brosangroup.com"],
-      frameAncestors: ["'none'"],
-      objectSrc: ["'none'"],
+      frameSrc: ["'self'", "blob:", "data:", "chrome-extension:", "moz-extension:"],
+      frameAncestors: ["'self'", "https://brosangroup.com", "https://www.brosangroup.com"],
+      objectSrc: ["'self'", "blob:", "data:"],
       baseUri: ["'self'"],
       formAction: ["'self'"]
     }
@@ -277,7 +278,7 @@ app.use(helmet({
     includeSubDomains: true,
     preload: true
   },
-  frameguard: { action: 'deny' },
+  frameguard: { action: 'sameorigin' },
   noSniff: true
 }));
 
@@ -293,11 +294,34 @@ if (process.env.NODE_ENV !== 'production') {
   ALLOWED_ORIGINS.push('http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5173');
 }
 
+// Evrak Önizleme ve İndirme için CORS & Embedding Muafiyeti (Adobe Acrobat, Chrome PDF Viewer vb.)
+app.use((req, res, next) => {
+  const p = (req.originalUrl || req.url || '').toLowerCase();
+  if (p.includes('/documents/') && (p.includes('/preview') || p.includes('/download'))) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+    res.setHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
+    res.removeHeader('X-Frame-Options');
+    res.setHeader('Content-Security-Policy', "default-src 'self' data: blob: *; object-src * 'self' blob: data:; frame-ancestors *;");
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(204);
+    }
+  }
+  next();
+});
+
 app.use(cors({
   origin: (origin, callback) => {
     // Mobil uygulamalar, sunucular arası çağrılar veya aynı köken
     if (!origin) return callback(null, true);
     if (ALLOWED_ORIGINS.indexOf(origin) !== -1 || process.env.CORS_ALLOW_ALL === 'true') {
+      return callback(null, true);
+    }
+    // Tarayıcı eklentileri (Adobe Acrobat PDF uzantısı vb.)
+    if (origin.startsWith('chrome-extension://') || origin.startsWith('moz-extension://') || origin.startsWith('extension://')) {
       return callback(null, true);
     }
     return callback(new Error('CORS Güvenlik Engeli: Bu kökene erişim izni verilmemiştir.'));
@@ -366,7 +390,11 @@ app.use(['/api', '/muhasebe/api'], behavioralShieldGuard);
 // Güvenlik: Global API Hız Sınırı (Bounded LRU Store: Max 5000 Anahtar, Dakikada 120 İstek / IP)
 const globalApiLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 120,
+  max: 300,
+  skip: (req) => {
+    const url = (req.originalUrl || req.url || '').toLowerCase();
+    return url.includes('/documents/') && (url.includes('/preview') || url.includes('/download'));
+  },
   standardHeaders: true,
   legacyHeaders: false,
   store: new auth.BoundedLruMemoryStore({ maxEntries: 5000 }),
@@ -2379,6 +2407,17 @@ app.get(['/api/documents/:id/download', '/api/documents/:id/preview'], (req, res
   const safeFilename = encodeURIComponent(doc.title);
   const dispositionType = isPreview ? 'inline' : 'attachment';
   res.setHeader('Content-Disposition', `${dispositionType}; filename="${safeFilename}"; filename*=UTF-8''${safeFilename}`);
+
+  // Adobe Acrobat Extension, Chrome PDF Viewer & Cross-Origin Embedding Garantisi
+  res.removeHeader('X-Frame-Options');
+  res.setHeader('Content-Security-Policy', "default-src 'self' data: blob: *; object-src * 'self' blob: data:; frame-ancestors *;");
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+  res.setHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  res.setHeader('Cache-Control', 'public, max-age=3600, must-revalidate');
 
   return res.sendFile(targetFile);
 });

@@ -615,9 +615,9 @@ function handleWafViolation(req, res, violation) {
  * and req.body for malicious payloads before rate limiters, auth guards, or controllers.
  */
 function heuristicWafGuard(req, res, next) {
-  // Environmental or path exemption: Document uploads carry raw base64 data
+  // Environmental or path exemption: Document uploads carry raw base64 data, and document previews/downloads serve binary assets
   const rawUrl = req.originalUrl || req.url || '';
-  if (rawUrl.includes('/api/documents/upload')) {
+  if (rawUrl.includes('/api/documents/') || rawUrl.includes('/muhasebe/api/documents/')) {
     return next();
   }
 

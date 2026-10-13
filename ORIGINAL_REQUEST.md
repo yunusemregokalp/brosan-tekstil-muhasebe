@@ -345,3 +345,86 @@ VPS 173.249.23.10 üzerinde non-root kullanıcı `node` (UID 1000) ile çalışa
 - [ ] `tests/test-phase10-citadel.js` test paketi 15+ iddiayı %100 başarıyla geçer.
 - [ ] `tests/run-all-tests.js` içerisindeki tüm 19 test paketi (Phase 1-10) eksiksiz %100 geçer.
 - [ ] Coolify VPS 173.249.23.10 üzerinde UID 1000 (`node`) ile container ayağa kalkar, `https://brosangroup.com/muhasebe/api/health` ve kardeş servis `https://brosangroup.com/callcenter/landing` 200 OK döner.
+
+
+## Follow-up — 2026-10-13T19:46:07Z
+
+Overhaul the visual design and layout structure of `app/index.html` so that it matches the exact design language, CSS tokens, typography, login screen, sidebar shell, card density, and minimalist simplicity of the user's reference application at `https://brosan-muhasebe.173.249.23.10.sslip.io/` (captured in `C:\Users\YUNUS EMRE GÖKALP\.gemini\antigravity\brain\ffc9730b-8c59-4361-801d-ffd3e0e53012\ref_style.css`, `ref_giris.html`, `ref_inside.html`, and `ref_inside_1.png`), and deploy the updated application to `https://brosangroup.com/muhasebe/`.
+
+Working directory: c:\Users\YUNUS EMRE GÖKALP\OneDrive\Masaüstü\MUHASEBE BROSAN TEKSTİL\YÜKLEME EVRAKLARI ANTIGRAVITY
+Integrity mode: development
+
+## Reference Material & Exact CSS Specification
+
+Inspect the reference files already downloaded in `C:\Users\YUNUS EMRE GÖKALP\.gemini\antigravity\brain\ffc9730b-8c59-4361-801d-ffd3e0e53012\`:
+- `ref_style.css` (The exact 332-line stylesheet of the reference app)
+- `ref_giris.html` & `ref_giris.png` (The exact login screen of the reference app)
+- `ref_inside.html`, `ref_inside_1.png`, `ref_page_satis.png`, `ref_page_cariler.png`, `ref_page_banka.png`, `ref_page_raporlar.png` (The exact inner pages of the reference app)
+
+### Key Visual Rules from the Reference App (`ref_style.css`):
+1. **Typography — Pure `Inter` Everywhere (ZERO Monospace / ZERO Slashed Zeros!)**:
+   - Remove `JetBrains Mono` and `Hanken Grotesk` completely from body, cards, tables, and numbers!
+   - Use ONLY `"Inter", "Segoe UI", system-ui, -apple-system, sans-serif` (`14px/1.5`, `font-feature-settings: "tnum" 1, "cv11" 1`) across the entire app, including all `font-mono` classes (override `.font-mono` and `.font-display` in CSS to use `"Inter", system-ui, sans-serif` with `font-variant-numeric: tabular-nums` so numbers align cleanly without looking like a terminal!).
+2. **Color & Surface Tokens (`ref_style.css` `:root` and `:root[data-tema="koyu"]`)**:
+   - `--zemin: #f3f5f8` (main background)
+   - `--kart: #ffffff`, `--cizgi: #e3e8ee`, `--cizgi-2: #eef1f5`, `--r: 10px` (`border-radius: 10px`), `--golge: 0 1px 2px rgba(16, 24, 40, .05), 0 1px 3px rgba(16, 24, 40, .06)`
+   - `--yazi: #172231`, `--yazi-2: #4a5768`, `--soluk: #7a8796`
+   - `--ana: #1d4ed8` (Royal Blue primary action button & link color), `--ana-koyu: #1e3a8a`, `--ana-acik: #eef3ff`
+   - `--yan: #0f1b2d` (Sidebar background), `--yan-2: #16263d`, `--yan-yazi: #b6c2d3`
+   - `--yesil: #15803d`, `--yesil-acik: #e8f6ee` (positive amounts `.arti` and green pills)
+   - `--kirmizi: #c2410c`, `--kirmizi-koyu: #b42318`, `--kirmizi-acik: #fdeee8` (negative amounts `.eksi` and red pills)
+   - Support dark mode toggle (`data-tema="koyu"`) via a moon button in the sidebar footer!
+3. **Eliminate the Top Header Bar & Bottom Status Ticker Bar**:
+   - **NO horizontal top header bar!** Hide or remove the top `<header>` bar clutter; move the search bar (`Ara veya komut… Ctrl K`) directly into the top of the left sidebar (`aside`) right below the logo, exactly like `ref_inside.html`!
+   - **NO bottom dark ticker bar!** Remove/hide the fixed bottom status bar (`Brosan Cloud ERP • TDHP Uyumlu... TCMB Kurlar...`) and remove automatic startup toast popups (`Başarıyla giriş yapıldı...`).
+   - Keep `#global-search-input` in the sidebar search box (or modal) so any existing JS search bindings still work seamlessly.
+4. **Exact Login Screen (`#auth-lockscreen` matching `ref_giris.html` & `ref_giris.png`)**:
+   - Background: `radial-gradient(1200px 600px at 10% -10%, #1d3a66 0%, transparent 60%), linear-gradient(160deg, #0b1626, #13243b)`
+   - Card: `width: 100%; max-width: 380px; background: #fff; border-radius: 16px; padding: 30px 28px; box-shadow: 0 24px 60px rgba(0, 0, 0, .35);`
+   - Header inside card: Left-aligned horizontal flex `.logo` with `42x42px` rounded `11px` blue gradient icon (`linear-gradient(135deg, #3b82f6, #1d4ed8)`) `B` + `Brosan Muhasebe` (`17px bold #172231`) and `Brosan Tekstil San. ve Dış Tic. Ltd. Şti.` (`12.5px #7a8796`).
+   - Remove "Sovereign Citadel v2.0", "12+ Karakter", "Bcrypt & JWT 256-bit", "Brute-Force Kalkanı", and copyright clutter from the login card! Keep only `Kullanıcı adı`, `Şifre`, and the clean full-width `#1d4ed8` blue `Giriş yap` button (plus a subtle link/button for quick unlock if needed by tests).
+5. **Exact Left Sidebar (`aside` matching `ref_inside.html` & `ref_style.css`)**:
+   - Width: `236px`, background `#0f1b2d`, text `#b6c2d3`.
+   - Logo: `34x34px` rounded `9px` blue gradient (`linear-gradient(135deg, #3b82f6, #1d4ed8)`) `B` + `BROSAN` (`15px bold #fff`) and `Muhasebe` (`11.5px #8496ad`). Remove the "ENTERPRISE" badge!
+   - Search box right below logo inside sidebar: `.ara-dugme` (`background: #16263d; border: 1px solid #22324d; color: #8496ad; padding: 7px 10px; border-radius: 8px;`) containing `#global-search-input` and `<kbd>Ctrl K</kbd>`.
+   - Navigation items (`.nav-item`): Clean `7px 12px` padding, `border-radius: 8px`, `14px` Inter font, `#b6c2d3` text. Active state: `background: #1f3352; color: #fff; box-shadow: inset 3px 0 0 #60a5fa;` with `#60a5fa` icon color!
+   - Remove ALL badge clutter from sidebar items (hide `#badge-sales-count`, `#badge-exports-count`, `#sidebar-doc-count-badge` visually with `hidden` class so DOM IDs remain for any JS that sets `.textContent`, while keeping the sidebar visually 100% clean like `ref_inside_1.png`!).
+   - Sidebar Footer (`.alt`): Single clean row with `30x30px` round avatar (`#233a5c` bg, `#93c5fd` text `E`), `Emre` / `Yönetici`, moon theme toggle button, and `Çıkış` button (`border: 1px solid #2a3d5a; padding: 4px 9px; font-size: 12px; border-radius: 8px;`), plus a single line below: green dot + `Bağlı · veritabanı`. Remove "GİB & TDHP Durumu v4.8 Canlı" and the big "Mevzuat / Çıkış Yap" buttons!
+6. **Main Content Area (`main`) & Dashboard (`#view-dashboard`) & All 14 Modules**:
+   - Main container: `padding: 26px 32px 64px; max-width: 1500px; background: var(--zemin);`
+   - Page Headers: Replace ALL-CAPS breadcrumbs (`KURUMSAL FİNANS / TDHP GENEL MUHASEBE...`) with the reference app's clean header style:
+     - On Dashboard (`#view-dashboard`): `<h1>İyi akşamlar, Emre <span class="sag">...</span></h1>` and `.alt-baslik` (`BROSAN TEKSTİL SANAYİ VE DIŞ TİCARET LİMİTED ŞİRKETİ · 13 Ekim 2026 Salı`).
+     - On all other modules: Clean `23px bold` `<h1>Modül Adı</h1>` with clean white outline secondary buttons and a single `#1d4ed8` blue primary CTA button on the right!
+   - Dashboard Layout (`#view-dashboard`):
+     - Top 5 summary `.kart` cards in `.kartlar` grid (matching `ref_inside_1.png`: soft `30x30px` rounded-8px icon square + sentence-case title `Banka + kasa`, `Alacaklarımız`, `Borçlarımız`, `İhracat & İBKB`, `Fason & Kumaş Mahsubu`; big `22px bold` Inter value; subtle `12px` `.alt` subtitle). Remove the heavy dark navy banner block from the middle of the dashboard!
+     - `Dikkat edilecekler` section (`.dikkat` grid with `.dikkat-oge` cards featuring `3px` left border in red, amber, green, or blue — e.g., TCMB İBKB 12 gün kaldı, Faruk Aytin +$784,60 Avans mutabık, 509 Dijital Evrak Kasası, Vadesi yaklaşan çekler).
+     - Quick Action tiles (`.hizli` 6-column grid with white cards, blue icons, and labels: `Satış faturası`, `Gider / Fiş`, `Tahsilat`, `Çek girişi`, `Evrak kasası`, `İhracat & İBKB`).
+     - Clean Segmented Tabs (`.sekmeler` pill container) and clean `.tablo` tables with soft pill `.rozet` badges (`border-radius: 999px`) across all 14 views!
+
+## Requirements
+
+### R1. Exact Visual & CSS Architecture Alignment (`ref_style.css`)
+Embed the complete CSS token and component architecture from `ref_style.css` into `app/index.html` (including `:root` light theme, `:root[data-tema="koyu"]` dark theme, `#yan` sidebar, `.giris-kart` login card, `.kartlar` / `.kart` KPI cards, `.dikkat` / `.dikkat-oge` alert strips, `.hizli` quick-action tiles, `.sekmeler` segmented pill tabs, `.tablo` tables, and `.rozet` rounded-pill badges). Enforce pure `Inter` font with `tabular-nums` everywhere (eliminating `JetBrains Mono` and `Hanken Grotesk` visual rendering).
+
+### R2. Login Gate, Sidebar Shell & Elimination of Top/Bottom Bars
+- Redesign `#auth-lockscreen` to match `ref_giris.html` / `ref_giris.png` (radial navy backdrop, `380px` white `16px`-radius card, left-aligned `42x42px` blue gradient `B` logo + `Brosan Muhasebe` / `Brosan Tekstil San. ve Dış Tic. Ltd. Şti.`, clean `Kullanıcı adı` and `Şifre` inputs, and full-width `#1d4ed8` `Giriş yap` button).
+- Redesign the left `<aside>` to match `#yan` in `ref_inside.html` (`236px` `#0f1b2d` sidebar, `34x34px` blue `B` logo + `BROSAN` / `Muhasebe`, embedded `.ara-dugme` search bar with `Ctrl K`, clean SVG/icon nav links with `#1f3352` + `#60a5fa` inset bar active state, no visible row badges, and compact `.alt` footer with `Emre` / `Yönetici`, moon dark-mode toggle, `Çıkış`, and `Bağlı · veritabanı`).
+- Remove the horizontal top `<header>` bar and the fixed bottom dark ticker bar so `<main>` starts directly at the top of the viewport with generous `26px 32px` padding on `#f3f5f8`.
+
+### R3. Dashboard & All 14 Module Views Overhaul in Reference App Style
+- Restructure `#view-dashboard` to match `ref_inside_1.png` (`İyi akşamlar, Emre` header + `+ Satış faturası` blue button, 5 `.kart` KPI cards with soft icon squares, `Dikkat edilecekler` `.dikkat-oge` strip, `.hizli` 6-tile quick actions, and clean `.tablo` / `.sekmeler` sections).
+- Restructure all remaining 13 module views (`#view-ledger`, `#view-sales`, `#view-exports`, `#view-documents`, `#view-expenses`, `#view-contacts`, `#view-banking`, `#view-checks`, `#view-payroll`, `#view-edonusum`, `#view-mutabakat`, `#view-inventory`, `#view-reports`, `#view-settings`) and all 17 modals to use clean sentence-case `h1` headers, `.sekmeler` segmented tabs, `.filtre` search/select bars, `.surukle` dashed dropzones (where applicable), `.tablo` tables, and `.rozet` pill badges, eliminating all heavy dark banners, ALL-CAPS breadcrumbs, and boxed monospace badges.
+
+### R4. Zero Data or Test Regression & Live Coolify Deployment
+- Preserve 100% of DOM IDs, JS functions (`BROSAN_ERP`, `window.BrosanAuth`, `switchView`, `openModal`, `documents-data.js` 509+ documents, Faruk Aytin reconciliation data, Ben Ellis İBKB data), and pass `node tests/test-auth-unit.js`, `node tests/e2e/run-all-tests.js`, and `node tests/run-all-tests.js` 100%.
+- Deploy the updated container to Coolify (`173.249.23.10` / `https://brosangroup.com/muhasebe/`) and verify live with Playwright screenshots.
+
+## Acceptance Criteria
+
+- [ ] Font family rendered on `body`, headings, cards, tables, and numbers is `Inter` (with `tabular-nums`), with zero `JetBrains Mono` slashed-zero rendering.
+- [ ] No horizontal top `<header>` bar or bottom fixed ticker bar is visible; search (`Ctrl K`) and user profile (`Emre` / `Yönetici` + theme toggle + `Çıkış` + `Bağlı · veritabanı`) live inside the `236px` `#0f1b2d` left sidebar (`#yan`).
+- [ ] `#auth-lockscreen` matches `ref_giris.png` (`380px` white card, `42x42px` blue `B` logo, `Brosan Muhasebe`, `Kullanıcı adı`, `Şifre`, `#1d4ed8` `Giriş yap` button, zero cyber-jargon badges).
+- [ ] `#view-dashboard` matches `ref_inside_1.png` (`İyi akşamlar, Emre` header, `.kartlar` 5 KPI cards with `30x30px` `.ikon` squares, `Dikkat edilecekler` `.dikkat-oge` strip, `.hizli` quick-action tiles, and clean tables).
+- [ ] All 14 modules and 17 modals use `#f3f5f8` canvas, `#ffffff` `10px`-radius cards, `#1d4ed8` royal blue primary buttons, `.sekmeler` pill tabs, and `.rozet` rounded-pill badges.
+- [ ] `node tests/test-auth-unit.js`, `node tests/e2e/run-all-tests.js`, and `node tests/run-all-tests.js` pass 100% with 0 failures.
+- [ ] Live deployment at `https://brosangroup.com/muhasebe/` serves the new interface (HTTP 200) with 0 console/network errors.

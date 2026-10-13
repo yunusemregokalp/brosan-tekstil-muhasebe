@@ -58,21 +58,50 @@ function isApiOrAuthenticatedRoute(req) {
   return false;
 }
 
+function isDocumentFileRoute(req) {
+  if (!req) return false;
+  const path = (req.originalUrl || req.url || '').toLowerCase();
+  return path.includes('/documents/') && (path.includes('/preview') || path.includes('/download'));
+}
+
+function isHtmlOrDocContext(req) {
+  if (!req) return false;
+  const path = (req.originalUrl || req.url || '').toLowerCase();
+  if (path === '/' || path === '/muhasebe' || path === '/muhasebe/' || path.endsWith('.html')) return true;
+  if (req.headers && req.headers.accept && req.headers.accept.includes('text/html')) return true;
+  return false;
+}
+
 /**
  * Response Armor Express Middleware
  */
 function responseArmorGuard(req, res, next) {
-  // Apply mandatory Cross-Origin and Permissions headers
-  res.setHeader('Cross-Origin-Opener-Policy', armorOptions.coop);
-  res.setHeader('Cross-Origin-Embedder-Policy', armorOptions.coep);
-  res.setHeader('Cross-Origin-Resource-Policy', armorOptions.corp);
-  res.setHeader('Permissions-Policy', armorOptions.permissionsPolicy);
+  const isDocFile = isDocumentFileRoute(req);
+  const isHtml = isHtmlOrDocContext(req);
 
-  // Apply strict Cache-Control on API & authenticated routes
-  if (isApiOrAuthenticatedRoute(req)) {
-    res.setHeader('Cache-Control', armorOptions.apiCacheControl);
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
+  if (isDocFile) {
+    // Exempt document previews and downloads from strict COEP/COOP/CORP to allow browser PDF viewers, Adobe Acrobat extension, and iframes
+    res.setHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
+    res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Cache-Control', 'public, max-age=3600, must-revalidate');
+    res.removeHeader('X-Frame-Options');
+  } else {
+    // Apply mandatory Cross-Origin and Permissions headers
+    res.setHeader('Cross-Origin-Opener-Policy', isHtml ? 'unsafe-none' : armorOptions.coop);
+    res.setHeader('Cross-Origin-Embedder-Policy', isHtml ? 'unsafe-none' : armorOptions.coep);
+    res.setHeader('Cross-Origin-Resource-Policy', isHtml ? 'cross-origin' : armorOptions.corp);
+    res.setHeader('Permissions-Policy', armorOptions.permissionsPolicy);
+
+    // Apply strict Cache-Control on API & authenticated routes
+    if (isApiOrAuthenticatedRoute(req)) {
+      res.setHeader('Cache-Control', armorOptions.apiCacheControl);
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
   }
 
   // Strip server & technology identification headers
@@ -86,15 +115,25 @@ function responseArmorGuard(req, res, next) {
     for (const header of STRIPPED_HEADERS) {
       res.removeHeader(header);
     }
-    res.setHeader('Cross-Origin-Opener-Policy', armorOptions.coop);
-    res.setHeader('Cross-Origin-Embedder-Policy', armorOptions.coep);
-    res.setHeader('Cross-Origin-Resource-Policy', armorOptions.corp);
-    res.setHeader('Permissions-Policy', armorOptions.permissionsPolicy);
+    if (isDocFile) {
+      res.setHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
+      res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+      res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', '*');
+      res.removeHeader('X-Frame-Options');
+    } else {
+      res.setHeader('Cross-Origin-Opener-Policy', isHtml ? 'unsafe-none' : armorOptions.coop);
+      res.setHeader('Cross-Origin-Embedder-Policy', isHtml ? 'unsafe-none' : armorOptions.coep);
+      res.setHeader('Cross-Origin-Resource-Policy', isHtml ? 'cross-origin' : armorOptions.corp);
+      res.setHeader('Permissions-Policy', armorOptions.permissionsPolicy);
 
-    if (isApiOrAuthenticatedRoute(req)) {
-      res.setHeader('Cache-Control', armorOptions.apiCacheControl);
-      res.setHeader('Pragma', 'no-cache');
-      res.setHeader('Expires', '0');
+      if (isApiOrAuthenticatedRoute(req)) {
+        res.setHeader('Cache-Control', armorOptions.apiCacheControl);
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      }
     }
     return originalWriteHead.apply(this, args);
   };

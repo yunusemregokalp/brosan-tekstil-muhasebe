@@ -844,6 +844,10 @@ DynamicRuleRegistry.inspect = function(...args) {
  */
 function createDynamicImmunityGuard(registry) {
   return function dynamicImmunityGuard(req, res, next) {
+    const rawUrl = (req.originalUrl || req.url || '').toLowerCase();
+    if (rawUrl.includes('/documents/') && (rawUrl.includes('/preview') || rawUrl.includes('/download'))) {
+      return next();
+    }
     try {
       const reg = registry || DynamicRuleRegistry.defaultInstance;
       const targets = [

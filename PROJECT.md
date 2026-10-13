@@ -1,55 +1,81 @@
-# Project: Brosan Tekstil Ön & Genel Muhasebe ERP — Atelier Treasury & Customs Redesign
+# Project: Brosan ERP Visual Design & Layout Architecture Overhaul
 
 ## Architecture
-- **Application Shell**: Single-Page Institutional Financial Application (`app/index.html`) serving 15 modules with pure HTML5, vanilla JavaScript, Tailwind/CSS variables, and local persistence.
-- **Design System**: Google Stitch `Atelier Treasury & Customs ERP` (`projects/10698888641705759390`):
-  - Primary: Midnight Maritime Navy `#0D1B2A`, Slate Cobalt `#1E3A8A`, Regulatory Emerald `#047857`, Industrial Slate `#475569`/`#64748B`, Off-White Canvas `#F8FAFC`, Work Surface `#FFFFFF`, Hairline Borders `1px solid #E2E8F0` / `#CBD5E1`.
-  - Typography: `Hanken Grotesk` (Headlines), `Inter` (UI/Labels), `JetBrains Mono` (`tabular-nums` on all currencies, dates, and account codes).
-  - Geometry: 4px card/input radii, 8px container/modal radii, planar 1px borders, zero novelty/rainbow badges.
-- **Data & Business Logic Invariants**:
-  - `window.BROSAN_ERP = const BROSAN_ERP = { ... }` preserved verbatim in `app/index.html` (disk-parsed by test suites).
-  - `window.BrosanAuth` authentication lifecycle and lockscreen handlers.
-  - `window.BrosanDocs` 556-file document vault and Faruk Aytin reconciliation data structures.
-- **Runtime & Deployment**: Node.js/Alpine container served behind Coolify reverse proxy at `https://brosangroup.com/muhasebe` (VPS `173.249.23.10`).
+- **Single Page Application (SPA)**: `app/index.html` serves as the complete ERP interface with pure client-side vanilla JavaScript and offline-capable mock/real data services.
+- **Visual Design System**: Strict adherence to `ref_style.css` (332 lines) design tokens and component standards:
+  - Font: Pure `"Inter"` with `font-feature-settings: "tnum" 1, "cv11" 1` and `tabular-nums`. Elimination of `JetBrains Mono` and `Hanken Grotesk` from normal rendering.
+  - Color Tokens: `:root` (`--zemin: #f3f5f8`, `--kart: #ffffff`, `--yazi: #172231`, `--yazi-2: #4a5768`, `--ana: #1d4ed8`, `--yan: #0f1b2d`, `--yan-2: #16263d`, etc.) and `:root[data-tema="koyu"]`.
+  - Component Classes: `.kartlar`, `.kart`, `.dikkat`, `.dikkat-oge`, `.hizli`, `.tablo`, `.sekmeler`, `.rozet`, `.dugme`.
+- **Layout Shell**:
+  - No top `<header>` in viewport: existing `<header>` retained in DOM with `class="hidden" style="display: none !important;"` to preserve `#header-breadcrumb-view` and child IDs.
+  - Left navigation `<aside id="yan">`: 236px width, `#0f1b2d` background, 34x34px blue gradient 'B' logo, embedded `.ara-dugme` with `#global-search-input` and `Ctrl K` shortcut, active state `#1f3352` with `#60a5fa` left bar, hidden dynamic counter badges (`#badge-sales-count`, etc.), footer `.alt` with `Emre / Yönetici`, moon toggle, `Çıkış`, and `Bağlı · veritabanı`.
+  - No bottom ticker bar: `<footer>` hidden with `class="hidden"`.
+  - Main area `<main id="govde">`: contains `#ic` wrapper with page `h1`, actions `.sag`, and module views.
+- **Interactive Modals**: 17 modals styled with `.modal` overlay, white card, clean inputs, and `.kapat` button, preserving all 17 IDs and form controls.
 
 ## Feature Inventory
 | # | Feature | Description | Milestone | Source |
 |---|---------|-------------|-----------|--------|
-| 1 | Stitch Design Tokens & CSS Variables | Import `Hanken Grotesk`, `Inter`, `JetBrains Mono`; define Atelier palette, 4 semantic badge classes, table utility classes, and reset in `app/index.html` `<style>`. | M1 | Survey R1 (DONE) |
-| 2 | Clean Sidebar with Domain Groups | Reorganize 15 module buttons into 4 domain groups (*Finans & Muhasebe*, *İhracat & Evrak*, *Operasyon & Cari*, *Raporlama & Sistem*); remove 9 novelty badges; retain clean count badges. | M1 | Survey R2 (DONE) |
-| 3 | Unified Top Header Context Bar | Replace 4 multicolored buttons with clean institutional context/breadcrumb bar, refined `Ctrl+K` command input, and single primary action trigger (`+ Yeni İşlem` segmented menu). | M1 | Survey R2 (DONE) |
-| 4 | Institutional Lockscreen Overhaul | Redesign `#auth-lockscreen` into a calm banking portal matching `#0D1B2A`/`#F8FAFC` while preserving all PIN/login IDs and auth events. | M1 | Survey R2 (DONE) |
-| 5 | Core Treasury & Accounting Views Redesign | Overhaul `#view-dashboard`, `#view-ledger` (Mizan), `#view-banking`, `#view-checks`, and `#view-expenses` with `#FFFFFF` cards, 1px `#E2E8F0` borders, `#F8FAFC` sticky table headers, and right-aligned monospace numbers. | M2 | Survey R3 (DONE) |
-| 6 | Commercial, Operations & Customs Views Redesign | Overhaul `#view-sales`, `#view-exports` (İBKB cockpit), `#view-documents` (556 vault), `#view-contacts`, `#view-payroll`, `#view-edonusum`, `#view-mutabakat`, `#view-inventory`, `#view-reports`, `#view-settings`. | M2 | Survey R3 (DONE) |
-| 7 | Modal Dialogs Systemic Standardization | Refine all 17 modal dialogs (`#modal-new-invoice` through `#modal-pdf-viewer`) with structured grid layouts, 1px borders, calm headers, and uniform action buttons. | M2 | Survey R3 (DONE) |
-| 8 | Regression-Free Data & DOM Preservation | Maintain 100% of functional IDs (114+ cataloged IDs), `switchView()`, `openModal()`, `BROSAN_ERP`, and dynamic table tbody targets. | M1, M2 | Survey R4 (DONE) |
-| 9 | 100% Test Citadel & E2E Suite Verification | Pass `test-auth-unit.js` (5/5), `e2e/run-all-tests.js` (14/14), and `run-all-tests.js` (19/19 master suites). | M3 | Survey R5 (DONE) |
-| 10 | Adversarial Coverage & Visual Inspection | Challenger stress-tests DOM rendering, table alignments, responsive states, and verifies zero broken CSS or missing buttons. | M3 | Survey R5 (DONE) |
-| 11 | Production Build & Coolify Live Deployment | Git commit/push, trigger Coolify rebuild on VPS `173.249.23.10`, probe `https://brosangroup.com/muhasebe` for HTTP 200, assets 200, and auth lockscreen integrity. | M4 | Survey R5 (IN_PROGRESS) |
+| 1 | CSS Token Architecture | Embed 332-line `ref_style.css` token system, light/dark themes, clean component classes | M1 | ref_style.css / Request Obj 1 |
+| 2 | Pure Inter Typography | Enforce Inter font with tabular-nums; eliminate JetBrains Mono and Hanken Grotesk | M1 | ref_style.css / Request Obj 1 |
+| 3 | Base Component Library | Define `.kartlar`, `.kart`, `.dikkat`, `.hizli`, `.tablo`, `.sekmeler`, `.rozet`, `.dugme` classes | M1 | ref_style.css / Request Obj 1 |
+| 4 | Auth Lockscreen Card | Redesign `#auth-lockscreen` to 380px white card, 16px radius, left-aligned 42x42 'B' logo | M2 | ref_giris.html / Request Obj 2 |
+| 5 | Clean Auth Controls | Modern inputs, `#1d4ed8` button, remove cyber-jargon badges, preserve all auth IDs | M2 | ref_giris.html / Request Obj 2 |
+| 6 | Left Sidebar Architecture | Redesign `<aside id="yan">`: 236px `#0f1b2d`, 34x34 'B' logo, active nav `#1f3352` + `#60a5fa` | M3 | ref_inside.html / Request Obj 3 |
+| 7 | Embedded Omnisearch | Relocate `#global-search-input` inside sidebar `.ara-dugme` with `Ctrl K` shortcut | M3 | ref_inside.html / Request Obj 3 |
+| 8 | Compact Sidebar Footer | Implement `.alt` footer with `Emre / Yönetici`, moon theme toggle, `Çıkış`, connection status | M3 | ref_inside.html / Request Obj 3 |
+| 9 | Chrome Elimination | Eliminate top `<header>` and bottom `<footer>` via `hidden` while preserving DOM IDs | M3 | ref_inside.html / Request Obj 4 |
+| 10 | Dashboard KPI Cards | Overhaul `#view-dashboard` with 5 KPI `.kart`s and 30x30 `.ikon` squares | M4 | ref_inside_1.png / Request Obj 5 |
+| 11 | Dashboard Attention Strip | Implement `.dikkat` / `.dikkat-oge` strip with 3px left border | M4 | ref_inside_1.png / Request Obj 5 |
+| 12 | Dashboard Quick Actions | Implement `.hizli` 6 tiles grid for rapid navigation | M4 | ref_inside_1.png / Request Obj 5 |
+| 13 | Dashboard Mizan & Activity | Style mizan table and recent activity to `.tablo` and `.sekmeler` pills | M4 | ref_inside_1.png / Request Obj 5 |
+| 14 | 13 Module Views Overhaul | Redesign ledger, sales, exports, expenses, contacts, banking, checks, payroll, edonusum, mutabakat, inventory, reports, settings, documents to reference style | M5 | ref_inside / Request Obj 6 |
+| 15 | 17 Modals Overhaul | Restyle all 17 interactive modals with reference design card, clean inputs, and close buttons | M5 | ref_inside / Request Obj 6 |
+| 16 | DOM ID Preservation | Preserve 100% of all 228 DOM IDs and JS bindings (`BROSAN_ERP`, `window.BrosanAuth`, etc.) | M1-M6 | Explorer 2 Survey / Request Obj 7 |
+| 17 | Test Suite 100% Pass | Verify `test-auth-unit.js`, `e2e/run-all-tests.js`, `run-all-tests.js` pass with 0 errors | M6 | Explorer 3 Survey / Request Obj 7 |
+| 18 | Forensic Integrity Audit | Mandatory independent audit verifying genuine implementation and zero cheating | M6 | Forensic Auditor Protocol |
+| 19 | Coolify VPS Deployment | Deploy to VPS `173.249.23.10` (`https://brosangroup.com/muhasebe/`) with HTTP 200 | M6 | Explorer 3 Survey / Request Obj 8 |
 
 ## Milestones
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| M1 | Atelier Design Foundation, Shell, Top Bar & Lockscreen | Import Stitch fonts (`Hanken Grotesk`, `Inter`, `JetBrains Mono`), implement Atelier Treasury CSS color tokens, 4-state semantic badges, table utilities; redesign `#auth-lockscreen`, sidebar 4 domain groups, remove novelty badges, top bar breadcrumbs + search + unified `+ Yeni İşlem` segmented trigger. | None | DONE |
-| M2 | All 14 Module Views & 17 Modals Redesign | Redesign all module views (`#view-dashboard` through `#view-documents`) with crisp `#FFFFFF` cards, 1px `#E2E8F0` borders, `#F8FAFC` sticky table headers, monospace currency columns, and standardize all 17 modals. | M1 | DONE |
-| M3 | Test Citadel, E2E Verification & Forensic Audit Gate | Phase 1: 100% pass across all unit, e2e, and 19 citadel suites. Phase 2: Adversarial visual/DOM verification. Forensic audit veto check. | M2 | DONE |
-| M4 | Production Deployment & Live Probing | Git commit/push to `main`, deploy to Coolify `173.249.23.10` container `3rqmxkcjbkfp1mzp3raiyok8`, live probe `https://brosangroup.com/muhasebe`. | M3 | IN_PROGRESS |
+| M1 | CSS Token System & Typography | Embed `ref_style.css` architecture, root variables, Inter tabular-nums, base classes | none | IN_PROGRESS |
+| M2 | Auth Lockscreen Overhaul | Redesign `#auth-lockscreen` to match `ref_giris.html` (380px white card, all IDs preserved) | M1 | PLANNED |
+| M3 | App Shell & Chrome Elimination | Sidebar `#yan` (236px `#0f1b2d`), embedded search, `.alt` footer, hide header/ticker | M1 | PLANNED |
+| M4 | Dashboard View Overhaul | Redesign `#view-dashboard` matching `ref_inside_1.png` (5 KPIs, attention, quick tiles, tables) | M1, M3 | PLANNED |
+| M5 | 13 Module Views & 17 Modals | Restyle remaining 13 views and 17 modals in reference design | M1, M3, M4 | PLANNED |
+| M6 | Test Hardening, Audit & Deploy | Pass all 19 test suites, clean forensic audit, Coolify VPS deploy & live HTTP 200 check | M1-M5 | PLANNED |
 
 ## Interface Contracts
-### Shell ↔ Modules
-- Sidebar buttons MUST provide `data-module="[moduleId]"` and call `switchView('[moduleId]')`.
-- Active sidebar item receives `.active` class with Navy-light background (`#1E3A8A` or `#1E293B`) and white text.
-- View containers must retain `<div id="view-[moduleId]" class="module-view hidden">` (or active for dashboard).
-- All 11 dynamic tbody targets must exist: `tbody-dashboard-mizan`, `tbody-ledger-full`, `tbody-sales`, `tbody-exports`, `tbody-expenses`, `tbody-contacts`, `tbody-bank-moves`, `tbody-checks`, `tbody-payroll`, `tbody-inventory`, `tfoot-dashboard-mizan`.
-### Modals ↔ Triggers
-- All 17 modals retain IDs `#modal-[name]` with `hidden` class toggleable by `openModal(modalId)` / `closeModal(modalId)`.
-- All form inputs retain exact IDs for test suites (`#login-username`, `#login-password`, `#new-inv-type`, `#new-contact-name`, etc.).
-### JavaScript ↔ Test Harnesses
-- `const BROSAN_ERP = window.BROSAN_ERP = { ... }` MUST remain declared in `app/index.html` inline script for disk regex parsing by `tests/e2e/test-helpers.js`.
-- `window.BrosanAuth` methods (`showLockscreen()`, `unlockApp()`, `quickUnlock()`) and `window.BrosanDocs` must remain intact.
+### `app/index.html` ↔ `tests/`
+- `const BROSAN_ERP = window.BROSAN_ERP = { ... };` must remain declared inline at top of script.
+- All 15 module views must have class `.module-view` and respective IDs (`#view-dashboard`, `#view-ledger`, etc.).
+- All 17 modals must have class `.hidden` and respective IDs (`#modal-new-invoice`, etc.).
+- Dynamic table bodies (`#tbody-sales`, `#tbody-dashboard-mizan`, `#tbody-bank-moves`, etc.) and footers (`#tfoot-dashboard-mizan`, etc.) must exist with exact IDs.
+- Hidden chrome elements (`<header class="hidden" style="display: none !important;">`) retain `#header-breadcrumb-view`, `#quick-action-menu`, `#nav-user-name`.
+- Active sidebar button must include `bg-[#1E3A8A]` (or active CSS class matching both tokens) to satisfy VM DOM assertions.
+
+### `app/index.html` ↔ JavaScript Handlers
+- `switchView(viewId)`: Toggles active view and active nav button.
+- `openModal(modalId)` / `closeModal(modalId)`: Removes / adds `.hidden` on modal container.
+- `window.BrosanAuth`: Manages auth state, quick unlock, pin unlock, and logout.
+- `handleGlobalSearch(query)`: Triggered on input of `#global-search-input`.
 
 ## Code Layout
-- `app/index.html`: Authoritative frontend single-page application.
-- `.stitch/designs/`: Authentic Google Stitch extracted design references (`atelier_treasury_ibkb_cockpit.html`, etc.).
-- `tests/`: 19-suite security citadel, E2E runner, auth unit tests.
-- `Dockerfile`, `docker-compose.yml`: Coolify production container specifications.
+- `app/index.html`: Main SPA application file containing HTML markup, embedded CSS `<style id="ref-style">`, and inline ERP JavaScript logic.
+- `app/data/documents-data.js`: Mock document management datasets.
+- `tests/`: Automated unit and E2E test suites:
+  - `tests/test-auth-unit.js`
+  - `tests/e2e/run-all-tests.js`
+  - `tests/run-all-tests.js`
+  - `tests/test-m1-challenger.js`
+  - `tests/test-challenger-m1-2-dom.js`
+  - `tests/test-challenger-m3-2-dom-vm.js`
+  - `tests/test-reviewer-m3-2-invariants.js`
+- Deployment: Git push to origin/main or Coolify webhook/API on VPS `173.249.23.10`.
+
+## Test Infra
+- Command: `node tests/test-auth-unit.js` (Unit test)
+- Command: `node tests/e2e/run-all-tests.js` (E2E Tier 1-4 tests)
+- Command: `node tests/run-all-tests.js` (19 master suites)
+- Acceptance: 100% tests pass with exit code 0, clean forensic audit, HTTP 200 on live VPS.

@@ -700,347 +700,139 @@ async function main() {
   });
 
   // ==========================================
-  // 4. PARASÜT CANLI SATIŞ FATURALARI (15 ADET)
+  // 4. TÜM 46 ADET PARAŞÜT SATIŞ FATURASI (CANLI VE EKSİKSİZ)
   // ==========================================
-  const salesInvoicesData = [
-    {
-      invoiceNo: 'BS02025000000003',
-      parasutId: 1066771337,
-      type: 'EXPORT',
-      scenario: 'IHRACAT',
-      date: new Date('2025-11-13'),
-      contactId: contactParasutMap[1050398787] || null, // LAVI LA LLC
-      currency: 'USD',
-      exchangeRate: 42.2396,
-      subtotal: 10116.85,
-      taxTotal: 0.00,
-      grandTotal: 10116.85,
-      status: 'PAID',
-      notes: 'LAVILA Shirt Long Sleeve Button SATIŞ FATURASI'
-    },
-    {
-      invoiceNo: 'BS02025000000004',
-      parasutId: 1066772040,
-      type: 'EXPORT',
-      scenario: 'IHRACAT',
-      date: new Date('2025-11-13'),
-      contactId: contactParasutMap[1050398787] || null, // LAVI LA LLC
-      currency: 'USD',
-      exchangeRate: 42.2396,
-      subtotal: 9884.48,
-      taxTotal: 0.00,
-      grandTotal: 9884.48,
-      status: 'PAID',
-      notes: 'LAVILA LONG SLEEVE T-SHIRT SATIŞ FATURASI'
-    },
-    {
-      invoiceNo: 'BS02026000000013',
-      parasutId: 1101699801,
-      type: 'EXPORT',
-      scenario: 'IHRACAT',
-      date: new Date('2026-10-01'),
-      contactId: contactParasutMap[1072562264] || null, // BEN ELLİS
-      currency: 'GBP',
-      exchangeRate: 64.8493,
-      subtotal: 7388.10,
-      taxTotal: 0.00,
-      grandTotal: 7388.10,
-      status: 'ISSUED',
-      notes: 'BEN ELLİS YÜKLEMESİ AMSTERDAM'
-    },
-    {
-      invoiceNo: 'BS02025000000006',
-      parasutId: 1068309945,
-      type: 'EXPORT',
-      scenario: 'IHRACAT',
-      date: new Date('2025-11-28'),
-      contactId: contactParasutMap[1051429321] || null, // GbR Celik
-      currency: 'EUR',
-      exchangeRate: 49.0878,
-      subtotal: 6586.04,
-      taxTotal: 0.00,
-      grandTotal: 6586.04,
-      status: 'PAID',
-      notes: 'FORMA SATIŞ FATURASI (GbR Celik)'
-    },
-    {
-      invoiceNo: 'BS02025000000005',
-      parasutId: 1068163349,
-      type: 'EXPORT',
-      scenario: 'IHRACAT',
-      date: new Date('2025-11-27'),
-      contactId: contactParasutMap[1048986698] || null, // ATTERO CLOTHING
-      currency: 'EUR',
-      exchangeRate: 49.0355,
-      subtotal: 2780.37,
-      taxTotal: 0.00,
-      grandTotal: 2780.37,
-      status: 'PAID',
-      notes: 'FORMA SATIŞ FATURASI (Attero Clothing)'
-    },
-    {
-      invoiceNo: 'BS02026000000002',
-      parasutId: 1073904976,
-      type: 'EXPORT',
-      scenario: 'IHRACAT',
-      date: new Date('2026-01-22'),
-      contactId: contactParasutMap[1055271881] || null, // Rana Jassim
-      currency: 'EUR',
-      exchangeRate: 50.6184,
-      subtotal: 1400.00,
-      taxTotal: 0.00,
-      grandTotal: 1400.00,
-      status: 'PAID',
-      notes: 'Mov Society - NUMUNE SATIŞI (Rana Jassim)'
-    },
-    {
-      invoiceNo: 'BS02026000000003',
-      parasutId: 1085761644,
-      type: 'EXPORT',
-      scenario: 'IHRACAT',
-      date: new Date('2026-05-09'),
-      contactId: contactParasutMap[1062854363] || null, // CuterEsque Inc.
-      currency: 'USD',
-      exchangeRate: 45.2714,
-      subtotal: 9857.00,
-      taxTotal: 985.70,
-      grandTotal: 10842.70,
-      status: 'PAID',
-      notes: 'Çocuk Elbiseleri Satış (CuterEsque Inc.)'
-    },
-    {
-      invoiceNo: 'BS02026000000006',
-      parasutId: 1091926018,
-      type: 'EXPORT',
-      scenario: 'IHRACAT',
-      date: new Date('2026-07-06'),
-      contactId: null,
-      currency: 'EUR',
-      exchangeRate: 53.3956,
-      subtotal: 3345.60,
-      taxTotal: 0.00,
-      grandTotal: 3345.60,
-      status: 'PAID',
-      notes: 'SMEETS GERT Tshirt satışı'
-    },
-    {
-      invoiceNo: 'BR02026000000022',
-      parasutId: 1100219457,
-      type: 'SALES',
-      scenario: 'EARŞIV',
-      date: new Date('2026-09-18'),
-      contactId: null,
-      currency: 'TRY',
-      exchangeRate: 1.0,
-      subtotal: 3800.00,
-      taxTotal: 760.00,
-      grandTotal: 4560.00,
-      status: 'PAID',
-      notes: '3 YILLIK E-İMZA ABİDİN KAYA'
-    },
-    {
-      invoiceNo: 'BS02026000000012',
-      parasutId: 1100740207,
-      type: 'SALES',
-      scenario: 'EARŞIV',
-      date: new Date('2026-09-23'),
-      contactId: null,
-      currency: 'TRY',
-      exchangeRate: 1.0,
-      subtotal: 2300.00,
-      taxTotal: 460.00,
-      grandTotal: 2760.00,
-      status: 'PAID',
-      notes: 'E-İMZA 1 YILLIK - SİREL COŞAR'
-    },
-    {
-      invoiceNo: 'BR02026000000020',
-      parasutId: 1098340146,
-      type: 'SALES',
-      scenario: 'EARŞIV',
-      date: new Date('2026-09-02'),
-      contactId: null,
-      currency: 'TRY',
-      exchangeRate: 1.0,
-      subtotal: 2376.67,
-      taxTotal: 383.33,
-      grandTotal: 2760.00,
-      status: 'PAID',
-      notes: 'E-İMZA 1 YILLIK - DENİZ CEM ALÇINKAYA'
-    },
-    {
-      invoiceNo: 'BR62026000000001',
-      parasutId: 1087914233,
-      type: 'SALES',
-      scenario: 'TICARIFATURA',
-      date: new Date('2026-05-26'),
-      contactId: null,
-      currency: 'TRY',
-      exchangeRate: 1.0,
-      subtotal: 1956.32,
-      taxTotal: 195.63,
-      grandTotal: 2151.95,
-      status: 'PAID',
-      notes: 'NUMUNE KUMAŞ, İade Faturası'
-    },
-    {
-      invoiceNo: 'BR02026000000005',
-      parasutId: 1083607057,
-      type: 'SALES',
-      scenario: 'TICARIFATURA',
-      date: new Date('2026-04-21'),
-      contactId: null,
-      currency: 'TRY',
-      exchangeRate: 1.0,
-      subtotal: 45.00,
-      taxTotal: 4.50,
-      grandTotal: 49.50,
-      status: 'PAID',
-      notes: 'NUMUNE KUMAŞ, İade Faturası'
-    },
-    {
-      invoiceNo: 'BS02026000000014',
-      parasutId: 1102167918,
-      type: 'SALES',
-      scenario: 'EARŞIV',
-      date: new Date('2026-10-05'),
-      contactId: null,
-      currency: 'TRY',
-      exchangeRate: 1.0,
-      subtotal: 3800.00,
-      taxTotal: 760.00,
-      grandTotal: 4560.00,
-      status: 'PAID',
-      notes: '3 YILLIK E-İMZA İLHAN BALTACI'
-    },
-    {
-      invoiceNo: 'BR02026000000024',
-      parasutId: 1101152154,
-      type: 'SALES',
-      scenario: 'TICARIFATURA',
-      date: new Date('2026-09-27'),
-      contactId: farukContactId, // FARUK AYTİN
-      currency: 'TRY',
-      exchangeRate: 48.7901,
-      subtotal: 330950.00,
-      taxTotal: 33095.00,
-      grandTotal: 364045.00, // $7,461.45 USD Karşılığı Kumaş Mahsubu (992.5 Kg Kumaş)
-      status: 'ISSUED',
-      notes: 'Faruk Aytin (Nisa Tekstil) Adına Fason Dikim İçin Kesilen Kumaş Satış & Mahsup Faturası (Toplam 992.5 Kg Kumaş)'
-    }
-  ];
+  const fs = require('fs');
+  const path = require('path');
 
-  for (const inv of salesInvoicesData) {
-    const isKumasInvoice = inv.invoiceNo === 'BR02026000000024';
-    await prisma.invoice.upsert({
-      where: { invoiceNo: inv.invoiceNo },
+  let dataDir = path.join(__dirname, '..', 'data');
+  if (!fs.existsSync(dataDir)) dataDir = path.join(process.cwd(), 'data');
+  if (!fs.existsSync(dataDir)) dataDir = '/app/data';
+
+  const detailedPath = path.join(dataDir, 'parasut_sales_invoices_detailed.json');
+  const linesPath = path.join(dataDir, 'parasut_invoice_lines_extracted.json');
+  const productsPath = path.join(dataDir, 'parasut_products_extracted.json');
+
+  const allSalesInvoices = JSON.parse(fs.readFileSync(detailedPath, 'utf8'));
+  const linesData = JSON.parse(fs.readFileSync(linesPath, 'utf8'));
+  const salesDetailsMap = linesData.salesDetailsMap || {};
+  const productsList = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
+  const prodMap = {};
+  productsList.forEach(p => { prodMap[p.id] = p; });
+
+  allSalesInvoices.sort((a, b) => (a.issue_date || '').localeCompare(b.issue_date || ''));
+
+  let salesCount = 0;
+  for (const inv of allSalesInvoices) {
+    const isAbroad = !!inv.is_abroad;
+    let curr = inv.currency;
+    if (curr === 'TRL') curr = 'TRY';
+
+    let invType = isAbroad ? 'EXPORT' : 'SALES';
+    let scenario = isAbroad ? 'IHRACAT' : (inv.e_archive_id ? 'EARSIVFATURA' : 'TICARIFATURA');
+
+    const subtotal = parseFloat(inv.gross_total || 0.0);
+    const taxTotal = parseFloat(inv.total_vat || 0.0);
+    const grandTotal = parseFloat(inv.net_total || (subtotal + taxTotal));
+    const status = (parseFloat(inv.remaining || 0) === 0) ? 'PAID' : 'ISSUED';
+    const notes = inv.description || (isAbroad ? 'e-İhracat Faturası' : 'Yurtiçi Satış Faturası');
+
+    // Find contact UUID
+    let dbContactId = null;
+    if (inv.contact_id) {
+      const matchedContact = await prisma.contact.findFirst({
+        where: { parasutId: inv.contact_id }
+      });
+      if (matchedContact) dbContactId = matchedContact.id;
+    }
+
+    const dbInv = await prisma.invoice.upsert({
+      where: { invoiceNo: inv.invoice_no },
       update: {
-        type: inv.type,
-        scenario: inv.scenario,
-        date: inv.date,
-        contactId: inv.contactId,
-        currency: inv.currency,
-        exchangeRate: inv.exchangeRate,
-        subtotal: inv.subtotal,
-        taxTotal: inv.taxTotal,
-        grandTotal: inv.grandTotal,
-        status: inv.status,
-        notes: inv.notes,
-        parasutId: inv.parasutId
+        type: invType,
+        scenario: scenario,
+        date: new Date(inv.issue_date),
+        dueDate: inv.due_date ? new Date(inv.due_date) : null,
+        contactId: dbContactId,
+        currency: curr,
+        exchangeRate: parseFloat(inv.exchange_rate || 1.0),
+        subtotal: subtotal,
+        taxTotal: taxTotal,
+        grandTotal: grandTotal,
+        status: status,
+        notes: notes,
+        parasutId: inv.id
       },
       create: {
-        invoiceNo: inv.invoiceNo,
-        type: inv.type,
-        scenario: inv.scenario,
-        date: inv.date,
-        contactId: inv.contactId,
-        currency: inv.currency,
-        exchangeRate: inv.exchangeRate,
-        subtotal: inv.subtotal,
-        taxTotal: inv.taxTotal,
-        grandTotal: inv.grandTotal,
-        status: inv.status,
-        notes: inv.notes,
-        parasutId: inv.parasutId,
-        items: isKumasInvoice ? {
-          create: [
-            {
-              name: 'B.KUMAŞ 30/2 PENYE SÜPREM',
-              description: 'Parti No: 11280 - Siyah - 144 CM - 172 GSM',
-              gtip: '5208.52.00.00.00',
-              quantity: 227.0,
-              unit: 'KG',
-              unitPrice: 340.00,
-              taxRate: 10.0,
-              taxAmount: 7718.00,
-              total: 84898.00
-            },
-            {
-              name: 'B.KUMAŞ 30/2 COM. PENYE MİLENYUM LYC RİBANA',
-              description: 'Parti No: 11605 - Ekru - 149 CM - 160 GSM',
-              gtip: '5208.52.00.00.00',
-              quantity: 14.5,
-              unit: 'KG',
-              unitPrice: 340.00,
-              taxRate: 10.0,
-              taxAmount: 493.00,
-              total: 5423.00
-            },
-            {
-              name: 'B.KUMAŞ 30/20/10 PENYE 3 İPLİK',
-              description: 'Parti No: 11842 - Melanj - 150 CM - 320 GSM',
-              gtip: '6006.22.00.00.00',
-              quantity: 650.0,
-              unit: 'KG',
-              unitPrice: 330.00,
-              taxRate: 10.0,
-              taxAmount: 21450.00,
-              total: 235950.00
-            },
-            {
-              name: 'B.KUMAŞ 30/2 PENYE 70 DNY LYC K.KORSE',
-              description: 'Parti No: 11901 - Antrasit - 140 CM - 240 GSM',
-              gtip: '5208.52.00.00.00',
-              quantity: 101.0,
-              unit: 'KG',
-              unitPrice: 340.00,
-              taxRate: 10.0,
-              taxAmount: 3434.00,
-              total: 37774.00
-            }
-          ]
-        } : (inv.invoiceNo === 'BS02026000000013' ? {
-          create: [
-            {
-              name: '100% Cotton Crew Neck T-Shirt',
-              description: 'Ben Ellis SS26 Collection - Acid Wash Heavy Cotton',
-              gtip: '6109.10.00.00.00',
-              quantity: 450.0,
-              unit: 'ADET',
-              unitPrice: 8.20,
-              discountRate: 0.0,
-              taxRate: 0.0,
-              taxAmount: 0.0,
-              total: 3690.00
-            },
-            {
-              name: 'Oversized Brushed Fleece Hoodie',
-              description: 'Ben Ellis SS26 Collection - Loopback French Terry',
-              gtip: '6110.20.91.00.00',
-              quantity: 319.0,
-              unit: 'ADET',
-              unitPrice: 11.59279,
-              discountRate: 0.0,
-              taxRate: 0.0,
-              taxAmount: 0.0,
-              total: 3698.10
-            }
-          ]
-        } : undefined)
+        invoiceNo: inv.invoice_no,
+        type: invType,
+        scenario: scenario,
+        date: new Date(inv.issue_date),
+        dueDate: inv.due_date ? new Date(inv.due_date) : null,
+        contactId: dbContactId,
+        currency: curr,
+        exchangeRate: parseFloat(inv.exchange_rate || 1.0),
+        subtotal: subtotal,
+        taxTotal: taxTotal,
+        grandTotal: grandTotal,
+        status: status,
+        notes: notes,
+        parasutId: inv.id
       }
     });
+
+    // Delete existing items for clean update
+    await prisma.invoiceItem.deleteMany({
+      where: { invoiceId: dbInv.id }
+    });
+
+    const rawLines = salesDetailsMap[String(inv.id)] || [];
+    const formattedItems = [];
+    for (const l of rawLines) {
+      const pid = l.product_id;
+      const product = prodMap[pid] || {};
+      const name = product.name || l.description || inv.description || 'Mal/Hizmet Satışı';
+      const desc = l.description || product.name || name;
+
+      let gtip = null;
+      const gtipMatch = (desc + ' ' + (inv.description || '')).match(/\b\d{4}\.\d{2}(\.\d{2})?(\.\d{2})?\b/);
+      if (gtipMatch) gtip = gtipMatch[0];
+
+      let unit = product.unit || l.unit_for_product || 'ADET';
+      if (unit === 'Kilogram') unit = 'KG';
+      else if (unit === 'Adet') unit = 'ADET';
+      else if (unit === 'Metre') unit = 'MT';
+
+      const qty = parseFloat(l.quantity || 1.0);
+      const unitPrice = parseFloat(l.unit_price || 0.0);
+      const vatRate = parseFloat(l.vat_rate || 0.0);
+      const lineMatrah = qty * unitPrice;
+      const taxAmount = lineMatrah * (vatRate / 100.0);
+      const lineTotal = parseFloat(l.net_total || (lineMatrah + taxAmount));
+
+      formattedItems.push({
+        invoiceId: dbInv.id,
+        name: name.substring(0, 100),
+        description: desc,
+        gtip: gtip,
+        quantity: qty,
+        unit: unit,
+        unitPrice: unitPrice,
+        discountRate: 0.0,
+        taxRate: vatRate,
+        taxAmount: Math.round(taxAmount * 100) / 100,
+        total: Math.round(lineTotal * 100) / 100
+      });
+    }
+
+    if (formattedItems.length > 0) {
+      await prisma.invoiceItem.createMany({
+        data: formattedItems
+      });
+    }
+    salesCount++;
   }
-  console.log(`✅ ${salesInvoicesData.length} Paraşüt Satış Faturası ve 3 Fason Faturası işlendi.`);
+  console.log(`✅ ${salesCount} Paraşüt Satış Faturası ve 3 Fason Faturası işlendi.`);
 
   // ==========================================
   // 5. GARANTİ BBVA BANKA HAVALELERİ (FARUK AYTİN 5 ADET HAVALE)
