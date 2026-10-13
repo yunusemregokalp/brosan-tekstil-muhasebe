@@ -450,6 +450,20 @@
     .hizli a { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px; background: var(--kart); border: 1px solid var(--cizgi); border-radius: var(--r); color: var(--yazi-2); font-weight: 500; font-size: 13px; text-decoration: none !important; box-shadow: var(--golge); transition: transform .12s, border-color .12s; }
     .hizli a:hover { border-color: var(--ana); color: var(--ana); transform: translateY(-1px); }
     .hizli .ik { width: 22px; height: 22px; color: var(--ana); }
+    .grafik { padding: 18px 18px 12px; }
+    .grafik .ust { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .grafik .ust b { font-size: 14px; }
+    .cubuklar { display: flex; align-items: flex-end; gap: 8px; height: 170px; padding-top: 8px; border-bottom: 1px solid var(--cizgi); }
+    .cubuklar .ay { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; min-width: 0; }
+    .cubuklar .ciftler { display: flex; gap: 3px; align-items: flex-end; height: 100%; width: 100%; justify-content: center; }
+    .cubuklar .c { width: 42%; max-width: 20px; border-radius: 4px 4px 0 0; min-height: 1px; }
+    .cubuklar .c.g { background: #22a35a; }
+    .cubuklar .c.d { background: #f0835e; }
+    .cubuk-et { display: flex; gap: 8px; padding-top: 6px; }
+    .cubuk-et span { flex: 1; text-align: center; font-size: 11px; color: var(--soluk); }
+    .lejant { display: flex; gap: 14px; font-size: 12px; color: var(--soluk); }
+    .lejant i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+    .rapor-sekme { margin-bottom: 18px; }
     .ikili { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .ucte { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; align-items: start; }
 
@@ -1556,7 +1570,7 @@
             </span>
           </h1>
 
-          <div class="dikkat">
+          <div class="dikkat" style="grid-template-columns:1fr">
             <a class="dikkat-oge yesil" href="javascript:void(0)" onclick="printFarukAytinMutabakat()">
               <span class="ikon"><svg class="ik" viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7"></path></svg></span>
               <span>TTK m.94 Cari Hesap Denklik: Fason Alış ($24.032,80) − Havale/Çek ($17.355,95) − Kumaş Mahsubu ($7.461,45) = Net Brosan Alacağı</span>
@@ -1581,28 +1595,28 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td>NSA2026000000070</td>
-                      <td>30.07.2026</td>
-                      <td>EMK Oversized Tişört (276 Adet)</td>
+                      <td class="kucuk">NSA2026000000070</td>
+                      <td class="kucuk">30.07.2026</td>
+                      <td class="kucuk">EMK Oversized Tişört (276 Adet)</td>
                       <td class="s"><b>3.036,00 $</b></td>
-                      <td class="s">143.451,00 ₺</td>
+                      <td class="s kucuk">143.451,00 ₺</td>
                       <td><span class="rozet yesil">ödendi</span></td>
                     </tr>
                     <tr>
-                      <td>NSA2026000000084</td>
-                      <td>01.10.2026</td>
-                      <td>Ben Ellis (140 T-shirt + 180 Hoodie)<div class="kucuk soluk">Fiş: 1044145905 · İrsaliye: 78</div></td>
+                      <td class="kucuk">NSA2026000000084</td>
+                      <td class="kucuk">01.10.2026</td>
+                      <td class="kucuk">Ben Ellis (140 T-shirt + 180 Hoodie)<div class="kucuk soluk">Fiş: 1044145905 · İrs: 78</div></td>
                       <td class="s"><b>6.366,80 $</b></td>
-                      <td class="s">311.529,43 ₺</td>
-                      <td><span class="rozet yesil">mahsup kapandı</span></td>
+                      <td class="s kucuk">311.529,43 ₺</td>
+                      <td><span class="rozet yesil">mahsup</span></td>
                     </tr>
                     <tr>
-                      <td>NSA2026000000087</td>
-                      <td>05.10.2026</td>
-                      <td>Ben Ellis (375 T-shirt + 394 Hoodie)<div class="kucuk soluk">Fiş: 1044145920 · İrsaliye: 80</div></td>
+                      <td class="kucuk">NSA2026000000087</td>
+                      <td class="kucuk">05.10.2026</td>
+                      <td class="kucuk">Ben Ellis (375 T-shirt + 394 Hoodie)<div class="kucuk soluk">Fiş: 1044145920 · İrs: 80</div></td>
                       <td class="s"><b>14.630,00 $</b></td>
-                      <td class="s">716.429,64 ₺</td>
-                      <td><span class="rozet yesil">çek ile kapandı</span></td>
+                      <td class="s kucuk">716.429,64 ₺</td>
+                      <td><span class="rozet yesil">çek ile</span></td>
                     </tr>
                     <tr>
                       <td colspan="3"><b>Toplam fason alış (KDV: 2.184,80 $)</b></td>
@@ -1622,7 +1636,7 @@
                   <thead>
                     <tr>
                       <th>Kumaş Cinsi</th>
-                      <th class="s">Miktar (Kg)</th>
+                      <th class="s">Kg</th>
                       <th class="s">Birim</th>
                       <th class="s">KDV Dahil (TL)</th>
                       <th class="s">Tutar (USD)</th>
@@ -1630,36 +1644,36 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td>B.KUMAŞ 30/2 PENYE SÜPREM</td>
+                      <td class="kucuk">B.KUMAŞ 30/2 PENYE SÜPREM</td>
                       <td class="s">227,0</td>
-                      <td class="s">340,00 ₺</td>
-                      <td class="s">84.898,00 ₺</td>
+                      <td class="s kucuk">340,00 ₺</td>
+                      <td class="s kucuk">84.898,00 ₺</td>
                       <td class="s"><b>1.740,07 $</b></td>
                     </tr>
                     <tr>
-                      <td>B.KUMAŞ 30/2 COM. PENYE RİBANA</td>
+                      <td class="kucuk">B.KUMAŞ 30/2 COM. PENYE RİBANA</td>
                       <td class="s">14,5</td>
-                      <td class="s">340,00 ₺</td>
-                      <td class="s">5.423,00 ₺</td>
+                      <td class="s kucuk">340,00 ₺</td>
+                      <td class="s kucuk">5.423,00 ₺</td>
                       <td class="s"><b>111,15 $</b></td>
                     </tr>
                     <tr>
-                      <td>B.KUMAŞ 30/20/10 PENYE 3 İPLİK</td>
+                      <td class="kucuk">B.KUMAŞ 30/20/10 PENYE 3 İPLİK</td>
                       <td class="s">650,0</td>
-                      <td class="s">330,00 ₺</td>
-                      <td class="s">235.950,00 ₺</td>
+                      <td class="s kucuk">330,00 ₺</td>
+                      <td class="s kucuk">235.950,00 ₺</td>
                       <td class="s"><b>4.836,02 $</b></td>
                     </tr>
                     <tr>
-                      <td>B.KUMAŞ 30/2 PENYE 70 DNY KORSE</td>
+                      <td class="kucuk">B.KUMAŞ 30/2 PENYE 70 DNY KORSE</td>
                       <td class="s">101,0</td>
-                      <td class="s">340,00 ₺</td>
-                      <td class="s">37.774,00 ₺</td>
+                      <td class="s kucuk">340,00 ₺</td>
+                      <td class="s kucuk">37.774,00 ₺</td>
                       <td class="s"><b>774,21 $</b></td>
                     </tr>
                     <tr>
                       <td><b>Toplam mahsup (KDV dahil)</b></td>
-                      <td class="s"><b>992,5 Kg</b></td>
+                      <td class="s"><b>992,5</b></td>
                       <td class="s"></td>
                       <td class="s"><b>364.045,00 ₺</b></td>
                       <td class="s"><b>7.461,45 $</b></td>
@@ -1782,64 +1796,76 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- MODULE 12: RAPORLAR VE KDV (ref_page_raporlar.png 1:1) -->
+        <!-- MODULE 12: RAPORLAR (ref_page_raporlar.png 1:1) -->
         <!-- ========================================== -->
         <div id="view-reports" class="module-view">
           <h1>
-            Raporlar ve KDV
+            Raporlar
             <span class="sag">
-              <button type="button" class="btn ana" onclick="showToast('Tüm Mali Raporlar Paketi İndirildi (PDF).', 'success')">Mali raporları indir (PDF/Excel)</button>
+              <button type="button" class="btn" onclick="downloadMizanExcel()">Excel</button>
+              <button type="button" class="btn" onclick="showToast('Tüm Mali Raporlar Paketi İndirildi (PDF).', 'success')">
+                <svg class="ik" viewBox="0 0 24 24"><path d="M6 9V3h12v6"></path><rect x="6" y="14" width="12" height="7"></rect><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path></svg>
+                Yazdır / PDF
+              </button>
             </span>
           </h1>
 
-          <div class="sekmeler">
-            <button type="button" class="aktif">Gelir — Gider</button>
-            <button type="button">KDV Özeti</button>
-            <button type="button">Cari Yaşlandırma</button>
-            <button type="button">Masraf Dağılımı</button>
-            <button type="button">Denetim İzi</button>
+          <div class="sekmeler rapor-sekme">
+            <button type="button" class="aktif">Gelir - gider</button>
+            <button type="button">Kâr - zarar</button>
+            <button type="button">Yaşlandırma</button>
+            <button type="button">Satış analizi</button>
+            <button type="button">KDV</button>
+            <button type="button">BA / BS</button>
+            <button type="button">Döviz pozisyonu</button>
+            <button type="button">Stok</button>
+            <button type="button">İhracat dosyaları</button>
+            <button type="button">Mali müşavir paketi</button>
+          </div>
+
+          <div class="filtre">
+            <select><option>2026</option><option>2025</option></select>
+            <b>yılı aylık gelir - gider (TL, KDV hariç)</b>
           </div>
 
           <div class="kartlar" style="grid-template-columns:repeat(4,1fr)">
             <div class="kart">
-              <div class="baslik">Satış toplamı (TL karşılığı)</div>
-              <div class="deger arti">3.942.865,56 ₺</div>
-              <div class="alt">39 fatura</div>
+              <div class="bas">Gelir</div>
+              <div class="deger">3.080.888,04 ₺</div>
             </div>
             <div class="kart">
-              <div class="baslik">Alış toplamı</div>
-              <div class="deger eksi">542.180,00 ₺</div>
-              <div class="alt">14 fatura</div>
+              <div class="bas">Gider</div>
+              <div class="deger">3.737.171,99 ₺</div>
             </div>
             <div class="kart">
-              <div class="baslik">Diğer masraflar</div>
-              <div class="deger eksi">68.436,00 ₺</div>
-              <div class="alt">8 kayıt</div>
+              <div class="bas">Net</div>
+              <div class="deger eksi">-656.283,95 ₺</div>
             </div>
             <div class="kart">
-              <div class="baslik">Net faaliyet farkı</div>
-              <div class="deger arti">3.332.249,56 ₺</div>
-              <div class="alt">301 KDV İade Alacağı: 142.800,00 ₺</div>
+              <div class="bas">Faturasız işlemler (iç takip)</div>
+              <div class="deger">-146.350,00 ₺</div>
+              <div class="alt">Satış 1.020.000,00 ₺ · Alış 1.166.350,00 ₺ · yukarıdaki rakamlara dahil değil</div>
             </div>
           </div>
 
           <div class="kart grafik" style="margin-bottom:20px">
-            <h2>Aylık gelir — gider</h2>
-            <svg viewBox="0 0 680 180" class="cubuk-grafik">
-              <g transform="translate(8,10)"><rect x="2" y="130" width="20" height="0" rx="3" class="c-gelir"></rect><rect x="24" y="130" width="20" height="0" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2025-11</text></g>
-              <g transform="translate(64,10)"><rect x="2" y="128" width="20" height="2" rx="3" class="c-gelir"></rect><rect x="24" y="130" width="20" height="0" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2025-12</text></g>
-              <g transform="translate(120,10)"><rect x="2" y="99" width="20" height="31" rx="3" class="c-gelir"></rect><rect x="24" y="130" width="20" height="0" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2026-01</text></g>
-              <g transform="translate(176,10)"><rect x="2" y="95" width="20" height="35" rx="3" class="c-gelir"></rect><rect x="24" y="130" width="20" height="0" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2026-02</text></g>
-              <g transform="translate(232,10)"><rect x="2" y="125" width="20" height="5" rx="3" class="c-gelir"></rect><rect x="24" y="130" width="20" height="0" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2026-03</text></g>
-              <g transform="translate(288,10)"><rect x="2" y="130" width="20" height="0" rx="3" class="c-gelir"></rect><rect x="24" y="130" width="20" height="0" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2026-04</text></g>
-              <g transform="translate(344,10)"><rect x="2" y="75" width="20" height="55" rx="3" class="c-gelir"></rect><rect x="24" y="130" width="20" height="0" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2026-05</text></g>
-              <g transform="translate(400,10)"><rect x="2" y="123" width="20" height="7" rx="3" class="c-gelir"></rect><rect x="24" y="130" width="20" height="0" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2026-06</text></g>
-              <g transform="translate(456,10)"><rect x="2" y="93" width="20" height="37" rx="3" class="c-gelir"></rect><rect x="24" y="114" width="20" height="16" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2026-07</text></g>
-              <g transform="translate(512,10)"><rect x="2" y="45" width="20" height="85" rx="3" class="c-gelir"></rect><rect x="24" y="130" width="20" height="0" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2026-08</text></g>
-              <g transform="translate(568,10)"><rect x="2" y="10" width="20" height="120" rx="3" class="c-gelir"></rect><rect x="24" y="130" width="20" height="0" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2026-09</text></g>
-              <g transform="translate(624,10)"><rect x="2" y="64" width="20" height="66" rx="3" class="c-gelir"></rect><rect x="24" y="21" width="20" height="109" rx="3" class="c-gider"></rect><text x="23" y="148" text-anchor="middle">2026-10</text></g>
-            </svg>
-            <div class="grafik-aciklama"><span class="nokta yesil"></span>Gelir (satış) <span class="nokta kirmizi"></span>Gider (alış + masraf)</div>
+            <div class="cubuklar">
+              <div class="ay" title="Ocak 2026"><div class="ciftler"><div class="c g" style="height:5.4%"></div><div class="c d" style="height:5.6%"></div></div></div>
+              <div class="ay" title="Şubat 2026"><div class="ciftler"><div class="c g" style="height:0%"></div><div class="c d" style="height:3.5%"></div></div></div>
+              <div class="ay" title="Mart 2026"><div class="ciftler"><div class="c g" style="height:0%"></div><div class="c d" style="height:13.8%"></div></div></div>
+              <div class="ay" title="Nisan 2026"><div class="ciftler"><div class="c g" style="height:1%"></div><div class="c d" style="height:12.4%"></div></div></div>
+              <div class="ay" title="Mayıs 2026"><div class="ciftler"><div class="c g" style="height:43%"></div><div class="c d" style="height:43.3%"></div></div></div>
+              <div class="ay" title="Haziran 2026"><div class="ciftler"><div class="c g" style="height:8.1%"></div><div class="c d" style="height:21.1%"></div></div></div>
+              <div class="ay" title="Temmuz 2026"><div class="ciftler"><div class="c g" style="height:12.6%"></div><div class="c d" style="height:25.7%"></div></div></div>
+              <div class="ay" title="Ağustos 2026"><div class="ciftler"><div class="c g" style="height:17.9%"></div><div class="c d" style="height:11.9%"></div></div></div>
+              <div class="ay" title="Eylül 2026"><div class="ciftler"><div class="c g" style="height:23.9%"></div><div class="c d" style="height:42.5%"></div></div></div>
+              <div class="ay" title="Ekim 2026"><div class="ciftler"><div class="c g" style="height:100%"></div><div class="c d" style="height:76.9%"></div></div></div>
+            </div>
+            <div class="cubuk-et"><span>Oca 26</span><span>Şub</span><span>Mar</span><span>Nis</span><span>May</span><span>Haz</span><span>Tem</span><span>Ağu</span><span>Eyl</span><span>Eki</span></div>
+            <div class="lejant" style="margin-top:8px">
+              <span><i style="background:#22a35a"></i>Gelir</span>
+              <span><i style="background:#f0835e"></i>Gider</span>
+            </div>
           </div>
 
           <h2>Aylık tablo</h2>
@@ -1848,22 +1874,28 @@
               <thead>
                 <tr>
                   <th>Ay</th>
-                  <th class="s">Satış (TL)</th>
-                  <th class="s">Alış + Masraf (TL)</th>
+                  <th class="s">Satış</th>
+                  <th class="s">Satış İadesi</th>
+                  <th class="s">Alış</th>
+                  <th class="s">Alış İadesi</th>
+                  <th class="s">Masraf ve Giderler</th>
+                  <th class="s">Diğer Gelir</th>
+                  <th class="s">Gelir</th>
+                  <th class="s">Gider</th>
                   <th class="s">Net</th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td>2025-12</td><td class="s">15.335,23 ₺</td><td class="s">0,00 ₺</td><td class="s"><span class="arti">15.335,23 ₺</span></td></tr>
-                <tr><td>2026-01</td><td class="s">291.969,62 ₺</td><td class="s">0,00 ₺</td><td class="s"><span class="arti">291.969,62 ₺</span></td></tr>
-                <tr><td>2026-02</td><td class="s">326.863,34 ₺</td><td class="s">0,00 ₺</td><td class="s"><span class="arti">326.863,34 ₺</span></td></tr>
-                <tr><td>2026-03</td><td class="s">47.551,58 ₺</td><td class="s">0,00 ₺</td><td class="s"><span class="arti">47.551,58 ₺</span></td></tr>
-                <tr><td>2026-05</td><td class="s">514.212,00 ₺</td><td class="s">0,00 ₺</td><td class="s"><span class="arti">514.212,00 ₺</span></td></tr>
-                <tr><td>2026-06</td><td class="s">63.063,06 ₺</td><td class="s">0,00 ₺</td><td class="s"><span class="arti">63.063,06 ₺</span></td></tr>
-                <tr><td>2026-07</td><td class="s">348.720,00 ₺</td><td class="s">143.451,00 ₺</td><td class="s"><span class="arti">205.269,00 ₺</span></td></tr>
-                <tr><td>2026-08</td><td class="s">792.410,00 ₺</td><td class="s">0,00 ₺</td><td class="s"><span class="arti">792.410,00 ₺</span></td></tr>
-                <tr><td>2026-09</td><td class="s">1.124.850,00 ₺</td><td class="s">0,00 ₺</td><td class="s"><span class="arti">1.124.850,00 ₺</span></td></tr>
-                <tr><td>2026-10</td><td class="s">617.890,73 ₺</td><td class="s">1.027.959,07 ₺</td><td class="s"><span class="eksi">-410.068,34 ₺</span></td></tr>
+                <tr><td>Ocak 2026</td><td class="s">78.315,76</td><td class="s">0,00</td><td class="s">82.028,28</td><td class="s">1.986,56</td><td class="s">1.306,89</td><td class="s">0,00</td><td class="s"><b>78.315,76</b></td><td class="s"><b>81.348,61</b></td><td class="s"><span class="eksi">-3.032,85 ₺</span></td></tr>
+                <tr><td>Şubat 2026</td><td class="s">0,00</td><td class="s">0,00</td><td class="s">51.532,60</td><td class="s">626,46</td><td class="s">16,76</td><td class="s">0,00</td><td class="s"><b>0,00</b></td><td class="s"><b>50.922,90</b></td><td class="s"><span class="eksi">-50.922,90 ₺</span></td></tr>
+                <tr><td>Mart 2026</td><td class="s">0,00</td><td class="s">0,00</td><td class="s">164.025,75</td><td class="s">0,00</td><td class="s">36.328,48</td><td class="s">0,00</td><td class="s"><b>0,00</b></td><td class="s"><b>200.354,23</b></td><td class="s"><span class="eksi">-200.354,23 ₺</span></td></tr>
+                <tr><td>Nisan 2026</td><td class="s">13.000,00</td><td class="s">0,00</td><td class="s">181.080,93</td><td class="s">45,00</td><td class="s">111,76</td><td class="s">0,00</td><td class="s"><b>13.000,00</b></td><td class="s"><b>181.147,69</b></td><td class="s"><span class="eksi">-168.147,69 ₺</span></td></tr>
+                <tr><td>Mayıs 2026</td><td class="s">625.636,41</td><td class="s">0,00</td><td class="s">590.646,79</td><td class="s">1.956,32</td><td class="s">41.350,54</td><td class="s">0,00</td><td class="s"><b>625.636,41</b></td><td class="s"><b>630.041,01</b></td><td class="s"><span class="eksi">-4.404,60 ₺</span></td></tr>
+                <tr><td>Haziran 2026</td><td class="s">117.613,84</td><td class="s">0,00</td><td class="s">197.886,28</td><td class="s">15.696,72</td><td class="s">124.758,24</td><td class="s">0,00</td><td class="s"><b>117.613,84</b></td><td class="s"><b>306.947,80</b></td><td class="s"><span class="eksi">-189.333,96 ₺</span></td></tr>
+                <tr><td>Temmuz 2026</td><td class="s">182.860,32</td><td class="s">0,00</td><td class="s">244.920,72</td><td class="s">0,00</td><td class="s">129.511,27</td><td class="s">0,00</td><td class="s"><b>182.860,32</b></td><td class="s"><b>374.431,99</b></td><td class="s"><span class="eksi">-191.571,67 ₺</span></td></tr>
+                <tr><td>Ağustos 2026</td><td class="s">260.491,11</td><td class="s">0,00</td><td class="s">112.400,00</td><td class="s">0,00</td><td class="s">61.073,73</td><td class="s">0,00</td><td class="s"><b>260.491,11</b></td><td class="s"><b>173.473,73</b></td><td class="s"><span class="arti">87.017,38 ₺</span></td></tr>
+                <tr><td>Eylül 2026</td><td class="s">347.376,67</td><td class="s">0,00</td><td class="s">480.120,00</td><td class="s">0,00</td><td class="s">139.089,41</td><td class="s">0,00</td><td class="s"><b>347.376,67</b></td><td class="s"><b>619.209,41</b></td><td class="s"><span class="eksi">-271.832,74 ₺</span></td></tr>
+                <tr><td>Ekim 2026</td><td class="s">1.455.593,93</td><td class="s">0,00</td><td class="s">985.410,00</td><td class="s">0,00</td><td class="s">133.884,62</td><td class="s">0,00</td><td class="s"><b>1.455.593,93</b></td><td class="s"><b>1.119.294,62</b></td><td class="s"><span class="arti">336.299,31 ₺</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -9155,20 +9187,17 @@
         const tr = document.createElement('tr');
         const isCustomer = c.type && c.type.toLowerCase().includes('müşteri');
         const isDebt = c.balance && c.balance.includes('Borç');
+        const cleanBal = (c.balance || '').replace(/\s*\([^)]*\)/g, '').replace('USD', '$').replace('GBP', '£').replace('EUR', '€').trim();
+        const shortStatus = c.isFarukAytin ? 'Avansta ✓' : (isDebt ? 'Açık borç' : (c.status || 'Açık'));
         tr.innerHTML = `
-          <td>
-            <b>${c.name}</b>
-            <div class="kucuk soluk">${c.code}${c.isFarukAytin ? ' · Nisa Tekstil Fason & Kumaş Mahsubu' : ''}</div>
-          </td>
-          <td><span class="rozet ${isCustomer ? 'mavi' : ''}">${isCustomer ? 'Müşteri' : 'Tedarikçi'}</span></td>
-          <td class="soluk">${c.vkn}</td>
-          <td class="soluk">${c.city}</td>
-          <td class="s"><span class="${isDebt ? 'eksi' : 'arti'}">${c.balance}</span></td>
-          <td><span class="rozet ${c.isFarukAytin ? 'yesil' : (isDebt ? 'sari' : 'yesil')}">${c.status}</span></td>
+          <td>${c.name}</td>
+          <td><span class="rozet">${isCustomer ? 'Müşteri' : 'Tedarikçi'}</span></td>
+          <td>${c.vkn === '-' ? '' : c.vkn}</td>
+          <td class="kucuk soluk">${c.city}</td>
+          <td class="s"><b class="${isDebt ? 'eksi' : 'arti'}">${cleanBal}</b></td>
+          <td><span class="rozet ${c.isFarukAytin ? 'yesil' : (isDebt ? 'sari' : 'yesil')}">${shortStatus}</span></td>
           <td class="s" style="white-space:nowrap">
             <button type="button" onclick="viewCariEkstre('${c.code}')" class="btn kucuk">Ekstre</button>
-            ${c.isFarukAytin ? `<button type="button" onclick="switchView('mutabakat')" class="btn kucuk">Mahsup</button>` : ''}
-            ${c.isBenEllis ? `<button type="button" onclick="openModal('modal-dab-calculator')" class="btn kucuk">İBKB</button>` : ''}
           </td>
         `;
         tbody.appendChild(tr);
@@ -11477,20 +11506,19 @@
         } else {
           let html = `
             <div class="tablo">
-              <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs">
-                  <thead>
-                    <tr>
-                      <th>Format</th>
-                      <th>Evrak / Dosya Adı</th>
-                      <th>Kategori &amp; Tip</th>
-                      <th>Müşteri / Muhatap</th>
-                      <th>Dönem / Tarih</th>
-                      <th class="s">Boyut</th>
-                      <th class="s">İşlemler</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Format</th>
+                    <th>Evrak / Dosya Adı</th>
+                    <th>Kategori</th>
+                    <th>Muhatap</th>
+                    <th>Tarih</th>
+                    <th class="s">Boyut</th>
+                    <th class="s"></th>
+                  </tr>
+                </thead>
+                <tbody>
           `;
 
           pageItems.forEach(doc => {
@@ -11501,49 +11529,27 @@
 
             html += `
               <tr>
-                <td>
-                  <span class="${extColor}">${doc.ext}</span>
+                <td><span class="${extColor}">${doc.ext}</span></td>
+                <td class="k" style="max-width:340px" title="${escapeHtml(doc.title)}">
+                  ${escapeHtml(doc.title)}
+                  <div class="kucuk soluk">${escapeHtml(doc.folder || '')}</div>
                 </td>
-                <td>
-                  <span class="font-semibold text-[#172231] block truncate max-w-md text-xs" title="${escapeHtml(doc.title)}">
-                    ${escapeHtml(doc.title)}
-                  </span>
-                  <span class="text-[11px] text-[#7a8796] truncate block max-w-md">${escapeHtml(doc.folder || '')}</span>
-                </td>
-                <td>
-                  <span class="text-[#172231] font-medium block text-xs">${escapeHtml(doc.subType)}</span>
-                  <span class="text-[11px] text-[#7a8796]">${escapeHtml(doc.category)}</span>
-                </td>
-                <td class="text-[#4a5768] text-xs">
-                  ${escapeHtml(doc.customer)}
-                </td>
-                <td class="text-[#7a8796] text-xs">
-                  ${doc.date || doc.period}
-                </td>
-                <td class="s text-[#4a5768]">
-                  ${doc.size}
-                </td>
-                <td class="s">
-                  <div class="flex items-center justify-end gap-1">
-                    <button onclick="copyDocPath(${doc.id})" class="btn kucuk" title="Yolu Kopyala">
-                      Yol
-                    </button>
-                    <button onclick="previewDoc(${doc.id})" class="btn kucuk">
-                      İncele
-                    </button>
-                    <a href="${doc.file_url}" target="_blank" class="btn kucuk ana">
-                      Aç
-                    </a>
-                  </div>
+                <td><span class="rozet">${escapeHtml(doc.subType || doc.category)}</span></td>
+                <td class="kucuk">${escapeHtml(doc.customer)}</td>
+                <td class="kucuk soluk">${doc.date || doc.period}</td>
+                <td class="s kucuk soluk">${doc.size}</td>
+                <td class="s" style="white-space:nowrap">
+                  <button onclick="copyDocPath(${doc.id})" class="btn kucuk" title="Yolu Kopyala">Yol</button>
+                  <button onclick="previewDoc(${doc.id})" class="btn kucuk">İncele</button>
+                  <a href="${doc.file_url}" target="_blank" class="btn kucuk ana">Aç</a>
                 </td>
               </tr>
             `;
           });
 
           html += `
-                  </tbody>
-                </table>
-              </div>
+                </tbody>
+              </table>
             </div>
           `;
           container.innerHTML = html;
