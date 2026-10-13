@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BROSAN TEKSTİL | İBKB &amp; İhracat Finans Kokpiti</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            obsidian: {
+              950: '#07080b',
+              900: '#09090b',
+              850: '#0d0e14',
+              800: '#12131a',
+              750: '#181922',
+              700: '#1e1f2b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      background-color: #09090b;
+      color: #f4f4f5;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #3f3f46;
+    }
+    .dark-glass {
+      background: rgba(18, 19, 26, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .dark-glass-card {
+      background: rgba(18, 19, 26, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-zinc-100 bg-[#09090b] flex flex-col min-h-screen selection:bg-indigo-500 selection:text-white">
+<!-- TOP APP BAR / BRAND HEADER -->
+<header class="sticky top-0 z-40 bg-[#0d0e14]/90 backdrop-blur-md border-b border-zinc-800/80 px-6 h-16 flex items-center justify-between transition-all">
+<!-- Brand Info -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white font-black tracking-wider text-base shadow-lg shadow-indigo-500/25 ring-1 ring-white/20">
+          B
+        </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-base font-extrabold tracking-tight text-white font-sans drop-shadow-sm">BROSAN</span>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.2)]">
+              TEKSTİL &amp; İHRACAT ERP
+            </span>
+</div>
+<span class="text-[11px] text-zinc-400 font-mono">VKN: 1870492109 • İBKB 360°</span>
+</div>
+</div>
+<!-- Quick Context Divider -->
+<div class="hidden lg:block h-6 w-px bg-zinc-800"></div>
+<!-- Live Regulatory Status Badge -->
+<div class="hidden xl:flex items-center gap-2 text-xs text-zinc-400 font-medium">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+</span>
+<span class="text-zinc-300">TCMB 2018-32/48 Canlı Entegrasyon</span>
+</div>
+</div>
+<!-- Center Search Bar -->
+<div class="hidden md:flex flex-1 max-w-lg mx-6">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500">
+<span class="material-symbols-outlined text-[19px]">search</span>
+</div>
+<input class="w-full pl-10 pr-16 py-2 text-xs font-medium text-zinc-200 bg-zinc-900/80 border border-zinc-800 rounded-full placeholder-zinc-500 focus:bg-[#12131a] focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500/60 transition shadow-inner" placeholder="Firma Adı, ETGB No veya Fatura Ara..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+<kbd class="px-1.5 py-0.5 text-[10px] font-mono font-semibold text-zinc-400 bg-zinc-800/80 border border-zinc-700/60 rounded shadow-xs">
+            Ctrl+K
+          </kbd>
+</div>
+</div>
+</div>
+<!-- Right Action Cluster -->
+<div class="flex items-center gap-3">
+<!-- Secondary Outline: Cari Ekstre -->
+<button class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-zinc-300 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800 hover:text-white rounded-lg transition shadow-xs">
+<span class="material-symbols-outlined text-[16px] text-zinc-400">print</span>
+<span>🖨️ Cari Ekstre Dök</span>
+</button>
+<!-- Secondary Outline: İBKB Talimatı İndir -->
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-indigo-300 bg-indigo-950/40 border border-indigo-800/50 hover:bg-indigo-900/50 hover:border-indigo-600 rounded-lg transition shadow-xs">
+<span class="material-symbols-outlined text-[16px] text-indigo-400">file_download</span>
+<span>İBKB Talimatı İndir</span>
+</button>
+<!-- Primary Action: + Yeni ETGB Ekle -->
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 active:scale-[0.98] transition rounded-lg shadow-lg shadow-indigo-500/20 ring-1 ring-white/10">
+<span class="material-symbols-outlined text-[16px] text-white">add</span>
+<span>+ Yeni ETGB Ekle</span>
+</button>
+<div class="h-6 w-px bg-zinc-800 mx-1"></div>
+<!-- Notification Icon -->
+<button class="relative p-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/80 rounded-lg transition" title="Bildirimler">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-[#0d0e14] shadow-[0_0_6px_rgba(244,63,94,0.8)]"></span>
+</button>
+<!-- User Profile Badge -->
+<div class="flex items-center gap-2.5 pl-2 cursor-pointer group">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 text-white font-bold text-xs flex items-center justify-center shadow-md ring-1 ring-white/20">
+          BT
+        </div>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-xs font-semibold text-zinc-200 group-hover:text-indigo-400 leading-tight transition">Brosan Finans</span>
+<span class="text-[10px] text-zinc-400">Yetkili Kullanıcı</span>
+</div>
+</div>
+</div>
+</header>
+<!-- WORKSPACE WRAPPER (Sidebar + Canvas) -->
+<div class="flex flex-1 w-full max-w-[1720px] mx-auto">
+<!-- SLEEK OBSIDIAN SIDEBAR -->
+<aside class="w-64 border-r border-zinc-800/80 bg-[#0e0f16]/95 backdrop-blur-md p-4 hidden lg:flex flex-col justify-between shrink-0 select-none">
+<div class="space-y-6">
+<!-- Active Workspace Label -->
+<div class="px-2 py-1">
+<div class="text-[11px] font-bold uppercase tracking-wider text-zinc-400 font-mono">Yönetim Menüsü</div>
+</div>
+<nav class="space-y-1">
+<!-- 360° Ünvan Kokpiti (Active) -->
+<a class="relative flex items-center gap-3 px-3 py-2 text-xs font-semibold rounded-lg bg-indigo-600/15 text-indigo-300 border border-indigo-500/30 transition shadow-[inset_0_0_12px_rgba(99,102,241,0.15)]" href="#">
+<span class="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,1)]"></span>
+<span class="material-symbols-outlined text-[19px] text-indigo-400" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-white font-bold">360° Ünvan Kokpiti</span>
+</a>
+<!-- ETGB / GB Beyannameler -->
+<a class="flex items-center gap-3 px-3 py-2 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 transition" href="#">
+<span class="material-symbols-outlined text-[19px]">local_shipping</span>
+<span>ETGB / GB Beyannameler</span>
+</a>
+<!-- Gelen Peşin Havaleler -->
+<a class="flex items-center gap-3 px-3 py-2 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 transition" href="#">
+<span class="material-symbols-outlined text-[19px]">account_balance_wallet</span>
+<span>Gelen Peşin Havaleler</span>
+</a>
+<!-- TCMB Döviz Bozum (DAB) -->
+<a class="flex items-center gap-3 px-3 py-2 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 transition" href="#">
+<span class="material-symbols-outlined text-[19px]">currency_exchange</span>
+<span>TCMB Döviz Bozum (DAB)</span>
+</a>
+<!-- DMS Evrak Kasası -->
+<a class="flex items-center gap-3 px-3 py-2 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 transition" href="#">
+<span class="material-symbols-outlined text-[19px]">folder_open</span>
+<span>DMS Evrak Kasası</span>
+</a>
+<!-- Denetim & Raporlama -->
+<a class="flex items-center gap-3 px-3 py-2 text-xs font-medium rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 transition" href="#">
+<span class="material-symbols-outlined text-[19px]">query_stats</span>
+<span>Denetim &amp; Raporlama</span>
+</a>
+</nav>
+<!-- Quick Integration Hub -->
+<div class="pt-4 border-t border-zinc-800/80 px-2 space-y-2">
+<div class="text-[11px] font-bold uppercase tracking-wider text-zinc-400 font-mono">Veri Durumu</div>
+<div class="p-2.5 rounded-lg bg-zinc-900/70 border border-zinc-800 space-y-2 text-[11px]">
+<div class="flex items-center justify-between text-zinc-400">
+<span>GİB E-Fatura:</span>
+<span class="font-medium text-emerald-400 flex items-center gap-1.5 font-mono">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span> Çevrimiçi
+              </span>
+</div>
+<div class="flex items-center justify-between text-zinc-400">
+<span>TCMB Kurlar:</span>
+<span class="font-mono text-zinc-200 font-semibold">15:30 Fiks</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Bottom System Details -->
+<div class="pt-4 border-t border-zinc-800/80 space-y-2 px-2 text-zinc-400 text-[11px]">
+<div class="flex items-center justify-between">
+<span>Sürüm</span>
+<span class="font-mono text-zinc-300">v4.8 PRO</span>
+</div>
+<div class="text-[10px] text-zinc-400">
+          BROSAN TEKSTİL SAN. VE TİC. LTD. ŞTİ.
+        </div>
+</div>
+</aside>
+<!-- MAIN EXECUTIVE CANVAS -->
+<main class="flex-1 p-6 lg:p-8 space-y-6 overflow-y-auto custom-scrollbar">
+<!-- HERO: ACTIVE ÜNVAN (CARİ) CONTEXT & STATS -->
+<section class="dark-glass rounded-2xl p-6 relative overflow-hidden shadow-2xl">
+<!-- Top accent subtle electric indigo gradient line -->
+<div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-cyan-400 opacity-80"></div>
+<!-- Top row: Header & Client Meta -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-zinc-800/80">
+<div class="space-y-1.5">
+<div class="flex flex-wrap items-center gap-3">
+<span class="text-xl lg:text-2xl font-black tracking-tight text-white drop-shadow-sm">
+                BEN ELLIS TEXTILE LTD
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.9)]"></span>
+                VIP İhracat Müşterisi
+              </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-zinc-800/90 text-zinc-300 border border-zinc-700/80">
+<span>🇬🇧 United Kingdom</span>
+</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-6 gap-y-1 text-xs text-zinc-400 font-mono">
+<div>VAT / EORI: <span class="font-semibold text-zinc-200">GB9283741</span></div>
+<div>Cari Kodu: <span class="font-semibold text-zinc-200">CR-GB-0024</span></div>
+<div>Teslim &amp; Ödeme: <span class="font-semibold text-zinc-200">DAP Londra / Peşin (ADV)</span></div>
+<div>Son İşlem: <span class="font-semibold text-zinc-200">05.10.2026</span></div>
+</div>
+</div>
+<!-- Quick Context Actions -->
+<div class="flex items-center gap-2">
+<span class="text-xs text-zinc-400 font-mono">Risk Skoru:</span>
+<span class="px-2.5 py-1 text-xs font-bold font-mono rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.25)]">
+              DÜŞÜK (A+)
+            </span>
+</div>
+</div>
+<!-- Middle row: 4-Currency Balance Strip + TCMB Countdown Banner -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6 pt-6">
+<!-- 4-Currency Balances (8 Cols) -->
+<div class="xl:col-span-8 flex flex-col justify-between space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold uppercase tracking-wider text-zinc-400 font-mono">
+                Çoklu Döviz Bakiye &amp; Açık Pozisyon Durumu
+              </span>
+<span class="text-xs font-mono text-zinc-400 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                Canlı TCMB Dönüşümlü
+              </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<!-- GBP Active Balance Card (Primary) -->
+<div class="p-4 rounded-xl bg-gradient-to-b from-indigo-950/40 to-indigo-900/20 border border-indigo-500/40 relative overflow-hidden group shadow-[0_0_20px_rgba(99,102,241,0.12)]">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between text-xs mb-2">
+<span class="font-bold text-indigo-300 tracking-wide font-mono">GBP BAKİYE</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-indigo-500 text-white font-mono shadow-[0_0_8px_rgba(99,102,241,0.6)]">
+                    Bekleyen Alacak
+                  </span>
+</div>
+<div class="text-2xl font-black font-mono tracking-tight text-white drop-shadow-sm">
+                  £12,139.22
+                </div>
+<div class="mt-2 pt-2 border-t border-indigo-500/20 flex items-center justify-between text-[11px] text-zinc-400 font-mono">
+<span>Yükleme: £20.664</span>
+<span class="text-indigo-300 font-semibold">Tahsil: £8.525</span>
+</div>
+</div>
+<!-- USD Wallet Card -->
+<div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800">
+<div class="flex items-center justify-between text-xs mb-2">
+<span class="font-semibold text-zinc-400 font-mono">USD WALLET</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-zinc-800 text-zinc-400 font-mono">
+                    Kapalı
+                  </span>
+</div>
+<div class="text-2xl font-bold font-mono tracking-tight text-zinc-500">
+                  $0.00
+                </div>
+<div class="mt-2 pt-2 border-t border-zinc-800 text-[11px] text-emerald-400 font-medium font-mono flex items-center gap-1">
+<span>✓</span> Mutabık / Bakiye Yok
+                </div>
+</div>
+<!-- EUR Wallet Card -->
+<div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800">
+<div class="flex items-center justify-between text-xs mb-2">
+<span class="font-semibold text-zinc-400 font-mono">EUR WALLET</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-zinc-800 text-zinc-400 font-mono">
+                    Kapalı
+                  </span>
+</div>
+<div class="text-2xl font-bold font-mono tracking-tight text-zinc-500">
+                  €0.00
+                </div>
+<div class="mt-2 pt-2 border-t border-zinc-800 text-[11px] text-emerald-400 font-medium font-mono flex items-center gap-1">
+<span>✓</span> Mutabık / Bakiye Yok
+                </div>
+</div>
+<!-- TRY Hesap Card -->
+<div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800">
+<div class="flex items-center justify-between text-xs mb-2">
+<span class="font-semibold text-zinc-400 font-mono">TRY HESAP</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-zinc-800 text-zinc-400 font-mono">
+                    DAB Tamam
+                  </span>
+</div>
+<div class="text-2xl font-bold font-mono tracking-tight text-zinc-300">
+                  ₺0.00
+                </div>
+<div class="mt-2 pt-2 border-t border-zinc-800 text-[11px] text-zinc-400 font-mono">
+                  TCMB Kur: <span class="font-bold text-zinc-200">44.1200</span>
+</div>
+</div>
+</div>
+</div>
+<!-- TCMB 180-Day Regulatory Countdown Card (4 Cols) -->
+<div class="xl:col-span-4 p-5 rounded-xl bg-gradient-to-br from-amber-950/40 via-zinc-900/80 to-amber-900/20 border border-amber-500/40 shadow-[0_0_24px_rgba(245,158,11,0.12)] flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-300 font-mono">
+<span class="material-symbols-outlined text-[18px] text-amber-400 animate-pulse">timer</span>
+<span>TCMB İBKB Kapanma Sayacı</span>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase font-mono">
+                  180 Gün Kuralı
+                </span>
+</div>
+<div class="mt-3 bg-zinc-950/80 p-3.5 rounded-lg border border-amber-500/30 flex items-baseline justify-between shadow-inner">
+<div>
+<span class="text-2xl font-black font-mono text-amber-400 tracking-tight block drop-shadow-[0_0_8px_rgba(245,158,11,0.4)]">
+                    12 GÜN KALDI
+                  </span>
+<span class="text-xs font-semibold text-zinc-300 mt-0.5 block">
+                    1 Açık ETGB Bekliyor: <span class="font-mono text-amber-300">£12,139.22</span>
+</span>
+</div>
+<span class="text-xs font-mono font-bold text-amber-300 bg-amber-500/20 px-2 py-1 rounded border border-amber-500/40">
+                  %93 Süre
+                </span>
+</div>
+<p class="text-[11px] text-zinc-400 mt-2.5 leading-relaxed">
+                TCMB 2018-32/48 Sayılı Genelge uyarınca 180 günlük yasal süre bitmeden İBKB kapatılmalıdır.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-amber-500/20 flex items-center gap-2">
+<button class="w-full py-2.5 px-3 text-xs font-bold text-white bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 rounded-lg transition shadow-lg shadow-amber-500/25 flex items-center justify-center gap-1.5 ring-1 ring-white/10 active:scale-[0.99]">
+<span class="material-symbols-outlined text-[16px]">receipt_long</span>
+<span>Banka Talimatı Hazırla</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- TABBED CONTENT AREA & FINTECH LEDGER -->
+<section class="dark-glass rounded-2xl overflow-hidden shadow-2xl">
+<!-- Modern Pill Tabs & Filter Bar -->
+<div class="p-4 border-b border-zinc-800/80 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-zinc-950/50">
+<!-- Segmented Pill Tabs -->
+<div class="inline-flex p-1 bg-zinc-900/90 rounded-xl border border-zinc-800 self-start text-xs font-semibold">
+<button class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-md shadow-indigo-600/30 font-bold transition">
+<span class="material-symbols-outlined text-[16px] text-indigo-200">inventory_2</span>
+<span>Yüklemeler &amp; ETGB</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-white/20 text-white font-mono">2</span>
+</button>
+<button class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 transition">
+<span class="material-symbols-outlined text-[16px] text-zinc-500">account_balance_wallet</span>
+<span>Banka &amp; Gelen Havaleler</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-zinc-800 text-zinc-300 font-mono">1</span>
+</button>
+<button class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 transition">
+<span class="material-symbols-outlined text-[16px] text-zinc-500">currency_exchange</span>
+<span>TCMB %40 Bozum (DAB)</span>
+</button>
+<button class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 transition">
+<span class="material-symbols-outlined text-[16px] text-zinc-500">folder_open</span>
+<span>Evrak Arşivi</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-zinc-800 text-zinc-300 font-mono">4</span>
+</button>
+</div>
+<!-- Secondary Filter Controls -->
+<div class="flex items-center gap-2.5">
+<div class="relative">
+<select class="appearance-none bg-zinc-900 border border-zinc-700/80 text-zinc-200 text-xs font-semibold rounded-lg pl-3 pr-8 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 shadow-xs cursor-pointer">
+<option>Tüm ETGB/GB Kayıtları</option>
+<option>Sadece Açık Olanlar</option>
+<option>Kapanan İBKB'ler</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none text-[16px]">expand_more</span>
+</div>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-zinc-200 bg-zinc-900 border border-zinc-700/80 rounded-lg hover:bg-zinc-800 hover:text-white transition shadow-xs">
+<span class="material-symbols-outlined text-[16px] text-zinc-400">file_download</span>
+<span>Dışa Aktar</span>
+</button>
+</div>
+</div>
+<!-- High-End Fintech Table -->
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-zinc-950/60 border-b border-zinc-800 text-[11px] font-bold uppercase tracking-wider text-zinc-400 font-mono">
+<th class="px-6 py-3.5">Tarih / Kanal</th>
+<th class="px-6 py-3.5">ETGB / Beyanname No</th>
+<th class="px-6 py-3.5">Fatura Bilgisi</th>
+<th class="px-6 py-3.5 text-right">Tutar (Döviz)</th>
+<th class="px-6 py-3.5">Lojistik Detay</th>
+<th class="px-6 py-3.5">İBKB Durumu</th>
+<th class="px-6 py-3.5">Yasal Süre (180 Gün)</th>
+<th class="px-6 py-3.5 text-right">İşlemler</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-zinc-800/80 text-xs font-sans">
+<!-- ROW 1: FULLY CLOSED (GREEN/NEUTRAL) -->
+<tr class="hover:bg-zinc-800/40 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="font-mono font-bold text-white">01.10.2026</div>
+<div class="text-[11px] text-zinc-400 flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-indigo-400">flight_takeoff</span>
+                    FedEx Express (Hava)
+                  </div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="font-mono font-bold text-zinc-200">26341453EX017052</div>
+<div class="text-[11px] text-zinc-400 font-mono">Gümrük Kod: 341453 (AHL)</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="font-mono font-semibold text-zinc-300">BS202600000007</div>
+<div class="text-[11px] text-zinc-400">E-İhracat Faturası</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right font-mono">
+<div class="font-black text-white text-sm">£5,638.10</div>
+<div class="text-[11px] text-emerald-400 font-medium">100% Eşleşti</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="font-medium text-zinc-200">24 Koli / 410 kg</div>
+<div class="text-[11px] text-zinc-400">Dokuma Pamuk Kumaş</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold text-[11px] font-mono shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span>
+                    İBKB TAM KAPANDI
+                  </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap font-mono text-[11px]">
+<div class="text-emerald-400 font-semibold">175 Gün Kaldı (Kapandı)</div>
+<div class="w-28 bg-zinc-800 h-1.5 rounded-full overflow-hidden mt-1.5">
+<div class="bg-emerald-500 h-full w-full shadow-[0_0_8px_rgba(16,185,129,0.6)]"></div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<div class="inline-flex items-center gap-1.5">
+<button class="px-2.5 py-1 bg-zinc-900 border border-zinc-700/80 hover:bg-zinc-800 hover:border-zinc-600 text-zinc-200 font-medium rounded-md shadow-xs transition text-xs">
+                      PDF Önizle
+                    </button>
+<button class="px-2.5 py-1 bg-zinc-900 border border-zinc-700/80 hover:bg-zinc-800 hover:border-zinc-600 text-zinc-200 font-medium rounded-md shadow-xs transition text-xs">
+                      Talimat
+                    </button>
+</div>
+</td>
+</tr>
+<!-- ROW 2: PARTIAL MATCH / PENDING RISK (AMBER/WARM) -->
+<tr class="bg-amber-950/15 hover:bg-amber-950/25 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="font-mono font-bold text-white">05.10.2026</div>
+<div class="text-[11px] text-zinc-400 flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-zinc-400">local_shipping</span>
+                    Standart Karayolu (TIR)
+                  </div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="font-mono font-bold text-zinc-200">26341453EX00267850</div>
+<div class="text-[11px] text-zinc-400 font-mono">Gümrük Kod: 341400 (Erenköy)</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="font-mono font-semibold text-zinc-300">BS202600000009</div>
+<div class="text-[11px] text-amber-400 font-medium">Bakiye Bekliyor</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right font-mono">
+<div class="font-black text-white text-sm">£15,026.12</div>
+<div class="text-[11px] text-amber-400 font-semibold">Açık: £12,139.22</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="font-medium text-zinc-200">68 Koli / 1.240 kg</div>
+<div class="text-[11px] text-zinc-400">Konfeksiyon / Tekstil</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold text-[11px] font-mono shadow-[0_0_12px_rgba(245,158,11,0.2)]">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                    KISMI KAPANDI (£2.886,90 Bağlandı)
+                  </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap font-mono text-[11px]">
+<div class="text-amber-400 font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-amber-400">warning</span>
+                    12 Gün Kaldı (KRİTİK)
+                  </div>
+<div class="w-28 bg-zinc-800 h-1.5 rounded-full overflow-hidden mt-1.5">
+<div class="bg-amber-500 h-full w-[93%] shadow-[0_0_8px_rgba(245,158,11,0.6)]"></div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<div class="inline-flex items-center gap-1.5">
+<button class="px-3 py-1 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold rounded-md shadow-md shadow-indigo-600/30 transition text-xs">
+                      Döviz Eşle
+                    </button>
+<button class="px-2.5 py-1 bg-zinc-900 border border-zinc-700/80 hover:bg-zinc-800 hover:border-zinc-600 text-zinc-200 font-medium rounded-md shadow-xs transition text-xs">
+                      Evraklar
+                    </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Ledger Summary Footer -->
+<div class="px-6 py-3 bg-zinc-950/70 border-t border-zinc-800 flex flex-wrap items-center justify-between text-xs font-mono text-zinc-400 gap-4">
+<div class="flex items-center gap-4">
+<div>Beyanname: <span class="font-bold text-white">2 Adet</span></div>
+<div class="text-zinc-700">|</div>
+<div>Kapalı İBKB: <span class="font-bold text-emerald-400">£8,525.00 GBP</span></div>
+<div class="text-zinc-700">|</div>
+<div>Açık Risk: <span class="font-bold text-amber-400">£12,139.22 GBP</span></div>
+</div>
+<div class="text-[11px] text-zinc-400">
+            Mevzuat: TCMB 2018-32/48 Sayılı Genelge &amp; 180 Günlük Terkin Sınırı
+          </div>
+</div>
+</section>
+<!-- BOTTOM 3-CARD ENTERPRISE GRID -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- CARD 1: BANKA & GELEN PEŞİN HAVALELER -->
+<div class="dark-glass rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.2)]">
+<span class="material-symbols-outlined text-[18px]">account_balance</span>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-wider text-white">Garanti BBVA Peşin Havale</h3>
+<span class="text-[10px] text-zinc-400 font-mono">Bahçeşehir Ticari Şube</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 font-mono">
+                GBP HESABI
+              </span>
+</div>
+<div class="mt-4 space-y-3">
+<div class="p-3 bg-zinc-900/80 border border-zinc-800 rounded-xl space-y-1">
+<div class="text-[10px] uppercase font-mono tracking-wider text-zinc-400">Hesap IBAN (GBP)</div>
+<div class="font-mono font-bold text-zinc-200 text-xs tracking-tight">TR32 0006 2000 1827 0009 2381 01</div>
+</div>
+<div class="p-3 bg-zinc-950/60 border border-zinc-800/80 rounded-xl space-y-2">
+<div class="flex items-center justify-between text-xs font-mono">
+<span class="text-zinc-400">Havale Ref:</span>
+<span class="font-bold text-zinc-200">ADV-EXP-2026-09</span>
+</div>
+<div class="flex items-center justify-between text-xs font-mono">
+<span class="text-zinc-400">Toplam Gelen:</span>
+<span class="text-base font-extrabold text-indigo-400">£8,525.00 GBP</span>
+</div>
+<div class="flex items-center justify-between text-[11px] text-zinc-400 pt-1 border-t border-zinc-800">
+<span>Gönderen:</span>
+<span class="font-semibold text-zinc-300">BEN ELLIS TEXTILE LTD</span>
+</div>
+</div>
+<!-- Match breakdown -->
+<div class="p-2.5 rounded-lg bg-zinc-900/60 border border-zinc-800/60 text-[11px] font-mono space-y-1 text-zinc-400">
+<div class="text-zinc-400 uppercase font-bold text-[10px]">Eşleşen Beyanname Payları:</div>
+<div class="flex justify-between">
+<span>• FedEx ETGB (EX017052):</span>
+<span class="font-bold text-zinc-200">£5.638,10 (Tamamı)</span>
+</div>
+<div class="flex justify-between">
+<span>• Karayolu GB (EX00267850):</span>
+<span class="font-bold text-zinc-200">£2.886,90 (Kısmi)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
+<span class="text-xs font-mono font-medium text-emerald-400 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-emerald-400">check_circle</span>
+              Swift MT103 Eşleşti
+            </span>
+<button class="px-2.5 py-1 text-xs font-semibold text-zinc-200 bg-zinc-900 border border-zinc-700/80 rounded-lg hover:bg-zinc-800 hover:text-white transition shadow-xs">
+              Dekont Aç
+            </button>
+</div>
+</div>
+<!-- CARD 2: TCMB %40 BOZUM MASASI (DAB) -->
+<div class="dark-glass rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.2)]">
+<span class="material-symbols-outlined text-[18px]">currency_exchange</span>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-wider text-white">TCMB %40 Bozum Masası (DAB)</h3>
+<span class="text-[10px] text-zinc-400 font-mono">Zorunlu Döviz Satışı</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 font-mono">
+                %40 MEVZUAT
+              </span>
+</div>
+<div class="mt-4 space-y-3">
+<div class="p-2.5 bg-zinc-900/80 border border-zinc-800 rounded-xl flex items-center justify-between">
+<span class="text-xs font-semibold text-zinc-400">Toplam Peşin Döviz:</span>
+<span class="text-base font-black font-mono text-white">£8,525.00 GBP</span>
+</div>
+<!-- 40 / 60 Split Cards -->
+<div class="grid grid-cols-2 gap-2.5">
+<div class="p-3 rounded-xl bg-indigo-950/30 border border-indigo-500/30">
+<div class="text-[10px] font-bold font-mono text-indigo-300 uppercase tracking-wide">%40 TCMB PAYI</div>
+<div class="text-base font-extrabold font-mono text-white mt-1">£3,410.00</div>
+<div class="text-[10px] font-mono text-zinc-400 mt-0.5">Kur: 44.1200 TRY</div>
+<div class="text-xs font-extrabold font-mono text-indigo-400 mt-1">150.449,20 ₺</div>
+<span class="inline-block mt-1 text-[9px] font-bold uppercase text-emerald-300 bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30">
+                    DAB Tamamlandı
+                  </span>
+</div>
+<div class="p-3 rounded-xl bg-zinc-900/80 border border-zinc-800">
+<div class="text-[10px] font-bold font-mono text-zinc-400 uppercase tracking-wide">%60 SERBEST PAY</div>
+<div class="text-base font-extrabold font-mono text-white mt-1">£5,115.00</div>
+<div class="text-[10px] font-mono text-zinc-400 mt-0.5">Serbest Tasarruf</div>
+<div class="text-xs font-semibold font-mono text-zinc-300 mt-1">GBP Hesabında</div>
+<span class="inline-block mt-1 text-[9px] font-bold uppercase text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded border border-zinc-700/60">
+                    ETGB Mahsuba Uygun
+                  </span>
+</div>
+</div>
+<p class="text-[11px] text-zinc-400 leading-snug">
+                TCMB İBKB Talimatı uyarınca kur farkı ve komisyon banka nezdinde bloke edilmeden ihracatçı hesabına aktarılmıştır.
+              </p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-zinc-800">
+<button class="w-full py-2.5 px-3 text-xs font-bold text-indigo-300 bg-indigo-950/50 hover:bg-indigo-900/60 border border-indigo-700/60 hover:border-indigo-500 rounded-lg transition shadow-md flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">description</span>
+<span>Garanti BBVA Resmi İBKB Talimat Dilekçesi İndir (PDF)</span>
+</button>
+</div>
+</div>
+<!-- CARD 3: EVRAK ARŞİVİ (DMS) -->
+<div class="dark-glass rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-zinc-800">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.2)]">
+<span class="material-symbols-outlined text-[18px]">folder_special</span>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-wider text-white">Evrak Arşivi (DMS)</h3>
+<span class="text-[10px] text-zinc-400 font-mono">Gümrük &amp; Banka Ekleri</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-zinc-800 text-zinc-300 border border-zinc-700/80 font-mono">
+                4 DOSYA
+              </span>
+</div>
+<!-- Modern Clean Document Items -->
+<div class="mt-4 space-y-2">
+<div class="flex items-center justify-between p-2 rounded-lg bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800 transition group">
+<div class="flex items-center gap-2.5 truncate">
+<span class="material-symbols-outlined text-[18px] text-rose-400">picture_as_pdf</span>
+<div class="truncate">
+<span class="text-xs font-mono font-semibold text-zinc-200 block truncate">26341453EX017052_ETGB.pdf</span>
+<span class="text-[10px] text-zinc-400">132 KB • İhracat ETGB Çıkış</span>
+</div>
+</div>
+<button class="text-zinc-400 group-hover:text-indigo-400 p-1" title="İndir">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800 transition group">
+<div class="flex items-center gap-2.5 truncate">
+<span class="material-symbols-outlined text-[18px] text-rose-400">picture_as_pdf</span>
+<div class="truncate">
+<span class="text-xs font-mono font-semibold text-zinc-200 block truncate">BS0202600000007.pdf</span>
+<span class="text-[10px] text-zinc-400">50 KB • GİB E-İhracat Fatura</span>
+</div>
+</div>
+<button class="text-zinc-400 group-hover:text-indigo-400 p-1" title="İndir">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800 transition group">
+<div class="flex items-center gap-2.5 truncate">
+<span class="material-symbols-outlined text-[18px] text-zinc-400">description</span>
+<div class="truncate">
+<span class="text-xs font-mono font-semibold text-zinc-200 block truncate">Packing_List_Ben_Ellis.pdf</span>
+<span class="text-[10px] text-zinc-400">85 KB • Çeki Listesi &amp; Koli</span>
+</div>
+</div>
+<button class="text-zinc-400 group-hover:text-indigo-400 p-1" title="İndir">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800 transition group">
+<div class="flex items-center gap-2.5 truncate">
+<span class="material-symbols-outlined text-[18px] text-indigo-400">receipt_long</span>
+<div class="truncate">
+<span class="text-xs font-mono font-semibold text-zinc-200 block truncate">Dekont_Garanti_Havale.pdf</span>
+<span class="text-[10px] text-zinc-400">120 KB • Banka İmzalı Onaylı</span>
+</div>
+</div>
+<button class="text-zinc-400 group-hover:text-indigo-400 p-1" title="İndir">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-zinc-800 flex items-center justify-between">
+<span class="text-[11px] font-mono text-zinc-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-emerald-400">verified</span>
+            SHA256 Güvenli Doğrulandı
+          </span>
+<button class="px-3 py-1.5 text-xs font-semibold text-zinc-200 bg-zinc-900 border border-zinc-700/80 rounded-lg hover:bg-zinc-800 hover:text-white transition shadow-xs flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-zinc-400">archive</span>
+<span>Tüm Evrakları ZIP İndir</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- CLEAN MINIMAL DARK TICKER FOOTER -->
+<footer class="bg-[#0b0c10] border-t border-zinc-800/80 px-6 py-2.5 text-xs font-mono text-zinc-400 flex flex-wrap items-center justify-between gap-4 select-none">
+<div class="flex items-center gap-3">
+<span class="font-bold text-zinc-200 font-sans">BROSAN TEKSTİL</span>
+<span class="text-zinc-700">•</span>
+<span>TCMB İBKB Takip Sistemi © 2026</span>
+<span class="text-zinc-700 hidden md:inline">•</span>
+<span class="hidden md:inline text-zinc-400">180 Günlük Yasal Süre Denetim Masası</span>
+</div>
+<!-- Live Mini FX Rates -->
+<div class="flex items-center gap-4 text-[11px]">
+<div>
+<span class="text-zinc-400 font-sans">GBP/TRY:</span>
+<span class="font-bold text-zinc-200 font-mono">44.1200</span>
+</div>
+<div>
+<span class="text-zinc-400 font-sans">USD/TRY:</span>
+<span class="font-bold text-zinc-200 font-mono">34.2510</span>
+</div>
+<div>
+<span class="text-zinc-400 font-sans">EUR/TRY:</span>
+<span class="font-bold text-zinc-200 font-mono">37.4040</span>
+</div>
+<div class="flex items-center gap-1.5 text-emerald-400 font-semibold font-sans">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]"></span>
+</span>
+<span>Canlı Senkronize</span>
+</div>
+</div>
+</footer>
+<!-- Micro-interaction script -->
+<script>
+    window.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const searchInput = document.querySelector('input[type="text"]');
+        if (searchInput) searchInput.focus();
+      }
+    });
+  </script>
+</body></html>
